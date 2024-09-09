@@ -1,5 +1,6 @@
 import { defineStore } from 'pinia';
 import { computed, ref } from 'vue';
+import { SOURCE_CODE_COLORS } from '../globals/colors';
 
 export const CODE_VIEW = {
   NONE: 0,
@@ -12,9 +13,16 @@ export const useCodeViewerStore = defineStore('codeViewer', () => {
   const selectedLine = ref(0);
   const highlightedLines = ref([]);
 
+  const sourceTokenHighlightRules = ref([
+    [(token) => ['const'].includes(token), SOURCE_CODE_COLORS.ORANGE]
+  ]);
+  const sassTokenHighlightRules = ref([]);
+
   const getCurrentView = computed(() => currentView.value);
   const getSelectedLine = computed(() => selectedLine.value);
   const getHighlightedLines = computed(() => highlightedLines.value);
+  const getSourceTokenHighlightRules = computed(() => sourceTokenHighlightRules.value);
+  const getSassTokenHighlightRules = computed(() => sassTokenHighlightRules.value);
 
   function setCurrentView(view) {
     currentView.value = view;
@@ -27,5 +35,13 @@ export const useCodeViewerStore = defineStore('codeViewer', () => {
     highlightedLines.value.push(line + 1);
   }
 
-  return { getCurrentView, getSelectedLine, getHighlightedLines, setCurrentView, setSelectedLine };
+  return {
+    getCurrentView,
+    getSelectedLine,
+    getHighlightedLines,
+    getSourceTokenHighlightRules,
+    getSassTokenHighlightRules,
+    setCurrentView,
+    setSelectedLine
+  };
 });

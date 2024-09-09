@@ -6,14 +6,26 @@
     >
       {{ lineNumber }}
     </p>
-    <p class="h-6 max-h-6 flex-grow text-nowrap group-hover:bg-blue-400" :class="getHighlight()">
-      {{ line.replaceAll(' ', '&nbsp;') }}
+    <p
+      class="flex h-6 max-h-6 flex-grow flex-row text-nowrap group-hover:bg-blue-400"
+      :class="getHighlight()"
+    >
+      <CodeLineToken
+        v-for="token in line.split(' ')"
+        :key="token"
+        :line-number="lineNumber"
+        :mode="mode"
+        :token="token"
+      />
     </p>
   </div>
 </template>
 <script setup>
 import { useCodeViewerStore } from '../../../stores/CodeViewerStore';
 import { computed } from 'vue';
+import CodeLineToken from './CodeLineToken.vue';
+
+//{{ line.replaceAll(' ', '&nbsp;') }}
 
 const props = defineProps({
   line: String,
