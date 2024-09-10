@@ -35,6 +35,7 @@ export const useCodeViewerStore = defineStore('codeViewer', () => {
         selectedLine.value = line;
         highlightedLines.value = highlightedLines.value.filter(() => false);
 
+        // TODO this is only to test
         if (currentView.value === CODE_VIEW.SASS_CODE) {
             highlightedLines.value.push(dataStore.getSassToSourceLines()[dataStore.getKernels()[0]][line]);
         } else if (currentView.value === CODE_VIEW.SOURCE_CODE) {
