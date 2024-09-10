@@ -9,8 +9,10 @@
 <script setup>
 import { ref } from 'vue';
 import { useDataStore } from '../../stores/DataStore';
+import { CONTEXT, useContextStore } from '../../stores/ContextStore';
 
 const dataStore = useDataStore();
+const contextStore = useContextStore();
 
 const analysisData = ref(null);
 const sassCode = ref(null);
@@ -30,9 +32,7 @@ async function onSelectDirectory(event) {
 
     // TODO: check for all source files
     const ptxFile = files.find(
-        (file) =>
-            file.webkitRelativePath.includes('nvdisasm-executable-') &&
-            file.webkitRelativePath.endsWith('-ptx.txt')
+        (file) => file.webkitRelativePath.includes('nvdisasm-executable-') && file.webkitRelativePath.endsWith('-ptx.txt')
     );
     if (!ptxFile) {
         console.error('No ptx file');
@@ -41,9 +41,7 @@ async function onSelectDirectory(event) {
     }
 
     const sassFile = files.find(
-        (file) =>
-            file.webkitRelativePath.includes('nvdisasm-executable-') &&
-            file.webkitRelativePath.endsWith('-sass.txt')
+        (file) => file.webkitRelativePath.includes('nvdisasm-executable-') && file.webkitRelativePath.endsWith('-sass.txt')
     );
     if (!sassFile) {
         console.error('No sass file');
@@ -54,7 +52,8 @@ async function onSelectDirectory(event) {
     sourceCode.value = files.filter((file) => file.webkitRelativePath.includes('source/'));
 }
 
-function proceed() {
-    dataStore.initialize(analysisData.value, sassCode.value, ptxCode.value, sourceCode.value);
+async function proceed() {
+    await dataStore.initialize(analysisData.value, sassCode.value, ptxCode.value, sourceCode.value);
+    contextStore.setCurrentContext(CONTEXT.CODE_VIEW);
 }
 </script>
