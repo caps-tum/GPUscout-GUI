@@ -13,7 +13,7 @@ import {
     removeRecentAnalysis,
     setConfig
 } from './fileManagement';
-import { selectDirectory } from './dialog';
+import { selectDirectory, selectFile } from './dialog';
 
 function createWindow() {
     // Create the browser window.
@@ -63,6 +63,7 @@ app.whenReady().then(async () => {
 
     ipcMain.handle('config:get', getConfig);
     ipcMain.handle('config:set', setConfig);
+    ipcMain.handle('file:select', selectFile);
     ipcMain.handle('directory:select', selectDirectory);
     ipcMain.handle('directory:read', getFolderContent);
     ipcMain.handle('recentAnalyses:get', getRecentAnalyses);

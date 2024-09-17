@@ -107,7 +107,7 @@ export async function checkAnalysisFiles(event, folderPath, analysisTitle) {
     return (
         NECESSARY_ANALYSIS_FILES.filter(
             (fileTemplate) => !fs.existsSync(join(folderPath, fileTemplate.replaceAll('ANALYSIS', analysisTitle)))
-        ).length !== 0
+        ).length === 0
     );
 }
 
@@ -127,13 +127,14 @@ export async function getAnalysisFileContents(event, folderPath, analysisTitle) 
                 })
             );
         } else {
-            const folderContents = [];
+            const folderContents = {};
             const subFolderPath = fileTemplate.replaceAll('ANALYSIS', analysisTitle);
             for (const file of await getFolderContent(event, join(folderPath, subFolderPath))) {
-                folderContents.push(
-                    await fs.promises.readFile(join(folderPath, subFolderPath, file), {
+                folderContents[join(subFolderPath, file)] = await fs.promises.readFile(
+                    join(folderPath, subFolderPath, file),
+                    {
                         encoding: 'utf8'
-                    })
+                    }
                 );
             }
             fileContents.push(folderContents);

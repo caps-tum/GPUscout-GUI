@@ -14,6 +14,7 @@ if (process.contextIsolated) {
         contextBridge.exposeInMainWorld('electronAPI', {
             getConfig: () => ipcRenderer.invoke('config:get'),
             setConfig: (content) => ipcRenderer.invoke('config:set', content),
+            selectFile: (filters) => ipcRenderer.invoke('file:select', filters),
             selectDirectory: (defaultPath) => ipcRenderer.invoke('directory:select', defaultPath),
             readDirectory: (folderPath) => ipcRenderer.invoke('directory:read', folderPath),
             getRecentAnalyses: () => ipcRenderer.invoke('recentAnalyses:get'),

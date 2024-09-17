@@ -12,3 +12,15 @@ export async function selectDirectory(event, defaultPath) {
     });
     return result['filePaths'][0] || '';
 }
+
+/**
+ * @param event
+ * @param filters
+ * @returns {Promise<string|string>}
+ */
+export async function selectFile(event, filters) {
+    const result = await dialog.showOpenDialog(undefined, {
+        filters: filters
+    });
+    return result['filePaths'][0] || '';
+}

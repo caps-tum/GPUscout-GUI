@@ -28,26 +28,25 @@ export const useDataStore = defineStore('data', () => {
 
     /**
      * Initialize the store with the data from GPUscout
-     * @param {Blob} analysisData The data of the "result.json" file
-     * @param {Blob} sassCode The sass code file
-     * @param {Blob} ptxCode The ptx code file
-     * @param {File[]} sourceCode The source code files
+     * @param {String} analysisData The data of the "result.json" file
+     * @param {String} sassCode The sass code file
+     * @param {String} sassRegisters The sass registers file
+     * @param {String} ptxCode The ptx code file
+     * @param {Object.<String, String>} sourceCodes The source code files
      */
-    async function initialize(analysisData, sassCode, ptxCode, sourceCode) {
-        const analysisJSON = JSON.parse(await analysisData.text());
+    async function initialize(analysisData, sassCode, sassRegisters, ptxCode, sourceCodes) {
+        const analysisJSON = JSON.parse(analysisData);
 
         analyses = analysisJSON['analyses'];
         const newToOldFilename = analysisJSON['source_files'];
 
         const sourceFileContents = {};
-        for (const file of sourceCode) {
-            let content = await file.text();
-
-            sourceFileContents[newToOldFilename[file.webkitRelativePath.replace('tmp-gpuscout/', '')]] = content.split('\n');
+        for (const [filePath, content] of Object.entries(sourceCodes)) {
+            sourceFileContents[newToOldFilename[filePath]] = content.split('\n');
         }
 
-        parseSassCode(await sassCode.text());
-        parsePtxCode(await ptxCode.text());
+        parseSassCode(sassCode);
+        parsePtxCode(ptxCode);
 
         aggregateKernelSourceCode(sourceFileContents);
 
@@ -75,6 +74,7 @@ export const useDataStore = defineStore('data', () => {
         let currentKernel = '';
         let currentSourceFile = '';
         let currentPtxLine = 1;
+        let isInFileDefinitions = false;
 
         for (const line of ptxCode.split('\n')) {
             if (currentSourceLine === -1 && !line.startsWith('.loc') && !line.includes('.visible')) {
@@ -110,7 +110,9 @@ export const useDataStore = defineStore('data', () => {
                         }
                     }
                 }
+                isInFileDefinitions = true;
             } else if (line !== '') {
+                if (isInFileDefinitions) continue;
                 // OPERATION PARAM1, PARAM2, ...;
                 // OR
                 // LABEL:
@@ -212,6 +214,8 @@ export const useDataStore = defineStore('data', () => {
             let lineNumber = 1;
             const oldToNewLineNumbers = {};
 
+            sourceCodeLines[kernel] = [];
+
             for (let [sourceFile, lineNumbers] of Object.entries(relevantLines)) {
                 // Get relevant line section in source file
                 lineNumbers = lineNumbers.map((ln) => ln['line']);
@@ -222,7 +226,6 @@ export const useDataStore = defineStore('data', () => {
                 oldToNewLineNumbers[sourceFile] = {};
 
                 // Add lines
-                sourceCodeLines[kernel] = [];
                 for (let i = minLine; i <= maxLine; i++) {
                     oldToNewLineNumbers[sourceFile][i] = lineNumber;
                     sourceCodeLines[kernel].push({
