@@ -2,7 +2,17 @@ import { app, shell, BrowserWindow, ipcMain, dialog } from 'electron';
 import { join } from 'path';
 import { electronApp, optimizer, is } from '@electron-toolkit/utils';
 import icon from '../../resources/icon.png?asset';
-import { checkFileStructure, getConfig, getFolderContent, setConfig } from './fileManagement';
+import {
+    addRecentAnalysis,
+    checkAnalysisFiles,
+    checkFileStructure,
+    getAnalysisFileContents,
+    getConfig,
+    getFolderContent,
+    getRecentAnalyses,
+    removeRecentAnalysis,
+    setConfig
+} from './fileManagement';
 import { selectDirectory } from './dialog';
 
 function createWindow() {
@@ -55,6 +65,11 @@ app.whenReady().then(async () => {
     ipcMain.handle('config:set', setConfig);
     ipcMain.handle('directory:select', selectDirectory);
     ipcMain.handle('directory:read', getFolderContent);
+    ipcMain.handle('recentAnalyses:get', getRecentAnalyses);
+    ipcMain.handle('recentAnalyses:add', addRecentAnalysis);
+    ipcMain.handle('recentAnalyses:remove', removeRecentAnalysis);
+    ipcMain.handle('analysis:check', checkAnalysisFiles);
+    ipcMain.handle('analysis:load', getAnalysisFileContents);
 
     await checkFileStructure();
 

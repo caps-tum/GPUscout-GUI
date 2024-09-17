@@ -1,8 +1,7 @@
 <template>
-    <a class="flex h-24 w-full cursor-pointer flex-row items-center space-x-2 rounded bg-red-400 p-2">
-        <img src="../../../assets/folder-open-regular.svg" class="h-20 w-20" alt="folder" />
+    <a class="flex w-full cursor-pointer flex-row items-center space-x-2 rounded bg-red-400 p-2">
         <div class="flex flex-col">
-            <p class="text-lg">Choose GPUscout output directory</p>
+            <p class="text-lg">Select analysis in GPUscout output directory</p>
             <p v-for="t in getTitles()" :key="t">{{ t }}</p>
         </div>
     </a>

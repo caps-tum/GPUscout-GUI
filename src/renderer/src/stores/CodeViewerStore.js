@@ -1,6 +1,6 @@
 import { defineStore } from 'pinia';
 import { computed, ref } from 'vue';
-import { SOURCE_CODE_COLORS } from '../globals/colors';
+import { SOURCE_CODE_COLORS } from '../../../config/colors';
 import { useDataStore } from './DataStore';
 
 export const CODE_VIEW = {

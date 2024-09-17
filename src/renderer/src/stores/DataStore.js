@@ -2,14 +2,20 @@ import { defineStore } from 'pinia';
 
 export const useDataStore = defineStore('data', () => {
     let analyses = {};
+    /** @type {String[]} */
     const kernels = [];
 
+    /** @type {Object.<String, {address: Number, tokens: String[]}[]>} */
     const sourceCodeLines = {};
 
+    /** @type {Object.<String, Object.<String, {line: Number, file: String}>>} */
     const sassToSourceLines = {};
+    /** @type {Object.<String, {address: String, tokens: String[]}[]>} */
     const sassCodeLines = {};
 
+    /** @type {Object.<String, Object.<String, {line: Number, file: String}>>} */
     const ptxToSourceLines = {};
+    /** @type {Object.<String, {address: Number, tokens: String[]}[]>} */
     const ptxCodeLines = {};
 
     const getSourceCodeLines = () => sourceCodeLines;
