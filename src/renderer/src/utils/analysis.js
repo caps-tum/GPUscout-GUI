@@ -49,6 +49,8 @@ export class Analysis {
                 this.ptxCodeLines[currentKernel] = [];
             } else if (line.startsWith('.loc')) {
                 // .loc	1 3 0
+                // OR
+                // .loc 1 3 0, function_name $FN_NAME, inlined_at 1 3 0
                 if (currentSourceLine === -1) {
                     currentSourceLine = 0;
                 }
@@ -84,10 +86,8 @@ export class Analysis {
                     address: isLabel ? -1 : currentPtxLine,
                     tokens: line
                         .slice(0, -1)
-                        .split(' ')
+                        .split(/([, ;.])/)
                         .filter((token) => token.length > 0)
-                        .flatMap((token) => (token.endsWith(',') ? [token.slice(0, -1), ','] : token))
-                        .concat(';')
                 });
 
                 if (!isLabel) currentPtxLine++;
@@ -135,20 +135,21 @@ export class Analysis {
                     address = line.substring(line.indexOf('/*') + 2, line.indexOf('*/'));
                     line = line.replace(/\/\*.*\*\//, '');
                     currentSassLine = address;
-                }
 
-                this.sassToSourceLines[currentKernel][currentSassLine] = {
-                    line: currentSourceLine,
-                    file: currentSourceFile
-                };
+                    this.sassToSourceLines[currentKernel][currentSassLine] = {
+                        line: currentSourceLine,
+                        file: currentSourceFile
+                    };
+                } else if (line.endsWith(':')) {
+                    address = line.substring(0, line.length - 1);
+                }
 
                 this.sassCodeLines[currentKernel].push({
                     address: address,
                     tokens: line
                         .trim()
-                        .split(' ')
+                        .split(/([,.[\]() ])/)
                         .filter((token) => token.length > 0)
-                        .flatMap((token) => (token.endsWith(',') ? [token.slice(0, -1), ','] : token))
                 });
             } else {
                 // We are at the end of a kernel
@@ -188,7 +189,7 @@ export class Analysis {
                     oldToNewLineNumbers[sourceFile][i] = lineNumber;
                     this.sourceCodeLines[kernel].push({
                         address: lineNumber++,
-                        tokens: sourceFileContents[sourceFile][i].split(' ')
+                        tokens: sourceFileContents[sourceFile][i].split(/([ ,(){};+\-*<>=%&./])/)
                     });
                 }
                 this.sourceCodeLines[kernel].push({

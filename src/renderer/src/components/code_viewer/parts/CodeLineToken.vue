@@ -1,6 +1,6 @@
 <template>
-    <p :class="getHighlight()">{{ token }}</p>
-    &nbsp;
+    <p v-if="token !== ' '" :class="getHighlight()">{{ token }}</p>
+    <p v-else>&nbsp;</p>
 </template>
 <script setup>
 import { CODE_VIEW, useCodeViewerStore } from '../../../stores/CodeViewerStore';
