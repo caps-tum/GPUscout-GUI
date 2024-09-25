@@ -97,6 +97,28 @@ export async function removeRecentAnalysis(event, analysisID) {
 }
 
 /**
+ * @param event {Object}
+ * @param folderPath {String}
+ * @returns {Promise<String[]>}
+ */
+export async function getValidAnalysesInFolder(event, folderPath) {
+    const folderContent = await getFolderContent(event, folderPath);
+    const analysisTitles = folderContent
+        .filter((file) => file.startsWith('result-') && file.endsWith('.json'))
+        .map((file) => file.match(/result-(.*)\.json/))
+        .filter((match) => match.length > 1)
+        .map((match) => match[1]);
+
+    const validAnalyses = [];
+    for (const analysisTitle of analysisTitles) {
+        const valid = await checkAnalysisFiles(event, folderPath, analysisTitle);
+        if (valid) validAnalyses.push(analysisTitle);
+    }
+
+    return validAnalyses;
+}
+
+/**
  *
  * @param event {Object}
  * @param folderPath {String}

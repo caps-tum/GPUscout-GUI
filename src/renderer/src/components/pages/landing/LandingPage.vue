@@ -11,24 +11,37 @@
             <button @click="selectFolder">Choose Folder</button>
         </div>
         <div class="w-1/2">
-            <SelectAnalysis @analysis-selected="onAnalysisSelected" />
+            <SelectAnalysis
+                :contains-selected-analysis="selectedAnalysisSource === 'FILE'"
+                @analysis-selected="onAnalysisSelected"
+            />
             <p class="w-full py-1 text-center text-xl font-bold">OR</p>
-            <AnalysesFromFolder :files="filesInOutputFolder" />
+            <AnalysesFromFolder
+                :files="filesInOutputFolder"
+                :contains-selected-analysis="selectedAnalysisSource === 'FOLDER'"
+                @analysis-selected="onAnalysisSelected"
+            />
             <p class="w-full py-1 text-center text-xl font-bold">OR</p>
             <RecentAnalyses />
         </div>
-        <button class="absolute bottom-2 right-2 h-12 w-32 rounded bg-green-400" @click="proceed">Proceed</button>
+        <ButtonPrimary
+            :enabled="selectedAnalysisTitle !== ''"
+            title="Proceed"
+            class="absolute bottom-2 right-2"
+            @click="proceed"
+        />
     </div>
 </template>
 <script setup>
 import { computed, onMounted } from 'vue';
 import RecentAnalyses from './recent_analyses/RecentAnalyses.vue';
-import { useConfigStore } from '../../stores/ConfigStore';
+import { useConfigStore } from '../../../stores/ConfigStore';
 import AnalysesFromFolder from './analyses_from_folder/AnalysesFromFolder.vue';
 import { ref } from 'vue';
 import SelectAnalysis from './SelectAnalysis.vue';
-import { useDataStore } from '../../stores/DataStore';
-import { useContextStore, CONTEXT } from '../../stores/ContextStore';
+import { useDataStore } from '../../../stores/DataStore';
+import { useContextStore, CONTEXT } from '../../../stores/ContextStore';
+import ButtonPrimary from '../../ui/ButtonPrimary.vue';
 
 const configStore = useConfigStore();
 const dataStore = useDataStore();
@@ -39,6 +52,7 @@ const config = computed(() => configStore.getConfig);
 const filesInOutputFolder = ref([]);
 const selectedAnalysisTitle = ref('');
 const selectedAnalysisFolder = ref('');
+const selectedAnalysisSource = ref('');
 
 onMounted(async () => {
     await updateRelevantFiles();
@@ -59,12 +73,13 @@ async function selectFolder() {
 }
 
 async function updateRelevantFiles() {
-    filesInOutputFolder.value = await window.electronAPI.readDirectory(config.value['gpuscoutOutputFolder']);
+    filesInOutputFolder.value = await window.electronAPI.getValidAnalysesInDirectory(config.value['gpuscoutOutputFolder']);
 }
 
-function onAnalysisSelected(folderPath, title) {
+function onAnalysisSelected(folderPath, title, source) {
+    selectedAnalysisSource.value = source;
     selectedAnalysisTitle.value = title;
-    selectedAnalysisFolder.value = folderPath;
+    selectedAnalysisFolder.value = folderPath || config.value['gpuscoutOutputFolder'];
 }
 
 async function proceed() {

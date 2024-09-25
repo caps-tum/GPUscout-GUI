@@ -17,6 +17,7 @@ if (process.contextIsolated) {
             selectFile: (filters) => ipcRenderer.invoke('file:select', filters),
             selectDirectory: (defaultPath) => ipcRenderer.invoke('directory:select', defaultPath),
             readDirectory: (folderPath) => ipcRenderer.invoke('directory:read', folderPath),
+            getValidAnalysesInDirectory: (folderPath) => ipcRenderer.invoke('directory:getValidAnalyses', folderPath),
             getRecentAnalyses: () => ipcRenderer.invoke('recentAnalyses:get'),
             addRecentAnalysis: (analysis) => ipcRenderer.invoke('recentAnalyses:add', analysis),
             removeRecentAnalysis: (analysisID) => ipcRenderer.invoke('recentAnalyses:remove', analysisID),

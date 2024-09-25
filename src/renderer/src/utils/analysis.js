@@ -170,6 +170,8 @@ export class Analysis {
                 ({ file }) => file
             );
 
+            console.log(relevantLines, sourceFileContents);
+
             let lineNumber = 1;
             const oldToNewLineNumbers = {};
 
@@ -178,7 +180,7 @@ export class Analysis {
             for (let [sourceFile, lineNumbers] of Object.entries(relevantLines)) {
                 // Get relevant line section in source file
                 lineNumbers = lineNumbers.map((ln) => ln['line']);
-                const minLine = Math.max(0, Math.min(...lineNumbers) - 1);
+                const minLine = Math.max(1, Math.min(...lineNumbers) - 1);
                 const maxLine = Math.min(sourceFileContents[sourceFile].length, Math.max(...lineNumbers));
 
                 // The new line numbers dont match the old ones, save the mapping
@@ -189,7 +191,7 @@ export class Analysis {
                     oldToNewLineNumbers[sourceFile][i] = lineNumber;
                     this.sourceCodeLines[kernel].push({
                         address: lineNumber++,
-                        tokens: sourceFileContents[sourceFile][i].split(/([ ,(){};+\-*<>=%&./])/)
+                        tokens: sourceFileContents[sourceFile][i - 1].split(/([ ,(){};+\-*<>=%&./])/)
                     });
                 }
                 this.sourceCodeLines[kernel].push({

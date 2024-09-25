@@ -10,6 +10,7 @@ import {
     getConfig,
     getFolderContent,
     getRecentAnalyses,
+    getValidAnalysesInFolder,
     removeRecentAnalysis,
     setConfig
 } from './fileManagement';
@@ -66,6 +67,7 @@ app.whenReady().then(async () => {
     ipcMain.handle('file:select', selectFile);
     ipcMain.handle('directory:select', selectDirectory);
     ipcMain.handle('directory:read', getFolderContent);
+    ipcMain.handle('directory:getValidAnalyses', getValidAnalysesInFolder);
     ipcMain.handle('recentAnalyses:get', getRecentAnalyses);
     ipcMain.handle('recentAnalyses:add', addRecentAnalysis);
     ipcMain.handle('recentAnalyses:remove', removeRecentAnalysis);
