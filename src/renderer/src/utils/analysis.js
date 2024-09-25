@@ -78,10 +78,12 @@ export class Analysis {
                 // LABEL:
                 const isLabel = line.endsWith(':');
 
-                this.ptxToSourceLines[currentKernel][currentPtxLine] = {
-                    line: currentSourceLine,
-                    file: currentSourceFile
-                };
+                if (currentSourceLine !== 0) {
+                    this.ptxToSourceLines[currentKernel][currentPtxLine] = {
+                        line: currentSourceLine,
+                        file: currentSourceFile
+                    };
+                }
                 this.ptxCodeLines[currentKernel].push({
                     address: isLabel ? -1 : currentPtxLine,
                     tokens: line
@@ -169,8 +171,6 @@ export class Analysis {
                 Object.values(this.sassToSourceLines[kernel]).concat(Object.values(this.ptxToSourceLines[kernel])),
                 ({ file }) => file
             );
-
-            console.log(relevantLines, sourceFileContents);
 
             let lineNumber = 1;
             const oldToNewLineNumbers = {};

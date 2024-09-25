@@ -1,6 +1,5 @@
 import { defineStore } from 'pinia';
 import { computed, ref } from 'vue';
-import { SOURCE_CODE_COLORS } from '../../../config/colors';
 import { useDataStore } from './DataStore';
 
 export const CODE_VIEW = {
@@ -14,18 +13,15 @@ export const useCodeViewerStore = defineStore('codeViewer', () => {
     const dataStore = useDataStore();
 
     const currentView = ref(CODE_VIEW.NONE);
+    const binaryView = ref(CODE_VIEW.PTX_CODE);
     const selectedLine = ref(0);
     const highlightedLines = ref([]);
 
-    const sourceTokenHighlightRules = ref([[(token) => ['const'].includes(token), SOURCE_CODE_COLORS.ORANGE]]);
-    const sassTokenHighlightRules = ref([]);
-
     const getCurrentView = computed(() => currentView.value);
+    const getBinaryView = computed(() => binaryView.value);
 
     const getSelectedLine = computed(() => selectedLine.value);
     const getHighlightedLines = computed(() => highlightedLines.value);
-    const getSourceTokenHighlightRules = computed(() => sourceTokenHighlightRules.value);
-    const getSassTokenHighlightRules = computed(() => sassTokenHighlightRules.value);
 
     function setCurrentView(view) {
         currentView.value = view;
@@ -35,13 +31,18 @@ export const useCodeViewerStore = defineStore('codeViewer', () => {
         selectedLine.value = line;
         highlightedLines.value = highlightedLines.value.filter(() => false);
 
-        // TODO this is only to test
         if (currentView.value === CODE_VIEW.SASS_CODE) {
             highlightedLines.value.push(dataStore.getSassToSourceLines()[dataStore.getKernels()[0]][line]);
+        } else if (currentView.value === CODE_VIEW.PTX_CODE) {
+            highlightedLines.value.push(dataStore.getPtxToSourceLines()[dataStore.getKernels()[0]][line]);
         } else if (currentView.value === CODE_VIEW.SOURCE_CODE) {
-            for (const l of Object.entries(dataStore.getSassToSourceLines()[dataStore.getKernels()[0]])
+            const lines =
+                binaryView.value === CODE_VIEW.SASS_CODE
+                    ? dataStore.getSassToSourceLines()
+                    : dataStore.getPtxToSourceLines();
+            for (const l of Object.entries(lines[dataStore.getKernels()[0]])
                 .filter(([, sourceLine]) => sourceLine === line)
-                .map(([sassLine]) => sassLine)) {
+                .map(([binaryLine]) => parseInt(binaryLine))) {
                 highlightedLines.value.push(l);
             }
         }
@@ -49,10 +50,9 @@ export const useCodeViewerStore = defineStore('codeViewer', () => {
 
     return {
         getCurrentView,
+        getBinaryView,
         getSelectedLine,
         getHighlightedLines,
-        getSourceTokenHighlightRules,
-        getSassTokenHighlightRules,
         setCurrentView,
         setSelectedLine
     };
