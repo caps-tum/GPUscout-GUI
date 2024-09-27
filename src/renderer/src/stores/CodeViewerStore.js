@@ -2,7 +2,7 @@ import { defineStore } from 'pinia';
 import { computed, ref } from 'vue';
 import { useDataStore } from './DataStore';
 
-export const CODE_VIEW = {
+export const CODE_TYPE = {
     NONE: 0,
     SOURCE_CODE: 1,
     SASS_CODE: 2,
@@ -14,8 +14,8 @@ export const useCodeViewerStore = defineStore('codeViewer', () => {
 
     const currentKernel = computed(() => dataStore.getCurrentKernel);
 
-    const currentView = ref(CODE_VIEW.NONE);
-    const currentBinary = ref(CODE_VIEW.SASS_CODE);
+    const currentView = ref(CODE_TYPE.NONE);
+    const currentBinary = ref(CODE_TYPE.SASS_CODE);
 
     const highlightedSourceLines = ref({});
     const highlightedBinaryLines = ref({});
@@ -43,18 +43,19 @@ export const useCodeViewerStore = defineStore('codeViewer', () => {
     function setSelectedLine(line) {
         resetHighlights();
 
-        if (currentView.value === CODE_VIEW.SASS_CODE) {
+        if (currentView.value === CODE_TYPE.SASS_CODE) {
             highlightedBinaryLines.value[line] = true;
-            highlightedSourceLines.value[dataStore.getAnalysis().getSassToSourceLine(currentKernel.value, line)] = true;
-        } else if (currentView.value === CODE_VIEW.PTX_CODE) {
+            highlightedSourceLines.value[dataStore.getGPUscoutResult().getSassToSourceLine(currentKernel.value, line)] =
+                true;
+        } else if (currentView.value === CODE_TYPE.PTX_CODE) {
             highlightedBinaryLines.value[line] = true;
-            highlightedSourceLines.value[dataStore.getAnalysis().getPtxToSourceLine(currentKernel.value, line)] = true;
-        } else if (currentView.value === CODE_VIEW.SOURCE_CODE) {
+            highlightedSourceLines.value[dataStore.getGPUscoutResult().getPtxToSourceLine(currentKernel.value, line)] = true;
+        } else if (currentView.value === CODE_TYPE.SOURCE_CODE) {
             highlightedSourceLines.value[line] = true;
             const lines =
-                currentBinary.value === CODE_VIEW.SASS_CODE
-                    ? dataStore.getAnalysis().getSourceToSassLines(currentKernel.value, line)
-                    : dataStore.getAnalysis().getSourceToPtxLines(currentKernel.value, line);
+                currentBinary.value === CODE_TYPE.SASS_CODE
+                    ? dataStore.getGPUscoutResult().getSourceToSassLines(currentKernel.value, line)
+                    : dataStore.getGPUscoutResult().getSourceToPtxLines(currentKernel.value, line);
             for (const line of lines) {
                 highlightedBinaryLines.value[line] = true;
             }

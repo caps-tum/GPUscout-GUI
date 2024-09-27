@@ -1,57 +1,60 @@
 import { defineStore } from 'pinia';
-import { Analysis } from '../utils/analysis';
+import { GPUscoutResult } from '../utils/GPUscoutResult';
 import { computed, ref } from 'vue';
 
 export const useDataStore = defineStore('data', () => {
-    let analysis;
+    let gpuscoutResult;
 
     const currentKernel = ref('');
 
-    /** @return {Analysis} */
-    const getAnalysis = () => analysis;
-    /** @return {Object.<String, {}>} */
-    const getAnalyses = () => analysis.analyses;
-    /** @return {String[]} */
-    const getKernels = () => analysis.kernels;
+    /** @returns {GPUscoutResult} */
+    const getGPUscoutResult = () => gpuscoutResult;
+    /** @returns {Object.<String, {}>} */
+    const getAnalyses = () => gpuscoutResult.analyses;
+    /** @returns {String[]} */
+    const getKernels = () => gpuscoutResult.kernels;
 
     const getCurrentKernel = computed(() => currentKernel.value);
 
     /**
      * Initialize the store with the data from GPUscout
-     * @param {String} analysisData The data of the "result.json" file
+     * @param {String} resultData The data of the "result.json" file
      * @param {String} sassCode The sass code file
      * @param {String} sassRegisters The sass registers file
      * @param {String} ptxCode The ptx code file
      * @param {Object.<String, String>} sourceCodes The source code files
      */
-    async function initialize(analysisData, sassCode, sassRegisters, ptxCode, sourceCodes) {
-        analysis = new Analysis(analysisData, sassCode, sassRegisters, ptxCode, sourceCodes);
+    async function initialize(resultData, sassCode, sassRegisters, ptxCode, sourceCodes) {
+        gpuscoutResult = new GPUscoutResult(resultData, sassCode, sassRegisters, ptxCode, sourceCodes);
 
-        if (analysis.kernels.length === 0) {
+        if (gpuscoutResult.kernels.length === 0) {
             alert('No kernels found!');
         }
-        currentKernel.value = analysis.kernels[0];
+        currentKernel.value = gpuscoutResult.kernels[0];
 
-        console.log(analysis.kernels);
-        console.log(analysis.analyses);
+        console.log(gpuscoutResult.kernels);
+        console.log(gpuscoutResult.analyses);
 
         console.log('SASS');
-        console.log(analysis.sassCodeLines);
-        console.log(analysis.sassToSourceLines);
+        console.log(gpuscoutResult.sassCodeLines);
+        console.log(gpuscoutResult.sassToSourceLines);
 
         console.log('PTX');
-        console.log(analysis.ptxCodeLines);
-        console.log(analysis.ptxToSourceLines);
+        console.log(gpuscoutResult.ptxCodeLines);
+        console.log(gpuscoutResult.ptxToSourceLines);
 
         console.log('SOURCE');
-        console.log(analysis.sourceCodeLines);
-        console.log(analysis.sourceToSassLines);
-        console.log(analysis.sourceToPtxLines);
+        console.log(gpuscoutResult.sourceCodeLines);
+        console.log(gpuscoutResult.sourceToSassLines);
+        console.log(gpuscoutResult.sourceToPtxLines);
+
+        console.log('ANALYSES');
+        console.log(gpuscoutResult.analyses);
     }
 
     return {
         getCurrentKernel,
-        getAnalysis,
+        getGPUscoutResult,
         getAnalyses,
         getKernels,
         initialize

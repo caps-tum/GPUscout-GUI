@@ -1,8 +1,36 @@
-export class Analysis {
-    constructor(analysisData, sassCode, sassRegisters, ptxCode, sourceCodes) {
-        const analysisJSON = JSON.parse(analysisData);
+import { DatatypeConversionAnalysis } from './analysisTypes/DatatypeConversionAnalysis';
+import { DeadlockDetectionAnalysis } from './analysisTypes/DeadlockDetectionAnalysis';
+import { GlobalAtomicsAnalysis } from './analysisTypes/GlobalAtomicsAnalysis';
+import { RegisterSpillingAnalysis } from './analysisTypes/RegisterSpillingAnalysis';
+import { UseRestrictAnalysis } from './analysisTypes/UseRestrictAnalysis';
+import { UseSharedAnalysis } from './analysisTypes/UseSharedAnalysis';
+import { UseTextureAnalysis } from './analysisTypes/UseTextureAnalysis';
+import { VectorizationAnalysis } from './analysisTypes/VectorizationAnalysis';
+import { WarpDivergenceAnalysis } from './analysisTypes/WarpDivergenceAnalysis';
 
-        this.analyses = analysisJSON['analyses'];
+export const ANALYSES = {
+    DATATYPE_CONVERSION: [
+        'datatype_conversion',
+        (analysisData, kernel) => new DatatypeConversionAnalysis(analysisData, kernel)
+    ],
+    DEADLOCK_DETECTION: [
+        'deadlock_detection',
+        (analysisData, kernel) => new DeadlockDetectionAnalysis(analysisData, kernel)
+    ],
+    GLOBAL_ATOMICS: ['global_atomics', (analysisData, kernel) => new GlobalAtomicsAnalysis(analysisData, kernel)],
+    REGISTER_SPILLING: ['register_spilling', (analysisData, kernel) => new RegisterSpillingAnalysis(analysisData, kernel)],
+    USE_RESTRICT: ['use_restrict', (analysisData, kernel) => new UseRestrictAnalysis(analysisData, kernel)],
+    USE_SHARED: ['use_shared', (analysisData, kernel) => new UseSharedAnalysis(analysisData, kernel)],
+    USE_TEXTURE: ['use_texture', (analysisData, kernel) => new UseTextureAnalysis(analysisData, kernel)],
+    VECTORIZATION: ['vectorization', (analysisData, kernel) => new VectorizationAnalysis(analysisData, kernel)],
+    WARP_DIVERGENCE: ['warp_divergence', (analysisData, kernel) => new WarpDivergenceAnalysis(analysisData, kernel)]
+};
+
+export class GPUscoutResult {
+    constructor(resultData, sassCode, sassRegisters, ptxCode, sourceCodes) {
+        const resultJSON = JSON.parse(resultData);
+
+        this.analyses = {};
         this.kernels = [];
         this.sassCodeLines = {};
         this.sassToSourceLines = {};
@@ -12,7 +40,7 @@ export class Analysis {
         this.sourceToSassLines = {};
         this.sourceToPtxLines = {};
 
-        const newToOldFilename = analysisJSON['source_files'];
+        const newToOldFilename = resultJSON['source_files'];
 
         const sourceFileContents = {};
         for (const [filePath, content] of Object.entries(sourceCodes)) {
@@ -23,12 +51,22 @@ export class Analysis {
         this._parsePtxCode(ptxCode);
 
         this._aggregateKernelSourceCode(sourceFileContents);
+
+        for (const [analysisName, [jsonAnalysisName, analysisConstructor]] of Object.entries(ANALYSES)) {
+            this.analyses[analysisName] = {};
+
+            if (!resultJSON['analyses'][jsonAnalysisName]) continue;
+
+            for (const [kernel, analysisData] of Object.entries(resultJSON['analyses'][jsonAnalysisName])) {
+                this.analyses[analysisName][kernel] = analysisConstructor(analysisData, kernel);
+            }
+        }
     }
 
     /**
      * @param {String} kernel The name of the kernel
      * @param {String} line The line to get source lines for
-     * @return {Number}
+     * @returns {Number}
      */
     getSassToSourceLine(kernel, line) {
         return this.sassToSourceLines[kernel][line];
@@ -37,7 +75,7 @@ export class Analysis {
     /**
      * @param {String} kernel The name of the kernel
      * @param {String} line The line to get source lines for
-     * @return {String}
+     * @returns {String}
      */
     getPtxToSourceLine(kernel, line) {
         return this.ptxToSourceLines[kernel][line];
@@ -45,7 +83,7 @@ export class Analysis {
 
     /**
      * @param {String} kernel The name of the kernel
-     * @return {{address: String, tokens: String[]}[]}
+     * @returns {{address: String, tokens: String[]}[]}
      */
     getSassCodeLines(kernel) {
         return this.sassCodeLines[kernel];
@@ -53,7 +91,7 @@ export class Analysis {
 
     /**
      * @param {String} kernel The name of the kernel
-     * @return {{address: Number, tokens: String[]}[]}
+     * @returns {{address: Number, tokens: String[]}[]}
      */
     getPtxCodeLines(kernel) {
         return this.ptxCodeLines[kernel];
@@ -61,7 +99,7 @@ export class Analysis {
 
     /**
      * @param {String} kernel The name of the kernel
-     * @return {{address: Number, tokens: String[]}[]}
+     * @returns {{address: Number, tokens: String[]}[]}
      */
     getSourceCodeLines(kernel) {
         return this.sourceCodeLines[kernel];
@@ -70,7 +108,7 @@ export class Analysis {
     /**
      * @param {String} kernel The name of the kernel
      * @param {String} line The line to get sass lines for
-     * @return {String[]}
+     * @returns {String[]}
      */
     getSourceToSassLines(kernel, line) {
         return this.sourceToSassLines[kernel][line] || [];
@@ -79,7 +117,7 @@ export class Analysis {
     /**
      * @param {String} kernel The name of the kernel
      * @param {String} line The line to get ptx lines for
-     * @return {Number[]}
+     * @returns {Number[]}
      */
     getSourceToPtxLines(kernel, line) {
         return this.sourceToPtxLines[kernel][line] || [];
