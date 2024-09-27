@@ -9,6 +9,8 @@ export class Analysis {
         this.ptxCodeLines = {};
         this.ptxToSourceLines = {};
         this.sourceCodeLines = {};
+        this.sourceToSassLines = {};
+        this.sourceToPtxLines = {};
 
         const newToOldFilename = analysisJSON['source_files'];
 
@@ -21,6 +23,66 @@ export class Analysis {
         this._parsePtxCode(ptxCode);
 
         this._aggregateKernelSourceCode(sourceFileContents);
+    }
+
+    /**
+     * @param {String} kernel The name of the kernel
+     * @param {String} line The line to get source lines for
+     * @return {Number}
+     */
+    getSassToSourceLine(kernel, line) {
+        return this.sassToSourceLines[kernel][line];
+    }
+
+    /**
+     * @param {String} kernel The name of the kernel
+     * @param {String} line The line to get source lines for
+     * @return {String}
+     */
+    getPtxToSourceLine(kernel, line) {
+        return this.ptxToSourceLines[kernel][line];
+    }
+
+    /**
+     * @param {String} kernel The name of the kernel
+     * @return {{address: String, tokens: String[]}[]}
+     */
+    getSassCodeLines(kernel) {
+        return this.sassCodeLines[kernel];
+    }
+
+    /**
+     * @param {String} kernel The name of the kernel
+     * @return {{address: Number, tokens: String[]}[]}
+     */
+    getPtxCodeLines(kernel) {
+        return this.ptxCodeLines[kernel];
+    }
+
+    /**
+     * @param {String} kernel The name of the kernel
+     * @return {{address: Number, tokens: String[]}[]}
+     */
+    getSourceCodeLines(kernel) {
+        return this.sourceCodeLines[kernel];
+    }
+
+    /**
+     * @param {String} kernel The name of the kernel
+     * @param {String} line The line to get sass lines for
+     * @return {String[]}
+     */
+    getSourceToSassLines(kernel, line) {
+        return this.sourceToSassLines[kernel][line] || [];
+    }
+
+    /**
+     * @param {String} kernel The name of the kernel
+     * @param {String} line The line to get ptx lines for
+     * @return {Number[]}
+     */
+    getSourceToPtxLines(kernel, line) {
+        return this.sourceToPtxLines[kernel][line] || [];
     }
 
     /**
@@ -211,6 +273,18 @@ export class Analysis {
                     oldToNewLineNumbers[this.ptxToSourceLines[kernel][key]['file']][
                         this.ptxToSourceLines[kernel][key]['line']
                     ];
+            }
+            this.sourceToSassLines[kernel] = {};
+            for (const key of [...new Set(Object.values(this.sassToSourceLines[kernel]))]) {
+                this.sourceToSassLines[kernel][key] = Object.entries(this.sassToSourceLines[kernel])
+                    .filter(([, v]) => v === parseInt(key))
+                    .map(([k]) => k);
+            }
+            this.sourceToPtxLines[kernel] = {};
+            for (const key of [...new Set(Object.values(this.ptxToSourceLines[kernel]))]) {
+                this.sourceToPtxLines[kernel][key] = Object.entries(this.ptxToSourceLines[kernel])
+                    .filter(([, v]) => v === parseInt(key))
+                    .map(([k]) => parseInt(k));
             }
         }
     }

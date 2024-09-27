@@ -1,31 +1,20 @@
 import { defineStore } from 'pinia';
 import { Analysis } from '../utils/analysis';
+import { computed, ref } from 'vue';
 
 export const useDataStore = defineStore('data', () => {
     let analysis;
-    /*/** @type {String[]}
-    const kernels = [];
 
-    /** @type {Object.<String, {address: Number, tokens: String[]}[]>}
-    const sourceCodeLines = {};
+    const currentKernel = ref('');
 
-    /** @type {Object.<String, Object.<String, Number>>}
-    const sassToSourceLines = {};
-    /** @type {Object.<String, {address: String, tokens: String[]}[]>}
-    const sassCodeLines = {};
-
-    /** @type {Object.<String, Object.<String, Number>>}
-    const ptxToSourceLines = {};
-    /** @type {Object.<String, {address: Number, tokens: String[]}[]>}
-    const ptxCodeLines = {}; */
-
-    const getSourceCodeLines = () => analysis.sourceCodeLines;
+    /** @return {Analysis} */
+    const getAnalysis = () => analysis;
+    /** @return {Object.<String, {}>} */
     const getAnalyses = () => analysis.analyses;
-    const getSassToSourceLines = () => analysis.sassToSourceLines;
-    const getPtxToSourceLines = () => analysis.ptxToSourceLines;
-    const getSassCodeLines = () => analysis.sassCodeLines;
-    const getPtxCodeLines = () => analysis.ptxCodeLines;
+    /** @return {String[]} */
     const getKernels = () => analysis.kernels;
+
+    const getCurrentKernel = computed(() => currentKernel.value);
 
     /**
      * Initialize the store with the data from GPUscout
@@ -37,6 +26,11 @@ export const useDataStore = defineStore('data', () => {
      */
     async function initialize(analysisData, sassCode, sassRegisters, ptxCode, sourceCodes) {
         analysis = new Analysis(analysisData, sassCode, sassRegisters, ptxCode, sourceCodes);
+
+        if (analysis.kernels.length === 0) {
+            alert('No kernels found!');
+        }
+        currentKernel.value = analysis.kernels[0];
 
         console.log(analysis.kernels);
         console.log(analysis.analyses);
@@ -51,15 +45,14 @@ export const useDataStore = defineStore('data', () => {
 
         console.log('SOURCE');
         console.log(analysis.sourceCodeLines);
+        console.log(analysis.sourceToSassLines);
+        console.log(analysis.sourceToPtxLines);
     }
 
     return {
-        getSourceCodeLines,
+        getCurrentKernel,
+        getAnalysis,
         getAnalyses,
-        getSassToSourceLines,
-        getPtxToSourceLines,
-        getPtxCodeLines,
-        getSassCodeLines,
         getKernels,
         initialize
     };

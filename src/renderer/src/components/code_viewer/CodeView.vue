@@ -5,7 +5,9 @@
             :key="line.address"
             :tokens="line.tokens"
             :line-number="line.address"
-            :mode="mode"
+            :code-type="codeType"
+            :highlighted-lines="highlightedLines"
+            :high-lighted-tokens="highlightedTokens"
         />
     </div>
 </template>
@@ -13,7 +15,9 @@
 import CodeLine from './parts/CodeLine.vue';
 
 defineProps({
-    mode: Number,
-    codeLines: Array
+    codeType: Number,
+    codeLines: Array,
+    highlightedLines: Object,
+    highlightedTokens: Object
 });
 </script>

@@ -12,48 +12,71 @@ export const CODE_VIEW = {
 export const useCodeViewerStore = defineStore('codeViewer', () => {
     const dataStore = useDataStore();
 
+    const currentKernel = computed(() => dataStore.getCurrentKernel);
+
     const currentView = ref(CODE_VIEW.NONE);
-    const binaryView = ref(CODE_VIEW.PTX_CODE);
-    const selectedLine = ref(0);
-    const highlightedLines = ref([]);
+    const currentBinary = ref(CODE_VIEW.SASS_CODE);
+
+    const highlightedSourceLines = ref({});
+    const highlightedBinaryLines = ref({});
+
+    const highlightedSourceTokens = ref({});
+    const highlightedBinaryTokens = ref({});
 
     const getCurrentView = computed(() => currentView.value);
-    const getBinaryView = computed(() => binaryView.value);
+    const getCurrentBinary = computed(() => currentBinary.value);
 
-    const getSelectedLine = computed(() => selectedLine.value);
-    const getHighlightedLines = computed(() => highlightedLines.value);
+    const getHighlightedSourceLines = computed(() => highlightedSourceLines.value);
+    const getHighlightedBinaryLines = computed(() => highlightedBinaryLines.value);
+
+    const getHighlightedSourceTokens = computed(() => highlightedSourceTokens.value);
+    const getHighlightedBinaryTokens = computed(() => highlightedBinaryTokens.value);
 
     function setCurrentView(view) {
         currentView.value = view;
     }
 
+    function setCurrentBinary(binary) {
+        currentBinary.value = binary;
+    }
+
     function setSelectedLine(line) {
-        selectedLine.value = line;
-        highlightedLines.value = highlightedLines.value.filter(() => false);
+        resetHighlights();
 
         if (currentView.value === CODE_VIEW.SASS_CODE) {
-            highlightedLines.value.push(dataStore.getSassToSourceLines()[dataStore.getKernels()[0]][line]);
+            highlightedBinaryLines.value[line] = true;
+            highlightedSourceLines.value[dataStore.getAnalysis().getSassToSourceLine(currentKernel.value, line)] = true;
         } else if (currentView.value === CODE_VIEW.PTX_CODE) {
-            highlightedLines.value.push(dataStore.getPtxToSourceLines()[dataStore.getKernels()[0]][line]);
+            highlightedBinaryLines.value[line] = true;
+            highlightedSourceLines.value[dataStore.getAnalysis().getPtxToSourceLine(currentKernel.value, line)] = true;
         } else if (currentView.value === CODE_VIEW.SOURCE_CODE) {
+            highlightedSourceLines.value[line] = true;
             const lines =
-                binaryView.value === CODE_VIEW.SASS_CODE
-                    ? dataStore.getSassToSourceLines()
-                    : dataStore.getPtxToSourceLines();
-            for (const l of Object.entries(lines[dataStore.getKernels()[0]])
-                .filter(([, sourceLine]) => sourceLine === line)
-                .map(([binaryLine]) => parseInt(binaryLine))) {
-                highlightedLines.value.push(l);
+                currentBinary.value === CODE_VIEW.SASS_CODE
+                    ? dataStore.getAnalysis().getSourceToSassLines(currentKernel.value, line)
+                    : dataStore.getAnalysis().getSourceToPtxLines(currentKernel.value, line);
+            for (const line of lines) {
+                highlightedBinaryLines.value[line] = true;
             }
         }
     }
 
+    function resetHighlights() {
+        highlightedSourceLines.value = {};
+        highlightedBinaryLines.value = {};
+        highlightedSourceTokens.value = {};
+        highlightedBinaryTokens.value = {};
+    }
+
     return {
         getCurrentView,
-        getBinaryView,
-        getSelectedLine,
-        getHighlightedLines,
-        setCurrentView,
-        setSelectedLine
+        getCurrentBinary,
+        getHighlightedSourceLines,
+        getHighlightedBinaryTokens,
+        getHighlightedBinaryLines,
+        getHighlightedSourceTokens,
+        setCurrentBinary,
+        setSelectedLine,
+        setCurrentView
     };
 });
