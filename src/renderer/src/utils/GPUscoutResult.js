@@ -155,6 +155,7 @@ export class GPUscoutResult {
         let currentSourceFile = '';
         let currentPtxLine = 1;
         let isInFileDefinitions = false;
+        let lastLineBranch = ''
 
         for (const line of ptxCode.split('\n')) {
             if (currentSourceLine === -1 && !line.startsWith('.loc') && !line.includes('.visible')) {
@@ -206,11 +207,17 @@ export class GPUscoutResult {
                         file: currentSourceFile
                     };
                 }
+                if (isLabel) {
+                    lastLineBranch = line.substring(0, line.length - 1);
+                } else if (lastLineBranch !== '') {
+                    this.ptxCodeLines[currentKernel].find(line => line.tokens.includes(lastLineBranch) && line.address === -1).address = currentPtxLine;
+                    lastLineBranch = ''
+                }
                 this.ptxCodeLines[currentKernel].push({
                     address: isLabel ? -1 : currentPtxLine,
                     tokens: line
                         .slice(0, -1)
-                        .split(/([, ;.])/)
+                        .split(/([, :;.])/)
                         .filter((token) => token.length > 0)
                 });
 
@@ -228,6 +235,7 @@ export class GPUscoutResult {
         let currentKernel = '';
         let currentSourceFile = '';
         let currentSassLine = '';
+        let lastLineBranch = '';
 
         for (let line of sassCode.split('\n')) {
             if (currentSourceLine === -1 && !line.startsWith('.text')) {
@@ -264,15 +272,21 @@ export class GPUscoutResult {
                         line: currentSourceLine,
                         file: currentSourceFile
                     };
+                    if (lastLineBranch !== '') {
+                        console.log(lastLineBranch, this.sassCodeLines[currentKernel])
+                        this.sassCodeLines[currentKernel].find(lines => lines.address === lastLineBranch).address = address;
+                        lastLineBranch = '';
+                    }
                 } else if (line.endsWith(':')) {
                     address = line.substring(0, line.length - 1);
+                    lastLineBranch = line.substring(0, line.length - 1);
                 }
 
                 this.sassCodeLines[currentKernel].push({
                     address: address,
                     tokens: line
                         .trim()
-                        .split(/([,.[\]() ])/)
+                        .split(/([,.:[\]() ])/)
                         .filter((token) => token.length > 0)
                 });
             } else {
