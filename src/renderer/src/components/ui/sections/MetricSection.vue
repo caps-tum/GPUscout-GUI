@@ -1,7 +1,7 @@
 <template>
-    <div class="flex flex-col p-2 pt-1 rounded bg-secondary/50">
+    <div class="flex flex-col rounded bg-secondary/50 p-2 pt-1">
         <p class="text-xl text-text">{{ title }}</p>
-        <p v-if="hint" class="text-sm text-text/50 -mt-2">{{ hint }}</p>
+        <p v-if="hint" class="-mt-2 text-sm text-text/50">{{ hint }}</p>
         <div class="flex flex-row space-x-2">
             <slot></slot>
         </div>
@@ -9,9 +9,9 @@
     </div>
 </template>
 <script setup>
-    defineProps({
-        title: String,
-        hint: String,
-        helpString: String
-    })
+defineProps({
+    title: String,
+    hint: String,
+    helpString: String
+});
 </script>

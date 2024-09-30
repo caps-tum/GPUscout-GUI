@@ -6,7 +6,7 @@ export const useDataStore = defineStore('data', () => {
     let gpuscoutResult;
 
     const currentKernel = ref('');
-    const currentAnalysis = ref(ANALYSES.WARP_DIVERGENCE);
+    const currentAnalysis = ref('');
 
     /** @returns {GPUscoutResult} */
     const getGPUscoutResult = () => gpuscoutResult;
@@ -53,7 +53,12 @@ export const useDataStore = defineStore('data', () => {
         console.log(gpuscoutResult.analyses);
     }
 
+    function setCurrentAnalysis(analysis) {
+        currentAnalysis.value = analysis;
+    }
+
     return {
+        setCurrentAnalysis,
         getCurrentAnalysis,
         getCurrentKernel,
         getGPUscoutResult,

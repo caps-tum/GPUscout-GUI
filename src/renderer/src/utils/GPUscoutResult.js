@@ -86,6 +86,16 @@ export class GPUscoutResult {
     }
 
     /**
+     * @returns {String[]}
+     */
+    getAnalysesWithOccurrences() {
+        return Object.keys(this.analyses).filter(
+            (analysis) =>
+                Object.entries(this.analyses[analysis]).filter(([_, a]) => a.getOccurrences().length > 0).length > 0
+        );
+    }
+
+    /**
      * @param {String} kernel The name of the kernel
      * @param {String} line The line to get source lines for
      * @returns {Number}
@@ -155,7 +165,7 @@ export class GPUscoutResult {
         let currentSourceFile = '';
         let currentPtxLine = 1;
         let isInFileDefinitions = false;
-        let lastLineBranch = ''
+        let lastLineBranch = '';
 
         for (const line of ptxCode.split('\n')) {
             if (currentSourceLine === -1 && !line.startsWith('.loc') && !line.includes('.visible')) {
@@ -210,8 +220,10 @@ export class GPUscoutResult {
                 if (isLabel) {
                     lastLineBranch = line.substring(0, line.length - 1);
                 } else if (lastLineBranch !== '') {
-                    this.ptxCodeLines[currentKernel].find(line => line.tokens.includes(lastLineBranch) && line.address === -1).address = currentPtxLine;
-                    lastLineBranch = ''
+                    this.ptxCodeLines[currentKernel].find(
+                        (line) => line.tokens.includes(lastLineBranch) && line.address === -1
+                    ).address = currentPtxLine;
+                    lastLineBranch = '';
                 }
                 this.ptxCodeLines[currentKernel].push({
                     address: isLabel ? -1 : currentPtxLine,
@@ -273,8 +285,9 @@ export class GPUscoutResult {
                         file: currentSourceFile
                     };
                     if (lastLineBranch !== '') {
-                        console.log(lastLineBranch, this.sassCodeLines[currentKernel])
-                        this.sassCodeLines[currentKernel].find(lines => lines.address === lastLineBranch).address = address;
+                        console.log(lastLineBranch, this.sassCodeLines[currentKernel]);
+                        this.sassCodeLines[currentKernel].find((lines) => lines.address === lastLineBranch).address =
+                            address;
                         lastLineBranch = '';
                     }
                 } else if (line.endsWith(':')) {

@@ -1,10 +1,10 @@
 <template>
     <MetricSection title="Metrics" hint="Important metrics to watch out for">
-    <ButtonMetric
-        title="Diverging Branches"
-        hint="Percentage of branches that diverge"
-        :value="analysisData.getMetric(WARP_DIVERGENCE_METRICS.BRANCH_DIVERGENCE_PERCENT) + '%'"
-    />
+        <ButtonMetric
+            title="Diverging Branches"
+            hint="Percentage of branches that diverge"
+            :value="analysisData.getMetric(WARP_DIVERGENCE_METRICS.BRANCH_DIVERGENCE_PERCENT) + '%'"
+        />
     </MetricSection>
 </template>
 <script setup>

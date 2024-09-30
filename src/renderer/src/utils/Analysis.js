@@ -52,6 +52,18 @@ export class Analysis {
     }
 
     /**
+     * @param {String|Number} lineNumber
+     * @param {Boolean} isSource
+     */
+    checkOccurrence(lineNumber, isSource) {
+        if (isSource) {
+            return this._occurrences.find((occurrence) => occurrence.sourceLineNumber === lineNumber) || null;
+        } else {
+            return this._occurrences.find((occurrence) => occurrence.binaryLineNumber === lineNumber) || null;
+        }
+    }
+
+    /**
      * @returns {String}
      */
     getKernel() {
