@@ -1,13 +1,13 @@
 <template>
     <LandingPage v-if="currentContext === CONTEXT.START_SCREEN" />
-    <Analysis v-if="currentContext === CONTEXT.ANALYSIS" />
+    <NavigationBase v-else />
 </template>
 <script setup>
 import { CONTEXT, useContextStore } from './stores/ContextStore';
 import { computed, onBeforeMount } from 'vue';
 import { useConfigStore } from './stores/ConfigStore';
 import LandingPage from './components/pages/landing/LandingPage.vue';
-import Analysis from './components/pages/analysis/Analysis.vue';
+import NavigationBase from './components/navigation/NavigationBase.vue';
 
 const contextStore = useContextStore();
 const configStore = useConfigStore();

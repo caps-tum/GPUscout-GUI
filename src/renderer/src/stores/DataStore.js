@@ -11,9 +11,9 @@ export const useDataStore = defineStore('data', () => {
     /** @returns {GPUscoutResult} */
     const getGPUscoutResult = () => gpuscoutResult;
     /** @returns {Object.<String, {}>} */
-    const getAnalyses = () => gpuscoutResult.analyses;
+    const getAnalyses = () => gpuscoutResult?.analyses || {};
     /** @returns {String[]} */
-    const getKernels = () => gpuscoutResult.kernels;
+    const getKernels = () => gpuscoutResult?.kernels || [];
 
     const getCurrentKernel = computed(() => currentKernel.value);
     const getCurrentAnalysis = computed(() => currentAnalysis.value);

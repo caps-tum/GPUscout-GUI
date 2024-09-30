@@ -1,5 +1,5 @@
 <template>
-    <div class="flex h-full w-full flex-col p-2">
+    <div class="flex h-full w-full flex-col">
         <div class="h-72 shrink-0">
             <TopSection :analysis="currentAnalysis" :kernel="currentKernel" />
         </div>
