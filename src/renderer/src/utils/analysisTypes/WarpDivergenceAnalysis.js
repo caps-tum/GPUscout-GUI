@@ -1,7 +1,7 @@
 import { Analysis, Occurrence } from '../Analysis';
 
 export const WARP_DIVERGENCE_METRICS = {
-    BRANCH_DIVERGENCE_PERCENT: 'branch_divergence_percent'
+    BRANCH_DIVERGENCE_PERCENT: 'branch_divergence_perc'
 };
 
 export class WarpDivergenceAnalysis extends Analysis {

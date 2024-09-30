@@ -41,7 +41,7 @@ import { ref } from 'vue';
 import SelectAnalysis from './SelectAnalysis.vue';
 import { useDataStore } from '../../../stores/DataStore';
 import { useContextStore, CONTEXT } from '../../../stores/ContextStore';
-import ButtonPrimary from '../../ui/ButtonPrimary.vue';
+import ButtonPrimary from '../../ui/buttons/ButtonPrimary.vue';
 
 const configStore = useConfigStore();
 const dataStore = useDataStore();
@@ -91,6 +91,6 @@ async function proceed() {
         selectedAnalysisTitle.value
     );
     await dataStore.initialize(...analysisFileData);
-    contextStore.setCurrentContext(CONTEXT.CODE_VIEW);
+    contextStore.setCurrentContext(CONTEXT.ANALYSIS);
 }
 </script>

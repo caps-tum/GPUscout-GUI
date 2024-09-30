@@ -1,11 +1,12 @@
 import { defineStore } from 'pinia';
-import { GPUscoutResult } from '../utils/GPUscoutResult';
+import { ANALYSES, GPUscoutResult } from '../utils/GPUscoutResult';
 import { computed, ref } from 'vue';
 
 export const useDataStore = defineStore('data', () => {
     let gpuscoutResult;
 
     const currentKernel = ref('');
+    const currentAnalysis = ref(ANALYSES.WARP_DIVERGENCE);
 
     /** @returns {GPUscoutResult} */
     const getGPUscoutResult = () => gpuscoutResult;
@@ -15,6 +16,7 @@ export const useDataStore = defineStore('data', () => {
     const getKernels = () => gpuscoutResult.kernels;
 
     const getCurrentKernel = computed(() => currentKernel.value);
+    const getCurrentAnalysis = computed(() => currentAnalysis.value);
 
     /**
      * Initialize the store with the data from GPUscout
@@ -33,7 +35,6 @@ export const useDataStore = defineStore('data', () => {
         currentKernel.value = gpuscoutResult.kernels[0];
 
         console.log(gpuscoutResult.kernels);
-        console.log(gpuscoutResult.analyses);
 
         console.log('SASS');
         console.log(gpuscoutResult.sassCodeLines);
@@ -53,6 +54,7 @@ export const useDataStore = defineStore('data', () => {
     }
 
     return {
+        getCurrentAnalysis,
         getCurrentKernel,
         getGPUscoutResult,
         getAnalyses,

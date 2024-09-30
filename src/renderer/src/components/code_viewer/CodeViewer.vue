@@ -1,5 +1,5 @@
 <template>
-    <div class="grid h-full max-h-72 w-full grid-cols-[50%_50%] grid-rows-1 space-x-1 overflow-y-auto">
+    <div class="grid h-full w-full grid-cols-[50%_50%] grid-rows-1 space-x-1 overflow-y-auto overflow-x-hidden">
         <CodeView
             :code-lines="dataStore.getGPUscoutResult().getSourceCodeLines(currentKernel)"
             :code-type="CODE_TYPE.SOURCE_CODE"
@@ -21,7 +21,6 @@
             :highlighted-tokens="highlightedBinaryTokens"
         />
     </div>
-    <button @click="switc">Switch</button>
 </template>
 <script setup>
 import CodeView from './CodeView.vue';
@@ -40,12 +39,4 @@ const highlightedSourceTokens = computed(() => codeViewStore.getHighlightedSourc
 
 const currentKernel = computed(() => dataStore.getCurrentKernel);
 const currentBinary = computed(() => codeViewStore.getCurrentBinary);
-
-function switc() {
-    if (currentBinary.value === CODE_TYPE.PTX_CODE) {
-        codeViewStore.setCurrentBinary(CODE_TYPE.SASS_CODE);
-    } else {
-        codeViewStore.setCurrentBinary(CODE_TYPE.PTX_CODE);
-    }
-}
 </script>

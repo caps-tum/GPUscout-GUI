@@ -4,7 +4,8 @@ import { computed, ref } from 'vue';
 export const CONTEXT = {
     NONE: 0,
     START_SCREEN: 1,
-    CODE_VIEW: 2
+    ANALYSIS: 2,
+    CODE_VIEW: 3
 };
 
 export const useContextStore = defineStore('context', () => {

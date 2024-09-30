@@ -15,7 +15,7 @@
 </template>
 <script setup>
 import { ref } from 'vue';
-import ButtonSecondary from '../../ui/ButtonSecondary.vue';
+import ButtonSecondary from '../../ui/buttons/ButtonSecondary.vue';
 
 defineProps({
     containsSelectedAnalysis: Boolean

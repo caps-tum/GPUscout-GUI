@@ -8,7 +8,7 @@
                 v-for="title in getTitles()"
                 :key="title"
                 :title="title"
-                :on-click="() => onAnalysisSelected(title)"
+                @click="() => onAnalysisSelected(title)"
             >
                 <p v-show="selectedAnalysis === title" class="inline-block">S</p>
             </ButtonSecondary>
@@ -18,7 +18,7 @@
 <script setup>
 import TextInput from '../../../ui/TextInput.vue';
 import { ref } from 'vue';
-import ButtonSecondary from '../../../ui/ButtonSecondary.vue';
+import ButtonSecondary from '../../../ui/buttons/ButtonSecondary.vue';
 
 const props = defineProps({
     files: Array,

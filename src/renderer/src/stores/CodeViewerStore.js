@@ -16,12 +16,15 @@ export const useCodeViewerStore = defineStore('codeViewer', () => {
 
     const currentView = ref(CODE_TYPE.NONE);
     const currentBinary = ref(CODE_TYPE.SASS_CODE);
+    const selectedLine = ref('');
 
     const highlightedSourceLines = ref({});
     const highlightedBinaryLines = ref({});
 
     const highlightedSourceTokens = ref({});
     const highlightedBinaryTokens = ref({});
+
+    const getSelectedLine = computed(() => selectedLine.value);
 
     const getCurrentView = computed(() => currentView.value);
     const getCurrentBinary = computed(() => currentBinary.value);
@@ -41,6 +44,7 @@ export const useCodeViewerStore = defineStore('codeViewer', () => {
     }
 
     function setSelectedLine(line) {
+        selectedLine.value = line;
         resetHighlights();
 
         if (currentView.value === CODE_TYPE.SASS_CODE) {
@@ -77,6 +81,7 @@ export const useCodeViewerStore = defineStore('codeViewer', () => {
         getHighlightedBinaryLines,
         getHighlightedSourceTokens,
         setCurrentBinary,
+        getSelectedLine,
         setSelectedLine,
         setCurrentView
     };

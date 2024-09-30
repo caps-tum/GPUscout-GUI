@@ -1,7 +1,7 @@
 <template>
     <div class="group m-0 flex space-x-1" @click="selectLine">
         <p
-            class="sticky left-0 top-0 w-10 shrink-0 select-none bg-gray-600 px-1 group-hover:bg-gray-200"
+            class="sticky left-0 top-0 w-16 shrink-0 select-none bg-gray-600 px-1 group-hover:bg-gray-200"
             :class="getHighlight()"
         >
             {{ lineNumber }}

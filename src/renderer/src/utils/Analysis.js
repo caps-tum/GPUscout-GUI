@@ -13,12 +13,12 @@ export class Analysis {
         this._occurrences = [];
         this.codeType = CODE_TYPE.NONE;
 
-        for (const [metricName, jsonMetricName] of Object.entries(metricMap)) {
+        for (const jsonMetricName of Object.values(metricMap)) {
             if (jsonMetricName.includes('/')) {
                 const parts = jsonMetricName.split('/');
-                this._metrics[metricName] = analysisData['metrics'][parts[0]][parts[1]];
+                this._metrics[jsonMetricName] = analysisData['metrics'][parts[0]][parts[1]];
             } else {
-                this._metrics[metricName] = analysisData['metrics'][jsonMetricName];
+                this._metrics[jsonMetricName] = analysisData['metrics'][jsonMetricName];
             }
         }
 

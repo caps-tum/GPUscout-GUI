@@ -7,8 +7,21 @@ import { UseSharedAnalysis } from './analysisTypes/UseSharedAnalysis';
 import { UseTextureAnalysis } from './analysisTypes/UseTextureAnalysis';
 import { VectorizationAnalysis } from './analysisTypes/VectorizationAnalysis';
 import { WarpDivergenceAnalysis } from './analysisTypes/WarpDivergenceAnalysis';
+import { Analysis } from './Analysis';
 
 export const ANALYSES = {
+    DATATYPE_CONVERSION: 'DATATYPE_CONVERSION',
+    DEADLOCK_DETECTION: 'DEADLOCK_DETECTION',
+    GLOBAL_ATOMICS: 'GLOBAL_ATOMICS',
+    REGISTER_SPILLING: 'REGISTER_SPILLING',
+    USE_RESTRICT: 'USE_RESTRICT',
+    USE_SHARED: 'USE_SHARED',
+    USE_TEXTURE: 'USE_TEXTURE',
+    VECTORIZATION: 'VECTORIZATION',
+    WARP_DIVERGENCE: 'WARP_DIVERGENCE'
+};
+
+const ANALYSIS_CONSTRUCTORS = {
     DATATYPE_CONVERSION: [
         'datatype_conversion',
         (analysisData, kernel) => new DatatypeConversionAnalysis(analysisData, kernel)
@@ -52,7 +65,7 @@ export class GPUscoutResult {
 
         this._aggregateKernelSourceCode(sourceFileContents);
 
-        for (const [analysisName, [jsonAnalysisName, analysisConstructor]] of Object.entries(ANALYSES)) {
+        for (const [analysisName, [jsonAnalysisName, analysisConstructor]] of Object.entries(ANALYSIS_CONSTRUCTORS)) {
             this.analyses[analysisName] = {};
 
             if (!resultJSON['analyses'][jsonAnalysisName]) continue;
@@ -61,6 +74,15 @@ export class GPUscoutResult {
                 this.analyses[analysisName][kernel] = analysisConstructor(analysisData, kernel);
             }
         }
+    }
+
+    /**
+     * @param analysis The name of the analysis
+     * @param kernel The name of the kernel
+     * @returns {Analysis}
+     */
+    getAnalysis(analysis, kernel) {
+        return this.analyses[analysis][kernel];
     }
 
     /**

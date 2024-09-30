@@ -1,13 +1,13 @@
 <template>
     <LandingPage v-if="currentContext === CONTEXT.START_SCREEN" />
-    <CodeViewer v-if="currentContext === CONTEXT.CODE_VIEW" />
+    <Analysis v-if="currentContext === CONTEXT.ANALYSIS" />
 </template>
 <script setup>
-import CodeViewer from './components/code_viewer/CodeViewer.vue';
 import { CONTEXT, useContextStore } from './stores/ContextStore';
 import { computed, onBeforeMount } from 'vue';
 import { useConfigStore } from './stores/ConfigStore';
 import LandingPage from './components/pages/landing/LandingPage.vue';
+import Analysis from './components/pages/analysis/Analysis.vue';
 
 const contextStore = useContextStore();
 const configStore = useConfigStore();
