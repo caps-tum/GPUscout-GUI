@@ -1,6 +1,6 @@
 <template>
     <CodeInfoWarpDivergence
-        v-if="analysis === ANALYSES.WARP_DIVERGENCE"
+        v-if="analysis === ANALYSIS.warp_divergence.name"
         :kernel="kernel"
         :current-view="currentView"
         :selected-line="selectedLine"
@@ -10,7 +10,7 @@
 import CodeInfoWarpDivergence from './warp_divergence/CodeInfoWarpDivergence.vue';
 import { computed } from 'vue';
 import { useCodeViewerStore } from '../../../../stores/CodeViewerStore';
-import { ANALYSES } from '../../../../utils/GPUscoutResult';
+import { ANALYSIS } from '../../../../../../config/analyses';
 
 defineProps({
     analysis: String,

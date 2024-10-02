@@ -3,7 +3,7 @@
         <ButtonMetric
             title="Diverging Branches"
             hint="Percentage of branches that diverge"
-            :value="analysisData.getMetric(WARP_DIVERGENCE_METRICS.BRANCH_DIVERGENCE_PERCENT) + '%'"
+            :value="analysisData.getMetric(ANALYSIS.warp_divergence.metrics.branch_divergence_percent) + '%'"
         />
     </MetricSection>
 </template>
@@ -11,9 +11,8 @@
 import ButtonMetric from '../../../../ui/buttons/ButtonMetric.vue';
 import MetricSection from '../../../../ui/sections/MetricSection.vue';
 import { useDataStore } from '../../../../../stores/DataStore';
-import { ANALYSES } from '../../../../../utils/GPUscoutResult';
 import { computed } from 'vue';
-import { WARP_DIVERGENCE_METRICS } from '../../../../../utils/analysisTypes/WarpDivergenceAnalysis';
+import { ANALYSIS } from '../../../../../../../config/analyses';
 
 const props = defineProps({
     kernel: String
@@ -21,5 +20,5 @@ const props = defineProps({
 
 const dataStore = useDataStore();
 
-const analysisData = computed(() => dataStore.getGPUscoutResult().getAnalysis(ANALYSES.WARP_DIVERGENCE, props.kernel));
+const analysisData = computed(() => dataStore.getGPUscoutResult().getAnalysis(ANALYSIS.warp_divergence.name, props.kernel));
 </script>

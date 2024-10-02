@@ -1,11 +1,11 @@
 <template>
     <div class="flex">
-        <TopSectionWarpDivergence v-if="analysis === ANALYSES.WARP_DIVERGENCE" :kernel="kernel" />
+        <TopSectionWarpDivergence v-if="analysis === ANALYSIS.warp_divergence.name" :kernel="kernel" />
     </div>
 </template>
 <script setup>
 import TopSectionWarpDivergence from './warp_divergence/TopSectionWarpDivergence.vue';
-import { ANALYSES } from '../../../../utils/GPUscoutResult';
+import { ANALYSIS } from '../../../../../../config/analyses';
 
 defineProps({
     analysis: String,

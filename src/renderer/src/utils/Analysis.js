@@ -4,21 +4,23 @@ export class Analysis {
     /**
      * @param {Object} analysisData The data of the analysis
      * @param {String} kernel The name of the kernel
-     * @param {Object.<String, String>} metricMap A map of metric names that this analysis provides
      * @param {Function} occurrenceConstructor A function returning a new instance of an occurrence element
      */
-    constructor(analysisData, kernel, metricMap = {}, occurrenceConstructor = () => {}) {
+    constructor(analysisData, kernel, occurrenceConstructor = (o) => new Occurrence(o)) {
         this._kernel = kernel;
         this._metrics = {};
         this._occurrences = [];
         this.codeType = CODE_TYPE.NONE;
 
-        for (const jsonMetricName of Object.values(metricMap)) {
-            if (jsonMetricName.includes('/')) {
-                const parts = jsonMetricName.split('/');
-                this._metrics[jsonMetricName] = analysisData['metrics'][parts[0]][parts[1]];
-            } else {
-                this._metrics[jsonMetricName] = analysisData['metrics'][jsonMetricName];
+        if (analysisData['metrics']) {
+            for (const [jsonMetricName, metricValue] of Object.entries(analysisData['metrics'])) {
+                if (typeof metricValue === Object) {
+                    for (const [deepJsonMetricName, deepMetricValue] of Object.entries(metricValue)) {
+                        this._metrics[`${jsonMetricName}/${deepJsonMetricName}`] = deepMetricValue;
+                    }
+                } else {
+                    this._metrics[jsonMetricName] = metricValue;
+                }
             }
         }
 

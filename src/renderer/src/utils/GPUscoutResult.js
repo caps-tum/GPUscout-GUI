@@ -1,43 +1,5 @@
-import { DatatypeConversionAnalysis } from './analysisTypes/DatatypeConversionAnalysis';
-import { DeadlockDetectionAnalysis } from './analysisTypes/DeadlockDetectionAnalysis';
-import { GlobalAtomicsAnalysis } from './analysisTypes/GlobalAtomicsAnalysis';
-import { RegisterSpillingAnalysis } from './analysisTypes/RegisterSpillingAnalysis';
-import { UseRestrictAnalysis } from './analysisTypes/UseRestrictAnalysis';
-import { UseSharedAnalysis } from './analysisTypes/UseSharedAnalysis';
-import { UseTextureAnalysis } from './analysisTypes/UseTextureAnalysis';
-import { VectorizationAnalysis } from './analysisTypes/VectorizationAnalysis';
-import { WarpDivergenceAnalysis } from './analysisTypes/WarpDivergenceAnalysis';
+import { ANALYSIS } from '../../../config/analyses';
 import { Analysis } from './Analysis';
-
-export const ANALYSES = {
-    DATATYPE_CONVERSION: 'DATATYPE_CONVERSION',
-    DEADLOCK_DETECTION: 'DEADLOCK_DETECTION',
-    GLOBAL_ATOMICS: 'GLOBAL_ATOMICS',
-    REGISTER_SPILLING: 'REGISTER_SPILLING',
-    USE_RESTRICT: 'USE_RESTRICT',
-    USE_SHARED: 'USE_SHARED',
-    USE_TEXTURE: 'USE_TEXTURE',
-    VECTORIZATION: 'VECTORIZATION',
-    WARP_DIVERGENCE: 'WARP_DIVERGENCE'
-};
-
-const ANALYSIS_CONSTRUCTORS = {
-    DATATYPE_CONVERSION: [
-        'datatype_conversion',
-        (analysisData, kernel) => new DatatypeConversionAnalysis(analysisData, kernel)
-    ],
-    DEADLOCK_DETECTION: [
-        'deadlock_detection',
-        (analysisData, kernel) => new DeadlockDetectionAnalysis(analysisData, kernel)
-    ],
-    GLOBAL_ATOMICS: ['global_atomics', (analysisData, kernel) => new GlobalAtomicsAnalysis(analysisData, kernel)],
-    REGISTER_SPILLING: ['register_spilling', (analysisData, kernel) => new RegisterSpillingAnalysis(analysisData, kernel)],
-    USE_RESTRICT: ['use_restrict', (analysisData, kernel) => new UseRestrictAnalysis(analysisData, kernel)],
-    USE_SHARED: ['use_shared', (analysisData, kernel) => new UseSharedAnalysis(analysisData, kernel)],
-    USE_TEXTURE: ['use_texture', (analysisData, kernel) => new UseTextureAnalysis(analysisData, kernel)],
-    VECTORIZATION: ['vectorization', (analysisData, kernel) => new VectorizationAnalysis(analysisData, kernel)],
-    WARP_DIVERGENCE: ['warp_divergence', (analysisData, kernel) => new WarpDivergenceAnalysis(analysisData, kernel)]
-};
 
 export class GPUscoutResult {
     constructor(resultData, sassCode, sassRegisters, ptxCode, sourceCodes) {
@@ -65,13 +27,18 @@ export class GPUscoutResult {
 
         this._aggregateKernelSourceCode(sourceFileContents);
 
-        for (const [analysisName, [jsonAnalysisName, analysisConstructor]] of Object.entries(ANALYSIS_CONSTRUCTORS)) {
+        for (const [analysisName, analysisDefinition] of Object.entries(ANALYSIS)) {
             this.analyses[analysisName] = {};
 
-            if (!resultJSON['analyses'][jsonAnalysisName]) continue;
+            if (!resultJSON['analyses'][analysisDefinition.name]) continue;
 
-            for (const [kernel, analysisData] of Object.entries(resultJSON['analyses'][jsonAnalysisName])) {
-                this.analyses[analysisName][kernel] = analysisConstructor(analysisData, kernel);
+            for (const [kernel, analysisData] of Object.entries(resultJSON['analyses'][analysisDefinition.name])) {
+                console.log(analysisDefinition);
+                this.analyses[analysisName][kernel] = new Analysis(
+                    analysisData,
+                    kernel,
+                    analysisDefinition.occurrence_constructor
+                );
             }
         }
     }
@@ -329,8 +296,8 @@ export class GPUscoutResult {
             for (let [sourceFile, lineNumbers] of Object.entries(relevantLines)) {
                 // Get relevant line section in source file
                 lineNumbers = lineNumbers.map((ln) => ln['line']);
-                const minLine = Math.max(1, Math.min(...lineNumbers) - 1);
-                const maxLine = Math.min(sourceFileContents[sourceFile].length, Math.max(...lineNumbers));
+                const minLine = 1;
+                const maxLine = sourceFileContents[sourceFile].length;
 
                 // The new line numbers dont match the old ones, save the mapping
                 oldToNewLineNumbers[sourceFile] = {};

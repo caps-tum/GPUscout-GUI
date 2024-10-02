@@ -1,8 +1,11 @@
 import { defineStore } from 'pinia';
-import { ANALYSES, GPUscoutResult } from '../utils/GPUscoutResult';
+import { GPUscoutResult } from '../utils/GPUscoutResult';
 import { computed, ref } from 'vue';
+import { useCodeViewerStore } from './CodeViewerStore';
 
 export const useDataStore = defineStore('data', () => {
+    const codeViewerStore = useCodeViewerStore();
+
     let gpuscoutResult;
 
     const currentKernel = ref('');
