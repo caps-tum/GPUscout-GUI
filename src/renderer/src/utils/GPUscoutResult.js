@@ -33,7 +33,6 @@ export class GPUscoutResult {
             if (!resultJSON['analyses'][analysisDefinition.name]) continue;
 
             for (const [kernel, analysisData] of Object.entries(resultJSON['analyses'][analysisDefinition.name])) {
-                console.log(analysisDefinition);
                 this.analyses[analysisName][kernel] = new Analysis(
                     analysisData,
                     kernel,
@@ -57,8 +56,7 @@ export class GPUscoutResult {
      */
     getAnalysesWithOccurrences() {
         return Object.keys(this.analyses).filter(
-            (analysis) =>
-                Object.entries(this.analyses[analysis]).filter(([_, a]) => a.getOccurrences().length > 0).length > 0
+            (analysis) => Object.entries(this.analyses[analysis]).filter(([, a]) => a.getOccurrences().length > 0).length > 0
         );
     }
 
@@ -252,7 +250,6 @@ export class GPUscoutResult {
                         file: currentSourceFile
                     };
                     if (lastLineBranch !== '') {
-                        console.log(lastLineBranch, this.sassCodeLines[currentKernel]);
                         this.sassCodeLines[currentKernel].find((lines) => lines.address === lastLineBranch).address =
                             address;
                         lastLineBranch = '';

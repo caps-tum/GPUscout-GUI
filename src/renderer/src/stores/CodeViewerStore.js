@@ -18,6 +18,9 @@ export const useCodeViewerStore = defineStore('codeViewer', () => {
     const currentBinary = ref(CODE_TYPE.SASS_CODE);
     const selectedLine = ref('');
 
+    const occurrenceSourceLines = ref([]);
+    const occurrenceBinaryLines = ref([]);
+
     const highlightedSourceLines = ref({});
     const highlightedBinaryLines = ref({});
 
@@ -25,6 +28,9 @@ export const useCodeViewerStore = defineStore('codeViewer', () => {
     const highlightedBinaryTokens = ref({});
 
     const getSelectedLine = computed(() => selectedLine.value);
+
+    const getOccurrenceSourceLines = computed(() => occurrenceSourceLines.value);
+    const getOccurrenceBinaryLines = computed(() => occurrenceBinaryLines.value);
 
     const getCurrentView = computed(() => currentView.value);
     const getCurrentBinary = computed(() => currentBinary.value);
@@ -41,6 +47,12 @@ export const useCodeViewerStore = defineStore('codeViewer', () => {
 
     function setCurrentBinary(binary) {
         currentBinary.value = binary;
+    }
+
+    function setOccurrenceLines(sourceLines, binaryLines) {
+        resetOccurrenceLines();
+        occurrenceSourceLines.value = sourceLines;
+        occurrenceBinaryLines.value = binaryLines;
     }
 
     function setSelectedLine(line) {
@@ -66,6 +78,11 @@ export const useCodeViewerStore = defineStore('codeViewer', () => {
         }
     }
 
+    function resetOccurrenceLines() {
+        occurrenceSourceLines.value = occurrenceSourceLines.value.filter(() => false);
+        occurrenceBinaryLines.value = occurrenceBinaryLines.value.filter(() => false);
+    }
+
     function resetHighlights() {
         highlightedSourceLines.value = {};
         highlightedBinaryLines.value = {};
@@ -81,8 +98,13 @@ export const useCodeViewerStore = defineStore('codeViewer', () => {
         getHighlightedBinaryLines,
         getHighlightedSourceTokens,
         setCurrentBinary,
+        setOccurrenceLines,
         getSelectedLine,
         setSelectedLine,
-        setCurrentView
+        setCurrentView,
+        resetHighlights,
+        getOccurrenceBinaryLines,
+        getOccurrenceSourceLines,
+        resetOccurrenceLines
     };
 });

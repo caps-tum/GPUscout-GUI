@@ -8,6 +8,7 @@
             :code-type="codeType"
             :highlighted-lines="highlightedLines"
             :high-lighted-tokens="highlightedTokens"
+            :is-occurrence="occurrenceLines.includes(line.address)"
         />
     </div>
 </template>
@@ -18,6 +19,7 @@ defineProps({
     codeType: Number,
     codeLines: Array,
     highlightedLines: Object,
-    highlightedTokens: Object
+    highlightedTokens: Object,
+    occurrenceLines: Array
 });
 </script>

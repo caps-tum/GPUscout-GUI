@@ -7,11 +7,11 @@
             <CodeViewer />
             <div class="flex h-full w-1/3 flex-col">
                 <div class="w-full flex-grow">
-                    <CodeInfo :analysis="currentAnalysis" :kernel="currentKernel" />
+                    <CodeInfo :analysis="currentAnalysis" :kernel="currentKernel" :occurrence="selectedOccurrence" />
                 </div>
-                <div class="flex w-full flex-row justify-around">
-                    <ButtonSecondary title="Select previous occurrence" />
-                    <ButtonSecondary title="Select next occurrence" />
+                <div class="flex w-full flex-row justify-around space-x-2">
+                    <ButtonSecondary class="text-center" title="Select previous occurrence" />
+                    <ButtonSecondary class="text-center" title="Select next occurrence" />
                 </div>
             </div>
         </div>
@@ -24,9 +24,20 @@ import CodeInfo from './submodules/CodeInfo.vue';
 import TopSection from './submodules/TopSection.vue';
 import { useDataStore } from '../../../stores/DataStore';
 import { computed } from 'vue';
+import { useCodeViewerStore } from '../../../stores/CodeViewerStore';
 
 const dataStore = useDataStore();
+const codeViewerStore = useCodeViewerStore();
 
 const currentKernel = computed(() => dataStore.getCurrentKernel);
 const currentAnalysis = computed(() => dataStore.getCurrentAnalysis);
+
+const currentView = computed(() => codeViewerStore.getCurrentView);
+const selectedLine = computed(() => codeViewerStore.getSelectedLine);
+const selectedOccurrence = computed(() =>
+    dataStore
+        .getGPUscoutResult()
+        .getAnalysis(currentAnalysis.value, currentKernel.value)
+        .getOccurrence(currentView.value, selectedLine.value)
+);
 </script>

@@ -36,6 +36,8 @@ export const useDataStore = defineStore('data', () => {
             alert('No kernels found!');
         }
         currentKernel.value = gpuscoutResult.kernels[0];
+        // TODO: what if 0
+        setCurrentAnalysis(gpuscoutResult.getAnalysesWithOccurrences()[0]);
 
         console.log(gpuscoutResult.kernels);
 
@@ -56,8 +58,16 @@ export const useDataStore = defineStore('data', () => {
         console.log(gpuscoutResult.analyses);
     }
 
+    /**
+     * @param {String} analysis The analysis to switch to
+     */
     function setCurrentAnalysis(analysis) {
         currentAnalysis.value = analysis;
+        const occurrences = gpuscoutResult.getAnalysis(analysis, currentKernel.value).getOccurrences();
+        codeViewerStore.setOccurrenceLines(
+            occurrences.map((o) => o.sourceLineNumber),
+            occurrences.map((o) => o.binaryLineNumber)
+        );
     }
 
     return {

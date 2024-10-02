@@ -9,6 +9,15 @@ import {
     WarpDivergenceOccurrence
 } from './analysisOccurrences';
 
+/**
+ * Main definition for all available analyses
+ * If an analysis is not mentioned in here, it will not be recognized!
+ * Object keys:
+ * - name: (required) The name of the key of the analysis in the JSON file from GPUscout
+ * - use_sass: (required) If the analysis uses sass code (rather than PTX)
+ * - occurrence_constructor: (optional) A constructor for a subclass of occurrence, which parses the data of each occurrence in the json. If omitted, the default constructor will be used (renderer/src/utils/Analysis.js)
+ * - metrics: (optional) Maps the json names of all provided metrics to easier to remember internal names
+ */
 export const ANALYSIS = {
     datatype_conversion: {
         name: 'datatype_conversion',

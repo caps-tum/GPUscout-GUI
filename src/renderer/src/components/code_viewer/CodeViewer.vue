@@ -5,6 +5,7 @@
             :code-type="CODE_TYPE.SOURCE_CODE"
             :highlighted-lines="highlightedSourceLines"
             :highlighted-tokens="highlightedSourceTokens"
+            :occurrence-lines="occurrenceSourceLines"
         />
         <CodeView
             v-if="currentBinary === CODE_TYPE.SASS_CODE"
@@ -12,6 +13,7 @@
             :code-type="CODE_TYPE.SASS_CODE"
             :highlighted-lines="highlightedBinaryLines"
             :highlighted-tokens="highlightedBinaryTokens"
+            :occurrence-lines="occurrenceBinaryLines"
         />
         <CodeView
             v-else
@@ -19,6 +21,7 @@
             :code-type="CODE_TYPE.PTX_CODE"
             :highlighted-lines="highlightedBinaryLines"
             :highlighted-tokens="highlightedBinaryTokens"
+            :occurrence-lines="occurrenceBinaryLines"
         />
     </div>
 </template>
@@ -30,6 +33,9 @@ import { computed } from 'vue';
 
 const dataStore = useDataStore();
 const codeViewStore = useCodeViewerStore();
+
+const occurrenceBinaryLines = computed(() => codeViewStore.getOccurrenceBinaryLines);
+const occurrenceSourceLines = computed(() => codeViewStore.getOccurrenceSourceLines);
 
 const highlightedBinaryLines = computed(() => codeViewStore.getHighlightedBinaryLines);
 const highlightedSourceLines = computed(() => codeViewStore.getHighlightedSourceLines);

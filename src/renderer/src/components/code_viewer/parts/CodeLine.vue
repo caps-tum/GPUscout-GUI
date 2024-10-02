@@ -27,7 +27,8 @@ const props = defineProps({
     lineNumber: [Number, String],
     codeType: Number,
     highlightedLines: Object,
-    highLightedTokens: Object
+    highLightedTokens: Object,
+    isOccurrence: Boolean
 });
 
 const codeViewerStore = useCodeViewerStore();
@@ -40,6 +41,8 @@ function selectLine() {
 function getHighlight() {
     if (props.highlightedLines[props.lineNumber] !== undefined) {
         return props.highlightedLines[props.lineNumber] ? 'bg-green-400' : 'bg-green-200';
+    } else if (props.isOccurrence) {
+        return 'bg-red-400';
     }
     return '';
 }

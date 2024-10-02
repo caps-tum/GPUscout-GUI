@@ -9,7 +9,7 @@ export class Analysis {
     constructor(analysisData, kernel, occurrenceConstructor = (o) => new Occurrence(o)) {
         this._kernel = kernel;
         this._metrics = {};
-        this._occurrences = [];
+        /** @type {Occurrence[]} */ this._occurrences = [];
         this.codeType = CODE_TYPE.NONE;
 
         if (analysisData['metrics']) {
@@ -54,14 +54,13 @@ export class Analysis {
     }
 
     /**
-     * @param {String|Number} lineNumber
-     * @param {Boolean} isSource
+     * @returns {Occurrence}
      */
-    checkOccurrence(lineNumber, isSource) {
-        if (isSource) {
-            return this._occurrences.find((occurrence) => occurrence.sourceLineNumber === lineNumber) || null;
+    getOccurrence(codeType, lineNumber) {
+        if (codeType === CODE_TYPE.SOURCE_CODE) {
+            return this._occurrences.find((o) => o.sourceLineNumber === lineNumber);
         } else {
-            return this._occurrences.find((occurrence) => occurrence.binaryLineNumber === lineNumber) || null;
+            return this._occurrences.find((o) => o.binaryLineNumber === lineNumber);
         }
     }
 
@@ -78,9 +77,10 @@ export class Occurrence {
      * @param occurrenceData The data of this occurrence
      */
     constructor(occurrenceData) {
-        /** @type {Number} */
-        this.sourceLineNumber = occurrenceData['line_number'];
-        /** @type {Number|String} */
-        this.binaryLineNumber = occurrenceData['pc_offset'] || parseInt(occurrenceData['line_number_raw']);
+        /** @type {Number} */ this.sourceLineNumber = occurrenceData['line_number'];
+        /** @type {Number|String} */ this.binaryLineNumber =
+            occurrenceData['pc_offset'] || parseInt(occurrenceData['line_number_raw']);
+
+        this.data = occurrenceData;
     }
 }
