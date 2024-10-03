@@ -23,7 +23,7 @@ export class GPUscoutResult {
             sourceFileContents[newToOldFilename[filePath]] = content.split('\n');
         }
 
-        this._parseSassCode(sassCode);
+        this._parseSassCode(sassCode, sassRegisters);
         this._parsePtxCode(ptxCode);
 
         this._aggregateKernelSourceCode(sourceFileContents);
@@ -215,13 +215,20 @@ export class GPUscoutResult {
     /**
      * Parse the sass code and extract the mapping to the source code
      * @param {String} sassCode The generated sass source code
+     * @param {String} sassRegisters The sass code with register information
      */
-    _parseSassCode(sassCode) {
+    _parseSassCode(sassCode, sassRegisters) {
         let currentSourceLine = -1;
         let currentKernel = '';
         let currentSourceFile = '';
         let currentSassLine = '';
         let lastLineBranch = '';
+        let sassRegisterMap = Object.fromEntries(
+            sassRegisters
+                .split('\n')
+                .filter((line) => line.includes('/*'))
+                .map((line) => [line.substring(line.indexOf('/*') + 2, line.indexOf('*/')), line])
+        );
 
         for (let line of sassCode.split('\n')) {
             if (currentSourceLine === -1 && !line.startsWith('.text')) {
@@ -244,7 +251,8 @@ export class GPUscoutResult {
                     tokens: line
                         .trim()
                         .split(/([,.:[\]() ])/)
-                        .filter((token) => token.length > 0)
+                        .filter((token) => token.length > 0),
+                    liveRegisters: [0, 0]
                 });
             } else if (line.includes('//##')) {
                 // //## File "FILE_PATH", line LINE_NUMBER
@@ -258,6 +266,7 @@ export class GPUscoutResult {
                 // OR
                 // .LABEL:
                 let address = '';
+                let liveRegisters = [];
                 if (line.includes('/*')) {
                     address = line.substring(line.indexOf('/*') + 2, line.indexOf('*/'));
                     line = line.replace(/\/\*.*\*\//, '');
@@ -272,6 +281,13 @@ export class GPUscoutResult {
                             address;
                         lastLineBranch = '';
                     }
+
+                    if (sassRegisterMap[address]) {
+                        liveRegisters = sassRegisterMap[address]
+                            .split('|')
+                            .filter((_, i) => i === 1 || i === 2)
+                            .map((e) => parseInt(e.trim() || '0'));
+                    }
                 } else if (line.endsWith(':')) {
                     address = line.substring(0, line.length - 1);
                     lastLineBranch = line.substring(0, line.length - 1);
@@ -282,7 +298,8 @@ export class GPUscoutResult {
                     tokens: line
                         .trim()
                         .split(/([,.:[\]() ])/)
-                        .filter((token) => token.length > 0)
+                        .filter((token) => token.length > 0),
+                    liveRegisters: liveRegisters
                 });
             } else {
                 // We are at the end of a kernel
