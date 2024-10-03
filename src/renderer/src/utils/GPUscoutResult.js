@@ -4,6 +4,7 @@ import { Analysis } from './Analysis';
 export class GPUscoutResult {
     constructor(resultData, sassCode, sassRegisters, ptxCode, sourceCodes) {
         const resultJSON = JSON.parse(resultData);
+        console.log(resultJSON);
 
         this.analyses = {};
         this.kernels = [];

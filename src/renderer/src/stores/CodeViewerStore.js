@@ -57,7 +57,6 @@ export const useCodeViewerStore = defineStore('codeViewer', () => {
     }
 
     function setOccurrenceLines(sourceLines, binaryLines) {
-        console.log(sourceLines, binaryLines);
         resetOccurrenceLines();
         occurrenceSourceLines.value = sourceLines;
         occurrenceBinaryLines.value = binaryLines;
