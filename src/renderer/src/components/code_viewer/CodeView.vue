@@ -7,19 +7,28 @@
             :line-number="line.address"
             :code-type="codeType"
             :highlighted-lines="highlightedLines"
-            :high-lighted-tokens="highlightedTokens"
+            :highlighted-tokens="highlightedTokens"
             :is-occurrence="occurrenceLines.includes(line.address)"
+            :current-view="currentView"
+            :selected-occurrence="selectedOccurrence"
         />
     </div>
 </template>
 <script setup>
+import { useDataStore } from '../../stores/DataStore';
 import CodeLine from './parts/CodeLine.vue';
+import { computed } from 'vue';
 
 defineProps({
     codeType: Number,
     codeLines: Array,
     highlightedLines: Object,
     highlightedTokens: Object,
-    occurrenceLines: Array
+    occurrenceLines: Array,
+    currentView: Number
 });
+
+const dataStore = useDataStore();
+
+const selectedOccurrence = computed(() => dataStore.getCurrentOccurrence);
 </script>

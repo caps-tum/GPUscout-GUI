@@ -18,6 +18,8 @@ function getOccurrenceString() {
             resultString += `\n- ${key}: ${value}`;
         }
         return resultString;
+    } else if (!props.selectedLine) {
+        return 'No line selected';
     }
     return 'No info available for this code line. Select a highlighted line in the binary code to get information.';
 }

@@ -66,17 +66,23 @@ export const useCodeViewerStore = defineStore('codeViewer', () => {
      * @param {String|Number} line The line number to select
      */
     function setSelectedLine(line) {
-        selectedLine.value = line;
         resetHighlights();
+        if (selectedLine.value === line) {
+            selectedLine.value = '';
+            dataStore.setCurrentOccurrence(currentView.value, '');
+            return;
+        }
+        selectedLine.value = line;
 
         // Highlight the current line in the current code view and the corresponding lines in the other code view
         if (currentView.value === CODE_TYPE.SASS_CODE) {
             highlightedBinaryLines.value[line] = true;
             highlightedSourceLines.value[dataStore.getGPUscoutResult().getSassToSourceLine(currentKernel.value, line)] =
-                true;
+                false;
         } else if (currentView.value === CODE_TYPE.PTX_CODE) {
             highlightedBinaryLines.value[line] = true;
-            highlightedSourceLines.value[dataStore.getGPUscoutResult().getPtxToSourceLine(currentKernel.value, line)] = true;
+            highlightedSourceLines.value[dataStore.getGPUscoutResult().getPtxToSourceLine(currentKernel.value, line)] =
+                false;
         } else if (currentView.value === CODE_TYPE.SOURCE_CODE) {
             highlightedSourceLines.value[line] = true;
             const lines =
@@ -84,7 +90,7 @@ export const useCodeViewerStore = defineStore('codeViewer', () => {
                     ? dataStore.getGPUscoutResult().getSourceToSassLines(currentKernel.value, line)
                     : dataStore.getGPUscoutResult().getSourceToPtxLines(currentKernel.value, line);
             for (const line of lines) {
-                highlightedBinaryLines.value[line] = true;
+                highlightedBinaryLines.value[line] = false;
             }
         }
 

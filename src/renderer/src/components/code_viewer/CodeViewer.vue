@@ -6,6 +6,7 @@
             :highlighted-lines="highlightedSourceLines"
             :highlighted-tokens="highlightedSourceTokens"
             :occurrence-lines="occurrenceSourceLines"
+            :current-view="currentView"
         />
         <CodeView
             v-if="currentBinary === CODE_TYPE.SASS_CODE"
@@ -14,6 +15,7 @@
             :highlighted-lines="highlightedBinaryLines"
             :highlighted-tokens="highlightedBinaryTokens"
             :occurrence-lines="occurrenceBinaryLines"
+            :current-view="currentView"
         />
         <CodeView
             v-else
@@ -22,6 +24,7 @@
             :highlighted-lines="highlightedBinaryLines"
             :highlighted-tokens="highlightedBinaryTokens"
             :occurrence-lines="occurrenceBinaryLines"
+            :current-view="currentView"
         />
     </div>
 </template>
@@ -45,4 +48,5 @@ const highlightedSourceTokens = computed(() => codeViewStore.getHighlightedSourc
 
 const currentKernel = computed(() => dataStore.getCurrentKernel);
 const currentBinary = computed(() => codeViewStore.getCurrentBinary);
+const currentView = computed(() => codeViewStore.getCurrentView);
 </script>
