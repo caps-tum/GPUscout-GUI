@@ -1,15 +1,18 @@
 import { defineStore } from 'pinia';
 import { GPUscoutResult } from '../utils/GPUscoutResult';
 import { computed, ref } from 'vue';
-import { useCodeViewerStore } from './CodeViewerStore';
+import { CODE_TYPE, useCodeViewerStore } from './CodeViewerStore';
+import { ANALYSIS } from '../../../config/analyses';
 
 export const useDataStore = defineStore('data', () => {
     const codeViewerStore = useCodeViewerStore();
 
+    /** @type {GPUscoutResult} */
     let gpuscoutResult;
 
     const currentKernel = ref('');
     const currentAnalysis = ref('');
+    const currentOccurrence = ref(null);
 
     /** @returns {GPUscoutResult} */
     const getGPUscoutResult = () => gpuscoutResult;
@@ -20,6 +23,7 @@ export const useDataStore = defineStore('data', () => {
 
     const getCurrentKernel = computed(() => currentKernel.value);
     const getCurrentAnalysis = computed(() => currentAnalysis.value);
+    const getCurrentOccurrence = computed(() => currentOccurrence.value);
 
     /**
      * Initialize the store with the data from GPUscout
@@ -64,10 +68,28 @@ export const useDataStore = defineStore('data', () => {
     function setCurrentAnalysis(analysis) {
         currentAnalysis.value = analysis;
         const occurrences = gpuscoutResult.getAnalysis(analysis, currentKernel.value).getOccurrences();
+
+        codeViewerStore.setCurrentBinary(ANALYSIS[analysis].use_sass ? CODE_TYPE.SASS_CODE : CODE_TYPE.PTX_CODE);
+        codeViewerStore.updateSelectedLine();
         codeViewerStore.setOccurrenceLines(
             occurrences.map((o) => o.sourceLineNumber),
             occurrences.map((o) => o.binaryLineNumber)
         );
+    }
+
+    /**
+     * @param {String} kernel The kernel to switch to
+     */
+    function setCurrentKernel(kernel) {
+        currentKernel.value = kernel;
+        setCurrentAnalysis(currentAnalysis.value);
+        codeViewerStore.updateSelectedLine();
+    }
+
+    function setCurrentOccurrence(codeType, lineNumber) {
+        currentOccurrence.value = gpuscoutResult
+            .getAnalysis(currentAnalysis.value, currentKernel.value)
+            .getOccurrence(codeType, lineNumber);
     }
 
     return {
@@ -75,8 +97,11 @@ export const useDataStore = defineStore('data', () => {
         getCurrentAnalysis,
         getCurrentKernel,
         getGPUscoutResult,
+        getCurrentOccurrence,
         getAnalyses,
         getKernels,
-        initialize
+        initialize,
+        setCurrentOccurrence,
+        setCurrentKernel
     };
 });

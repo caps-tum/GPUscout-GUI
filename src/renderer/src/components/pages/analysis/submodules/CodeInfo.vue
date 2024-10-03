@@ -6,9 +6,17 @@
         :selected-line="selectedLine"
         :occurrence="occurrence"
     />
+    <CodeInfoDefault
+        v-else
+        :kernel="kernel"
+        :current-view="currentView"
+        :selected-line="selectedLine"
+        :occurrence="occurrence"
+    />
 </template>
 <script setup>
 import CodeInfoWarpDivergence from './warp_divergence/CodeInfoWarpDivergence.vue';
+import CodeInfoDefault from './default/CodeInfoDefault.vue';
 import { computed } from 'vue';
 import { useCodeViewerStore } from '../../../../stores/CodeViewerStore';
 import { ANALYSIS } from '../../../../../../config/analyses';

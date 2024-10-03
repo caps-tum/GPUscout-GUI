@@ -49,6 +49,10 @@ export class UseRestrictOccurrence extends Occurrence {
         /** @type {Number} */ this.usedRegisters = occurrenceData['used_register_count'] || 0;
         /** @type {Number} */ this.registerPressureIncrease = occurrenceData['register_pressure_increase'] || 0;
     }
+
+    tokensToHighlight() {
+        return [this.register];
+    }
 }
 
 export class UseSharedOccurrence extends Occurrence {

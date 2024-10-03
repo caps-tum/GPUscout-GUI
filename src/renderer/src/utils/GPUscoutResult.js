@@ -139,12 +139,20 @@ export class GPUscoutResult {
             }
             if (line.includes('.visible')) {
                 // .visible .entry KERNEL_NAME(
-                currentSourceLine = -1;
+                currentSourceLine = 0;
                 currentPtxLine = 1;
                 currentKernel = line.split(' ').at(-1).replace('(', '');
 
                 this.ptxToSourceLines[currentKernel] = {};
                 this.ptxCodeLines[currentKernel] = [];
+
+                this.ptxCodeLines[currentKernel].push({
+                    address: currentPtxLine++,
+                    tokens: line
+                        .slice(0, -1)
+                        .split(/([, :;.])/)
+                        .filter((token) => token.length > 0)
+                });
             } else if (line.startsWith('.loc')) {
                 // .loc	1 3 0
                 // OR
@@ -169,7 +177,7 @@ export class GPUscoutResult {
                     }
                 }
                 isInFileDefinitions = true;
-            } else if (line !== '') {
+            } else {
                 if (isInFileDefinitions) continue;
                 // OPERATION PARAM1, PARAM2, ...;
                 // OR
@@ -224,10 +232,19 @@ export class GPUscoutResult {
                 currentSourceLine = 0;
                 currentSassLine = '';
                 currentKernel = line.replace('.text.', '').replace(':', '');
+                lastLineBranch = '';
 
                 this.sassToSourceLines[currentKernel] = {};
                 this.sassCodeLines[currentKernel] = [];
                 this.kernels.push(currentKernel);
+
+                this.sassCodeLines[currentKernel].push({
+                    address: '0000',
+                    tokens: line
+                        .trim()
+                        .split(/([,.:[\]() ])/)
+                        .filter((token) => token.length > 0)
+                });
             } else if (line.includes('//##')) {
                 // //## File "FILE_PATH", line LINE_NUMBER
                 const sourceLine = parseInt(line.split(' ').at(-1));

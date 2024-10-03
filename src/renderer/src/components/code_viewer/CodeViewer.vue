@@ -1,5 +1,5 @@
 <template>
-    <div class="grid h-full w-full grid-cols-[50%_50%] grid-rows-1 space-x-1 overflow-y-auto overflow-x-hidden">
+    <div class="grid h-full w-full grid-cols-[50%_50%] grid-rows-1 space-x-1 overflow-y-auto overflow-x-hidden rounded">
         <CodeView
             :code-lines="dataStore.getGPUscoutResult().getSourceCodeLines(currentKernel)"
             :code-type="CODE_TYPE.SOURCE_CODE"

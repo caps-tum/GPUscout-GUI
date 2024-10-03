@@ -1,6 +1,1 @@
-export const SOURCE_CODE_COLORS = {
-  BLUE: 'text-blue-800',
-  RED: 'text-red-800',
-  ORANGE: 'text-orange-800',
-  DEFAULT: 'text-black'
-};
+export const BINARY_TOKEN_HIGHLIGHT_COLORS = ['text-red-400', 'text-yellow-400', 'text-purple-400'];

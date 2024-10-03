@@ -1,5 +1,5 @@
 <template>
-    <div class="relative flex h-full w-full flex-col overflow-x-auto">
+    <div class="relative flex h-full w-full flex-col overflow-x-auto bg-secondary/50">
         <CodeLine
             v-for="line in codeLines"
             :key="line.address"

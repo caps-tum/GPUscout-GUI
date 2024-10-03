@@ -14,7 +14,7 @@ export class Analysis {
 
         if (analysisData['metrics']) {
             for (const [jsonMetricName, metricValue] of Object.entries(analysisData['metrics'])) {
-                if (typeof metricValue === Object) {
+                if (typeof metricValue === 'object') {
                     for (const [deepJsonMetricName, deepMetricValue] of Object.entries(metricValue)) {
                         this._metrics[`${jsonMetricName}/${deepJsonMetricName}`] = deepMetricValue;
                     }
@@ -82,5 +82,13 @@ export class Occurrence {
             occurrenceData['pc_offset'] || parseInt(occurrenceData['line_number_raw']);
 
         this.data = occurrenceData;
+    }
+
+    linesToHighlight() {
+        return [];
+    }
+
+    tokensToHighlight() {
+        return [];
     }
 }

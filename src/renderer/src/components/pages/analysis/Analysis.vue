@@ -1,6 +1,6 @@
 <template>
-    <div class="flex h-full w-full flex-col">
-        <div class="h-72 shrink-0">
+    <div class="flex h-full w-full flex-col space-y-2">
+        <div class="min-h-72 shrink-0">
             <TopSection :analysis="currentAnalysis" :kernel="currentKernel" />
         </div>
         <div class="flex flex-grow-0 space-x-2 overflow-x-hidden">
@@ -24,20 +24,11 @@ import CodeInfo from './submodules/CodeInfo.vue';
 import TopSection from './submodules/TopSection.vue';
 import { useDataStore } from '../../../stores/DataStore';
 import { computed } from 'vue';
-import { useCodeViewerStore } from '../../../stores/CodeViewerStore';
 
 const dataStore = useDataStore();
-const codeViewerStore = useCodeViewerStore();
 
 const currentKernel = computed(() => dataStore.getCurrentKernel);
 const currentAnalysis = computed(() => dataStore.getCurrentAnalysis);
 
-const currentView = computed(() => codeViewerStore.getCurrentView);
-const selectedLine = computed(() => codeViewerStore.getSelectedLine);
-const selectedOccurrence = computed(() =>
-    dataStore
-        .getGPUscoutResult()
-        .getAnalysis(currentAnalysis.value, currentKernel.value)
-        .getOccurrence(currentView.value, selectedLine.value)
-);
+const selectedOccurrence = computed(() => dataStore.getCurrentOccurrence);
 </script>
