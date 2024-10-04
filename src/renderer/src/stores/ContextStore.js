@@ -8,17 +8,37 @@ export const CONTEXT = {
     CODE_VIEW: 3
 };
 
+export const POPUP = {
+    METRIC_HELP: 0
+};
+
 export const useContextStore = defineStore('context', () => {
     const currentContext = ref(CONTEXT.NONE);
+    const activePopups = ref([]);
+    const popupParameters = ref({});
 
     const getCurrentContext = computed(() => currentContext.value);
+    const getActivePopups = computed(() => activePopups.value);
+    const getPopupParameters = computed(() => popupParameters.value);
 
     function setCurrentContext(context) {
         currentContext.value = context;
     }
 
+    function togglePopup(popup, show = true, parameters = {}) {
+        if (show && !activePopups.value.includes(popup)) {
+            popupParameters.value = parameters;
+            activePopups.value.push(popup);
+        } else if (!show && activePopups.value.includes(popup)) {
+            activePopups.value.splice(activePopups.value.indexOf(popup), 1);
+        }
+    }
+
     return {
         getCurrentContext,
-        setCurrentContext
+        setCurrentContext,
+        getActivePopups,
+        togglePopup,
+        getPopupParameters
     };
 });

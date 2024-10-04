@@ -1,5 +1,8 @@
 <template>
     <div class="relative flex h-full w-full flex-col overflow-x-auto bg-secondary/50">
+        <p v-if="codeType === CODE_TYPE.SOURCE_CODE">Source Code</p>
+        <p v-else-if="codeType === CODE_TYPE.SASS_CODE">SASS Code</p>
+        <p v-if="codeType === CODE_TYPE.PTX_CODE">PTX Code</p>
         <CodeLine
             v-for="line in codeLines"
             :key="line.address"
@@ -15,6 +18,7 @@
     </div>
 </template>
 <script setup>
+import { CODE_TYPE } from '../../stores/CodeViewerStore';
 import { useDataStore } from '../../stores/DataStore';
 import CodeLine from './parts/CodeLine.vue';
 import { computed } from 'vue';
@@ -32,3 +36,12 @@ const dataStore = useDataStore();
 
 const selectedOccurrence = computed(() => dataStore.getCurrentOccurrence);
 </script>
+<style scoped>
+p {
+    @apply sticky top-0 z-10 bg-secondary text-center text-text;
+}
+
+div {
+    scrollbar-color: rgb(150, 142, 224) transparent;
+}
+</style>

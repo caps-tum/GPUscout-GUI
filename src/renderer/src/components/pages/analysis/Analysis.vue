@@ -3,7 +3,9 @@
         <div class="min-h-72 shrink-0">
             <TopSection :analysis="currentAnalysis" :kernel="currentKernel" />
         </div>
-        <div class="flex flex-grow-0 space-x-2 overflow-x-hidden">
+        <p class="text-xl text-text">Code View</p>
+        <p class="!-mb-1 !-mt-1 text-sm text-text/50">Here you can see the code</p>
+        <div class="flex flex-grow-0 flex-row space-x-2 overflow-x-hidden">
             <CodeViewer />
             <div class="flex h-full w-1/3 flex-col">
                 <div class="w-full flex-grow">

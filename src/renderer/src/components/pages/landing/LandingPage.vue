@@ -1,16 +1,16 @@
 <template>
     <div class="flex h-full w-full flex-col items-center justify-center">
-        <div class="flex flex-row space-x-1">
-            <label>GPUScout output directory:</label>
-            <input
-                :value="config['gpuscoutOutputFolder']"
-                type="text"
-                class="bg-red-400"
-                @change="changeGPUScoutOutputFolder"
-            />
-            <button @click="selectFolder">Choose Folder</button>
-        </div>
-        <div class="w-1/2">
+        <div class="flex max-h-full w-1/2 flex-col">
+            <div class="flex flex-row space-x-1">
+                <label>GPUScout output directory:</label>
+                <input
+                    :value="config['gpuscoutOutputFolder']"
+                    type="text"
+                    class="bg-red-400"
+                    @change="changeGPUScoutOutputFolder"
+                />
+                <button @click="selectFolder">Choose Folder</button>
+            </div>
             <SelectAnalysis
                 :contains-selected-analysis="selectedAnalysisSource === 'FILE'"
                 @analysis-selected="onAnalysisSelected"

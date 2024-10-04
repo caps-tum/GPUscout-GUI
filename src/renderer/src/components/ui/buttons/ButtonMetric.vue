@@ -6,17 +6,27 @@
             <p v-if="!useCustomFormat" class="text-lg">{{ data.format_function(value) }}</p>
             <p v-else class="text-lg">{{ value }}</p>
         </a>
-        <ButtonHelp v-if="data.help_text" class="absolute right-2 top-2" />
+        <ButtonHelp v-if="data.help_text" class="absolute right-2 top-2" @click="showHelpPopup" />
     </div>
 </template>
 <script setup>
+import { POPUP, useContextStore } from '../../../stores/ContextStore';
 import ButtonHelp from './ButtonHelp.vue';
 
-defineProps({
+const props = defineProps({
     data: Object,
     value: [Number, String],
     useCustomFormat: Boolean
 });
 
 const emit = defineEmits(['click']);
+
+const contextStore = useContextStore();
+
+function showHelpPopup() {
+    contextStore.togglePopup(POPUP.METRIC_HELP, true, {
+        metricName: props.data.display_name,
+        helpText: props.data.help_text
+    });
+}
 </script>
