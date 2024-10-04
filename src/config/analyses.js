@@ -26,7 +26,8 @@ export const ANALYSIS = {
         metrics: {
             warp_stalls_tex_throttle_percent: 'smsp__warp_issue_stalled_tex_throttle_per_warp_active',
             warp_stalls_mio_throttle_percent: 'smsp__warp_issue_stalled_mio_throttle_per_warp_active',
-            warp_stalls_short_scoreboard_percent: 'smsp__warp_issue_stalled_short_scoreboard_per_warp_active'
+            warp_stalls_short_scoreboard_percent: 'smsp__warp_issue_stalled_short_scoreboard_per_warp_active',
+            warps_active: 'smsp__warps_active'
         }
     },
     deadlock_detection: {

@@ -12,8 +12,12 @@
                     <CodeInfo :analysis="currentAnalysis" :kernel="currentKernel" :occurrence="selectedOccurrence" />
                 </div>
                 <div class="flex w-full flex-row justify-around space-x-2">
-                    <ButtonSecondary class="text-center" title="Select previous occurrence" />
-                    <ButtonSecondary class="text-center" title="Select next occurrence" />
+                    <ButtonSecondary
+                        class="text-center"
+                        title="Select previous occurrence"
+                        @click="selectPreviousOccurrence"
+                    />
+                    <ButtonSecondary class="text-center" title="Select next occurrence" @click="selectNextOccurrence" />
                 </div>
             </div>
         </div>
@@ -26,11 +30,21 @@ import CodeInfo from './submodules/CodeInfo.vue';
 import TopSection from './submodules/TopSection.vue';
 import { useDataStore } from '../../../stores/DataStore';
 import { computed } from 'vue';
+import { CODE_TYPE, useCodeViewerStore } from '../../../stores/CodeViewerStore';
+import { ANALYSIS } from '../../../../../config/analyses';
 
 const dataStore = useDataStore();
+const codeViewerStore = useCodeViewerStore();
 
 const currentKernel = computed(() => dataStore.getCurrentKernel);
 const currentAnalysis = computed(() => dataStore.getCurrentAnalysis);
 
 const selectedOccurrence = computed(() => dataStore.getCurrentOccurrence);
+const occurrences = computed(() =>
+    dataStore.getGPUscoutResult().getAnalysis(currentAnalysis.value, currentKernel.value).getOccurrences()
+);
+
+function selectPreviousOccurrence() {}
+
+function selectNextOccurrence() {}
 </script>

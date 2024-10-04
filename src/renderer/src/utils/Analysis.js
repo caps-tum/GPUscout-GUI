@@ -39,8 +39,8 @@ export class Analysis {
     }
 
     /**
-     * @param metric The name of the metric
-     * @returns {Number}
+     * @param {String} metric The name of the metric
+     * @returns {Number} The value of the metric
      */
     getMetric(metric) {
         return this._metrics[metric] || 0;
