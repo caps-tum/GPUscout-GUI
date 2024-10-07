@@ -91,4 +91,12 @@ export class Occurrence {
     tokensToHighlight() {
         return [];
     }
+
+    description() {
+        let resultString = 'Problem found:';
+        for (const [key, value] of Object.entries(this.data)) {
+            resultString += `\n- ${key}: ${value}`;
+        }
+        return resultString;
+    }
 }

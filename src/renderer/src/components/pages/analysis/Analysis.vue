@@ -26,23 +26,17 @@
 <script setup>
 import CodeViewer from '../../code_viewer/CodeViewer.vue';
 import ButtonSecondary from '../../ui/buttons/ButtonSecondary.vue';
-import CodeInfo from './submodules/CodeInfo.vue';
-import TopSection from './submodules/TopSection.vue';
+import CodeInfo from './CodeInfo.vue';
+import TopSection from './TopSection.vue';
 import { useDataStore } from '../../../stores/DataStore';
 import { computed } from 'vue';
-import { CODE_TYPE, useCodeViewerStore } from '../../../stores/CodeViewerStore';
-import { ANALYSIS } from '../../../../../config/analyses';
 
 const dataStore = useDataStore();
-const codeViewerStore = useCodeViewerStore();
 
 const currentKernel = computed(() => dataStore.getCurrentKernel);
 const currentAnalysis = computed(() => dataStore.getCurrentAnalysis);
 
 const selectedOccurrence = computed(() => dataStore.getCurrentOccurrence);
-const occurrences = computed(() =>
-    dataStore.getGPUscoutResult().getAnalysis(currentAnalysis.value, currentKernel.value).getOccurrences()
-);
 
 function selectPreviousOccurrence() {}
 

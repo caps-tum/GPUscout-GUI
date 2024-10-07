@@ -6,6 +6,10 @@ export class DatatypeConversionOccurrence extends Occurrence {
 
         /** @type {String} */ this.type = occurrenceData['type'];
     }
+
+    description() {
+        return `Datatype converion found in the current line. Type of the conversion: ${this.type}.`;
+    }
 }
 
 export class GlobalAtomicsOccurrence extends Occurrence {

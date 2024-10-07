@@ -9,11 +9,11 @@
     </MetricSection>
 </template>
 <script setup>
-import ButtonMetric from '../../../../ui/buttons/ButtonMetric.vue';
-import MetricSection from '../../../../ui/sections/MetricSection.vue';
-import { useDataStore } from '../../../../../stores/DataStore';
+import ButtonMetric from '../../../ui/buttons/ButtonMetric.vue';
+import MetricSection from '../../../ui/sections/MetricSection.vue';
+import { useDataStore } from '../../../../stores/DataStore';
 import { computed } from 'vue';
-import { getMetricsData } from '../../../../../utils/formatters';
+import { getMetricsData } from '../../../../utils/formatters';
 
 const props = defineProps({
     kernel: String,

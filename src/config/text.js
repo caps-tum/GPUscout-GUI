@@ -1,6 +1,11 @@
 export const TEXT = {
     analyses: {
         general: {
+            code_info: {
+                no_line_selected: 'No line selected',
+                no_info:
+                    'No information available for this line. Select a highlighted line in the code to get further information'
+            },
             warp_stall_analysis: {
                 title: 'Warp stall analysis',
                 hint: 'Warp stall analysis hint'

@@ -70,14 +70,14 @@
     </MetricSection>
 </template>
 <script setup>
-import MetricSection from '../../../../ui/sections/MetricSection.vue';
-import ButtonGroup from '../../../../ui/buttons/buttongroup/ButtonGroup.vue';
-import ButtonMetric from '../../../../ui/buttons/ButtonMetric.vue';
-import { useDataStore } from '../../../../../stores/DataStore';
+import MetricSection from '../../../ui/sections/MetricSection.vue';
+import ButtonGroup from '../../../ui/buttons/buttongroup/ButtonGroup.vue';
+import ButtonMetric from '../../../ui/buttons/ButtonMetric.vue';
+import { useDataStore } from '../../../../stores/DataStore';
 import { computed, ref } from 'vue';
-import { ANALYSIS } from '../../../../../../../config/analyses';
-import { TEXT } from '../../../../../../../config/text';
-import { getMetricsData } from '../../../../../utils/formatters';
+import { ANALYSIS } from '../../../../../../config/analyses';
+import { TEXT } from '../../../../../../config/text';
+import { getMetricsData } from '../../../../utils/formatters';
 
 const CONVERSION_TYPE = {
     ALL: 1,
