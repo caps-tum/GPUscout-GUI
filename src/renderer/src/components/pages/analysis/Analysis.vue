@@ -30,15 +30,34 @@ import CodeInfo from './CodeInfo.vue';
 import TopSection from './TopSection.vue';
 import { useDataStore } from '../../../stores/DataStore';
 import { computed } from 'vue';
+import { useCodeViewerStore } from '../../../stores/CodeViewerStore';
 
 const dataStore = useDataStore();
+const codeViewerStore = useCodeViewerStore();
 
 const currentKernel = computed(() => dataStore.getCurrentKernel);
 const currentAnalysis = computed(() => dataStore.getCurrentAnalysis);
+const selectedLine = computed(() => codeViewerStore.getSelectedLine);
+const binaryView = computed(() => codeViewerStore.getCurrentBinary);
 
 const selectedOccurrence = computed(() => dataStore.getCurrentOccurrence);
+const occurrences = computed(() =>
+    dataStore.getGPUscoutResult().getAnalysis(currentAnalysis.value, currentKernel.value).getOccurrences()
+);
 
-function selectPreviousOccurrence() {}
+function selectPreviousOccurrence() {
+    const currentIndex = occurrences.value.findLastIndex((o) => o.binaryLineNumber < selectedLine.value);
+    if (currentIndex >= 0) {
+        codeViewerStore.setCurrentView(binaryView.value);
+        codeViewerStore.setSelectedLine(occurrences.value[currentIndex].binaryLineNumber);
+    }
+}
 
-function selectNextOccurrence() {}
+function selectNextOccurrence() {
+    const currentIndex = occurrences.value.findIndex((o) => o.binaryLineNumber > selectedLine.value);
+    if (currentIndex >= 0) {
+        codeViewerStore.setCurrentView(binaryView.value);
+        codeViewerStore.setSelectedLine(occurrences.value[currentIndex].binaryLineNumber);
+    }
+}
 </script>
