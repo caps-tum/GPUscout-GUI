@@ -1,10 +1,10 @@
 import { ANALYSIS } from '../../../config/analyses';
+import { CODE_TYPE } from '../stores/CodeViewerStore';
 import { Analysis } from './Analysis';
 
 export class GPUscoutResult {
     constructor(resultData, sassCode, sassRegisters, ptxCode, sourceCodes) {
         const resultJSON = JSON.parse(resultData);
-        console.log(resultJSON);
 
         this.analyses = {};
         this.kernels = [];
@@ -59,6 +59,33 @@ export class GPUscoutResult {
         return Object.keys(this.analyses).filter(
             (analysis) => Object.entries(this.analyses[analysis]).filter(([, a]) => a.getOccurrences().length > 0).length > 0
         );
+    }
+
+    /**
+     * TODO: handle branch entry that is multiline
+     * @param {String} kernel
+     * @param {String} codeType
+     * @param {String|Number} lineNumber
+     * @returns {String[]}
+     */
+    getInstructionTokens(kernel, codeType, lineNumber) {
+        if (codeType === CODE_TYPE.SASS_CODE) {
+            let tokens = this.sassCodeLines[kernel].find((line) => line.address === lineNumber).tokens;
+            if (tokens.length > 0 && tokens[0] === '{') {
+                tokens = tokens.filter((_, i) => i >= tokens.findIndex((t) => t !== ' ' && t !== '{'));
+            } else if (tokens.length > 0 && tokens[0].startsWith('@')) {
+                tokens = tokens.filter((_, i) => i > 1);
+            }
+            let index = tokens.findIndex((t) => t === ' ');
+            return tokens.filter((tok, i) => tok !== '.' && i < (index > 0 ? index : tokens.length));
+        } else {
+            let tokens = this.ptxCodeLines[kernel].find((line) => line.address === lineNumber).tokens;
+            if (tokens.length > 0 && tokens[0].startsWith('@')) {
+                tokens = tokens.filter((_, i) => i > 1);
+            }
+            let index = tokens.findIndex((t) => t === ' ');
+            return tokens.filter((tok, i) => tok !== '.' && i < (index > 0 ? index : tokens.length));
+        }
     }
 
     /**

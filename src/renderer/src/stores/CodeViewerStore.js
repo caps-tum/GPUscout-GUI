@@ -94,9 +94,23 @@ export const useCodeViewerStore = defineStore('codeViewer', () => {
             }
         }
 
+        highlightedBinaryTokens.value[line] = {};
+        for (const token of dataStore
+            .getGPUscoutResult()
+            .getInstructionTokens(currentKernel.value, currentView.value, line)) {
+            highlightedBinaryTokens.value[line][token] = BINARY_TOKEN_HIGHLIGHT_COLORS[0];
+        }
+
         dataStore.setCurrentOccurrence(currentView.value, line);
         if (!currentOccurrence.value) {
             return;
+        }
+
+        highlightedBinaryTokens.value[line] = {};
+        for (const token of dataStore
+            .getGPUscoutResult()
+            .getInstructionTokens(currentKernel.value, currentView.value, line)) {
+            highlightedBinaryTokens.value[line][token] = BINARY_TOKEN_HIGHLIGHT_COLORS[0];
         }
 
         for (const token of currentOccurrence.value.tokensToHighlight()) {
