@@ -46,32 +46,46 @@
     <MetricSection
         :title="TEXT.analyses.general.warp_stall_analysis.title"
         :hint="TEXT.analyses.general.warp_stall_analysis.hint"
+        :help-string="selectedStallHelp"
     >
         <ButtonMetric
             :value="analysisData.getMetric(ANALYSIS.datatype_conversion.metrics.warps_active)"
             :data="getMetricsData(ANALYSIS.datatype_conversion.metrics.warps_active)"
+            @click="selectedStallHelp = TEXT.analyses.general.warp_stall_analysis.help_strings.total_stalls"
         />
         <ButtonMetric
             :value="analysisData.getMetric(ANALYSIS.datatype_conversion.metrics.warp_stalls_short_scoreboard_percent)"
             :data="getMetricsData(ANALYSIS.datatype_conversion.metrics.warp_stalls_short_scoreboard_percent)"
             :total-stalls="analysisData.getMetric(ANALYSIS.datatype_conversion.metrics.warps_active)"
+            @click="
+                selectedStallHelp =
+                    TEXT.analyses.datatype_conversion.top_section.warp_stall_analysis.help_strings.short_scoreboard
+            "
         />
         <ButtonMetric
             :value="analysisData.getMetric(ANALYSIS.datatype_conversion.metrics.warp_stalls_mio_throttle_percent)"
             :data="getMetricsData(ANALYSIS.datatype_conversion.metrics.warp_stalls_mio_throttle_percent)"
             :total-stalls="analysisData.getMetric(ANALYSIS.datatype_conversion.metrics.warps_active)"
+            @click="
+                selectedStallHelp =
+                    TEXT.analyses.datatype_conversion.top_section.warp_stall_analysis.help_strings.mio_throttle
+            "
         />
         <ButtonMetric
             v-show="selectedConversionType === CONVERSION_TYPE.ALL || selectedConversionType === CONVERSION_TYPE.F2F"
             :value="analysisData.getMetric(ANALYSIS.datatype_conversion.metrics.warp_stalls_tex_throttle_percent)"
             :data="getMetricsData(ANALYSIS.datatype_conversion.metrics.warp_stalls_tex_throttle_percent)"
             :total-stalls="analysisData.getMetric(ANALYSIS.datatype_conversion.metrics.warps_active)"
+            @click="
+                selectedStallHelp =
+                    TEXT.analyses.datatype_conversion.top_section.warp_stall_analysis.help_strings.tex_throttle
+            "
         />
     </MetricSection>
 </template>
 <script setup>
 import MetricSection from '../../../ui/sections/MetricSection.vue';
-import ButtonGroup from '../../../ui/buttons/buttongroup/ButtonGroup.vue';
+import ButtonGroup from '../../../ui/buttons/ButtonGroup.vue';
 import ButtonMetric from '../../../ui/buttons/ButtonMetric.vue';
 import { useDataStore } from '../../../../stores/DataStore';
 import { computed, ref } from 'vue';
@@ -98,6 +112,7 @@ const analysisData = computed(() =>
 const occurrences = computed(() => analysisData.value.getOccurrences());
 
 const selectedConversionType = ref(CONVERSION_TYPE.ALL);
+const selectedStallHelp = ref('');
 
 function onSelectConversionType(type) {
     selectedConversionType.value = type;

@@ -5,7 +5,7 @@
         <div class="flex flex-row flex-wrap gap-x-2 gap-y-2">
             <slot></slot>
         </div>
-        <p v-if="helpString" class="text-text">{{ helpString }}</p>
+        <p v-if="helpString" class="text-sm text-text/50">{{ helpString }}</p>
     </div>
 </template>
 <script setup>

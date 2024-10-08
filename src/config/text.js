@@ -8,7 +8,10 @@ export const TEXT = {
             },
             warp_stall_analysis: {
                 title: 'Warp stall analysis',
-                hint: 'Warp stall analysis hint'
+                hint: 'Warp stall analysis hint',
+                help_strings: {
+                    total_stalls: 'The total number of stalls should be kept as low as possible'
+                }
             }
         },
         datatype_conversion: {
@@ -33,6 +36,13 @@ export const TEXT = {
                             title: 'F2I',
                             hint: 'Float-to-Integer conversions'
                         }
+                    }
+                },
+                warp_stall_analysis: {
+                    help_strings: {
+                        short_scoreboard: 'Short scoreboard stalls should be kept as low as possible',
+                        mio_throttle: 'Mio throttle stalls should be kept as low as possible',
+                        tex_throttle: 'Tex throttle stalls should be kept as low as possible'
                     }
                 }
             }
