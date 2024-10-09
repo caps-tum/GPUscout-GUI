@@ -3,7 +3,7 @@ import { CODE_TYPE } from '../stores/CodeViewerStore';
 import { Analysis } from './Analysis';
 
 export class GPUscoutResult {
-    constructor(resultData, sassCode, sassRegisters, ptxCode, sourceCodes) {
+    constructor(resultData) {
         const resultJSON = JSON.parse(resultData);
 
         this.analyses = {};
@@ -16,15 +16,13 @@ export class GPUscoutResult {
         this.sourceToSassLines = {};
         this.sourceToPtxLines = {};
 
-        const newToOldFilename = resultJSON['source_files'];
-
         const sourceFileContents = {};
-        for (const [filePath, content] of Object.entries(sourceCodes)) {
-            sourceFileContents[newToOldFilename[filePath]] = content.split('\n');
+        for (const [filePath, content] of Object.entries(resultJSON['source_files'])) {
+            sourceFileContents[filePath] = content.split('\n');
         }
 
-        this._parseSassCode(sassCode, sassRegisters);
-        this._parsePtxCode(ptxCode);
+        this._parseSassCode(resultJSON['binary_files']['sass'], resultJSON['binary_files']['sass_registers']);
+        this._parsePtxCode(resultJSON['binary_files']['ptx']);
 
         this._aggregateKernelSourceCode(sourceFileContents);
 

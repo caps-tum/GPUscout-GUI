@@ -1,12 +1,7 @@
 import { app } from 'electron';
 import { join } from 'path';
 import * as fs from 'node:fs';
-import {
-    APP_CONFIG_PATH,
-    NECESSARY_ANALYSIS_FILES,
-    SAVED_ANALYSES_CONFIG_PATH,
-    SAVED_ANALYSES_DATA_PATH
-} from '../config/files';
+import { APP_CONFIG_PATH, SAVED_ANALYSES_CONFIG_PATH, SAVED_ANALYSES_DATA_PATH } from '../config/files';
 
 /**
  * @param event
@@ -101,66 +96,25 @@ export async function removeRecentAnalysis(event, analysisID) {
  * @param folderPath {String}
  * @returns {Promise<String[]>}
  */
-export async function getValidAnalysesInFolder(event, folderPath) {
+export async function getAnalysesInFolder(event, folderPath) {
     const folderContent = await getFolderContent(event, folderPath);
     const analysisTitles = folderContent
-        .filter((file) => file.startsWith('result-') && file.endsWith('.json'))
-        .map((file) => file.match(/result-(.*)\.json/))
-        .filter((match) => match.length > 1)
-        .map((match) => match[1]);
+        .filter((file) => file.endsWith('.gscout'))
+        .map((file) => file.replace('.gscout', ''));
 
-    const validAnalyses = [];
-    for (const analysisTitle of analysisTitles) {
-        const valid = await checkAnalysisFiles(event, folderPath, analysisTitle);
-        if (valid) validAnalyses.push(analysisTitle);
-    }
-
-    return validAnalyses;
-}
-
-/**
- *
- * @param event {Object}
- * @param folderPath {String}
- * @param analysisTitle {String}
- * @returns {Promise<boolean>}
- */
-export async function checkAnalysisFiles(event, folderPath, analysisTitle) {
-    return (
-        NECESSARY_ANALYSIS_FILES.filter(
-            (fileTemplate) => !fs.existsSync(join(folderPath, fileTemplate.replaceAll('ANALYSIS', analysisTitle)))
-        ).length === 0
-    );
+    return analysisTitles;
 }
 
 /**
  * @param event {Object}
  * @param folderPath {String}
  * @param analysisTitle {String}
- * @returns {Promise<String[]>}
+ * @returns {Promise<String>}
  */
-export async function getAnalysisFileContents(event, folderPath, analysisTitle) {
-    const fileContents = [];
-    for (const fileTemplate of NECESSARY_ANALYSIS_FILES) {
-        if (!fileTemplate.endsWith('/')) {
-            fileContents.push(
-                await fs.promises.readFile(join(folderPath, fileTemplate.replaceAll('ANALYSIS', analysisTitle)), {
-                    encoding: 'utf8'
-                })
-            );
-        } else {
-            const folderContents = {};
-            const subFolderPath = fileTemplate.replaceAll('ANALYSIS', analysisTitle);
-            for (const file of await getFolderContent(event, join(folderPath, subFolderPath))) {
-                folderContents[join(subFolderPath, file)] = await fs.promises.readFile(
-                    join(folderPath, subFolderPath, file),
-                    {
-                        encoding: 'utf8'
-                    }
-                );
-            }
-            fileContents.push(folderContents);
-        }
-    }
-    return fileContents;
+export async function getAnalysis(event, folderPath, analysisTitle) {
+    const path = join(folderPath, analysisTitle) + '.gscout';
+
+    return await fs.promises.readFile(path, {
+        encoding: 'utf8'
+    });
 }

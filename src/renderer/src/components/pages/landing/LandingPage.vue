@@ -73,7 +73,7 @@ async function selectFolder() {
 }
 
 async function updateRelevantFiles() {
-    filesInOutputFolder.value = await window.electronAPI.getValidAnalysesInDirectory(config.value['gpuscoutOutputFolder']);
+    filesInOutputFolder.value = await window.electronAPI.getAnalysesInDirectory(config.value['gpuscoutOutputFolder']);
 }
 
 function onAnalysisSelected(folderPath, title, source) {
@@ -90,7 +90,7 @@ async function proceed() {
         selectedAnalysisFolder.value,
         selectedAnalysisTitle.value
     );
-    await dataStore.initialize(...analysisFileData);
+    await dataStore.initialize(analysisFileData);
     contextStore.setCurrentContext(CONTEXT.ANALYSIS);
 }
 </script>

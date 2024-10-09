@@ -4,15 +4,15 @@ import { electronApp, optimizer, is } from '@electron-toolkit/utils';
 import icon from '../../resources/icon.png?asset';
 import {
     addRecentAnalysis,
-    checkAnalysisFiles,
-    checkFileStructure,
     getAnalysisFileContents,
     getConfig,
     getFolderContent,
     getRecentAnalyses,
-    getValidAnalysesInFolder,
+    getAnalysesInFolder,
     removeRecentAnalysis,
-    setConfig
+    setConfig,
+    getAnalysis,
+    checkFileStructure
 } from './fileManagement';
 import { selectDirectory, selectFile } from './dialog';
 
@@ -67,12 +67,11 @@ app.whenReady().then(async () => {
     ipcMain.handle('file:select', selectFile);
     ipcMain.handle('directory:select', selectDirectory);
     ipcMain.handle('directory:read', getFolderContent);
-    ipcMain.handle('directory:getValidAnalyses', getValidAnalysesInFolder);
+    ipcMain.handle('directory:getAnalyses', getAnalysesInFolder);
     ipcMain.handle('recentAnalyses:get', getRecentAnalyses);
     ipcMain.handle('recentAnalyses:add', addRecentAnalysis);
     ipcMain.handle('recentAnalyses:remove', removeRecentAnalysis);
-    ipcMain.handle('analysis:check', checkAnalysisFiles);
-    ipcMain.handle('analysis:load', getAnalysisFileContents);
+    ipcMain.handle('analysis:load', getAnalysis);
 
     await checkFileStructure();
 
