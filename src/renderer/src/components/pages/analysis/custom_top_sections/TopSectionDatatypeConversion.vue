@@ -4,43 +4,26 @@
         :hint="TEXT.analyses.datatype_conversion.top_section.conversion_numbers.hint"
         class="w-full"
     >
-        <ButtonGroup
-            class="w-full"
-            :slots="4"
-            :active-slot="selectedConversionType"
-            @slot-activated="onSelectConversionType"
-        >
-            <template #button-1>
-                <p class="text-lg">
-                    {{ TEXT.analyses.datatype_conversion.top_section.conversion_numbers.type.total.title }}
-                </p>
-                <p class="-mt-1 opacity-50">
-                    {{ TEXT.analyses.datatype_conversion.top_section.conversion_numbers.type.total.hint }}
-                </p>
-                <p class="text-lg">{{ occurrences.length }}</p>
-            </template>
-            <template #button-2>
-                <p class="text-lg">{{ TEXT.analyses.datatype_conversion.top_section.conversion_numbers.type.f2f.title }}</p>
-                <p class="-mt-1 opacity-50">
-                    {{ TEXT.analyses.datatype_conversion.top_section.conversion_numbers.type.f2f.hint }}
-                </p>
-                <p class="text-lg">{{ occurrences.filter((o) => o.type === 'F2F').length }}</p>
-            </template>
-            <template #button-3>
-                <p class="text-lg">{{ TEXT.analyses.datatype_conversion.top_section.conversion_numbers.type.f2i.title }}</p>
-                <p class="-mt-1 opacity-50">
-                    {{ TEXT.analyses.datatype_conversion.top_section.conversion_numbers.type.f2i.hint }}
-                </p>
-                <p class="text-lg">{{ occurrences.filter((o) => o.type === 'F2I').length }}</p>
-            </template>
-            <template #button-4>
-                <p class="text-lg">{{ TEXT.analyses.datatype_conversion.top_section.conversion_numbers.type.i2f.title }}</p>
-                <p class="-mt-1 opacity-50">
-                    {{ TEXT.analyses.datatype_conversion.top_section.conversion_numbers.type.i2f.hint }}
-                </p>
-                <p class="text-lg">{{ occurrences.filter((o) => o.type === 'I2F').length }}</p>
-            </template>
-        </ButtonGroup>
+        <ButtonMetric
+            :value="occurrences.length"
+            :data="TEXT.analyses.datatype_conversion.top_section.conversion_numbers.type.total"
+            :use-custom-format="true"
+        />
+        <ButtonMetric
+            :value="occurrences.filter((o) => o.type === 'F2F').length"
+            :data="TEXT.analyses.datatype_conversion.top_section.conversion_numbers.type.f2f"
+            :use-custom-format="true"
+        />
+        <ButtonMetric
+            :value="occurrences.filter((o) => o.type === 'F2I').length"
+            :data="TEXT.analyses.datatype_conversion.top_section.conversion_numbers.type.f2i"
+            :use-custom-format="true"
+        />
+        <ButtonMetric
+            :value="occurrences.filter((o) => o.type === 'I2F').length"
+            :data="TEXT.analyses.datatype_conversion.top_section.conversion_numbers.type.i2f"
+            :use-custom-format="true"
+        />
     </MetricSection>
 
     <MetricSection

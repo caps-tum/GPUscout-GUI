@@ -4,7 +4,7 @@
             class="flex flex-col -space-y-1 rounded bg-primary py-1 pl-2 pr-3 text-background hover:cursor-pointer"
             @click="emit('click')"
         >
-            <p class="pr-6 text-lg">{{ data.display_name }}</p>
+            <p class="pr-6 text-lg">{{ data.display_name || data.title }}</p>
             <p class="text-sm text-background/50">{{ data.hint }}</p>
             <p v-if="!useCustomFormat && totalStalls !== undefined" class="text-lg">
                 {{ data.format_function(value, totalStalls) }}

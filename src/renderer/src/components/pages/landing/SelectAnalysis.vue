@@ -30,7 +30,7 @@ async function chooseAnalysis() {
     const result = await window.electronAPI.selectFile([
         {
             name: 'GPUscout result file',
-            extensions: ['json']
+            extensions: ['gscout']
         }
     ]);
     selectedFile.value = result.split('/').at(-1).slice(7, -5);
