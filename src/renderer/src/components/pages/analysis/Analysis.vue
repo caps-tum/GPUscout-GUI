@@ -5,7 +5,7 @@
         </div>
         <p class="text-xl text-text">Code View</p>
         <p class="!-mb-1 !-mt-1 text-sm text-text/50">Here you can see the code</p>
-        <div class="grid flex-grow-0 grid-cols-[75%_25%] grid-rows-1 overflow-x-hidden">
+        <div class="grid flex-grow-0 grid-cols-[75%_25%] grid-rows-1 gap-2 overflow-x-hidden">
             <CodeViewer />
             <div class="flex h-full w-full flex-col">
                 <div class="w-full flex-grow overflow-x-hidden">

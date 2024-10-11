@@ -3,7 +3,7 @@
         <ButtonMetric
             v-for="[metricName, metricValue] of Object.entries(analysisData.getMetrics())"
             :key="metricName"
-            :data="getMetricsData(metricName)"
+            :metric="metricName"
             :value="metricValue"
         />
     </MetricSection>
@@ -13,7 +13,6 @@ import ButtonMetric from '../../../ui/buttons/ButtonMetric.vue';
 import MetricSection from '../../../ui/sections/MetricSection.vue';
 import { useDataStore } from '../../../../stores/DataStore';
 import { computed } from 'vue';
-import { getMetricsData } from '../../../../utils/formatters';
 
 const props = defineProps({
     kernel: String,

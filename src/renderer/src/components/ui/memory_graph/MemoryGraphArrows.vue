@@ -1,10 +1,10 @@
 <template>
     <template v-for="arrow in arrows" :key="arrow">
         <div class="arrow-right relative grid grid-cols-1 grid-rows-[50%_50%] flex-col">
-            <div class="border-b border-black text-center text-sm text-text">
+            <div class="flex flex-col justify-end border-b border-black text-center text-sm text-text">
                 <slot :name="'arrow-' + arrow + '-top'"></slot>
             </div>
-            <div class="border-t border-black">
+            <div class="flex flex-col justify-start border-t border-black text-center text-sm text-text">
                 <slot :name="'arrow-' + arrow + '-bottom'"></slot>
             </div>
         </div>

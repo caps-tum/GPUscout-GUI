@@ -11,7 +11,7 @@
             :code-type="codeType"
             :highlighted-lines="highlightedLines"
             :highlighted-tokens="highlightedTokens"
-            :has-stalls="line.stalls.length > 0"
+            :has-stalls="line.stalls?.length > 0 || false"
             :is-occurrence="occurrenceLines.includes(line.address)"
             :current-view="currentView"
             :selected-occurrence="selectedOccurrence"

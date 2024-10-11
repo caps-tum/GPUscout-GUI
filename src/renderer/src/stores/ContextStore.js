@@ -9,7 +9,9 @@ export const CONTEXT = {
 };
 
 export const POPUP = {
-    METRIC_HELP: 0
+    METRIC_HELP: 0,
+    GLOBAL_MEMORY_FLOW: 1,
+    TEXTURE_MEMORY_FLOW: 2
 };
 
 export const useContextStore = defineStore('context', () => {

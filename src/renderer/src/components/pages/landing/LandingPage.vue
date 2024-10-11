@@ -25,7 +25,7 @@
             <RecentAnalyses />
         </div>
         <ButtonPrimary
-            :enabled="selectedAnalysisTitle !== ''"
+            :disabled="selectedAnalysisTitle === ''"
             title="Proceed"
             class="absolute bottom-2 right-2"
             @click="proceed"

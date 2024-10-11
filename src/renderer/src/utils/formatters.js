@@ -18,7 +18,16 @@ export function formatPercent(value, stalls) {
  * @returns {String} The value formatted as a bytes value
  */
 export function formatBytes(value) {
-    return `${Math.round(value).toLocaleString()}B`;
+    if (value < 1024) {
+        return `${Math.round(value).toLocaleString()}B`;
+    } else if (value < 1024 * 1024) {
+        return `${(value / 1024).toFixed(2).toLocaleString()}kB`;
+    } else if (value < 1024 * 1024 * 1024) {
+        return `${(value / (1024 * 1024).toFixed(2)).toLocaleString()}MB`;
+    } else if (value < 1024 * 1024 * 1024 * 1024) {
+        return `${(value / (1024 * 1024 * 1024).toFixed(2)).toLocaleString()}GB`;
+    }
+    return value;
 }
 
 /**
@@ -27,6 +36,14 @@ export function formatBytes(value) {
  */
 export function formatNumber(value) {
     return Math.round(value).toLocaleString();
+}
+
+/**
+ * @param {Number} value
+ * @returns {String} The value formatted
+ */
+export function formatInstructions(value) {
+    return `${Math.round(value)} Inst.`;
 }
 
 /**

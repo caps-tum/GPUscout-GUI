@@ -48,7 +48,10 @@ export const ANALYSIS = {
             l2_to_dram_bytes: 'memory_flow/l2_to_dram_bytes',
             l1_to_l2_bytes: 'memory_flow/l1_to_l2_bytes',
             l1_to_l2_cache_miss_percent: 'memory_flow/l1_to_l2_cache_miss_perc',
-            global_memory_to_l1_cache_miss_percent: 'memory_flow/global_to_l1_cache_miss_perc'
+            global_memory_to_l1_cache_miss_percent: 'memory_flow/global_to_l1_cache_miss_perc',
+            warps_active: 'smsp__warps_active',
+            atom_global_count: 'atom_global_count',
+            atom_shared_count: 'atom_shared_count'
         }
     },
     register_spilling: {
@@ -76,7 +79,11 @@ export const ANALYSIS = {
         use_sass: true,
         occurrence_constructor: (o) => new UseRestrictOccurrence(o),
         metrics: {
-            warp_stalls_imc_miss_percent: 'smsp__warp_issue_stalled_imc_miss_per_warp_active'
+            warp_stalls_imc_miss_percent: 'smsp__warp_issue_stalled_imc_miss_per_warp_active',
+            warp_stalls_long_scoreboard_percent: 'smsp__warp_issue_stalled_long_scoreboard_per_warp_active',
+            warps_active: 'smsp__warps_active',
+            occupancy_percent: 'sm__warps_active',
+            instructions_executed_global_operations: 'smsp__sass_inst_executed_op_global'
         }
     },
     use_shared: {
@@ -103,7 +110,9 @@ export const ANALYSIS = {
             texture_memory_to_l1_cache_miss_percent: 'texture_data_memory_flow/tex_to_l1_cache_miss_perc',
             l1_to_l2_cache_miss_percent: 'texture_data_memory_flow/l1_to_l2_cache_miss_perc',
             l1_to_l2_bytes: 'texture_data_memory_flow/l1_to_l2_bytes',
-            l2_to_dram_bytes: 'texture_data_memory_flow/l2_to_dram_bytes'
+            l2_to_dram_bytes: 'texture_data_memory_flow/l2_to_dram_bytes',
+            warps_active: 'smsp__warps_active',
+            texture_memory_used: 'texture_memory_used'
         }
     },
     vectorization: {
@@ -111,7 +120,13 @@ export const ANALYSIS = {
         use_sass: true,
         occurrence_constructor: (o) => new VectorizationOccurrence(o),
         metrics: {
-            warp_stalls_long_scoreboard_percent: 'smsp__warp_issue_stalled_long_scoreboard_per_warp_active'
+            warp_stalls_long_scoreboard_percent: 'smsp__warp_issue_stalled_long_scoreboard_per_warp_active',
+            occupancy: 'sm__warps_active',
+            warps_active: 'smsp__warps_active',
+            instructions_executed_global_loads: 'sm__sass_inst_executed_op_global_ld',
+            instructions_executed: 'smsp__sass_inst_executed',
+            global_data_per_instruction_bytes: 'global_data_per_instruction',
+            non_vectorized_loads: 'global_load_count'
         }
     },
     warp_divergence: {

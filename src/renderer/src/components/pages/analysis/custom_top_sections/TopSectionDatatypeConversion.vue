@@ -2,27 +2,26 @@
     <MetricSection
         :title="TEXT.analyses.datatype_conversion.top_section.conversion_numbers.title"
         :hint="TEXT.analyses.datatype_conversion.top_section.conversion_numbers.hint"
-        class="w-full"
     >
         <ButtonMetric
             :value="occurrences.length"
-            :data="TEXT.analyses.datatype_conversion.top_section.conversion_numbers.type.total"
-            :use-custom-format="true"
+            :metric="TEXT.analyses.datatype_conversion.top_section.conversion_numbers.type.total.title"
+            :hint="TEXT.analyses.datatype_conversion.top_section.conversion_numbers.type.total.hint"
         />
         <ButtonMetric
             :value="occurrences.filter((o) => o.type === 'F2F').length"
-            :data="TEXT.analyses.datatype_conversion.top_section.conversion_numbers.type.f2f"
-            :use-custom-format="true"
+            :metric="TEXT.analyses.datatype_conversion.top_section.conversion_numbers.type.f2f.title"
+            :hint="TEXT.analyses.datatype_conversion.top_section.conversion_numbers.type.f2f.hint"
         />
         <ButtonMetric
             :value="occurrences.filter((o) => o.type === 'F2I').length"
-            :data="TEXT.analyses.datatype_conversion.top_section.conversion_numbers.type.f2i"
-            :use-custom-format="true"
+            :metric="TEXT.analyses.datatype_conversion.top_section.conversion_numbers.type.f2i.title"
+            :hint="TEXT.analyses.datatype_conversion.top_section.conversion_numbers.type.f2i.hint"
         />
         <ButtonMetric
             :value="occurrences.filter((o) => o.type === 'I2F').length"
-            :data="TEXT.analyses.datatype_conversion.top_section.conversion_numbers.type.i2f"
-            :use-custom-format="true"
+            :metric="TEXT.analyses.datatype_conversion.top_section.conversion_numbers.type.i2f.title"
+            :hint="TEXT.analyses.datatype_conversion.top_section.conversion_numbers.type.i2f.hint"
         />
     </MetricSection>
 
@@ -33,12 +32,12 @@
     >
         <ButtonMetric
             :value="analysisData.getMetric(ANALYSIS.datatype_conversion.metrics.warps_active)"
-            :data="getMetricsData(ANALYSIS.datatype_conversion.metrics.warps_active)"
+            :metric="ANALYSIS.datatype_conversion.metrics.warps_active"
             @click="selectedStallHelp = TEXT.analyses.general.warp_stall_analysis.help_strings.total_stalls"
         />
         <ButtonMetric
             :value="analysisData.getMetric(ANALYSIS.datatype_conversion.metrics.warp_stalls_short_scoreboard_percent)"
-            :data="getMetricsData(ANALYSIS.datatype_conversion.metrics.warp_stalls_short_scoreboard_percent)"
+            :metric="ANALYSIS.datatype_conversion.metrics.warp_stalls_short_scoreboard_percent"
             :total-stalls="analysisData.getMetric(ANALYSIS.datatype_conversion.metrics.warps_active)"
             @click="
                 selectedStallHelp =
@@ -47,7 +46,7 @@
         />
         <ButtonMetric
             :value="analysisData.getMetric(ANALYSIS.datatype_conversion.metrics.warp_stalls_mio_throttle_percent)"
-            :data="getMetricsData(ANALYSIS.datatype_conversion.metrics.warp_stalls_mio_throttle_percent)"
+            :metric="ANALYSIS.datatype_conversion.metrics.warp_stalls_mio_throttle_percent"
             :total-stalls="analysisData.getMetric(ANALYSIS.datatype_conversion.metrics.warps_active)"
             @click="
                 selectedStallHelp =
@@ -55,9 +54,8 @@
             "
         />
         <ButtonMetric
-            v-show="selectedConversionType === CONVERSION_TYPE.ALL || selectedConversionType === CONVERSION_TYPE.F2F"
             :value="analysisData.getMetric(ANALYSIS.datatype_conversion.metrics.warp_stalls_tex_throttle_percent)"
-            :data="getMetricsData(ANALYSIS.datatype_conversion.metrics.warp_stalls_tex_throttle_percent)"
+            :metric="ANALYSIS.datatype_conversion.metrics.warp_stalls_tex_throttle_percent"
             :total-stalls="analysisData.getMetric(ANALYSIS.datatype_conversion.metrics.warps_active)"
             @click="
                 selectedStallHelp =
@@ -68,20 +66,12 @@
 </template>
 <script setup>
 import MetricSection from '../../../ui/sections/MetricSection.vue';
-import ButtonGroup from '../../../ui/buttons/ButtonGroup.vue';
 import ButtonMetric from '../../../ui/buttons/ButtonMetric.vue';
 import { useDataStore } from '../../../../stores/DataStore';
 import { computed, ref } from 'vue';
 import { ANALYSIS } from '../../../../../../config/analyses';
 import { TEXT } from '../../../../../../config/text';
 import { getMetricsData } from '../../../../utils/formatters';
-
-const CONVERSION_TYPE = {
-    ALL: 1,
-    F2F: 2,
-    I2F: 3,
-    F2I: 4
-};
 
 const props = defineProps({
     kernel: String
@@ -94,10 +84,5 @@ const analysisData = computed(() =>
 );
 const occurrences = computed(() => analysisData.value.getOccurrences());
 
-const selectedConversionType = ref(CONVERSION_TYPE.ALL);
 const selectedStallHelp = ref('');
-
-function onSelectConversionType(type) {
-    selectedConversionType.value = type;
-}
 </script>

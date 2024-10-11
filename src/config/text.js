@@ -14,6 +14,10 @@ export const TEXT = {
                 help_strings: {
                     total_stalls: 'The total number of stalls should be kept as low as possible'
                 }
+            },
+            metrics: {
+                title: 'Metrics',
+                hint: 'Important metrics'
             }
         },
         datatype_conversion: {
@@ -46,6 +50,50 @@ export const TEXT = {
                         mio_throttle: 'Mio throttle stalls should be kept as low as possible',
                         tex_throttle: 'Tex throttle stalls should be kept as low as possible'
                     }
+                }
+            }
+        },
+        global_atomics: {
+            top_section: {
+                atomics_usage: {
+                    title: 'Current usage of atomics in the kernel',
+                    hint: 'Some hint'
+                },
+                help_strings: {
+                    long_scoreboard: 'Long scoreboard stalls should be kept as low as possible',
+                    mio_throttle: 'Mio throttle stalls should be kept as low as possible',
+                    lg_throttle: 'LG throttle stalls should be kept as low as possible'
+                }
+            }
+        },
+        use_restrict: {
+            top_section: {
+                help_strings: {
+                    long_scoreboard: 'Long scoreboard stalls should be kept as low as possible',
+                    imc_miss: 'IMC missshould be kept as low as possible'
+                }
+            }
+        },
+        use_texture: {
+            top_section: {
+                usage: {
+                    yes: 'Texture memory is currently used in the kernel',
+                    no: 'Texture memory is not currently used in the kernel'
+                },
+                help_strings: {
+                    long_scoreboard: 'Long scoreboard stalls should be kept as low as possible',
+                    tex_throttle: 'TEX throttle be kept as low as possible'
+                }
+            }
+        },
+        vectorization: {
+            top_section: {
+                load_analysis: {
+                    title: 'Load analysis',
+                    hint: 'Load analysis hint'
+                },
+                help_strings: {
+                    long_scoreboard: 'Long scoreboard stalls should be kept as low as possible'
                 }
             }
         }
