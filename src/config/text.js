@@ -3,6 +3,8 @@ export const TEXT = {
         general: {
             code_info: {
                 no_line_selected: 'No line selected',
+                source_occurrence_selected:
+                    'One or more occurrences found for the currently selected source code line. Select one of the highlighted code lines in the binary code to get further information.',
                 no_info:
                     'No information available for this line. Select a highlighted line in the code to get further information'
             },

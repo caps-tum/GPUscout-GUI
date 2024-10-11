@@ -5,7 +5,7 @@
             @click="emit('click')"
         >
             <p class="pr-6 text-lg">{{ data.display_name || data.title }}</p>
-            <p class="text-sm text-background/50">{{ data.hint }}</p>
+            <p class="text-sm text-background/50">{{ data.hint || '' }}</p>
             <p v-if="!useCustomFormat && totalStalls !== undefined" class="text-lg">
                 {{ data.format_function(value, totalStalls) }}
             </p>
@@ -32,7 +32,7 @@ const contextStore = useContextStore();
 
 function showHelpPopup() {
     contextStore.togglePopup(POPUP.METRIC_HELP, true, {
-        metricName: props.data.display_name,
+        metricName: props.data.display_name || props.data.title,
         helpText: props.data.help_text
     });
 }

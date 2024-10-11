@@ -21,10 +21,14 @@ export class GPUscoutResult {
             sourceFileContents[filePath] = content.split('\n');
         }
 
-        this._parseSassCode(resultJSON['binary_files']['sass'], resultJSON['binary_files']['sass_registers']);
+        this._parseSassCode(
+            resultJSON['binary_files']['sass'],
+            resultJSON['binary_files']['sass_registers'],
+            resultJSON['stalls']
+        );
         this._parsePtxCode(resultJSON['binary_files']['ptx']);
 
-        this._aggregateKernelSourceCode(sourceFileContents);
+        this._aggregateKernelSourceCode(sourceFileContents, resultJSON['stalls']);
 
         for (const [analysisName, analysisDefinition] of Object.entries(ANALYSIS)) {
             this.analyses[analysisName] = {};
@@ -83,6 +87,14 @@ export class GPUscoutResult {
             }
             let index = tokens.findIndex((t) => t === ' ');
             return tokens.filter((tok, i) => tok !== '.' && i < (index > 0 ? index : tokens.length));
+        }
+    }
+
+    getLineStalls(kernel, line, codeType) {
+        if (codeType === CODE_TYPE.SASS_CODE) {
+            return this.sassCodeLines[kernel].find((l) => l.address === line)?.stalls || [];
+        } else {
+            return this.sourceCodeLines[kernel].find((l) => l.address === line)?.stalls || [];
         }
     }
 
@@ -241,13 +253,15 @@ export class GPUscoutResult {
      * Parse the sass code and extract the mapping to the source code
      * @param {String} sassCode The generated sass source code
      * @param {String} sassRegisters The sass code with register information
+     * @param {Object.<String, {line_number: Number, pc_offset: String, stalls: {Number|String}[][]}[]>} stalls An object containing all recorded pc sampling stalls
      */
-    _parseSassCode(sassCode, sassRegisters) {
+    _parseSassCode(sassCode, sassRegisters, stalls) {
         let currentSourceLine = -1;
         let currentKernel = '';
         let currentSourceFile = '';
         let currentSassLine = '';
         let lastLineBranch = '';
+        let relevantStalls = [];
         let sassRegisterMap = Object.fromEntries(
             sassRegisters
                 .split('\n')
@@ -266,6 +280,7 @@ export class GPUscoutResult {
                 currentSassLine = '';
                 currentKernel = line.replace('.text.', '').replace(':', '');
                 lastLineBranch = '';
+                relevantStalls = stalls[currentKernel] || [];
 
                 this.sassToSourceLines[currentKernel] = {};
                 this.sassCodeLines[currentKernel] = [];
@@ -277,7 +292,8 @@ export class GPUscoutResult {
                         .trim()
                         .split(/([,.:[\]() ])/)
                         .filter((token) => token.length > 0),
-                    liveRegisters: [0, 0]
+                    liveRegisters: [0, 0],
+                    stalls: []
                 });
             } else if (line.includes('//##')) {
                 // //## File "FILE_PATH", line LINE_NUMBER
@@ -324,7 +340,10 @@ export class GPUscoutResult {
                         .trim()
                         .split(/([,.:[\]() ])/)
                         .filter((token) => token.length > 0),
-                    liveRegisters: liveRegisters
+                    liveRegisters: liveRegisters,
+                    stalls: relevantStalls
+                        .filter((s) => s['pc_offset'].padStart(4, '0') === address)
+                        .flatMap((s) => s['stalls'])
                 });
             } else {
                 // We are at the end of a kernel
@@ -336,14 +355,16 @@ export class GPUscoutResult {
     /**
      * Uses the SASS and PTX line mappings to extract the source code per kernel
      * @param {{String, String}} sourceFileContents The contents of the cuda source files
+     * @param {Object.<String, {line_number: Number, pc_offset: String, stalls: {Number|String}[][]}[]>} stalls An object containing all recorded pc sampling stalls
      */
-    _aggregateKernelSourceCode(sourceFileContents) {
+    _aggregateKernelSourceCode(sourceFileContents, stalls) {
         for (const kernel of this.kernels) {
             // Get relevant lines in all source files
             let relevantLines = Object.groupBy(
                 Object.values(this.sassToSourceLines[kernel]).concat(Object.values(this.ptxToSourceLines[kernel])),
                 ({ file }) => file
             );
+            let relevantStalls = stalls[kernel] || [];
 
             let lineNumber = 1;
             const oldToNewLineNumbers = {};
@@ -363,14 +384,24 @@ export class GPUscoutResult {
                 for (let i = minLine; i <= maxLine; i++) {
                     oldToNewLineNumbers[sourceFile][i] = lineNumber;
                     this.sourceCodeLines[kernel].push({
-                        address: lineNumber++,
-                        tokens: sourceFileContents[sourceFile][i - 1].split(/([ ,(){};+\-*<>=%&./])/)
+                        address: lineNumber,
+                        tokens: sourceFileContents[sourceFile][i - 1].split(/([ ,(){};+\-*<>=%&./])/),
+                        stalls: relevantStalls
+                            .filter((s) => s['line_number'] === lineNumber)
+                            .flatMap((s) => s['stalls'])
+                            .reduce((a, b) => {
+                                a.find((x) => x[0] === b[0]) ? (a.find((x) => x[0] === b[0])[1] += b[1]) : a.push(b);
+                                return a;
+                            }, [])
                     });
+                    lineNumber++;
                 }
                 this.sourceCodeLines[kernel].push({
-                    address: lineNumber++,
-                    tokens: []
+                    address: lineNumber,
+                    tokens: [],
+                    stalls: []
                 });
+                lineNumber++;
             }
 
             for (const key of Object.keys(this.sassToSourceLines[kernel])) {

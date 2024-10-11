@@ -1,7 +1,7 @@
 <template>
     <div ref="line" class="group m-0 flex space-x-1" @click="selectLine">
         <p class="sticky left-0 top-0 w-16 shrink-0 select-none bg-secondary px-1 group-hover:bg-gray-200">
-            {{ lineNumber }}
+            {{ lineNumber }} {{ hasStalls ? '*' : '' }}
         </p>
         <p class="flex h-6 max-h-6 w-full flex-grow flex-row text-nowrap group-hover:bg-blue-400" :class="getHighlight()">
             <CodeLineToken
@@ -28,6 +28,7 @@ const props = defineProps({
     highlightedLines: Object,
     highlightedTokens: Object,
     isOccurrence: Boolean,
+    hasStalls: Boolean,
     currentView: Number,
     selectedOccurrence: Occurrence
 });
@@ -59,10 +60,8 @@ function getHighlight() {
             (props.codeType !== CODE_TYPE.SOURCE_CODE && props.selectedOccurrence.binaryLineNumber === props.lineNumber))
     ) {
         // The current line belongs to the currently selected occurrence
-        if (props.codeType !== props.currentView) {
-            // Scroll to the occurrence if we are not in the selected code view
-            line.value.scrollIntoView({ behavior: 'smooth', block: 'center' });
-        }
+        // Scroll to the occurrence if we are not in the selected code view
+        line.value.scrollIntoView({ behavior: 'smooth', block: 'center' });
         style += props.codeType === props.currentView ? ' bg-sky-400' : ' bg-sky-300';
     } else if (props.highlightedLines[props.lineNumber] !== undefined) {
         // The current line does not belong to any occurrence directly, but is still highlighted in some way

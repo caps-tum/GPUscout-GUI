@@ -5,11 +5,16 @@
         </div>
         <p class="text-xl text-text">Code View</p>
         <p class="!-mb-1 !-mt-1 text-sm text-text/50">Here you can see the code</p>
-        <div class="flex flex-grow-0 flex-row space-x-2 overflow-x-hidden">
+        <div class="grid flex-grow-0 grid-cols-[75%_25%] grid-rows-1 overflow-x-hidden">
             <CodeViewer />
-            <div class="flex h-full w-1/3 flex-col">
-                <div class="w-full flex-grow">
-                    <CodeInfo :analysis="currentAnalysis" :kernel="currentKernel" :occurrence="selectedOccurrence" />
+            <div class="flex h-full w-full flex-col">
+                <div class="w-full flex-grow overflow-x-hidden">
+                    <CodeInfo
+                        :analysis="currentAnalysis"
+                        :kernel="currentKernel"
+                        :occurrence="selectedOccurrence"
+                        :stalls="lineStalls"
+                    />
                 </div>
                 <div class="flex w-full flex-row justify-around space-x-2">
                     <ButtonSecondary
@@ -39,10 +44,14 @@ const currentKernel = computed(() => dataStore.getCurrentKernel);
 const currentAnalysis = computed(() => dataStore.getCurrentAnalysis);
 const selectedLine = computed(() => codeViewerStore.getSelectedLine);
 const binaryView = computed(() => codeViewerStore.getCurrentBinary);
+const currentView = computed(() => codeViewerStore.getCurrentView);
 
 const selectedOccurrence = computed(() => dataStore.getCurrentOccurrence);
 const occurrences = computed(() =>
     dataStore.getGPUscoutResult().getAnalysis(currentAnalysis.value, currentKernel.value).getOccurrences()
+);
+const lineStalls = computed(() =>
+    dataStore.getGPUscoutResult().getLineStalls(currentKernel.value, selectedLine.value, currentView.value)
 );
 
 function selectPreviousOccurrence() {

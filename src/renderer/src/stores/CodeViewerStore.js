@@ -101,7 +101,10 @@ export const useCodeViewerStore = defineStore('codeViewer', () => {
             highlightedBinaryTokens.value[line][token] = BINARY_TOKEN_HIGHLIGHT_COLORS[0];
         }
 
-        dataStore.setCurrentOccurrence(currentView.value, line);
+        if (currentView.value !== CODE_TYPE.SOURCE_CODE) {
+            dataStore.setCurrentOccurrence(currentView.value, line);
+        }
+
         if (!currentOccurrence.value) {
             return;
         }
