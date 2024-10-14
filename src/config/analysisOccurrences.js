@@ -42,6 +42,45 @@ export class RegisterSpillingOccurrence extends Occurrence {
         /** @type {Number} */ this.usedRegisters = occurrenceData['used_register_count'] || 0;
         /** @type {Number} */ this.registerPressureIncrease = occurrenceData['register_pressure_increase'] || 0;
     }
+
+    title() {
+        return 'Register spill in current line';
+    }
+
+    description() {
+        let result = `Register R8 spilled in the <b>${this.operation}</b> operation.`;
+
+        if (this.hasPreviousComputeInstruction) {
+            result += `The previous compute instruction this register was used in was <b>${this.previousComputeInstruction}</b>.`;
+        }
+
+        result += `\nAt the moment of spilling, <b>${this.usedRegisters}</b> out of the available <b>TODO</b> registers were in use. `;
+
+        if (this.registerPressureIncrease > 0) {
+            result += `The previous SASS instruction increased the register pressure with <b>${this.registerPressureIncrease}</b> more registers.\n`;
+        } else {
+            result += `The previous SASS instruction did not increase the register pressure.\n`;
+        }
+
+        return result;
+    }
+
+    tokensToHighlight() {
+        let result = {
+            '*': this.register
+        };
+        if (this.hasPreviousComputeInstruction) {
+            result[this.previousComputeBinaryLineNumber] = 'Instruction';
+        }
+        return result;
+    }
+
+    linesToHighlight() {
+        if (this.hasPreviousComputeInstruction) {
+            return [this.previousComputeBinaryLineNumber];
+        }
+        return [];
+    }
 }
 
 export class UseRestrictOccurrence extends Occurrence {

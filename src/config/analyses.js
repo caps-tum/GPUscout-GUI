@@ -71,7 +71,13 @@ export const ANALYSIS = {
             local_memory_to_l1_cache_miss_percent: 'memory_flow/local_to_l1_cache_miss_perc',
             local_memory_l1_to_l2_bytes: 'memory_flow/local_l1_to_l2_bytes',
             l1_to_l2_cache_miss_percent: 'memory_flow/l1_to_l2_cache_miss_perc',
-            l2_to_dram_bytes: 'memory_flow/l2_to_dram_bytes'
+            l2_to_dram_bytes: 'memory_flow/l2_to_dram_bytes',
+            total_l2_queries: 'total_l2_queries',
+            instructions_executed_local_loads: 'smsp__inst_executed_op_local_ld',
+            instructions_executed_local_stores: 'smsp__inst_executed_op_local_st',
+            instructions_executed: 'smsp__sass_inst_executed',
+            occupancy: 'sm__warps_active',
+            warps_active: 'smsp__warps_active'
         }
     },
     use_restrict: {

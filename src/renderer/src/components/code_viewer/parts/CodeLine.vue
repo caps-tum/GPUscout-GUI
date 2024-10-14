@@ -1,5 +1,5 @@
 <template>
-    <div ref="line" class="group m-0 flex space-x-1" @click="selectLine">
+    <div ref="line" class="group relative m-0 flex space-x-1" @click="selectLine">
         <p class="sticky left-0 top-0 w-16 shrink-0 select-none bg-secondary px-1 group-hover:bg-gray-200">
             {{ lineNumber }} {{ hasStalls ? '*' : '' }}
         </p>
@@ -12,6 +12,12 @@
                 :token="token"
                 :highlighted-tokens="highlightedTokens"
             />
+        </p>
+        <p
+            v-if="codeType === CODE_TYPE.SASS_CODE"
+            class="absolute right-0 top-0 w-16 shrink-0 select-none bg-secondary px-1 text-center group-hover:bg-gray-200"
+        >
+            {{ liveRegisters[0] || '-' }} / {{ liveRegisters[1] || '-' }}
         </p>
     </div>
 </template>
@@ -30,7 +36,8 @@ const props = defineProps({
     isOccurrence: Boolean,
     hasStalls: Boolean,
     currentView: Number,
-    selectedOccurrence: Occurrence
+    selectedOccurrence: Occurrence,
+    liveRegisters: Array
 });
 
 const codeViewerStore = useCodeViewerStore();

@@ -8,6 +8,7 @@
             :key="line.address"
             :tokens="line.tokens"
             :line-number="line.address"
+            :live-registers="line.liveRegisters"
             :code-type="codeType"
             :highlighted-lines="highlightedLines"
             :highlighted-tokens="highlightedTokens"

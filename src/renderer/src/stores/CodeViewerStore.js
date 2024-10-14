@@ -116,7 +116,6 @@ export const useCodeViewerStore = defineStore('codeViewer', () => {
         }
 
         for (const [tokenLine, token] of Object.entries(currentOccurrence.value.tokensToHighlight())) {
-            console.log(tokenLine, token);
             let keys = highlightedBinaryTokens.value[tokenLine]
                 ? Object.keys(highlightedBinaryTokens.value[tokenLine]).length
                 : 0;

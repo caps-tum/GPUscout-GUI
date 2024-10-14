@@ -1,14 +1,18 @@
 <template>
     <a
         v-if="!disabled"
-        class="block select-none rounded bg-primary px-8 py-2 text-lg text-background hover:cursor-pointer"
+        class="flex select-none flex-col items-center justify-center rounded bg-primary px-8 py-2 text-lg text-background hover:cursor-pointer"
         @click="emit('click')"
     >
-        <p>{{ title }}</p>
+        <p class="text-center">{{ title }}</p>
         <slot></slot>
     </a>
-    <a v-else class="block select-none rounded bg-primary/50 px-8 py-2 text-lg text-background" @click="emit('click')">
-        <p>{{ title }}</p>
+    <a
+        v-else
+        class="flex select-none flex-col items-center justify-center rounded bg-primary/50 px-8 py-2 text-lg text-background"
+        @click="emit('click')"
+    >
+        <p class="text-center">{{ title }}</p>
         <slot></slot>
     </a>
 </template>

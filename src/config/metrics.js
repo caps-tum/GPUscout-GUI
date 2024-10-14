@@ -90,5 +90,11 @@ export const METRICS = {
         hint: 'Total number of Non-vectorized load inst.',
         format_function: formatNumber,
         help_text: 'This is a detailed explanation something'
+    },
+    'memory_flow/local_to_l1_cache_miss_perc': {
+        display_name: 'LMEM L1 Cache misses',
+        hint: 'Percentage of L1 cache misses due to local memory',
+        format_function: formatPercent,
+        help_text: 'Something'
     }
 };

@@ -1,4 +1,5 @@
 import { METRICS } from '../../../config/metrics';
+import { STALLS } from '../../../config/stalls';
 
 /**
  * @param {Number} value
@@ -59,4 +60,20 @@ export function getMetricsData(metricName) {
             format_function: (v) => v
         };
     }
+}
+
+/**
+ * @param {String} stall
+ */
+export function formatStall(stall) {
+    let stallName = '';
+    if (stall.endsWith('_not_issued')) {
+        stallName = STALLS[stall.substring(0, stall.length - 11)] + ' (not issued)';
+    } else {
+        stallName = STALLS[stall];
+    }
+    if (!stallName) {
+        return stall;
+    }
+    return stallName;
 }

@@ -326,7 +326,7 @@ export class GPUscoutResult {
                     if (sassRegisterMap[address]) {
                         liveRegisters = sassRegisterMap[address]
                             .split('|')
-                            .filter((_, i) => i === 1 || i === 2)
+                            .filter((_, i, s) => i >= s.length - 3 && i < s.length - 1)
                             .map((e) => parseInt(e.trim() || '0'));
                     }
                 } else if (line.endsWith(':')) {

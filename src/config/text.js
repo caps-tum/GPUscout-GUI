@@ -1,4 +1,9 @@
 export const TEXT = {
+    code_view: {
+        code_info: {
+            default_occurrence_title: 'Occurrence found'
+        }
+    },
     analyses: {
         general: {
             code_info: {

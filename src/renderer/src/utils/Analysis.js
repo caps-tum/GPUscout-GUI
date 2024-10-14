@@ -1,3 +1,4 @@
+import { TEXT } from '../../../config/text';
 import { CODE_TYPE } from '../stores/CodeViewerStore';
 
 export class Analysis {
@@ -90,6 +91,10 @@ export class Occurrence {
 
     tokensToHighlight() {
         return {};
+    }
+
+    title() {
+        return TEXT.code_view.code_info.default_occurrence_title;
     }
 
     description() {
