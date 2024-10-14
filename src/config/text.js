@@ -96,6 +96,24 @@ export const TEXT = {
                     long_scoreboard: 'Long scoreboard stalls should be kept as low as possible'
                 }
             }
+        },
+        register_spilling: {
+            top_section: {
+                lmem_impact: {
+                    title: 'Performance impact of local memory',
+                    hint: 'Registers are spilled to local memory, which can degrade performance. High values in any of the following categories indicate optimization potential',
+                    type: {
+                        bandwidth: {
+                            title: 'Bandwidth',
+                            hint: 'Percentage of queries that are issued due to local memory accesses'
+                        },
+                        instruction: {
+                            title: 'Instructions',
+                            hint: 'Perccentage of instructions that are issued due to local memory accesses'
+                        }
+                    }
+                }
+            }
         }
     }
 };

@@ -99,6 +99,18 @@ export class VectorizationOccurrence extends Occurrence {
         /** @type {Number} */ this.usedRegisters = occurrenceData['used_register_count'] || 0;
         /** @type {Number} */ this.registerPressureIncrease = occurrenceData['register_pressure_increase'] || 0;
     }
+
+    tokensToHighlight() {
+        let result = {};
+        for (const unroll of this.unrollBinaryLineNumbers) {
+            result[unroll] = this.register;
+        }
+        return result;
+    }
+
+    linesToHighlight() {
+        return this.unrollBinaryLineNumbers;
+    }
 }
 
 export class WarpDivergenceOccurrence extends Occurrence {

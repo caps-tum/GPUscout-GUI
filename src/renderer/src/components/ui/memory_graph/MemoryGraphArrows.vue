@@ -1,5 +1,6 @@
 <template>
     <template v-for="arrow in arrows" :key="arrow">
+        <div v-if="arrows % 2 === 1 && arrow !== arrows" class=""></div>
         <div class="arrow-right relative grid grid-cols-1 grid-rows-[50%_50%] flex-col">
             <div class="flex flex-col justify-end border-b border-black text-center text-sm text-text">
                 <slot :name="'arrow-' + arrow + '-top'"></slot>
@@ -8,7 +9,7 @@
                 <slot :name="'arrow-' + arrow + '-bottom'"></slot>
             </div>
         </div>
-        <div v-if="arrow !== arrows" class=""></div>
+        <div v-if="arrows % 2 === 0 && arrow !== arrows" class=""></div>
     </template>
 </template>
 <script setup>

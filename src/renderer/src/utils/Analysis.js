@@ -89,7 +89,7 @@ export class Occurrence {
     }
 
     tokensToHighlight() {
-        return [];
+        return {};
     }
 
     description() {

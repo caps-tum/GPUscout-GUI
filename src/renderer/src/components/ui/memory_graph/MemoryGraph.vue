@@ -19,8 +19,8 @@ function getGridStyle() {
     }
 
     let rowTemplate = '';
-    for (let i = 0; i < props.verticalNodes; i++) {
-        if (i === props.verticalNodes - 1) {
+    for (let i = 0; i < props.verticalNodes * 2 - 1; i++) {
+        if (i === props.verticalNodes * 2 - 2) {
             rowTemplate += ' 1fr [last-line]';
         } else {
             rowTemplate += ' 1fr';

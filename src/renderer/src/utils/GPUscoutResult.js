@@ -338,7 +338,7 @@ export class GPUscoutResult {
                     address: address,
                     tokens: line
                         .trim()
-                        .split(/([,.:[\]() ])/)
+                        .split(/([+,.:[\]() ])/)
                         .filter((token) => token.length > 0),
                     liveRegisters: liveRegisters,
                     stalls: relevantStalls

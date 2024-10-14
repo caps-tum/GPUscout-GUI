@@ -94,15 +94,14 @@ export const useCodeViewerStore = defineStore('codeViewer', () => {
             }
         }
 
-        highlightedBinaryTokens.value[line] = {};
-        for (const token of dataStore
-            .getGPUscoutResult()
-            .getInstructionTokens(currentKernel.value, currentView.value, line)) {
-            highlightedBinaryTokens.value[line][token] = BINARY_TOKEN_HIGHLIGHT_COLORS[0];
-        }
-
         if (currentView.value !== CODE_TYPE.SOURCE_CODE) {
             dataStore.setCurrentOccurrence(currentView.value, line);
+            highlightedBinaryTokens.value[line] = {};
+            for (const token of dataStore
+                .getGPUscoutResult()
+                .getInstructionTokens(currentKernel.value, currentView.value, line)) {
+                highlightedBinaryTokens.value[line][token] = BINARY_TOKEN_HIGHLIGHT_COLORS[0];
+            }
         }
 
         if (!currentOccurrence.value) {
@@ -116,14 +115,16 @@ export const useCodeViewerStore = defineStore('codeViewer', () => {
             highlightedBinaryTokens.value[line][token] = BINARY_TOKEN_HIGHLIGHT_COLORS[0];
         }
 
-        for (const token of currentOccurrence.value.tokensToHighlight()) {
-            let keys = highlightedBinaryTokens.value['*'] ? Object.keys(highlightedBinaryTokens.value['*']).length : 0;
+        for (const [tokenLine, token] of Object.entries(currentOccurrence.value.tokensToHighlight())) {
+            console.log(tokenLine, token);
+            let keys = highlightedBinaryTokens.value[tokenLine]
+                ? Object.keys(highlightedBinaryTokens.value[tokenLine]).length
+                : 0;
             if (keys === 0) {
-                highlightedBinaryTokens.value['*'] = {};
+                highlightedBinaryTokens.value[tokenLine] = {};
             }
 
-            highlightedBinaryTokens.value['*'][token] =
-                BINARY_TOKEN_HIGHLIGHT_COLORS[keys % BINARY_TOKEN_HIGHLIGHT_COLORS.length];
+            highlightedBinaryTokens.value[tokenLine][token] = BINARY_TOKEN_HIGHLIGHT_COLORS[0];
         }
         for (const secondaryLine of currentOccurrence.value.linesToHighlight()) {
             highlightedBinaryLines.value[secondaryLine] = false;
