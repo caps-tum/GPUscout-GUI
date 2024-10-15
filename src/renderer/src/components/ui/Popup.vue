@@ -4,7 +4,7 @@
         class="absolute inset-0 flex flex-col items-center justify-center"
         :style="getStyle()"
     >
-        <div class="flex h-min max-h-full w-full flex-col rounded bg-white outline outline-1 outline-text">
+        <div class="flex h-min max-h-full w-full flex-col rounded bg-background outline outline-1 outline-text">
             <div
                 class="flex h-8 w-full flex-row items-center justify-between border-b border-text bg-background pl-2 text-text"
             >

@@ -6,12 +6,17 @@ import { STALLS } from '../../../config/stalls';
  * @returns {String} The value formatted as a percent value
  */
 export function formatPercent(value, stalls) {
+    const format = new Intl.NumberFormat('de-DE', {
+        style: 'decimal',
+        minimumFractionDigits: 1,
+        maximumFractionDigits: 1
+    });
     let percent_rounded = Math.round(value * 100) / 100;
     if (stalls) {
         stalls = Math.round((stalls * value) / 100);
-        return `${Math.round(stalls).toLocaleString()} (${percent_rounded.toLocaleString()}%)`;
+        return `${format.format(Math.round(stalls))} (${format.format(percent_rounded)}%)`;
     }
-    return `${percent_rounded.toLocaleString()}%`;
+    return `${format.format(percent_rounded)}%`;
 }
 
 /**
@@ -19,14 +24,20 @@ export function formatPercent(value, stalls) {
  * @returns {String} The value formatted as a bytes value
  */
 export function formatBytes(value) {
+    const format = new Intl.NumberFormat('de-DE', {
+        style: 'decimal',
+        minimumFractionDigits: 0,
+        maximumFractionDigits: 2
+    });
+
     if (value < 1024) {
-        return `${Math.round(value).toLocaleString()}B`;
+        return `${format.format(Math.round(value))}B`;
     } else if (value < 1024 * 1024) {
-        return `${(value / 1024).toFixed(2).toLocaleString()}kB`;
+        return `${format.format(value / 1024)}kB`;
     } else if (value < 1024 * 1024 * 1024) {
-        return `${(value / (1024 * 1024).toFixed(2)).toLocaleString()}MB`;
+        return `${format.format(value / (1024 * 1024))}MB`;
     } else if (value < 1024 * 1024 * 1024 * 1024) {
-        return `${(value / (1024 * 1024 * 1024).toFixed(2)).toLocaleString()}GB`;
+        return `${format.format(value / (1024 * 1024 * 1024))}GB`;
     }
     return value;
 }
@@ -36,7 +47,11 @@ export function formatBytes(value) {
  * @returns {String} The value formatted as a number with delimiters
  */
 export function formatNumber(value) {
-    return Math.round(value).toLocaleString();
+    return new Intl.NumberFormat('de-DE', {
+        style: 'decimal',
+        minimumFractionDigits: 0,
+        maximumFractionDigits: 2
+    }).format(value);
 }
 
 /**

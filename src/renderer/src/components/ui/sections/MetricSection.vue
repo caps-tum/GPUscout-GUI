@@ -7,7 +7,7 @@
             }}</a>
         </div>
         <p v-if="hint" class="-mt-1 text-sm text-text/50">{{ hint }}</p>
-        <div v-show="!hidden" class="flex flex-row gap-x-2 gap-y-2">
+        <div v-show="!hidden" class="flex flex-grow gap-x-2 gap-y-2">
             <slot></slot>
         </div>
         <p v-if="helpString && !hidden" class="text-sm text-text/50">{{ helpString }}</p>

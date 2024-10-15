@@ -14,6 +14,7 @@ import {
  * If an analysis is not mentioned in here, it will not be recognized!
  * Object keys:
  * - name: (required) The name of the key of the analysis in the JSON file from GPUscout
+ * - display_name: (optional) The display name of the analysis in the user interface
  * - use_sass: (required) If the analysis uses sass code (rather than PTX)
  * - occurrence_constructor: (optional) A constructor for a subclass of occurrence, which parses the data of each occurrence in the json. If omitted, the default constructor will be used (renderer/src/utils/Analysis.js)
  * - metrics: (optional) Maps the json names of all provided metrics to easier to remember internal names
@@ -21,6 +22,7 @@ import {
 export const ANALYSIS = {
     datatype_conversion: {
         name: 'datatype_conversion',
+        display_name: 'Datatype Conversion',
         use_sass: true,
         occurrence_constructor: (o) => new DatatypeConversionOccurrence(o),
         metrics: {
@@ -32,11 +34,13 @@ export const ANALYSIS = {
     },
     deadlock_detection: {
         name: 'deadlock_detection',
+        display_name: 'Deadlock Detection',
         use_sass: true,
         metrics: {}
     },
     global_atomics: {
         name: 'global_atomics',
+        display_name: 'Global Atomics',
         use_sass: false,
         occurrence_constructor: (o) => new GlobalAtomicsOccurrence(o),
         metrics: {
@@ -56,6 +60,7 @@ export const ANALYSIS = {
     },
     register_spilling: {
         name: 'register_spilling',
+        display_name: 'Register Spilling',
         use_sass: true,
         occurrence_constructor: (o) => new RegisterSpillingOccurrence(o),
         metrics: {
@@ -82,6 +87,7 @@ export const ANALYSIS = {
     },
     use_restrict: {
         name: 'use_restrict',
+        display_name: 'Use Restrict',
         use_sass: true,
         occurrence_constructor: (o) => new UseRestrictOccurrence(o),
         metrics: {
@@ -94,6 +100,7 @@ export const ANALYSIS = {
     },
     use_shared: {
         name: 'use_shared',
+        display_name: 'Use Shared',
         use_sass: true,
         occurrence_constructor: (o) => new UseSharedOccurrence(o),
         metrics: {
@@ -106,6 +113,7 @@ export const ANALYSIS = {
     },
     use_texture: {
         name: 'use_texture',
+        display_name: 'Use Texture',
         use_sass: true,
         occurrence_constructor: (o) => new UseTextureOccurrence(o),
         metrics: {
@@ -123,6 +131,7 @@ export const ANALYSIS = {
     },
     vectorization: {
         name: 'vectorization',
+        display_name: 'Vectorization',
         use_sass: true,
         occurrence_constructor: (o) => new VectorizationOccurrence(o),
         metrics: {
@@ -137,6 +146,7 @@ export const ANALYSIS = {
     },
     warp_divergence: {
         name: 'warp_divergence',
+        display_name: 'Warp Divergence',
         use_sass: true,
         occurrence_constructor: (o) => new WarpDivergenceOccurrence(o),
         metrics: {

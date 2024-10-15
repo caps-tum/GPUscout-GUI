@@ -1,7 +1,7 @@
 <template>
     <div class="flex h-full w-full items-center justify-center rounded bg-primary text-background">
-        <p class="text-lg font-bold">{{ currentAnalysis.replace('_', ' ') }} analysis for kernel</p>
-        <select ref="kernelSelector" :value="currentKernel" @change="changeKernel" class="bg-transparent outline-none">
+        <p class="text-lg font-bold">{{ ANALYSIS[currentAnalysis]?.display_name }} Analysis for Kernel</p>
+        <select ref="kernelSelector" :value="currentKernel" class="bg-transparent outline-none" @change="changeKernel">
             <option v-for="kernel in kernels" :key="kernel" :value="kernel">{{ kernel }}</option>
         </select>
     </div>
@@ -9,6 +9,7 @@
 <script setup>
 import { computed, ref } from 'vue';
 import { useDataStore } from '../../stores/DataStore';
+import { ANALYSIS } from '../../../../config/analyses';
 
 const dataStore = useDataStore();
 

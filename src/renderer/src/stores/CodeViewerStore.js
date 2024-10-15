@@ -2,7 +2,6 @@ import { defineStore } from 'pinia';
 import { computed, ref } from 'vue';
 import { useDataStore } from './DataStore';
 import { BINARY_TOKEN_HIGHLIGHT_COLORS, CODE_STYLES } from '../../../config/colors';
-import { Occurrence } from '../utils/Analysis';
 
 export const CODE_TYPE = {
     NONE: 0,
@@ -24,6 +23,9 @@ export const useCodeViewerStore = defineStore('codeViewer', () => {
     const occurrenceSourceLines = ref([]);
     const occurrenceBinaryLines = ref([]);
 
+    const scrollToSourceLines = ref([]);
+    const scrollToBinaryLines = ref([]);
+
     const highlightedSourceLines = ref({});
     const highlightedBinaryLines = ref({});
 
@@ -34,6 +36,9 @@ export const useCodeViewerStore = defineStore('codeViewer', () => {
 
     const getOccurrenceSourceLines = computed(() => occurrenceSourceLines.value);
     const getOccurrenceBinaryLines = computed(() => occurrenceBinaryLines.value);
+
+    const getScrollToSourceLines = computed(() => scrollToSourceLines.value);
+    const getScrollToBinaryLines = computed(() => scrollToBinaryLines.value);
 
     const getCurrentView = computed(() => currentView.value);
     const getCurrentBinary = computed(() => currentBinary.value);
@@ -65,8 +70,9 @@ export const useCodeViewerStore = defineStore('codeViewer', () => {
 
     /**
      * @param {String|Number} line The line number to select
+     * @param {Boolean} scrollTo If the line should be scrolled to in the current view
      */
-    function setSelectedLine(line) {
+    function setSelectedLine(line, scrollTo = false) {
         resetHighlights();
         if (selectedLine.value === line) {
             selectedLine.value = '';
@@ -80,10 +86,20 @@ export const useCodeViewerStore = defineStore('codeViewer', () => {
             highlightedBinaryLines.value[line] = CODE_STYLES.SELECTED_LINE;
             highlightedSourceLines.value[dataStore.getGPUscoutResult().getSassToSourceLine(currentKernel.value, line)] =
                 CODE_STYLES.SELECTED_LINE_SECONDARY;
+
+            scrollToSourceLines.value.push(dataStore.getGPUscoutResult().getSassToSourceLine(currentKernel.value, line));
+            if (scrollTo) {
+                scrollToBinaryLines.value.push(line);
+            }
         } else if (currentView.value === CODE_TYPE.PTX_CODE) {
             highlightedBinaryLines.value[line] = CODE_STYLES.SELECTED_LINE;
             highlightedSourceLines.value[dataStore.getGPUscoutResult().getPtxToSourceLine(currentKernel.value, line)] =
                 CODE_STYLES.SELECTED_LINE_SECONDARY;
+
+            scrollToSourceLines.value.push(dataStore.getGPUscoutResult().getPtxToSourceLine(currentKernel.value, line));
+            if (scrollTo) {
+                scrollToBinaryLines.value.push(line);
+            }
         } else if (currentView.value === CODE_TYPE.SOURCE_CODE) {
             highlightedSourceLines.value[line] = CODE_STYLES.SELECTED_LINE;
             const lines =
@@ -92,6 +108,11 @@ export const useCodeViewerStore = defineStore('codeViewer', () => {
                     : dataStore.getGPUscoutResult().getSourceToPtxLines(currentKernel.value, line);
             for (const line of lines) {
                 highlightedBinaryLines.value[line] = CODE_STYLES.SELECTED_LINE_SECONDARY;
+            }
+
+            scrollToBinaryLines.value.push(lines[0]);
+            if (scrollTo) {
+                scrollToSourceLines.value.push(line);
             }
         }
 
@@ -153,6 +174,8 @@ export const useCodeViewerStore = defineStore('codeViewer', () => {
         highlightedBinaryLines.value = {};
         highlightedSourceTokens.value = {};
         highlightedBinaryTokens.value = {};
+        scrollToSourceLines.value = scrollToSourceLines.value.filter(() => false);
+        scrollToBinaryLines.value = scrollToBinaryLines.value.filter(() => false);
     }
 
     return {
@@ -162,6 +185,8 @@ export const useCodeViewerStore = defineStore('codeViewer', () => {
         getHighlightedBinaryTokens,
         getHighlightedBinaryLines,
         getHighlightedSourceTokens,
+        getScrollToBinaryLines,
+        getScrollToSourceLines,
         setCurrentBinary,
         setOccurrenceLines,
         getSelectedLine,

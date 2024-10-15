@@ -22,7 +22,7 @@
     </div>
 </template>
 <script setup>
-import { ref } from 'vue';
+import { ref, watch } from 'vue';
 import { CODE_TYPE, useCodeViewerStore } from '../../../stores/CodeViewerStore';
 import CodeLineToken from './CodeLineToken.vue';
 import { CODE_STYLES } from '../../../../../config/colors';
@@ -33,6 +33,7 @@ const props = defineProps({
     codeType: Number,
     highlightedLines: Object,
     highlightedTokens: Object,
+    scrollToLines: Array,
     isOccurrence: Boolean,
     hasStalls: Boolean,
     currentView: Number,
@@ -64,4 +65,14 @@ function getHighlight() {
     }
     return style;
 }
+
+watch(
+    () => props.scrollToLines,
+    (newValue) => {
+        if (newValue.includes(props.lineNumber)) {
+            line.value.scrollIntoView({ block: 'center', behavior: 'smooth' });
+        }
+    },
+    { deep: true }
+);
 </script>

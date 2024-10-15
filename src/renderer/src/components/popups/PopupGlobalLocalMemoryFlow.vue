@@ -51,7 +51,7 @@
                         miss rate
                     </p>
                 </MemoryGraphNodeLarge>
-                <MemoryGraphArrows :arrows="1" :space-top="1">
+                <MemoryGraphArrows :arrows="2">
                     <template #arrow-1-top>{{
                         formatBytes(analysisData.getMetric(ANALYSIS.register_spilling.metrics.global_memory_l1_to_l2_bytes))
                     }}</template>

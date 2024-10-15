@@ -5,6 +5,7 @@
         <p v-if="codeType === CODE_TYPE.PTX_CODE">PTX Code</p>
         <CodeLine
             v-for="line in codeLines"
+            ref="lines"
             :key="line.address"
             :tokens="line.tokens"
             :line-number="line.address"
@@ -12,6 +13,7 @@
             :code-type="codeType"
             :highlighted-lines="highlightedLines"
             :highlighted-tokens="highlightedTokens"
+            :scroll-to-lines="scrollToLines"
             :has-stalls="Object.keys(line.stalls).length > 0 || false"
             :is-occurrence="occurrenceLines.includes(line.address)"
             :current-view="currentView"
@@ -23,13 +25,14 @@
 import { CODE_TYPE } from '../../stores/CodeViewerStore';
 import { useDataStore } from '../../stores/DataStore';
 import CodeLine from './parts/CodeLine.vue';
-import { computed } from 'vue';
+import { computed, ref } from 'vue';
 
 defineProps({
     codeType: Number,
     codeLines: Array,
     highlightedLines: Object,
     highlightedTokens: Object,
+    scrollToLines: Array,
     occurrenceLines: Array,
     currentView: Number
 });
@@ -37,13 +40,10 @@ defineProps({
 const dataStore = useDataStore();
 
 const selectedOccurrences = computed(() => dataStore.getCurrentOccurrences);
+const lines = ref(null);
 </script>
 <style scoped>
 p {
     @apply sticky top-0 z-10 bg-secondary text-center text-text;
-}
-
-div {
-    scrollbar-color: rgb(150, 142, 224) transparent;
 }
 </style>

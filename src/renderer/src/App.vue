@@ -28,3 +28,8 @@ onBeforeMount(async () => {
     contextStore.setCurrentContext(CONTEXT.START_SCREEN);
 });
 </script>
+<style>
+* {
+    scrollbar-color: rgb(150, 142, 224) transparent;
+}
+</style>

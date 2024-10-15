@@ -5,6 +5,7 @@
             :code-type="CODE_TYPE.SOURCE_CODE"
             :highlighted-lines="highlightedSourceLines"
             :highlighted-tokens="highlightedSourceTokens"
+            :scroll-to-lines="scrollToSourceLines"
             :occurrence-lines="occurrenceSourceLines"
             :current-view="currentView"
         />
@@ -14,6 +15,7 @@
             :code-type="CODE_TYPE.SASS_CODE"
             :highlighted-lines="highlightedBinaryLines"
             :highlighted-tokens="highlightedBinaryTokens"
+            :scroll-to-lines="scrollToBinaryLines"
             :occurrence-lines="occurrenceBinaryLines"
             :current-view="currentView"
         />
@@ -23,6 +25,7 @@
             :code-type="CODE_TYPE.PTX_CODE"
             :highlighted-lines="highlightedBinaryLines"
             :highlighted-tokens="highlightedBinaryTokens"
+            :scroll-to-lines="scrollToBinaryLines"
             :occurrence-lines="occurrenceBinaryLines"
             :current-view="currentView"
         />
@@ -39,6 +42,9 @@ const codeViewStore = useCodeViewerStore();
 
 const occurrenceBinaryLines = computed(() => codeViewStore.getOccurrenceBinaryLines);
 const occurrenceSourceLines = computed(() => codeViewStore.getOccurrenceSourceLines);
+
+const scrollToSourceLines = computed(() => codeViewStore.getScrollToSourceLines);
+const scrollToBinaryLines = computed(() => codeViewStore.getScrollToBinaryLines);
 
 const highlightedBinaryLines = computed(() => codeViewStore.getHighlightedBinaryLines);
 const highlightedSourceLines = computed(() => codeViewStore.getHighlightedSourceLines);

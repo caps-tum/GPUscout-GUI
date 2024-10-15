@@ -77,7 +77,7 @@ function selectPreviousOccurrence() {
 
     if (currentIndex >= 0) {
         codeViewerStore.setCurrentView(binaryView.value);
-        codeViewerStore.setSelectedLine(occurrences.value[currentIndex].binaryLineNumber);
+        codeViewerStore.setSelectedLine(occurrences.value[currentIndex].binaryLineNumber, true);
     }
 }
 
@@ -100,7 +100,7 @@ function selectNextOccurrence() {
 
     if (currentIndex >= 0) {
         codeViewerStore.setCurrentView(binaryView.value);
-        codeViewerStore.setSelectedLine(occurrences.value[currentIndex].binaryLineNumber);
+        codeViewerStore.setSelectedLine(occurrences.value[currentIndex].binaryLineNumber, true);
     }
 }
 </script>
