@@ -1,7 +1,9 @@
 export const TEXT = {
     code_view: {
         code_info: {
-            default_occurrence_title: 'Occurrence found'
+            default_occurrence_title: 'Occurrence found',
+            stalls_title: 'Stalls',
+            recommendations_title: 'Recommendations'
         }
     },
     analyses: {

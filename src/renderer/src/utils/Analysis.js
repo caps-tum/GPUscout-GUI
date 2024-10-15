@@ -57,11 +57,11 @@ export class Analysis {
     /**
      * @returns {Occurrence}
      */
-    getOccurrence(codeType, lineNumber) {
+    getOccurrencesAt(codeType, lineNumber) {
         if (codeType === CODE_TYPE.SOURCE_CODE) {
-            return this._occurrences.find((o) => o.sourceLineNumber === lineNumber);
+            return this._occurrences.filter((o) => o.sourceLineNumber === lineNumber);
         } else {
-            return this._occurrences.find((o) => o.binaryLineNumber === lineNumber);
+            return this._occurrences.filter((o) => o.binaryLineNumber === lineNumber);
         }
     }
 
@@ -103,5 +103,9 @@ export class Occurrence {
             resultString += `\n- ${key}: ${value}`;
         }
         return resultString;
+    }
+
+    recommendations() {
+        return '';
     }
 }

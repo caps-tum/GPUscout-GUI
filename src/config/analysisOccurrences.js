@@ -44,14 +44,14 @@ export class RegisterSpillingOccurrence extends Occurrence {
     }
 
     title() {
-        return 'Register spill in current line';
+        return 'Register spill';
     }
 
     description() {
-        let result = `Register R8 spilled in the <b>${this.operation}</b> operation.`;
+        let result = `Register R8 spilled in this <b>${this.operation}</b> operation.`;
 
         if (this.hasPreviousComputeInstruction) {
-            result += `The previous compute instruction this register was used in was <b>${this.previousComputeInstruction}</b>.`;
+            result += `The previous compute instruction this register was used in was <b>${this.previousComputeInstruction}</b> in line <b>${this.previousComputeBinaryLineNumber}</b>.`;
         }
 
         result += `\nAt the moment of spilling, <b>${this.usedRegisters}</b> out of the available <b>TODO</b> registers were in use. `;
@@ -63,6 +63,10 @@ export class RegisterSpillingOccurrence extends Occurrence {
         }
 
         return result;
+    }
+
+    recommendations() {
+        return `In case of high performance impacts of local memory on the bandwidth or instructions of the current kernel, try to decrease general register usage, or increase the available registers per thread.\nIf not used already, using non-caching loads for global memory can also help decrease local memory L1 cache misses.\nIn case of bandwidth limitation, increasing the L1 size is also recommended.`;
     }
 
     tokensToHighlight() {

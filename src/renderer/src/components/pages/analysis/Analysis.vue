@@ -12,18 +12,18 @@
                     <CodeInfo
                         :analysis="currentAnalysis"
                         :kernel="currentKernel"
-                        :occurrence="selectedOccurrence"
+                        :occurrences="selectedOccurrences"
                         :stalls="lineStalls"
                     />
                 </div>
                 <div class="flex w-full flex-row justify-around space-x-2">
                     <ButtonSecondary
-                        class="text-center text-base"
+                        class="text-center !text-base"
                         title="Select previous occurrence"
                         @click="selectPreviousOccurrence"
                     />
                     <ButtonSecondary
-                        class="text-center text-base"
+                        class="text-center !text-base"
                         title="Select next occurrence"
                         @click="selectNextOccurrence"
                     />
@@ -39,7 +39,7 @@ import CodeInfo from './CodeInfo.vue';
 import TopSection from './TopSection.vue';
 import { useDataStore } from '../../../stores/DataStore';
 import { computed } from 'vue';
-import { useCodeViewerStore } from '../../../stores/CodeViewerStore';
+import { CODE_TYPE, useCodeViewerStore } from '../../../stores/CodeViewerStore';
 
 const dataStore = useDataStore();
 const codeViewerStore = useCodeViewerStore();
@@ -50,7 +50,7 @@ const selectedLine = computed(() => codeViewerStore.getSelectedLine);
 const binaryView = computed(() => codeViewerStore.getCurrentBinary);
 const currentView = computed(() => codeViewerStore.getCurrentView);
 
-const selectedOccurrence = computed(() => dataStore.getCurrentOccurrence);
+const selectedOccurrences = computed(() => dataStore.getCurrentOccurrences);
 const occurrences = computed(() =>
     dataStore.getGPUscoutResult().getAnalysis(currentAnalysis.value, currentKernel.value).getOccurrences()
 );
@@ -59,7 +59,22 @@ const lineStalls = computed(() =>
 );
 
 function selectPreviousOccurrence() {
-    const currentIndex = occurrences.value.findLastIndex((o) => o.binaryLineNumber < selectedLine.value);
+    let currentIndex = -1;
+    if (currentView.value !== CODE_TYPE.SOURCE_CODE) {
+        currentIndex = occurrences.value.findLastIndex((o) => o.binaryLineNumber < selectedLine.value);
+    } else if (selectedOccurrences.value.length > 0) {
+        const minBinaryLine = selectedOccurrences.value
+            .map((so) => so.binaryLineNumber)
+            .reduce((min, curr) => (curr < min ? curr : min));
+        currentIndex = occurrences.value.findLastIndex((o) => o.binaryLineNumber < minBinaryLine);
+    } else {
+        const binaryLine = occurrences.value
+            .filter((oc) => oc.sourceLineNumber < selectedLine.value)
+            .map((oc) => oc.binaryLineNumber)
+            .reduce((min, curr) => (curr < min ? min : curr));
+        currentIndex = occurrences.value.findIndex((o) => o.binaryLineNumber === binaryLine);
+    }
+
     if (currentIndex >= 0) {
         codeViewerStore.setCurrentView(binaryView.value);
         codeViewerStore.setSelectedLine(occurrences.value[currentIndex].binaryLineNumber);
@@ -67,7 +82,22 @@ function selectPreviousOccurrence() {
 }
 
 function selectNextOccurrence() {
-    const currentIndex = occurrences.value.findIndex((o) => o.binaryLineNumber > selectedLine.value);
+    let currentIndex = -1;
+    if (currentView.value !== CODE_TYPE.SOURCE_CODE) {
+        currentIndex = occurrences.value.findIndex((o) => o.binaryLineNumber > selectedLine.value);
+    } else if (selectedOccurrences.value.length > 0) {
+        const maxBinaryLine = selectedOccurrences.value
+            .map((so) => so.binaryLineNumber)
+            .reduce((max, curr) => (curr > max ? curr : max));
+        currentIndex = occurrences.value.findIndex((o) => o.binaryLineNumber > maxBinaryLine);
+    } else {
+        const binaryLine = occurrences.value
+            .filter((oc) => oc.sourceLineNumber > selectedLine.value)
+            .map((oc) => oc.binaryLineNumber)
+            .reduce((max, curr) => (curr > max ? max : curr));
+        currentIndex = occurrences.value.findIndex((o) => o.binaryLineNumber === binaryLine);
+    }
+
     if (currentIndex >= 0) {
         codeViewerStore.setCurrentView(binaryView.value);
         codeViewerStore.setSelectedLine(occurrences.value[currentIndex].binaryLineNumber);

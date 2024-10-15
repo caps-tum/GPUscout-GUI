@@ -12,10 +12,10 @@
             :code-type="codeType"
             :highlighted-lines="highlightedLines"
             :highlighted-tokens="highlightedTokens"
-            :has-stalls="line.stalls?.length > 0 || false"
+            :has-stalls="Object.keys(line.stalls).length > 0 || false"
             :is-occurrence="occurrenceLines.includes(line.address)"
             :current-view="currentView"
-            :selected-occurrence="selectedOccurrence"
+            :selected-occurrences="selectedOccurrences"
         />
     </div>
 </template>
@@ -36,7 +36,7 @@ defineProps({
 
 const dataStore = useDataStore();
 
-const selectedOccurrence = computed(() => dataStore.getCurrentOccurrence);
+const selectedOccurrences = computed(() => dataStore.getCurrentOccurrences);
 </script>
 <style scoped>
 p {

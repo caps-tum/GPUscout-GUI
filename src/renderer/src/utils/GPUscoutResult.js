@@ -293,7 +293,7 @@ export class GPUscoutResult {
                         .split(/([,.:[\]() ])/)
                         .filter((token) => token.length > 0),
                     liveRegisters: [0, 0],
-                    stalls: []
+                    stalls: {}
                 });
             } else if (line.includes('//##')) {
                 // //## File "FILE_PATH", line LINE_NUMBER
@@ -341,9 +341,9 @@ export class GPUscoutResult {
                         .split(/([+,.:[\]() ])/)
                         .filter((token) => token.length > 0),
                     liveRegisters: liveRegisters,
-                    stalls: relevantStalls
-                        .filter((s) => s['pc_offset'].padStart(4, '0') === address)
-                        .flatMap((s) => s['stalls'])
+                    stalls: Object.fromEntries(
+                        relevantStalls.filter((s) => s['pc_offset'].padStart(4, '0') === address).flatMap((s) => s['stalls'])
+                    )
                 });
             } else {
                 // We are at the end of a kernel
@@ -386,20 +386,22 @@ export class GPUscoutResult {
                     this.sourceCodeLines[kernel].push({
                         address: lineNumber,
                         tokens: sourceFileContents[sourceFile][i - 1].split(/([ ,(){};+\-*<>=%&./])/),
-                        stalls: relevantStalls
-                            .filter((s) => s['line_number'] === lineNumber)
-                            .flatMap((s) => s['stalls'])
-                            .reduce((a, b) => {
-                                a.find((x) => x[0] === b[0]) ? (a.find((x) => x[0] === b[0])[1] += b[1]) : a.push(b);
-                                return a;
-                            }, [])
+                        stalls: Object.fromEntries(
+                            relevantStalls
+                                .filter((s) => s['line_number'] === lineNumber)
+                                .flatMap((s) => s['stalls'])
+                                .reduce((a, b) => {
+                                    a.find((x) => x[0] === b[0]) ? (a.find((x) => x[0] === b[0])[1] += b[1]) : a.push(b);
+                                    return a;
+                                }, [])
+                        )
                     });
                     lineNumber++;
                 }
                 this.sourceCodeLines[kernel].push({
                     address: lineNumber,
                     tokens: [],
-                    stalls: []
+                    stalls: {}
                 });
                 lineNumber++;
             }

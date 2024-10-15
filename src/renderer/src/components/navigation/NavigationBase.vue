@@ -1,7 +1,7 @@
 <template>
     <div class="flex h-full w-full flex-row space-x-2 p-2">
         <NavigationSidebar />
-        <div class="grid h-full w-full grid-rows-[3rem_calc(100vh-5rem)] space-y-2">
+        <div class="grid h-full w-full grid-rows-[3rem_calc(100vh-4.5rem)] space-y-2">
             <NavigationHeader />
             <Analysis v-if="currentContext === CONTEXT.ANALYSIS" />
         </div>

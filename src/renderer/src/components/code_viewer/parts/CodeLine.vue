@@ -25,7 +25,7 @@
 import { ref } from 'vue';
 import { CODE_TYPE, useCodeViewerStore } from '../../../stores/CodeViewerStore';
 import CodeLineToken from './CodeLineToken.vue';
-import { Occurrence } from '../../../utils/Analysis';
+import { CODE_STYLES } from '../../../../../config/colors';
 
 const props = defineProps({
     tokens: Array,
@@ -36,7 +36,7 @@ const props = defineProps({
     isOccurrence: Boolean,
     hasStalls: Boolean,
     currentView: Number,
-    selectedOccurrence: Occurrence,
+    selectedOccurrences: Array,
     liveRegisters: Array
 });
 
@@ -51,37 +51,16 @@ function selectLine() {
 
 /**
  * Determines the background style of this code line:
- * - The line an occurrence -> red border
- * - The line is selected and an occurrence -> blue
- * - The line is present in props.highlightedLines -> either light or normal green, depending on boolean value
  * @returns {String}
  */
 function getHighlight() {
     let style = '';
     if (props.isOccurrence) {
-        style += 'border-2 border-red-400';
+        style += CODE_STYLES.OCCURRENCE + ' ';
     }
-    if (
-        props.selectedOccurrence &&
-        ((props.codeType === CODE_TYPE.SOURCE_CODE && props.selectedOccurrence.sourceLineNumber == props.lineNumber) ||
-            (props.codeType !== CODE_TYPE.SOURCE_CODE && props.selectedOccurrence.binaryLineNumber === props.lineNumber))
-    ) {
-        // The current line belongs to the currently selected occurrence
-        // Scroll to the occurrence if we are not in the selected code view
-        line.value.scrollIntoView({ behavior: 'smooth', block: 'center' });
-        style += props.codeType === props.currentView ? ' bg-sky-400' : ' bg-sky-300';
-    } else if (props.highlightedLines[props.lineNumber] !== undefined) {
-        // The current line does not belong to any occurrence directly, but is still highlighted in some way
-        if (
-            props.highlightedLines[props.lineNumber] === false &&
-            props.lineNumber == Object.keys(props.highlightedLines)[0] &&
-            !props.selectedOccurrence &&
-            props.currentView !== props.codeType
-        ) {
-            // Scroll to this line, if it is not in the currently selected code view, no occurrence is currently selected and this is the topmost line of all highlighted ones
-            line.value.scrollIntoView({ behavior: 'smooth', block: 'center' });
-        }
-        style += props.highlightedLines[props.lineNumber] ? ' bg-green-400' : ' bg-green-200';
+
+    if (props.highlightedLines[props.lineNumber] !== undefined) {
+        style += props.highlightedLines[props.lineNumber];
     }
     return style;
 }

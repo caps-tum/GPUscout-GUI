@@ -12,7 +12,7 @@ export const useDataStore = defineStore('data', () => {
 
     const currentKernel = ref('');
     const currentAnalysis = ref('');
-    const currentOccurrence = ref(null);
+    const currentOccurrences = ref([]);
 
     /** @returns {GPUscoutResult} */
     const getGPUscoutResult = () => gpuscoutResult;
@@ -23,7 +23,7 @@ export const useDataStore = defineStore('data', () => {
 
     const getCurrentKernel = computed(() => currentKernel.value);
     const getCurrentAnalysis = computed(() => currentAnalysis.value);
-    const getCurrentOccurrence = computed(() => currentOccurrence.value);
+    const getCurrentOccurrences = computed(() => currentOccurrences.value);
 
     /**
      * Initialize the store with the data from GPUscout
@@ -86,10 +86,11 @@ export const useDataStore = defineStore('data', () => {
         codeViewerStore.updateSelectedLine();
     }
 
-    function setCurrentOccurrence(codeType, lineNumber) {
-        currentOccurrence.value = gpuscoutResult
+    function setCurrentOccurrences(codeType, lineNumber) {
+        currentOccurrences.value = currentOccurrences.value.filter(() => false);
+        currentOccurrences.value = gpuscoutResult
             .getAnalysis(currentAnalysis.value, currentKernel.value)
-            .getOccurrence(codeType, lineNumber);
+            .getOccurrencesAt(codeType, lineNumber);
     }
 
     return {
@@ -97,11 +98,11 @@ export const useDataStore = defineStore('data', () => {
         getCurrentAnalysis,
         getCurrentKernel,
         getGPUscoutResult,
-        getCurrentOccurrence,
+        getCurrentOccurrences,
         getAnalyses,
         getKernels,
         initialize,
-        setCurrentOccurrence,
+        setCurrentOccurrences,
         setCurrentKernel
     };
 });
