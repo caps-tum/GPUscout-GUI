@@ -1,24 +1,26 @@
 <template>
-    <div class="relative flex h-full w-full flex-col overflow-x-auto bg-secondary/50">
+    <div class="relative flex h-full w-full flex-col bg-secondary/50">
         <p v-if="codeType === CODE_TYPE.SOURCE_CODE">Source Code</p>
         <p v-else-if="codeType === CODE_TYPE.SASS_CODE">SASS Code</p>
         <p v-if="codeType === CODE_TYPE.PTX_CODE">PTX Code</p>
-        <CodeLine
-            v-for="line in codeLines"
-            ref="lines"
-            :key="line.address"
-            :tokens="line.tokens"
-            :line-number="line.address"
-            :live-registers="line.liveRegisters"
-            :code-type="codeType"
-            :highlighted-lines="highlightedLines"
-            :highlighted-tokens="highlightedTokens"
-            :scroll-to-lines="scrollToLines"
-            :has-stalls="Object.keys(line.stalls).length > 0 || false"
-            :is-occurrence="occurrenceLines.includes(line.address)"
-            :current-view="currentView"
-            :selected-occurrences="selectedOccurrences"
-        />
+        <div class="flex h-full w-full flex-col overflow-x-auto">
+            <CodeLine
+                v-for="line in codeLines"
+                ref="lines"
+                :key="line.address"
+                :tokens="line.tokens"
+                :line-number="line.address"
+                :live-registers="line.liveRegisters"
+                :code-type="codeType"
+                :highlighted-lines="highlightedLines"
+                :highlighted-tokens="highlightedTokens"
+                :scroll-to-lines="scrollToLines"
+                :has-stalls="Object.keys(line.stalls).length > 0 || false"
+                :is-occurrence="occurrenceLines.includes(line.address)"
+                :current-view="currentView"
+                :selected-occurrences="selectedOccurrences"
+            />
+        </div>
     </div>
 </template>
 <script setup>

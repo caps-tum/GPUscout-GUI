@@ -1,16 +1,8 @@
 <template>
     <div class="flex h-full w-full flex-col items-center justify-center">
+        <p class="mb-20 text-9xl font-bold">GPUscout-GUI</p>
         <div class="flex max-h-full w-1/2 flex-col">
-            <div class="flex flex-row space-x-1">
-                <label>GPUScout output directory:</label>
-                <input
-                    :value="config['gpuscoutOutputFolder']"
-                    type="text"
-                    class="bg-red-400"
-                    @change="changeGPUScoutOutputFolder"
-                />
-                <button @click="selectFolder">Choose Folder</button>
-            </div>
+            <div class="flex flex-row space-x-1"></div>
             <SelectAnalysis
                 :contains-selected-analysis="selectedAnalysisSource === 'FILE'"
                 @analysis-selected="onAnalysisSelected"
@@ -19,10 +11,12 @@
             <AnalysesFromFolder
                 :files="filesInOutputFolder"
                 :contains-selected-analysis="selectedAnalysisSource === 'FOLDER'"
+                :gpuscout-output-folder="config['gpuscoutOutputFolder']"
                 @analysis-selected="onAnalysisSelected"
+                @folder-changed="folderChanged"
             />
-            <p class="w-full py-1 text-center text-xl font-bold">OR</p>
-            <RecentAnalyses />
+            <!--<p class="w-full py-1 text-center text-xl font-bold">OR</p>
+            <RecentAnalyses />-->
         </div>
         <ButtonPrimary
             :disabled="selectedAnalysisTitle === ''"
@@ -58,18 +52,9 @@ onMounted(async () => {
     await updateRelevantFiles();
 });
 
-async function changeGPUScoutOutputFolder(event) {
-    configStore.setOption('gpuscoutOutputFolder', event.target.value);
+async function folderChanged(directory) {
+    configStore.setOption('gpuscoutOutputFolder', directory);
     await updateRelevantFiles();
-}
-
-async function selectFolder() {
-    const selectedDirectory = await window.electronAPI.selectDirectory(config.value['gpuscoutOutputFolder']);
-
-    if (selectedDirectory.length > 0) {
-        configStore.setOption('gpuscoutOutputFolder', selectedDirectory);
-        await updateRelevantFiles();
-    }
 }
 
 async function updateRelevantFiles() {
@@ -85,6 +70,7 @@ function onAnalysisSelected(folderPath, title, source) {
 async function proceed() {
     if (!selectedAnalysisFolder.value || !selectedAnalysisTitle.value) {
         alert('No analysis selected');
+        return;
     }
     const analysisFileData = await window.electronAPI.loadAnalysis(
         selectedAnalysisFolder.value,

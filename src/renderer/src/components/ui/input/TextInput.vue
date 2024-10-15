@@ -3,6 +3,8 @@
         ref="input"
         type="text"
         :placeholder="placeholder"
+        :value="value"
+        :readonly="readonly"
         class="rounded bg-background p-1 text-text"
         @change="onChange"
         @input="onChange"
@@ -12,7 +14,9 @@
 import { ref } from 'vue';
 
 defineProps({
-    placeholder: String
+    placeholder: String,
+    value: String,
+    readonly: Boolean
 });
 
 const emit = defineEmits(['changed']);

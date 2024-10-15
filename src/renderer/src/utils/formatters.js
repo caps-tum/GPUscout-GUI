@@ -8,7 +8,7 @@ import { STALLS } from '../../../config/stalls';
 export function formatPercent(value, stalls) {
     const format = new Intl.NumberFormat('de-DE', {
         style: 'decimal',
-        minimumFractionDigits: 1,
+        minimumFractionDigits: 0,
         maximumFractionDigits: 1
     });
     let percent_rounded = Math.round(value * 100) / 100;
@@ -50,7 +50,7 @@ export function formatNumber(value) {
     return new Intl.NumberFormat('de-DE', {
         style: 'decimal',
         minimumFractionDigits: 0,
-        maximumFractionDigits: 2
+        maximumFractionDigits: 0
     }).format(value);
 }
 
