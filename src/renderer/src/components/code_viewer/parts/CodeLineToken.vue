@@ -11,14 +11,20 @@ const props = defineProps({
 });
 
 function getHighlight() {
-    if (
-        props.highlightedTokens[props.lineNumber] !== undefined &&
-        props.highlightedTokens[props.lineNumber][props.token] !== undefined
-    ) {
-        return props.highlightedTokens[props.lineNumber][props.token];
-    }
-    if (props.highlightedTokens['*'] !== undefined && props.highlightedTokens['*'][props.token] !== undefined) {
-        return props.highlightedTokens['*'][props.token];
+    for (const key of Object.keys(props.highlightedTokens)) {
+        if (!props.highlightedTokens[key][props.token]) {
+            continue;
+        }
+        if (
+            (key.startsWith('<=') && props.lineNumber.toString() <= key.substring(2)) ||
+            (key.startsWith('< ') && props.lineNumber.toString() < key.substring(2)) ||
+            (key.startsWith('>=') && props.lineNumber.toString() >= key.substring(2)) ||
+            (key.startsWith('> ') && props.lineNumber.toString() > key.substring(2)) ||
+            props.lineNumber.toString() === key ||
+            key === '*'
+        ) {
+            return props.highlightedTokens[key][props.token];
+        }
     }
     return '';
 }

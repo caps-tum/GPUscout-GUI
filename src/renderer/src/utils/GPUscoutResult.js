@@ -240,7 +240,7 @@ export class GPUscoutResult {
                     address: isLabel ? -1 : currentPtxLine,
                     tokens: line
                         .slice(0, -1)
-                        .split(/([, :;.])/)
+                        .split(/([+-, :;.])/)
                         .filter((token) => token.length > 0)
                 });
 
@@ -290,7 +290,7 @@ export class GPUscoutResult {
                     address: '0000',
                     tokens: line
                         .trim()
-                        .split(/([,.:[\]() ])/)
+                        .split(/([+-,.:[\]() ])/)
                         .filter((token) => token.length > 0),
                     liveRegisters: [0, 0],
                     stalls: {}
@@ -338,7 +338,7 @@ export class GPUscoutResult {
                     address: address,
                     tokens: line
                         .trim()
-                        .split(/([+,.:[\]() ])/)
+                        .split(/([+-,.:[\]() ])/)
                         .filter((token) => token.length > 0),
                     liveRegisters: liveRegisters,
                     stalls: Object.fromEntries(

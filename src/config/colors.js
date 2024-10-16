@@ -1,4 +1,8 @@
-export const BINARY_TOKEN_HIGHLIGHT_COLORS = ['text-red-400', 'text-yellow-400', 'text-purple-400'];
+export const CODE_BINARY_TOKEN_COLORS = {
+    INSTRUCTION: 'text-orange-400',
+    REGISTER_1: 'text-white',
+    REGISTER_2: 'text-green-400'
+};
 
 export const CODE_STYLES = {
     OCCURRENCE: 'border-2 border-red-400',

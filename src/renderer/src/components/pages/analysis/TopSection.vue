@@ -6,6 +6,7 @@
         <TopSectionTextureMemory v-else-if="analysis === ANALYSIS.use_texture.name" :kernel="kernel" />
         <TopSectionVectorization v-else-if="analysis === ANALYSIS.vectorization.name" :kernel="kernel" />
         <TopSectionRegisterSpilling v-else-if="analysis === ANALYSIS.register_spilling.name" :kernel="kernel" />
+        <TopSectionSharedMemory v-else-if="analysis === ANALYSIS.use_shared.name" :kernel="kernel" />
         <TopSectionDefault v-else :kernel="kernel" :analysis="analysis" />
     </div>
 </template>
@@ -17,6 +18,7 @@ import TopSectionRestrict from './custom_top_sections/TopSectionRestrict.vue';
 import TopSectionTextureMemory from './custom_top_sections/TopSectionTextureMemory.vue';
 import TopSectionVectorization from './custom_top_sections/TopSectionVectorization.vue';
 import TopSectionRegisterSpilling from './custom_top_sections/TopSectionRegisterSpilling.vue';
+import TopSectionSharedMemory from './custom_top_sections/TopSectionSharedMemory.vue';
 import { ANALYSIS } from '../../../../../config/analyses';
 
 defineProps({

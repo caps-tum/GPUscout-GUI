@@ -15,7 +15,9 @@ export class Analysis {
 
         if (analysisData['metrics']) {
             for (const [jsonMetricName, metricValue] of Object.entries(analysisData['metrics'])) {
-                if (typeof metricValue === 'object') {
+                if (metricValue === null) {
+                    this._metrics[jsonMetricName] = 0;
+                } else if (typeof metricValue === 'object') {
                     for (const [deepJsonMetricName, deepMetricValue] of Object.entries(metricValue)) {
                         this._metrics[`${jsonMetricName}/${deepJsonMetricName}`] = deepMetricValue;
                     }

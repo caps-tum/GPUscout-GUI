@@ -96,5 +96,29 @@ export const METRICS = {
         hint: 'Percentage of L1 cache misses due to local memory',
         format_function: formatPercent,
         help_text: 'Something'
+    },
+    branch_divergence_perc: {
+        display_name: 'Branch divergence',
+        hint: 'Fraction of branches that diverge',
+        format_function: formatPercent,
+        help_text: 'This is a detailed explanation something'
+    },
+    'data_memory_flow/shared_mem_load_operations': {
+        display_name: 'Load operations',
+        hint: 'Number of load instructions to shared memory',
+        format_function: formatNumber,
+        help_text: 'This is a detailed explanation something'
+    },
+    'bank_conflict/shared_mem_load_efficiency_perc': {
+        display_name: 'Load efficiency',
+        hint: 'Shared memory load efficiency',
+        format_function: formatPercent,
+        help_text: 'This is a detailed explanation something'
+    },
+    'bank_conflict/bank_conflict': {
+        display_name: 'Bank conflicts',
+        hint: 'Memory transactions per load access',
+        format_function: formatNumber,
+        help_text: 'This is a detailed explanation something'
     }
 };

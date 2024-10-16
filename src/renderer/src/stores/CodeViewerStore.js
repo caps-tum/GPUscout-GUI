@@ -1,7 +1,7 @@
 import { defineStore } from 'pinia';
 import { computed, ref } from 'vue';
 import { useDataStore } from './DataStore';
-import { BINARY_TOKEN_HIGHLIGHT_COLORS, CODE_STYLES } from '../../../config/colors';
+import { CODE_BINARY_TOKEN_COLORS, CODE_STYLES } from '../../../config/colors';
 
 export const CODE_TYPE = {
     NONE: 0,
@@ -18,6 +18,7 @@ export const useCodeViewerStore = defineStore('codeViewer', () => {
 
     const currentView = ref(CODE_TYPE.NONE);
     const currentBinary = ref(CODE_TYPE.SASS_CODE);
+    const sassRegistersVisible = ref(false);
     const selectedLine = ref('');
 
     const occurrenceSourceLines = ref([]);
@@ -33,6 +34,7 @@ export const useCodeViewerStore = defineStore('codeViewer', () => {
     const highlightedBinaryTokens = ref({});
 
     const getSelectedLine = computed(() => selectedLine.value);
+    const getSassRegistersVisible = computed(() => sassRegistersVisible.value);
 
     const getOccurrenceSourceLines = computed(() => occurrenceSourceLines.value);
     const getOccurrenceBinaryLines = computed(() => occurrenceBinaryLines.value);
@@ -48,6 +50,10 @@ export const useCodeViewerStore = defineStore('codeViewer', () => {
 
     const getHighlightedSourceTokens = computed(() => highlightedSourceTokens.value);
     const getHighlightedBinaryTokens = computed(() => highlightedBinaryTokens.value);
+
+    function setSassRegisterVisibility(visible) {
+        sassRegistersVisible.value = visible;
+    }
 
     function setCurrentView(view) {
         currentView.value = view;
@@ -117,15 +123,6 @@ export const useCodeViewerStore = defineStore('codeViewer', () => {
         }
 
         dataStore.setCurrentOccurrences(currentView.value, line);
-        // If a binary line has been selected, highlight the instruction
-        if (currentView.value !== CODE_TYPE.SOURCE_CODE) {
-            highlightedBinaryTokens.value[line] = {};
-            for (const token of dataStore
-                .getGPUscoutResult()
-                .getInstructionTokens(currentKernel.value, currentView.value, line)) {
-                highlightedBinaryTokens.value[line][token] = BINARY_TOKEN_HIGHLIGHT_COLORS[0];
-            }
-        }
 
         // Highlight the base lines of all selected occurrences
         for (const occurrence of currentOccurrences.value) {
@@ -137,26 +134,40 @@ export const useCodeViewerStore = defineStore('codeViewer', () => {
                 currentView.value !== CODE_TYPE.SOURCE_CODE
                     ? CODE_STYLES.HIGHLIGHTED_LINE_OCCURRENCE
                     : CODE_STYLES.HIGHLIGHTED_LINE_OCCURRENCE_SECONDARY;
+            // Highlight the instruction
+            highlightedBinaryTokens.value[occurrence.binaryLineNumber] = {};
+            for (const token of dataStore
+                .getGPUscoutResult()
+                .getInstructionTokens(currentKernel.value, currentBinary.value, occurrence.binaryLineNumber)) {
+                highlightedBinaryTokens.value[occurrence.binaryLineNumber][token] = CODE_BINARY_TOKEN_COLORS.INSTRUCTION;
+            }
         }
 
         // Only highlight binary stuff if only one occurrence is selected
         // (a line with an occurrence in the binary view is selected and not in the source code)
-        if (!currentOccurrences.value.length !== 1) {
+        if (currentOccurrences.value.length !== 1) {
             return;
         }
 
-        for (const [tokenLine, token] of Object.entries(currentOccurrences.value[0].tokensToHighlight())) {
-            let keys = highlightedBinaryTokens.value[tokenLine]
-                ? Object.keys(highlightedBinaryTokens.value[tokenLine]).length
-                : 0;
-            if (keys === 0) {
+        // Highlight all relevant tokens for this occurrence
+        for (const [tokenLine, tokens] of Object.entries(currentOccurrences.value[0].tokensToHighlight())) {
+            if (!highlightedBinaryTokens.value[tokenLine]) {
                 highlightedBinaryTokens.value[tokenLine] = {};
             }
-
-            highlightedBinaryTokens.value[tokenLine][token] = BINARY_TOKEN_HIGHLIGHT_COLORS[0];
+            for (const [token, color] of Object.entries(tokens)) {
+                highlightedBinaryTokens.value[tokenLine][token] = color;
+            }
         }
+
+        // Highlight all relevant secondary lines for this occurrence as well as the instruction in each line
         for (const secondaryLine of currentOccurrences.value[0].linesToHighlight()) {
             highlightedBinaryLines.value[secondaryLine] = CODE_STYLES.HIGHLIGHTED_LINE_OCCURRENCE_SECONDARY;
+            highlightedBinaryTokens.value[secondaryLine] = {};
+            for (const token of dataStore
+                .getGPUscoutResult()
+                .getInstructionTokens(currentKernel.value, currentBinary.value, secondaryLine)) {
+                highlightedBinaryTokens.value[secondaryLine][token] = CODE_BINARY_TOKEN_COLORS.INSTRUCTION;
+            }
         }
     }
 
@@ -196,6 +207,8 @@ export const useCodeViewerStore = defineStore('codeViewer', () => {
         getOccurrenceBinaryLines,
         getOccurrenceSourceLines,
         resetOccurrenceLines,
-        updateSelectedLine
+        updateSelectedLine,
+        getSassRegistersVisible,
+        setSassRegisterVisibility
     };
 });

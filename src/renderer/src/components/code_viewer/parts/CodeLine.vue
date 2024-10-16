@@ -3,7 +3,10 @@
         <p class="sticky left-0 top-0 w-16 shrink-0 select-none bg-secondary px-1 group-hover:bg-gray-200">
             {{ lineNumber }} {{ hasStalls ? '*' : '' }}
         </p>
-        <p class="flex h-6 max-h-6 w-full flex-grow flex-row text-nowrap group-hover:bg-blue-400" :class="getHighlight()">
+        <p
+            class="flex h-6 max-h-6 w-full flex-grow border-collapse flex-row overflow-hidden text-nowrap group-hover:bg-blue-400"
+            :class="getHighlight()"
+        >
             <CodeLineToken
                 v-for="token in tokens"
                 :key="token"
@@ -14,16 +17,16 @@
             />
         </p>
         <p
-            v-if="codeType === CODE_TYPE.SASS_CODE"
-            class="absolute right-0 top-0 w-16 shrink-0 select-none bg-secondary px-1 text-center group-hover:bg-gray-200"
+            v-if="showLiveRegisters"
+            class="sticky right-0 top-0 w-16 shrink-0 select-none bg-secondary px-1 text-center group-hover:bg-gray-200"
         >
-            {{ liveRegisters[0] || '-' }} / {{ liveRegisters[1] || '-' }}
+            {{ liveRegisters[0] || '-' }} | {{ liveRegisters[1] || '-' }}
         </p>
     </div>
 </template>
 <script setup>
 import { ref, watch } from 'vue';
-import { CODE_TYPE, useCodeViewerStore } from '../../../stores/CodeViewerStore';
+import { useCodeViewerStore } from '../../../stores/CodeViewerStore';
 import CodeLineToken from './CodeLineToken.vue';
 import { CODE_STYLES } from '../../../../../config/colors';
 
@@ -38,7 +41,8 @@ const props = defineProps({
     hasStalls: Boolean,
     currentView: Number,
     selectedOccurrences: Array,
-    liveRegisters: Array
+    liveRegisters: Array,
+    showLiveRegisters: Boolean
 });
 
 const codeViewerStore = useCodeViewerStore();
@@ -76,3 +80,8 @@ watch(
     { deep: true }
 );
 </script>
+<style scoped>
+div:has(+ .group > .border-2) > .border-2 {
+    @apply border-b-0;
+}
+</style>

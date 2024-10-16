@@ -1,4 +1,5 @@
 import { Occurrence } from '../renderer/src/utils/Analysis';
+import { CODE_BINARY_TOKEN_COLORS } from './colors';
 
 export class DatatypeConversionOccurrence extends Occurrence {
     constructor(occurrenceData) {
@@ -48,7 +49,7 @@ export class RegisterSpillingOccurrence extends Occurrence {
     }
 
     description() {
-        let result = `Register R8 spilled in this <b>${this.operation}</b> operation.`;
+        let result = `Register <b>${this.register}</b> spilled in this <b>${this.operation}</b> operation.`;
 
         if (this.hasPreviousComputeInstruction) {
             result += `The previous compute instruction this register was used in was <b>${this.previousComputeInstruction}</b> in line <b>${this.previousComputeBinaryLineNumber}</b>.`;
@@ -70,13 +71,11 @@ export class RegisterSpillingOccurrence extends Occurrence {
     }
 
     tokensToHighlight() {
-        let result = {
-            '*': this.register
+        return {
+            [`<=${this.binaryLineNumber}`]: {
+                [this.register]: CODE_BINARY_TOKEN_COLORS.REGISTER_1
+            }
         };
-        if (this.hasPreviousComputeInstruction) {
-            result[this.previousComputeBinaryLineNumber] = 'Instruction';
-        }
-        return result;
     }
 
     linesToHighlight() {
@@ -97,8 +96,32 @@ export class UseRestrictOccurrence extends Occurrence {
         /** @type {Number} */ this.registerPressureIncrease = occurrenceData['register_pressure_increase'] || 0;
     }
 
+    title() {
+        return this.isReadOnlyMemoryUsed ? 'Restrict Used' : 'Use Restrict';
+    }
+
+    description() {
+        if (this.isReadOnlyMemoryUsed) {
+            return `Register <b>${this.register}</b> is already using the read-only cache.`;
+        } else {
+            let result = `Register <b>${this.register}</b> is not aliased anywhere in the kernel and would thus benefit from using __restrict__.\nThere are currently <b>${this.usedRegisters}</b> out of <b>TODO</b> available registers used.`;
+            if (this.registerPressureIncrease > 0) {
+                result += `The previous SASS instruction increased the register pressure with <b>${this.registerPressureIncrease}</b> more registers.`;
+            }
+            return result;
+        }
+    }
+
     tokensToHighlight() {
-        return [this.register];
+        return {
+            '*': {
+                [this.register]: CODE_BINARY_TOKEN_COLORS.REGISTER_1
+            }
+        };
+    }
+
+    linesToHighlight() {
+        return [];
     }
 }
 
@@ -128,6 +151,43 @@ export class UseTextureOccurrence extends Occurrence {
         /** @type {String} */ this.writtenRegister = occurrenceData['written_register'];
         /** @type {String} */ this.readRegister = occurrenceData['read_register'];
         /** @type {Boolean} */ this.isSpatialLocality = occurrenceData['spatial_locality'];
+        /** @type {String[]} */ this.unrollBinaryLineNumbers = occurrenceData['unroll_pc_offsets'] || [];
+    }
+
+    title() {
+        return 'Use Texture Memory';
+    }
+
+    description() {
+        let result = `Texture memory should be used for register <b>${this.writtenRegister}</b>. The data written to this register is read from register <b>${this.readRegister}</b>.\n`;
+        if (this.isSpatialLocality) {
+            result += `Spatial locality has been found for the data stored in this register.`;
+            if (this.unrollBinaryLineNumbers.length > 1) {
+                result += ` Namely at the following addresses:\n`;
+                for (const address of this.unrollBinaryLineNumbers.filter((n) => n !== this.binaryLineNumber)) {
+                    result += `- <b>${address}</b>\n`;
+                }
+            }
+        } else {
+            result += 'Spatial locality has not been found for the data stored in this register.';
+        }
+        return result;
+    }
+
+    recommendations() {
+        return 'Texture memory should be used especially when spatial locality has been found. As using texture memory can increase both long scoreboard and tex throttle stalls, these values should not be too high and kept in mind when making changes.';
+    }
+
+    linesToHighlight() {
+        return this.unrollBinaryLineNumbers.filter((n) => n !== this.binaryLineNumber);
+    }
+
+    tokensToHighlight() {
+        return {
+            [`>=${this.binaryLineNumber}`]: {
+                [this.writtenRegister]: CODE_BINARY_TOKEN_COLORS.REGISTER_1
+            }
+        };
     }
 }
 
@@ -138,21 +198,50 @@ export class VectorizationOccurrence extends Occurrence {
         /** @type {String} */ this.register = occurrenceData['register'];
         /** @type {String[]} */ this.unrollBinaryLineNumbers = occurrenceData['unroll_pc_offsets'] || [];
         /** @type {Number} */ this.adjacentMemoryAccesses = occurrenceData['adjacent_memory_accesses'] || 0;
-        /** @type {String} */ this.registerLoadType = occurrenceData['register_load_type'];
+        /** @type {String} */ this.registerLoadType = occurrenceData['register_load_type'] || 0;
         /** @type {Number} */ this.usedRegisters = occurrenceData['used_register_count'] || 0;
         /** @type {Number} */ this.registerPressureIncrease = occurrenceData['register_pressure_increase'] || 0;
     }
 
-    tokensToHighlight() {
-        let result = {};
-        for (const unroll of this.unrollBinaryLineNumbers) {
-            result[unroll] = this.register;
+    title() {
+        return this.registerLoadType === 0 && this.unrollBinaryLineNumbers.length > 0
+            ? 'Use Vectorized Load'
+            : 'Vectorized Load';
+    }
+
+    description() {
+        if (this.registerLoadType === 0 && this.adjacentMemoryAccesses > 0) {
+            let result = `Register <b>${this.register}</b> has <b>${this.adjacentMemoryAccesses}</b> adjacent memory accesses and thus should use a vectorized load instead. In addition to the current line, adjacent memory accesses happen at the following addresses:\n`;
+            for (const access of this.unrollBinaryLineNumbers.filter((n) => n !== this.binaryLineNumber)) {
+                result += `- <b>${access}</b>\n`;
+            }
+            return result;
+        } else if (this.registerLoadType === 1) {
+            return `Register <b>${this.register}</b> is already using 64-bit width vectorized load.`;
+        } else if (this.registerLoadType === 2) {
+            return `Register <b>${this.register}</b> is already using 128-bit width vectorized load.`;
+        } else {
+            return `Using vectorized load for register <b>${this.register}</b> might not improve performance.`;
         }
-        return result;
+    }
+
+    recommendations() {
+        if (this.registerLoadType === 0 && this.adjacentMemoryAccesses > 0) {
+            return 'Vectorized loads should be used instead here, when long scoreboard stalls are not too high. As using vectorized loads can increase long scoreboard stalls, keep this metric in mind before and after applying changes.';
+        }
+        return '';
+    }
+
+    tokensToHighlight() {
+        return {
+            '*': {
+                [this.register]: CODE_BINARY_TOKEN_COLORS.REGISTER_1
+            }
+        };
     }
 
     linesToHighlight() {
-        return this.unrollBinaryLineNumbers;
+        return this.unrollBinaryLineNumbers.filter((n) => n !== this.binaryLineNumber);
     }
 }
 

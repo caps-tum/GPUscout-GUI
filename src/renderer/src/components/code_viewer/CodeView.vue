@@ -19,12 +19,13 @@
                 :is-occurrence="occurrenceLines.includes(line.address)"
                 :current-view="currentView"
                 :selected-occurrences="selectedOccurrences"
+                :show-live-registers="displayLiveRegisters && codeType === CODE_TYPE.SASS_CODE"
             />
         </div>
     </div>
 </template>
 <script setup>
-import { CODE_TYPE } from '../../stores/CodeViewerStore';
+import { CODE_TYPE, useCodeViewerStore } from '../../stores/CodeViewerStore';
 import { useDataStore } from '../../stores/DataStore';
 import CodeLine from './parts/CodeLine.vue';
 import { computed, ref } from 'vue';
@@ -40,8 +41,10 @@ defineProps({
 });
 
 const dataStore = useDataStore();
+const codeViewerStore = useCodeViewerStore();
 
 const selectedOccurrences = computed(() => dataStore.getCurrentOccurrences);
+const displayLiveRegisters = computed(() => codeViewerStore.getSassRegistersVisible);
 const lines = ref(null);
 </script>
 <style scoped>

@@ -70,6 +70,7 @@ export const useDataStore = defineStore('data', () => {
         const occurrences = gpuscoutResult.getAnalysis(analysis, currentKernel.value).getOccurrences();
 
         codeViewerStore.setCurrentBinary(ANALYSIS[analysis].use_sass ? CODE_TYPE.SASS_CODE : CODE_TYPE.PTX_CODE);
+        codeViewerStore.setSassRegisterVisibility(ANALYSIS[analysis].display_live_registers);
         codeViewerStore.updateSelectedLine();
         codeViewerStore.setOccurrenceLines(
             occurrences.map((o) => o.sourceLineNumber),

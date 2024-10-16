@@ -121,6 +121,14 @@ export const TEXT = {
                     }
                 }
             }
+        },
+        use_shared: {
+            top_section: {
+                shared_usage: {
+                    title: 'Current usage of shared memory',
+                    hint: 'A summary of the current usage of shared memory. Escpecially bank conflicts should be resolved before continuing'
+                }
+            }
         }
     }
 };
