@@ -32,6 +32,19 @@ export class GlobalAtomicsOccurrence extends Occurrence {
         /** @type {Boolean} */ this.isInForLoop = occurrenceData['in_for_loop'];
         /** @type {Boolean} */ this.isGlobalAtomic = occurrenceData['is_global'];
     }
+
+    title() {
+        return this.isGlobalAtomic ? 'Global Atomic' : 'Shared Atomic';
+    }
+
+    description() {
+        let result = `Use of <b>${this.isGlobalAtomic ? 'global' : 'shared'}</b> atomics found in the current code line.\nThis instruction is ${this.isInForLoop ? '' : 'not '}in a for loop.`;
+        return result;
+    }
+
+    recommendations() {
+        return 'Shared atomics should be used in case of high long scoreboard and lg throttle, but low mio throttle, with global atomics being recommended to use in the inverse case. In case of high values in all 3 stalls, try to switch the use of atomics and check the results.';
+    }
 }
 
 export class RegisterSpillingOccurrence extends Occurrence {
@@ -153,6 +166,57 @@ export class UseSharedOccurrence extends Occurrence {
         /** @type {String[]} */ this.computationInstructionBinaryLineNumbers =
             occurrenceData['computation_instruction_pc_offsets'] || [];
         /** @type {Boolean} */ this.isInForLoop = occurrenceData['in_for_loop'];
+    }
+
+    title() {
+        return this.isSharedMemory ? 'Shared Memory used' : 'Use Shared Memory';
+    }
+
+    description() {
+        if (this.isSharedMemory) {
+            if (this.isAsyncGlobalToSharedMemoryCopy) {
+                return `Register <b>${this.register}</b> already uses anynchronous global to shared memory copy in the current line.`;
+            } else {
+                let result = `Register <b>${this.register}</b> already stores data to shared memory in the current line.`;
+                if (this.instructionsToSharedMemoryStore > 0) {
+                    result += `\nData loaded from global memory is stored to shared memory at address after <b>${this.instructionsToSharedMemoryStore}</b> instructions.`;
+                }
+                return result;
+            }
+        } else {
+            let result = `Register <b>${this.register}</b> in the current line has <b>${this.globalLoads}</b> global loads and <b>${this.computationInstructions}</b> computation instructions.`;
+            if (this.isInForLoop) {
+                result += '\nAdditionally, this instruction is executed within a for loop.';
+            }
+
+            result += '\nGlobal loads of this register are found at the following addresses:';
+            for (const address of this.globalLoadBinaryLineNumbers) {
+                result += `\n- <b>${address}</b>`;
+            }
+
+            result += '\nComputation instructions of this register are found at the following addresses:';
+            for (const address of this.computationInstructionBinaryLineNumbers) {
+                result += `\n- <b>${address}</b>`;
+            }
+
+            return result;
+        }
+    }
+
+    recommendations() {
+        return `Use of shared memory is encouraged if the current register is used in more computation instructions than global loads. If the load instruction is inside a for loop, shared memory could also improve performance.\nIn addition to using shared memory, anynchronous global to shared memory copy operations should be used when the shared store is not performed immediately after the load from global memory.`;
+    }
+
+    tokensToHighlight() {
+        return {
+            ['*']: {
+                [this.register]: CODE_BINARY_TOKEN_COLORS.REGISTER_1
+            }
+        };
+    }
+
+    linesToHighlight() {
+        return this.globalLoadBinaryLineNumbers.concat(this.computationInstructionBinaryLineNumbers);
     }
 }
 

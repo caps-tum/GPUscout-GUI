@@ -14,7 +14,7 @@
                 :highlighted-lines="highlightedLines"
                 :highlighted-tokens="highlightedTokens"
                 :scroll-to-lines="scrollToLines"
-                :has-stalls="codeType === CODE_TYPE.SASS_CODE && Object.keys(line.stalls).length > 0"
+                :has-stalls="codeType !== CODE_TYPE.PTX_CODE && Object.keys(line.stalls).length > 0"
                 :is-occurrence="occurrenceLines.includes(line.address)"
                 :current-view="currentView"
                 :selected-occurrences="selectedOccurrences"

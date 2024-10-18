@@ -12,5 +12,6 @@ export const STALLS = {
     smsp__pcsamp_warps_issue_stalled_mio_throttle: 'MIO Throttle',
     smsp__pcsamp_warps_issue_stalled_tex_throttle: 'TEX Throttle',
     smsp__pcsamp_warps_issue_stalled_drain: 'Drain',
+    smsp__pcsamp_warps_issue_stalled_branch_resolving: 'Branch Resolving',
     undefined: 'Undefined'
 };
