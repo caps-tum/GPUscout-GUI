@@ -7,7 +7,7 @@
             <CodeLine
                 v-for="line in codeLines"
                 ref="lines"
-                :key="line.address"
+                :key="line"
                 :tokens="line.tokens"
                 :line-number="line.address"
                 :live-registers="line.liveRegisters"
@@ -15,7 +15,7 @@
                 :highlighted-lines="highlightedLines"
                 :highlighted-tokens="highlightedTokens"
                 :scroll-to-lines="scrollToLines"
-                :has-stalls="Object.keys(line.stalls).length > 0 || false"
+                :has-stalls="codeType === CODE_TYPE.SASS_CODE && Object.keys(line.stalls).length > 0"
                 :is-occurrence="occurrenceLines.includes(line.address)"
                 :current-view="currentView"
                 :selected-occurrences="selectedOccurrences"

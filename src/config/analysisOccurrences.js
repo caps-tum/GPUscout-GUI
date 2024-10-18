@@ -8,8 +8,20 @@ export class DatatypeConversionOccurrence extends Occurrence {
         /** @type {String} */ this.type = occurrenceData['type'];
     }
 
+    title() {
+        return 'Datatype Conversion';
+    }
+
     description() {
-        return `Datatype converion found in the current line. Type of the conversion: ${this.type}.`;
+        return `Datatype converion found in the current line. Type of the conversion: <b>${this.type}</b>.`;
+    }
+
+    recommendations() {
+        let stalls = 'short scoreboard and mio throttle stalls';
+        if (this.type === 'F2F') {
+            stalls = 'short scoreboard, mio throttle and tex throttle stalls';
+        }
+        return `Datatype conversions should be avoided whenever possible due to their performance impact. In the case of this occurrence, the datatype conversions should especially be avoided in case of high ${stalls}.`;
     }
 }
 
@@ -250,6 +262,22 @@ export class WarpDivergenceOccurrence extends Occurrence {
         super(occurrenceData);
 
         /** @type {String} */ this.targetBranch = occurrenceData['target_branch'];
-        /** @type {String} */ this.targetBranchStartBinaryLineNumber = occurrenceData['target_branch_start_line_number'];
+        /** @type {String} */ this.targetBranchStartSourceLineNumber = occurrenceData['target_branch_start_line_number'];
+    }
+
+    title() {
+        return 'Warp Divergence';
+    }
+
+    description() {
+        return `Conditional branching detected in the current line with target branch <b>${this.targetBranch}</b> starting at line number <b>${this.targetBranchStartSourceLineNumber}</b>.`;
+    }
+
+    tokensToHighlight() {
+        return {
+            '*': {
+                [this.targetBranch.substring(1)]: CODE_BINARY_TOKEN_COLORS.REGISTER_1
+            }
+        };
     }
 }

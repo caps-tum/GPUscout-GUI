@@ -1,7 +1,7 @@
 <template>
     <div class="grid h-full w-full grid-cols-[50%_50%] grid-rows-1 overflow-y-auto overflow-x-hidden rounded">
         <CodeView
-            :code-lines="dataStore.getGPUscoutResult().getSourceCodeLines(currentKernel)"
+            :code-lines="sourceLines"
             :code-type="CODE_TYPE.SOURCE_CODE"
             :highlighted-lines="highlightedSourceLines"
             :highlighted-tokens="highlightedSourceTokens"
@@ -10,19 +10,8 @@
             :current-view="currentView"
         />
         <CodeView
-            v-if="currentBinary === CODE_TYPE.SASS_CODE"
-            :code-lines="dataStore.getGPUscoutResult().getSassCodeLines(currentKernel)"
-            :code-type="CODE_TYPE.SASS_CODE"
-            :highlighted-lines="highlightedBinaryLines"
-            :highlighted-tokens="highlightedBinaryTokens"
-            :scroll-to-lines="scrollToBinaryLines"
-            :occurrence-lines="occurrenceBinaryLines"
-            :current-view="currentView"
-        />
-        <CodeView
-            v-else
-            :code-lines="dataStore.getGPUscoutResult().getPtxCodeLines(currentKernel)"
-            :code-type="CODE_TYPE.PTX_CODE"
+            :code-lines="currentBinary === CODE_TYPE.SASS_CODE ? sassLines : ptxLines"
+            :code-type="currentBinary"
             :highlighted-lines="highlightedBinaryLines"
             :highlighted-tokens="highlightedBinaryTokens"
             :scroll-to-lines="scrollToBinaryLines"
@@ -55,4 +44,8 @@ const highlightedSourceTokens = computed(() => codeViewStore.getHighlightedSourc
 const currentKernel = computed(() => dataStore.getCurrentKernel);
 const currentBinary = computed(() => codeViewStore.getCurrentBinary);
 const currentView = computed(() => codeViewStore.getCurrentView);
+
+const sourceLines = computed(() => dataStore.getGPUscoutResult().getSourceCodeLines(currentKernel.value));
+const sassLines = computed(() => dataStore.getGPUscoutResult().getSassCodeLines(currentKernel.value));
+const ptxLines = computed(() => dataStore.getGPUscoutResult().getPtxCodeLines(currentKernel.value));
 </script>

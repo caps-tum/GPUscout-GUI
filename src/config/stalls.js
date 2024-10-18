@@ -10,5 +10,7 @@ export const STALLS = {
     smsp__pcsamp_warps_issue_stalled_math_pipe_throttle: 'Math Pipe Throttle',
     smsp__pcsamp_warps_issue_stalled_dispatch_stall: 'Dispatch',
     smsp__pcsamp_warps_issue_stalled_mio_throttle: 'MIO Throttle',
-    smsp__pcsamp_warps_issue_stalled_tex_throttle: 'TEX Throttle'
+    smsp__pcsamp_warps_issue_stalled_tex_throttle: 'TEX Throttle',
+    smsp__pcsamp_warps_issue_stalled_drain: 'Drain',
+    undefined: 'Undefined'
 };
