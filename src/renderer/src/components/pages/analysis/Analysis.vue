@@ -94,7 +94,7 @@ function selectNextOccurrence() {
         const binaryLine = occurrences.value
             .filter((oc) => oc.sourceLineNumber > selectedLine.value)
             .map((oc) => oc.binaryLineNumber)
-            .reduce((max, curr) => (curr > max ? max : curr));
+            .reduce((max, curr) => (curr > max ? max : curr), 0);
         currentIndex = occurrences.value.findIndex((o) => o.binaryLineNumber === binaryLine);
     }
 

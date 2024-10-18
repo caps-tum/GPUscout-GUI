@@ -76,9 +76,9 @@ export const useCodeViewerStore = defineStore('codeViewer', () => {
 
     /**
      * @param {String|Number} line The line number to select
-     * @param {Boolean} scrollTo If the line should be scrolled to in the current view
+     * @param {Boolean} scrollToCurrentView If the line should be scrolled to in the current view
      */
-    function setSelectedLine(line, scrollTo = false) {
+    function setSelectedLine(line, scrollToCurrentView = false) {
         resetHighlights();
         if (selectedLine.value === line) {
             selectedLine.value = '';
@@ -94,7 +94,7 @@ export const useCodeViewerStore = defineStore('codeViewer', () => {
                 CODE_STYLES.SELECTED_LINE_SECONDARY;
 
             scrollToSourceLines.value.push(dataStore.getGPUscoutResult().getSassToSourceLine(currentKernel.value, line));
-            if (scrollTo) {
+            if (scrollToCurrentView) {
                 scrollToBinaryLines.value.push(line);
             }
         } else if (currentView.value === CODE_TYPE.PTX_CODE) {
@@ -103,7 +103,7 @@ export const useCodeViewerStore = defineStore('codeViewer', () => {
                 CODE_STYLES.SELECTED_LINE_SECONDARY;
 
             scrollToSourceLines.value.push(dataStore.getGPUscoutResult().getPtxToSourceLine(currentKernel.value, line));
-            if (scrollTo) {
+            if (scrollToCurrentView) {
                 scrollToBinaryLines.value.push(line);
             }
         } else if (currentView.value === CODE_TYPE.SOURCE_CODE) {
@@ -117,7 +117,7 @@ export const useCodeViewerStore = defineStore('codeViewer', () => {
             }
 
             scrollToBinaryLines.value.push(lines[0]);
-            if (scrollTo) {
+            if (scrollToCurrentView) {
                 scrollToSourceLines.value.push(line);
             }
         }
