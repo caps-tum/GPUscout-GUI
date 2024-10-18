@@ -6,7 +6,6 @@
         <div class="flex h-full w-full flex-col overflow-x-auto">
             <CodeLine
                 v-for="line in codeLines"
-                ref="lines"
                 :key="line"
                 :tokens="line.tokens"
                 :line-number="line.address"
@@ -28,7 +27,7 @@
 import { CODE_TYPE, useCodeViewerStore } from '../../stores/CodeViewerStore';
 import { useDataStore } from '../../stores/DataStore';
 import CodeLine from './parts/CodeLine.vue';
-import { computed, ref } from 'vue';
+import { computed } from 'vue';
 
 defineProps({
     codeType: Number,
@@ -45,7 +44,6 @@ const codeViewerStore = useCodeViewerStore();
 
 const selectedOccurrences = computed(() => dataStore.getCurrentOccurrences);
 const displayLiveRegisters = computed(() => codeViewerStore.getSassRegistersVisible);
-const lines = ref(null);
 </script>
 <style scoped>
 p {

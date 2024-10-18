@@ -1,7 +1,7 @@
 import { defineStore } from 'pinia';
 import { computed, ref } from 'vue';
 import { useDataStore } from './DataStore';
-import { CODE_BINARY_TOKEN_COLORS, CODE_STYLES } from '../../../config/colors';
+import { CODE_STYLES } from '../../../config/colors';
 
 export const CODE_TYPE = {
     NONE: 0,
