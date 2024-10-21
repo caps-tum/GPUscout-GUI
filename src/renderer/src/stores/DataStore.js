@@ -21,6 +21,15 @@ export const useDataStore = defineStore('data', () => {
     /** @returns {String[]} */
     const getKernels = () => gpuscoutResult?.kernels || [];
 
+    /** @type {GPUscoutResult} */
+    let gpuscoutComparisonResult;
+    /** @returns {GPUscoutResult} */
+    const getGPUscoutComparisonResult = () => gpuscoutComparisonResult;
+    /** @returns {Object.<String, {}>} */
+    const getComparisonAnalyses = () => gpuscoutComparisonResult?.analyses || {};
+    /** @returns {String[]} */
+    const getComparisonKernels = () => gpuscoutComparisonResult?.kernels || [];
+
     const getCurrentKernel = computed(() => currentKernel.value);
     const getCurrentAnalysis = computed(() => currentAnalysis.value);
     const getCurrentOccurrences = computed(() => currentOccurrences.value);
@@ -95,6 +104,9 @@ export const useDataStore = defineStore('data', () => {
     }
 
     return {
+        getComparisonKernels,
+        getComparisonAnalyses,
+        getGPUscoutComparisonResult,
         setCurrentAnalysis,
         getCurrentAnalysis,
         getCurrentKernel,

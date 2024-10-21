@@ -74,7 +74,11 @@ watch(
     () => props.scrollToLines,
     (newValue) => {
         if (newValue.includes(props.lineNumber)) {
-            line.value.scrollIntoView({ block: 'center', behavior: 'smooth' });
+            // Works only if behavior is auto for source code
+            line.value.parentNode.scrollTo({
+                top: line.value.offsetTop - line.value.parentNode.getBoundingClientRect().height / 2,
+                behavior: 'smooth'
+            });
         }
     },
     { deep: true }

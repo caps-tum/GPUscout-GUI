@@ -7,8 +7,8 @@
         <p class="!-mb-1 !-mt-1 text-sm text-text/50">Here you can see the code</p>
         <div class="grid flex-grow grid-cols-[75%_24.5%] grid-rows-1 gap-2 overflow-x-hidden">
             <CodeViewer />
-            <div class="flex h-full w-full flex-col rounded bg-secondary/50">
-                <div class="w-full flex-grow overflow-x-hidden">
+            <div class="flex h-full w-full flex-col space-y-2 rounded">
+                <div class="w-full flex-grow overflow-x-hidden rounded bg-secondary/50">
                     <CodeInfo
                         :analysis="currentAnalysis"
                         :kernel="currentKernel"
@@ -71,7 +71,7 @@ function selectPreviousOccurrence() {
         const binaryLine = occurrences.value
             .filter((oc) => oc.sourceLineNumber < selectedLine.value)
             .map((oc) => oc.binaryLineNumber)
-            .reduce((min, curr) => (curr < min ? min : curr));
+            .reduce((min, curr) => (curr < min ? min : curr), 0);
         currentIndex = occurrences.value.findIndex((o) => o.binaryLineNumber === binaryLine);
     }
 
@@ -94,7 +94,7 @@ function selectNextOccurrence() {
         const binaryLine = occurrences.value
             .filter((oc) => oc.sourceLineNumber > selectedLine.value)
             .map((oc) => oc.binaryLineNumber)
-            .reduce((max, curr) => (curr > max ? max : curr), 0);
+            .reduce((max, curr) => (curr > max ? max : curr), 99999);
         currentIndex = occurrences.value.findIndex((o) => o.binaryLineNumber === binaryLine);
     }
 
