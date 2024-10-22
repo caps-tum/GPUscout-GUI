@@ -1,18 +1,11 @@
 <template>
     <div class="relative flex-grow">
-        <a
-            class="flex h-full flex-col -space-y-1 rounded bg-primary py-1 pl-2 pr-3 text-background hover:cursor-pointer"
-            @click="emit('click')"
-        >
+        <a class="flex h-full flex-col -space-y-1 rounded bg-primary py-1 pl-2 pr-3 text-background hover:cursor-pointer">
             <p class="pr-6 text-lg">{{ data.display_name }}</p>
             <p class="text-sm text-background/50">{{ hint || data.hint || '' }}</p>
-            <p v-if="!formatFunction && totalStalls !== undefined" class="flex flex-grow flex-col justify-end text-lg">
+            <p class="flex flex-grow flex-col justify-end text-lg">
                 {{ data.format_function(value, totalStalls) }}
             </p>
-            <p v-else-if="!formatFunction" class="flex flex-grow flex-col justify-end text-lg">
-                {{ data.format_function(value) }}
-            </p>
-            <p v-else class="flex flex-grow flex-col justify-end text-lg">{{ value }}</p>
         </a>
         <ButtonHelp v-if="data.help_text" class="absolute right-2 top-2" @click="showHelpPopup" />
     </div>
@@ -26,11 +19,8 @@ const props = defineProps({
     metric: String,
     value: [Number, String],
     hint: String,
-    formatFunction: Boolean,
     totalStalls: Number
 });
-
-const emit = defineEmits(['click']);
 
 const contextStore = useContextStore();
 const data = getMetricsData(props.metric);

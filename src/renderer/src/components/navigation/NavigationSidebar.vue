@@ -12,6 +12,7 @@
             >
         </div>
         <div class="flex flex-col">
+            <a class="cursor-pointer pl-2" @click="toLanding">Select new result</a>
             <a class="cursor-pointer pl-2" @click="quitApp">Quit</a>
         </div>
     </div>
@@ -30,5 +31,9 @@ function setAnalysis(analysis) {
 
 function quitApp() {
     window.close();
+}
+
+function toLanding() {
+    window.location.reload();
 }
 </script>

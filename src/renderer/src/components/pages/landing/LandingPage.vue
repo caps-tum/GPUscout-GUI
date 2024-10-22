@@ -28,7 +28,6 @@
 </template>
 <script setup>
 import { computed, onMounted } from 'vue';
-import RecentAnalyses from './recent_analyses/RecentAnalyses.vue';
 import { useConfigStore } from '../../../stores/ConfigStore';
 import AnalysesFromFolder from './analyses_from_folder/AnalysesFromFolder.vue';
 import { ref } from 'vue';

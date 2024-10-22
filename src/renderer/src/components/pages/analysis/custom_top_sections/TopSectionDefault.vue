@@ -11,15 +11,10 @@
 <script setup>
 import ButtonMetric from '../../../ui/buttons/ButtonMetric.vue';
 import MetricSection from '../../../ui/sections/MetricSection.vue';
-import { useDataStore } from '../../../../stores/DataStore';
-import { computed } from 'vue';
+import { Analysis } from '../../../../utils/Analysis';
 
-const props = defineProps({
-    kernel: String,
-    analysis: String
+defineProps({
+    analysisData: Analysis,
+    comparisonAnalysisData: Analysis
 });
-
-const dataStore = useDataStore();
-
-const analysisData = computed(() => dataStore.getGPUscoutResult().getAnalysis(props.analysis, props.kernel));
 </script>

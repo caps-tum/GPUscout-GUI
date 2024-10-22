@@ -40,18 +40,15 @@
 <script setup>
 import MetricSection from '../../../ui/sections/MetricSection.vue';
 import ButtonMetric from '../../../ui/buttons/ButtonMetric.vue';
-import { useDataStore } from '../../../../stores/DataStore';
-import { computed, ref } from 'vue';
+import { ref } from 'vue';
 import { ANALYSIS } from '../../../../../../config/analyses';
 import { TEXT } from '../../../../../../config/text';
+import { Analysis } from '../../../../utils/Analysis';
 
-const props = defineProps({
-    kernel: String
+defineProps({
+    analysisData: Analysis,
+    comparisonAnalysisData: Analysis
 });
-
-const dataStore = useDataStore();
-
-const analysisData = computed(() => dataStore.getGPUscoutResult().getAnalysis(ANALYSIS.vectorization.name, props.kernel));
 
 const selectedStallHelp = ref('');
 </script>

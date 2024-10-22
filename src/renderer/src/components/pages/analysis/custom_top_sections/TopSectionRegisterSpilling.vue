@@ -109,23 +109,19 @@ import MetricSection from '../../../ui/sections/MetricSection.vue';
 import ButtonMetric from '../../../ui/buttons/ButtonMetric.vue';
 import ButtonPrimary from '../../../ui/buttons/ButtonPrimary.vue';
 import ButtonGroup from '../../../ui/buttons/ButtonGroup.vue';
-import { useDataStore } from '../../../../stores/DataStore';
-import { computed, ref } from 'vue';
+import { ref } from 'vue';
 import { ANALYSIS } from '../../../../../../config/analyses';
 import { TEXT } from '../../../../../../config/text';
 import { POPUP, useContextStore } from '../../../../stores/ContextStore';
 import { formatNumber, formatPercent } from '../../../../utils/formatters';
+import { Analysis } from '../../../../utils/Analysis';
 
-const props = defineProps({
-    kernel: String
+defineProps({
+    analysisData: Analysis,
+    comparisonAnalysisData: Analysis
 });
 
-const dataStore = useDataStore();
 const contextStore = useContextStore();
-
-const analysisData = computed(() =>
-    dataStore.getGPUscoutResult().getAnalysis(ANALYSIS.register_spilling.name, props.kernel)
-);
 
 const selectedStallHelp = ref('');
 

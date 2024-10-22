@@ -16,14 +16,14 @@
                         :stalls="lineStalls"
                     />
                 </div>
-                <div class="flex w-full flex-row justify-around space-x-2">
+                <div class="flex w-full flex-row space-x-2">
                     <ButtonSecondary
-                        class="text-center !text-base"
+                        class="!w-full text-center !text-base"
                         title="Select previous occurrence"
                         @click="selectPreviousOccurrence"
                     />
                     <ButtonSecondary
-                        class="text-center !text-base"
+                        class="!w-full text-center !text-base"
                         title="Select next occurrence"
                         @click="selectNextOccurrence"
                     />

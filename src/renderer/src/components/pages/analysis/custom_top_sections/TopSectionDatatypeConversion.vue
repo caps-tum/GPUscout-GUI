@@ -67,22 +67,17 @@
 <script setup>
 import MetricSection from '../../../ui/sections/MetricSection.vue';
 import ButtonMetric from '../../../ui/buttons/ButtonMetric.vue';
-import { useDataStore } from '../../../../stores/DataStore';
 import { computed, ref } from 'vue';
 import { ANALYSIS } from '../../../../../../config/analyses';
 import { TEXT } from '../../../../../../config/text';
-import { getMetricsData } from '../../../../utils/formatters';
+import { Analysis } from '../../../../utils/Analysis';
 
 const props = defineProps({
-    kernel: String
+    analysisData: Analysis,
+    comparisonAnalysisData: Analysis
 });
 
-const dataStore = useDataStore();
-
-const analysisData = computed(() =>
-    dataStore.getGPUscoutResult().getAnalysis(ANALYSIS.datatype_conversion.name, props.kernel)
-);
-const occurrences = computed(() => analysisData.value.getOccurrences());
+const occurrences = computed(() => props.analysisData.value?.getOccurrences() || []);
 
 const selectedStallHelp = ref('');
 </script>
