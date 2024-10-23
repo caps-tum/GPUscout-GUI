@@ -2,10 +2,10 @@
     <template v-for="arrow in arrows" :key="arrow">
         <div v-if="(arrows % 2 === 1 && arrows !== 1) || (spaceTop !== undefined && arrow <= spaceTop)" class=""></div>
         <div class="arrow-right relative grid grid-cols-1 grid-rows-[50%_50%] flex-col">
-            <div class="flex flex-col justify-end border-b border-black pb-1 text-center text-sm text-text">
+            <div class="flex flex-col justify-end border-b border-black px-2 pb-1 text-center text-sm text-text">
                 <slot :name="'arrow-' + arrow + '-top'"></slot>
             </div>
-            <div class="flex flex-col justify-start border-t border-black pt-1 text-center text-sm text-text">
+            <div class="flex flex-col justify-start border-t border-black px-2 pt-1 text-center text-sm text-text">
                 <slot :name="'arrow-' + arrow + '-bottom'"></slot>
             </div>
         </div>

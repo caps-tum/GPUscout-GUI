@@ -1,12 +1,23 @@
 <template>
-    <div class="grid grid-flow-col" :style="getGridStyle()">
-        <slot></slot>
+    <div class="rounded bg-secondary/50 p-2">
+        <div class="flex flex-row justify-between">
+            <p class="pr-6 text-lg">{{ title }}</p>
+            <ButtonHelp class="text-text" />
+        </div>
+        <div class="grid grid-flow-col" :style="getGridStyle()">
+            <slot></slot>
+        </div>
+        <p class="text-sm text-text/50">{{ hint }}</p>
     </div>
 </template>
 <script setup>
+import ButtonHelp from '../buttons/ButtonHelp.vue';
+
 const props = defineProps({
     verticalNodes: Number,
-    horizontalNodes: Number
+    horizontalNodes: Number,
+    title: String,
+    hint: String
 });
 
 function getGridStyle() {

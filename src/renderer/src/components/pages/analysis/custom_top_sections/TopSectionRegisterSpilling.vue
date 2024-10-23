@@ -1,19 +1,24 @@
 <template>
     <div class="flex w-full flex-row space-x-2">
+        <MemoryFlowGlobalLocal :analysis-data="analysisData" :comparison-analysis-data="comparisonAnalysisData" />
         <MetricSection
-            :title="TEXT.analyses.register_spilling.top_section.lmem_impact.title"
-            :hint="TEXT.analyses.register_spilling.top_section.lmem_impact.hint"
+            :title="TEXT.analyses.general.metrics.title"
+            :hint="TEXT.analyses.general.metrics.hint"
             :analysis-data="analysisData"
             :comparison-analysis-data="comparisonAnalysisData"
             :metrics="[
+                ANALYSIS.register_spilling.metrics.occupancy,
+                ANALYSIS.register_spilling.metrics.local_memory_to_l1_cache_miss_percent,
                 TEXT.analyses.register_spilling.top_section.lmem_impact.type.bandwidth,
                 TEXT.analyses.register_spilling.top_section.lmem_impact.type.instruction
             ]"
-            :values="[bandwidth, instructions]"
-            class="w-full"
+            :values="[
+                (analysis) => analysis.getMetric(ANALYSIS.register_spilling.metrics.occupancy),
+                (analysis) => analysis.getMetric(ANALYSIS.register_spilling.metrics.local_memory_to_l1_cache_miss_percent),
+                bandwidth,
+                instructions
+            ]"
         />
-    </div>
-    <div class="flex w-full flex-row space-x-2">
         <MetricSection
             :title="TEXT.analyses.general.warp_stall_analysis.title"
             :hint="TEXT.analyses.general.warp_stall_analysis.hint"
@@ -30,24 +35,7 @@
                 (analysis) => analysis.getMetric(ANALYSIS.register_spilling.metrics.warp_stalls_lg_throttle_percent)
             ]"
             :absolute-values="[(analysis) => analysis.getMetric(ANALYSIS.register_spilling.metrics.warps_active)]"
-            class="w-2/3"
         />
-        <MetricSection
-            :title="TEXT.analyses.general.metrics.title"
-            :hint="TEXT.analyses.general.metrics.hint"
-            :analysis-data="analysisData"
-            :comparison-analysis-data="comparisonAnalysisData"
-            :metrics="[
-                ANALYSIS.register_spilling.metrics.occupancy,
-                ANALYSIS.register_spilling.metrics.local_memory_to_l1_cache_miss_percent
-            ]"
-            :values="[
-                (analysis) => analysis.getMetric(ANALYSIS.register_spilling.metrics.occupancy),
-                (analysis) => analysis.getMetric(ANALYSIS.register_spilling.metrics.local_memory_to_l1_cache_miss_percent)
-            ]"
-            class="w-1/3"
-        >
-        </MetricSection>
     </div>
 </template>
 <script setup>
@@ -57,6 +45,7 @@ import { TEXT } from '../../../../../../config/text';
 import { POPUP, useContextStore } from '../../../../stores/ContextStore';
 import { formatNumber, formatPercent } from '../../../../utils/formatters';
 import { Analysis } from '../../../../utils/Analysis';
+import MemoryFlowGlobalLocal from './memory_graphs/MemoryFlowGlobalLocal.vue';
 
 defineProps({
     analysisData: Analysis,

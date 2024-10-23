@@ -20,6 +20,7 @@ export const useCodeViewerStore = defineStore('codeViewer', () => {
     const currentBinary = ref(CODE_TYPE.SASS_CODE);
     const sassRegistersVisible = ref(false);
     const selectedLine = ref('');
+    const useComparisonCode = ref(false);
 
     const occurrenceSourceLines = ref([]);
     const occurrenceBinaryLines = ref([]);
@@ -35,6 +36,7 @@ export const useCodeViewerStore = defineStore('codeViewer', () => {
 
     const getSelectedLine = computed(() => selectedLine.value);
     const getSassRegistersVisible = computed(() => sassRegistersVisible.value);
+    const displayComparisonCode = computed(() => useComparisonCode.value);
 
     const getOccurrenceSourceLines = computed(() => occurrenceSourceLines.value);
     const getOccurrenceBinaryLines = computed(() => occurrenceBinaryLines.value);
@@ -195,6 +197,7 @@ export const useCodeViewerStore = defineStore('codeViewer', () => {
         getHighlightedSourceLines,
         getHighlightedBinaryTokens,
         getHighlightedBinaryLines,
+        displayComparisonCode,
         getHighlightedSourceTokens,
         getScrollToBinaryLines,
         getScrollToSourceLines,
