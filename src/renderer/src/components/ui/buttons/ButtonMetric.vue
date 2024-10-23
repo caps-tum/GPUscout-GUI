@@ -3,9 +3,14 @@
         <a class="flex h-full flex-col -space-y-1 rounded bg-primary py-1 pl-2 pr-3 text-background hover:cursor-pointer">
             <p class="pr-6 text-lg">{{ data.display_name }}</p>
             <p class="text-sm text-background/50">{{ hint || data.hint || '' }}</p>
-            <p class="flex flex-grow flex-col justify-end text-lg">
-                {{ data.format_function(value, totalStalls) }}
-            </p>
+            <div class="flex flex-row justify-between">
+                <p class="flex flex-grow flex-col justify-end text-lg">
+                    {{ data.format_function(value, absoluteValue) }}
+                </p>
+                <p v-if="comparisonValue !== undefined" class="flex flex-grow flex-col justify-end text-end text-lg">
+                    {{ data.format_function(comparisonValue, comparisonAbsoluteValue) }}
+                </p>
+            </div>
         </a>
         <ButtonHelp v-if="data.help_text" class="absolute right-2 top-2" @click="showHelpPopup" />
     </div>
@@ -18,8 +23,10 @@ import ButtonHelp from './ButtonHelp.vue';
 const props = defineProps({
     metric: String,
     value: [Number, String],
+    comparisonValue: [Number, String],
     hint: String,
-    totalStalls: Number
+    absoluteValue: Number,
+    comparisonAbsoluteValue: Number
 });
 
 const contextStore = useContextStore();

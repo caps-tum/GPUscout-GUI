@@ -21,7 +21,7 @@ if (process.contextIsolated) {
             getRecentAnalyses: () => ipcRenderer.invoke('recentAnalyses:get'),
             addRecentAnalysis: (analysis) => ipcRenderer.invoke('recentAnalyses:add', analysis),
             removeRecentAnalysis: (analysisID) => ipcRenderer.invoke('recentAnalyses:remove', analysisID),
-            loadAnalysis: (folderPath, analysisTitle) => ipcRenderer.invoke('analysis:load', folderPath, analysisTitle)
+            loadAnalysis: (analysisPath) => ipcRenderer.invoke('analysis:load', analysisPath)
         });
     } catch (error) {
         console.error(error);

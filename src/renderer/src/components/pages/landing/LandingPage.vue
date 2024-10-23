@@ -1,25 +1,28 @@
 <template>
     <div class="flex h-full w-full flex-col items-center justify-center">
         <p class="mb-20 text-9xl font-bold">GPUscout-GUI</p>
-        <div class="flex max-h-full w-1/2 flex-col">
-            <div class="flex flex-row space-x-1"></div>
-            <SelectAnalysis
-                :contains-selected-analysis="selectedAnalysisSource === 'FILE'"
-                @analysis-selected="onAnalysisSelected"
-            />
-            <p class="w-full py-1 text-center text-xl font-bold">OR</p>
-            <AnalysesFromFolder
-                :files="filesInOutputFolder"
-                :contains-selected-analysis="selectedAnalysisSource === 'FOLDER'"
-                :gpuscout-output-folder="config['gpuscoutOutputFolder']"
-                @analysis-selected="onAnalysisSelected"
-                @folder-changed="folderChanged"
-            />
-            <!--<p class="w-full py-1 text-center text-xl font-bold">OR</p>
-            <RecentAnalyses />-->
+        <div class="flex w-full flex-row justify-center space-x-4 px-12">
+            <div class="flex max-h-full w-full flex-col">
+                <SelectAnalysis @analysis-selected="onAnalysisSelected" />
+                <p class="w-full py-1 text-center text-xl font-bold">OR</p>
+                <AnalysesFromFolder
+                    :gpuscout-output-folder="config['gpuscoutOutputFolder']"
+                    @analysis-selected="onAnalysisSelected"
+                    @folder-changed="folderChanged"
+                />
+            </div>
+            <div class="flex max-h-full w-full flex-col">
+                <SelectAnalysis @analysis-selected="onComparisonAnalysisSelected" />
+                <p class="w-full py-1 text-center text-xl font-bold">OR</p>
+                <AnalysesFromFolder
+                    :gpuscout-output-folder="config['gpuscoutOutputFolder']"
+                    @analysis-selected="onComparisonAnalysisSelected"
+                    @folder-changed="folderChanged"
+                />
+            </div>
         </div>
         <ButtonPrimary
-            :disabled="selectedAnalysisTitle === ''"
+            :disabled="selectedAnalysisPath === ''"
             title="Proceed"
             class="absolute bottom-2 right-2"
             @click="proceed"
@@ -27,7 +30,7 @@
     </div>
 </template>
 <script setup>
-import { computed, onMounted } from 'vue';
+import { computed } from 'vue';
 import { useConfigStore } from '../../../stores/ConfigStore';
 import AnalysesFromFolder from './analyses_from_folder/AnalysesFromFolder.vue';
 import { ref } from 'vue';
@@ -42,40 +45,33 @@ const contextStore = useContextStore();
 
 const config = computed(() => configStore.getConfig);
 
-const filesInOutputFolder = ref([]);
-const selectedAnalysisTitle = ref('');
-const selectedAnalysisFolder = ref('');
-const selectedAnalysisSource = ref('');
-
-onMounted(async () => {
-    await updateRelevantFiles();
-});
+const selectedAnalysisPath = ref('');
+const selectedComparisonAnalysisPath = ref('');
 
 async function folderChanged(directory) {
     configStore.setOption('gpuscoutOutputFolder', directory);
-    await updateRelevantFiles();
 }
 
-async function updateRelevantFiles() {
-    filesInOutputFolder.value = await window.electronAPI.getAnalysesInDirectory(config.value['gpuscoutOutputFolder']);
+function onAnalysisSelected(analysisPath) {
+    selectedAnalysisPath.value = analysisPath;
 }
 
-function onAnalysisSelected(folderPath, title, source) {
-    selectedAnalysisSource.value = source;
-    selectedAnalysisTitle.value = title;
-    selectedAnalysisFolder.value = folderPath || config.value['gpuscoutOutputFolder'];
+function onComparisonAnalysisSelected(analysisPath) {
+    selectedComparisonAnalysisPath.value = analysisPath;
 }
 
 async function proceed() {
-    if (!selectedAnalysisFolder.value || !selectedAnalysisTitle.value) {
+    if (!selectedAnalysisPath.value) {
         alert('No analysis selected');
         return;
     }
-    const analysisFileData = await window.electronAPI.loadAnalysis(
-        selectedAnalysisFolder.value,
-        selectedAnalysisTitle.value
-    );
-    await dataStore.initialize(analysisFileData);
+    const analysisFileData = await window.electronAPI.loadAnalysis(selectedAnalysisPath.value);
+    const comparisonAnalysisFileData =
+        selectedComparisonAnalysisPath.value !== undefined
+            ? await window.electronAPI.loadAnalysis(selectedComparisonAnalysisPath.value)
+            : undefined;
+
+    await dataStore.initialize(analysisFileData, comparisonAnalysisFileData);
     contextStore.setCurrentContext(CONTEXT.ANALYSIS);
 }
 </script>

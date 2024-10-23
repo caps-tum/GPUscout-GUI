@@ -3,7 +3,7 @@
         <p class="-mb-2 text-lg">Available analyses in GPUscout output directory</p>
         <p class="text-sm">This list contains all GPUscout reseult files found in the selected output folder</p>
         <div class="my-1 flex flex-row justify-between">
-            <TextInput placeholder="Search..." @changed="onSearchInputChanged" />
+            <TextInput v-model="searchString" placeholder="Search..." />
             <div class="flex flex-row space-x-1">
                 <TextInput
                     ref="outputDirFolder"
@@ -27,12 +27,10 @@
 </template>
 <script setup>
 import TextInput from '../../../ui/input/TextInput.vue';
-import { ref } from 'vue';
+import { onMounted, ref } from 'vue';
 import ButtonSecondary from '../../../ui/buttons/ButtonSecondary.vue';
 
 const props = defineProps({
-    files: Array,
-    containsSelectedAnalysis: Boolean,
     gpuscoutOutputFolder: String
 });
 
@@ -41,18 +39,19 @@ const emit = defineEmits(['analysisSelected', 'folderChanged']);
 const searchString = ref('');
 const selectedAnalysis = ref('');
 const outputDirFolder = ref(null);
+const files = ref([]);
 
-function onSearchInputChanged(searchText) {
-    searchString.value = searchText;
-}
+onMounted(async () => {
+    await getFilesInFolder();
+});
 
 function getTitles() {
-    return props.files.filter((file) => file.toLowerCase().includes(searchString.value.toLowerCase()));
+    return files.value.filter((file) => file.toLowerCase().includes(searchString.value.toLowerCase()));
 }
 
 function onAnalysisSelected(analysisTitle) {
     selectedAnalysis.value = analysisTitle;
-    emit('analysisSelected', '', analysisTitle, 'FOLDER');
+    emit('analysisSelected', props.gpuscoutOutputFolder + '/' + analysisTitle);
 }
 
 function getSelectedStyle(title) {
@@ -64,6 +63,11 @@ async function chooseFolder() {
 
     if (selectedDirectory.length > 0) {
         emit('folderChanged', selectedDirectory);
+        await getFilesInFolder();
     }
+}
+
+async function getFilesInFolder() {
+    files.value = await window.electronAPI.getAnalysesInDirectory(props.gpuscoutOutputFolder);
 }
 </script>

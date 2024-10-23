@@ -51,6 +51,7 @@ export class GPUscoutResult {
      * @returns {Analysis}
      */
     getAnalysis(analysis, kernel) {
+        if (!this.analyses[analysis] || !this.analyses[analysis][kernel]) return undefined;
         return this.analyses[analysis][kernel];
     }
 

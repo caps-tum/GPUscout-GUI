@@ -29,7 +29,7 @@ export const useDataStore = defineStore('data', () => {
     const getComparisonAnalyses = () => gpuscoutComparisonResult?.analyses || {};
     /** @returns {String[]} */
     const getComparisonKernels = () => gpuscoutComparisonResult?.kernels || [];
-    const hasComparisonResult = () => gpuscoutComparisonResult !== undefined;
+    const hasComparisonResult = computed(() => gpuscoutComparisonResult !== undefined);
 
     const getCurrentKernel = computed(() => currentKernel.value);
     const getCurrentAnalysis = computed(() => currentAnalysis.value);

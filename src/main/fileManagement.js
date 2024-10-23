@@ -107,14 +107,11 @@ export async function getAnalysesInFolder(event, folderPath) {
 
 /**
  * @param event {Object}
- * @param folderPath {String}
- * @param analysisTitle {String}
+ * @param analysisPath {String}
  * @returns {Promise<String>}
  */
-export async function getAnalysis(event, folderPath, analysisTitle) {
-    const path = join(folderPath, analysisTitle) + '.gscout';
-
-    return await fs.promises.readFile(path, {
+export async function getAnalysis(event, analysisPath) {
+    return await fs.promises.readFile(analysisPath + '.gscout', {
         encoding: 'utf8'
     });
 }

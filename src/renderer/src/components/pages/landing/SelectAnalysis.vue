@@ -2,7 +2,7 @@
     <ButtonSecondary class="flex flex-row items-center space-x-2 pl-4" @click="chooseAnalysis">
         <img src="../../../assets/file-solid.svg" class="h-12 w-12" alt="folder" />
         <div class="flex flex-col">
-            <p v-if="!selectedFile || !containsSelectedAnalysis" class="text-lg">Choose analysis result file</p>
+            <p v-if="!selectedFile" class="text-lg">Choose analysis result file</p>
             <p v-else>Selected Analysis file: {{ selectedFile }}</p>
         </div>
     </ButtonSecondary>
@@ -29,8 +29,6 @@ async function chooseAnalysis() {
     if (!result) {
         return;
     }
-    selectedFile.value = result.split('/').at(-1).slice(0, -7);
-    const analysisFolder = result.substring(0, result.lastIndexOf('/') + 1);
-    emit('analysisSelected', analysisFolder, selectedFile.value, 'FILE');
+    emit('analysisSelected', result);
 }
 </script>

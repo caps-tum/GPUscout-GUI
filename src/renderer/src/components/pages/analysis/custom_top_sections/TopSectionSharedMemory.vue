@@ -2,43 +2,40 @@
     <MetricSection
         :title="TEXT.analyses.use_shared.top_section.shared_usage.title"
         :hint="TEXT.analyses.use_shared.top_section.shared_usage.hint"
-    >
-        <ButtonMetric
-            :value="analysisData.getMetric(ANALYSIS.use_shared.metrics.shared_memory_load_count)"
-            :metric="ANALYSIS.use_shared.metrics.shared_memory_load_count"
-        />
-        <ButtonMetric
-            :value="analysisData.getMetric(ANALYSIS.use_shared.metrics.shared_memory_load_efficiency_percent)"
-            :metric="ANALYSIS.use_shared.metrics.shared_memory_load_efficiency_percent"
-        />
-        <ButtonMetric
-            :value="analysisData.getMetric(ANALYSIS.use_shared.metrics.bank_conflict)"
-            :metric="ANALYSIS.use_shared.metrics.bank_conflict"
-        />
-    </MetricSection>
+        :analysis-data="analysisData"
+        :comparison-analysis-data="comparisonAnalysisData"
+        :metrics="[
+            ANALYSIS.use_shared.metrics.shared_memory_load_count,
+            ANALYSIS.use_shared.metrics.shared_memory_load_efficiency_percent,
+            ANALYSIS.use_shared.metrics.bank_conflict
+        ]"
+        :values="[
+            (analysis) => analysis.getMetric(ANALYSIS.use_shared.metrics.shared_memory_load_count),
+            (analysis) => analysis.getMetric(ANALYSIS.use_shared.metrics.shared_memory_load_efficiency_percent),
+            (analysis) => analysis.getMetric(ANALYSIS.use_shared.metrics.bank_conflict)
+        ]"
+    />
     <MetricSection
         :title="TEXT.analyses.general.warp_stall_analysis.title"
         :hint="TEXT.analyses.general.warp_stall_analysis.hint"
+        :analysis-data="analysisData"
+        :comparison-analysis-data="comparisonAnalysisData"
+        :metrics="[
+            ANALYSIS.use_shared.metrics.warps_active,
+            ANALYSIS.use_shared.metrics.warp_stalls_long_scoreboard_percent,
+            ANALYSIS.use_shared.metrics.warp_stalls_mio_throttle_percent
+        ]"
+        :values="[
+            (analysis) => analysis.getMetric(ANALYSIS.use_shared.metrics.warps_active),
+            (analysis) => analysis.getMetric(ANALYSIS.use_shared.metrics.warp_stalls_long_scoreboard_percent),
+            (analysis) => analysis.getMetric(ANALYSIS.use_shared.metrics.warp_stalls_mio_throttle_percent)
+        ]"
+        :absolute-values="[(analysis) => analysis.getMetric(ANALYSIS.use_shared.metrics.warps_active)]"
     >
-        <ButtonMetric
-            :value="analysisData.getMetric(ANALYSIS.use_shared.metrics.warps_active)"
-            :metric="ANALYSIS.use_shared.metrics.warps_active"
-        />
-        <ButtonMetric
-            :value="analysisData.getMetric(ANALYSIS.use_shared.metrics.warp_stalls_long_scoreboard_percent)"
-            :metric="ANALYSIS.use_shared.metrics.warp_stalls_mio_throttle_percent"
-            :total-stalls="analysisData.getMetric(ANALYSIS.use_shared.metrics.warps_active)"
-        />
-        <ButtonMetric
-            :value="analysisData.getMetric(ANALYSIS.use_shared.metrics.warp_stalls_mio_throttle_percent)"
-            :metric="ANALYSIS.use_shared.metrics.warp_stalls_mio_throttle_percent"
-            :total-stalls="analysisData.getMetric(ANALYSIS.use_shared.metrics.warps_active)"
-        />
     </MetricSection>
 </template>
 <script setup>
 import MetricSection from '../../../ui/sections/MetricSection.vue';
-import ButtonMetric from '../../../ui/buttons/ButtonMetric.vue';
 import { ANALYSIS } from '../../../../../../config/analyses';
 import { TEXT } from '../../../../../../config/text';
 import { Analysis } from '../../../../utils/Analysis';
