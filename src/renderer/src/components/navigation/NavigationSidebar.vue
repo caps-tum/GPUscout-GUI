@@ -24,7 +24,7 @@
                     v-for="analysis in analysesOnlyOriginal"
                     :key="analysis"
                     class="cursor-pointer pl-3"
-                    @click="() => setAnalysis(analysis)"
+                    @click="() => setAnalysis(analysis, true)"
                     >{{ ANALYSIS[analysis].display_name || analysis }}</a
                 >
             </div>
@@ -49,8 +49,10 @@
 import { computed } from 'vue';
 import { ANALYSIS } from '../../../../config/analyses';
 import { useDataStore } from '../../stores/DataStore';
+import { useCodeViewerStore } from '../../stores/CodeViewerStore';
 
 const dataStore = useDataStore();
+const codeViewerStore = useCodeViewerStore();
 
 const currentKernel = computed(() => dataStore.getCurrentKernel);
 const analyses = dataStore.getGPUscoutResult()?.getAnalysesWithOccurrences(currentKernel.value);
@@ -61,7 +63,8 @@ const analysesOnlyOriginal = computed(() => comparisonAnalyses.filter((a) => !an
 const analysesOnlyCurrent = computed(() => analyses.filter((a) => !comparisonAnalyses.includes(a)));
 const analysesBoth = computed(() => analyses.filter((a) => comparisonAnalyses.includes(a)));
 
-function setAnalysis(analysis) {
+function setAnalysis(analysis, useComparisonCode = false) {
+    codeViewerStore.setUseComparisonCode(useComparisonCode);
     dataStore.setCurrentAnalysis(analysis);
 }
 

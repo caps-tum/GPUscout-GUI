@@ -5,6 +5,10 @@
         </div>
         <p class="text-xl text-text">Code View</p>
         <p class="!-mb-1 !-mt-1 text-sm text-text/50">Here you can see the code</p>
+        <div class="flex flex-row">
+            <input type="checkbox" :checked="!useComparisonCode" @change="toggleCodeVersions" />
+            <p class="text-text">Display new code</p>
+        </div>
         <div class="grid flex-grow grid-cols-[75%_24.5%] grid-rows-1 gap-2 overflow-x-hidden">
             <CodeViewer />
             <div class="flex h-full w-full flex-col space-y-2 rounded">
@@ -38,7 +42,7 @@ import ButtonSecondary from '../../ui/buttons/ButtonSecondary.vue';
 import CodeInfo from './CodeInfo.vue';
 import TopSection from './TopSection.vue';
 import { useDataStore } from '../../../stores/DataStore';
-import { computed } from 'vue';
+import { computed, ref } from 'vue';
 import { CODE_TYPE, useCodeViewerStore } from '../../../stores/CodeViewerStore';
 
 const dataStore = useDataStore();
@@ -50,13 +54,22 @@ const selectedLine = computed(() => codeViewerStore.getSelectedLine);
 const binaryView = computed(() => codeViewerStore.getCurrentBinary);
 const currentView = computed(() => codeViewerStore.getCurrentView);
 
+const useComparisonCode = computed(() => codeViewerStore.displayComparisonCode);
 const selectedOccurrences = computed(() => dataStore.getCurrentOccurrences);
 const occurrences = computed(() =>
-    dataStore.getGPUscoutResult().getAnalysis(currentAnalysis.value, currentKernel.value).getOccurrences()
+    useComparisonCode.value
+        ? dataStore.getGPUscoutComparisonResult().getAnalysis(currentAnalysis.value, currentKernel.value).getOccurrences()
+        : dataStore.getGPUscoutResult().getAnalysis(currentAnalysis.value, currentKernel.value).getOccurrences()
 );
 const lineStalls = computed(() =>
-    dataStore.getGPUscoutResult().getLineStalls(currentKernel.value, selectedLine.value, currentView.value)
+    useComparisonCode.value
+        ? dataStore.getGPUscoutComparisonResult().getLineStalls(currentKernel.value, selectedLine.value, currentView.value)
+        : dataStore.getGPUscoutResult().getLineStalls(currentKernel.value, selectedLine.value, currentView.value)
 );
+
+function toggleCodeVersions() {
+    codeViewerStore.setUseComparisonCode(!useComparisonCode.value);
+}
 
 function selectPreviousOccurrence() {
     let currentIndex = -1;

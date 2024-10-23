@@ -7,6 +7,8 @@ import { ANALYSIS } from '../../../config/analyses';
 export const useDataStore = defineStore('data', () => {
     const codeViewerStore = useCodeViewerStore();
 
+    const useComparisonCode = computed(() => codeViewerStore.displayComparisonCode);
+
     /** @type {GPUscoutResult} */
     let gpuscoutResult;
 
@@ -64,7 +66,9 @@ export const useDataStore = defineStore('data', () => {
      */
     function setCurrentAnalysis(analysis) {
         currentAnalysis.value = analysis;
-        const occurrences = gpuscoutResult.getAnalysis(analysis, currentKernel.value).getOccurrences();
+        const occurrences = (useComparisonCode.value ? gpuscoutComparisonResult : gpuscoutResult)
+            .getAnalysis(analysis, currentKernel.value)
+            .getOccurrences();
 
         codeViewerStore.setCurrentBinary(ANALYSIS[analysis].use_sass ? CODE_TYPE.SASS_CODE : CODE_TYPE.PTX_CODE);
         codeViewerStore.setSassRegisterVisibility(ANALYSIS[analysis].display_live_registers);
@@ -86,7 +90,7 @@ export const useDataStore = defineStore('data', () => {
 
     function setCurrentOccurrences(codeType, lineNumber) {
         currentOccurrences.value = currentOccurrences.value.filter(() => false);
-        currentOccurrences.value = gpuscoutResult
+        currentOccurrences.value = (useComparisonCode.value ? gpuscoutComparisonResult : gpuscoutResult)
             .getAnalysis(currentAnalysis.value, currentKernel.value)
             .getOccurrencesAt(codeType, lineNumber);
     }

@@ -1,7 +1,7 @@
 <template>
     <div class="grid h-full w-full grid-cols-[50%_50%] grid-rows-1 overflow-y-auto overflow-x-hidden rounded">
         <CodeView
-            :code-lines="sourceLines"
+            :code-lines="useComparisonCode ? comparisonSourceLines : sourceLines"
             :code-type="CODE_TYPE.SOURCE_CODE"
             :highlighted-lines="highlightedSourceLines"
             :highlighted-tokens="highlightedSourceTokens"
@@ -10,7 +10,15 @@
             :current-view="currentView"
         />
         <CodeView
-            :code-lines="currentBinary === CODE_TYPE.SASS_CODE ? sassLines : ptxLines"
+            :code-lines="
+                currentBinary === CODE_TYPE.SASS_CODE
+                    ? useComparisonCode
+                        ? comparisonSassLines
+                        : sassLines
+                    : useComparisonCode
+                      ? comparisonPtxLines
+                      : ptxLines
+            "
             :code-type="currentBinary"
             :highlighted-lines="highlightedBinaryLines"
             :highlighted-tokens="highlightedBinaryTokens"
@@ -44,8 +52,15 @@ const highlightedSourceTokens = computed(() => codeViewStore.getHighlightedSourc
 const currentKernel = computed(() => dataStore.getCurrentKernel);
 const currentBinary = computed(() => codeViewStore.getCurrentBinary);
 const currentView = computed(() => codeViewStore.getCurrentView);
+const useComparisonCode = computed(() => codeViewStore.displayComparisonCode);
 
 const sourceLines = computed(() => dataStore.getGPUscoutResult().getSourceCodeLines(currentKernel.value));
 const sassLines = computed(() => dataStore.getGPUscoutResult().getSassCodeLines(currentKernel.value));
 const ptxLines = computed(() => dataStore.getGPUscoutResult().getPtxCodeLines(currentKernel.value));
+
+const comparisonSourceLines = computed(() =>
+    dataStore.getGPUscoutComparisonResult()?.getSourceCodeLines(currentKernel.value)
+);
+const comparisonSassLines = computed(() => dataStore.getGPUscoutComparisonResult()?.getSassCodeLines(currentKernel.value));
+const comparisonPtxLines = computed(() => dataStore.getGPUscoutComparisonResult()?.getPtxCodeLines(currentKernel.value));
 </script>

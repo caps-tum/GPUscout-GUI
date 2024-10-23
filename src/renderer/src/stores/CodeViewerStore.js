@@ -53,6 +53,14 @@ export const useCodeViewerStore = defineStore('codeViewer', () => {
     const getHighlightedSourceTokens = computed(() => highlightedSourceTokens.value);
     const getHighlightedBinaryTokens = computed(() => highlightedBinaryTokens.value);
 
+    function setUseComparisonCode(useComparison) {
+        useComparisonCode.value = useComparison;
+        resetHighlights();
+        resetOccurrenceLines();
+        selectedLine.value = '';
+        dataStore.setCurrentOccurrences(currentView.value, '');
+    }
+
     function setSassRegisterVisibility(visible) {
         sassRegistersVisible.value = visible;
     }
@@ -87,24 +95,27 @@ export const useCodeViewerStore = defineStore('codeViewer', () => {
             dataStore.setCurrentOccurrences(currentView.value, '');
             return;
         }
+        const gpuscoutResult = displayComparisonCode.value
+            ? dataStore.getGPUscoutComparisonResult()
+            : dataStore.getGPUscoutResult();
         selectedLine.value = line;
 
         // Highlight the current line in the current code view and the corresponding lines in the other code view
         if (currentView.value === CODE_TYPE.SASS_CODE) {
             highlightedBinaryLines.value[line] = CODE_STYLES.SELECTED_LINE;
-            highlightedSourceLines.value[dataStore.getGPUscoutResult().getSassToSourceLine(currentKernel.value, line)] =
+            highlightedSourceLines.value[gpuscoutResult.getSassToSourceLine(currentKernel.value, line)] =
                 CODE_STYLES.SELECTED_LINE_SECONDARY;
 
-            scrollToSourceLines.value.push(dataStore.getGPUscoutResult().getSassToSourceLine(currentKernel.value, line));
+            scrollToSourceLines.value.push(gpuscoutResult.getSassToSourceLine(currentKernel.value, line));
             if (scrollToCurrentView) {
                 scrollToBinaryLines.value.push(line);
             }
         } else if (currentView.value === CODE_TYPE.PTX_CODE) {
             highlightedBinaryLines.value[line] = CODE_STYLES.SELECTED_LINE;
-            highlightedSourceLines.value[dataStore.getGPUscoutResult().getPtxToSourceLine(currentKernel.value, line)] =
+            highlightedSourceLines.value[gpuscoutResult.getPtxToSourceLine(currentKernel.value, line)] =
                 CODE_STYLES.SELECTED_LINE_SECONDARY;
 
-            scrollToSourceLines.value.push(dataStore.getGPUscoutResult().getPtxToSourceLine(currentKernel.value, line));
+            scrollToSourceLines.value.push(gpuscoutResult.getPtxToSourceLine(currentKernel.value, line));
             if (scrollToCurrentView) {
                 scrollToBinaryLines.value.push(line);
             }
@@ -112,8 +123,8 @@ export const useCodeViewerStore = defineStore('codeViewer', () => {
             highlightedSourceLines.value[line] = CODE_STYLES.SELECTED_LINE;
             const lines =
                 currentBinary.value === CODE_TYPE.SASS_CODE
-                    ? dataStore.getGPUscoutResult().getSourceToSassLines(currentKernel.value, line)
-                    : dataStore.getGPUscoutResult().getSourceToPtxLines(currentKernel.value, line);
+                    ? gpuscoutResult.getSourceToSassLines(currentKernel.value, line)
+                    : gpuscoutResult.getSourceToPtxLines(currentKernel.value, line);
             for (const line of lines) {
                 highlightedBinaryLines.value[line] = CODE_STYLES.SELECTED_LINE_SECONDARY;
             }
@@ -138,9 +149,11 @@ export const useCodeViewerStore = defineStore('codeViewer', () => {
                     : CODE_STYLES.HIGHLIGHTED_LINE_OCCURRENCE_SECONDARY;
             // Highlight the instruction
             highlightedBinaryTokens.value[occurrence.binaryLineNumber] = {};
-            for (const token of dataStore
-                .getGPUscoutResult()
-                .getInstructionTokens(currentKernel.value, currentBinary.value, occurrence.binaryLineNumber)) {
+            for (const token of gpuscoutResult.getInstructionTokens(
+                currentKernel.value,
+                currentBinary.value,
+                occurrence.binaryLineNumber
+            )) {
                 highlightedBinaryTokens.value[occurrence.binaryLineNumber][token] = CODE_BINARY_TOKEN_COLORS.INSTRUCTION;
             }
         }
@@ -165,9 +178,11 @@ export const useCodeViewerStore = defineStore('codeViewer', () => {
         for (const secondaryLine of currentOccurrences.value[0].linesToHighlight()) {
             highlightedBinaryLines.value[secondaryLine] = CODE_STYLES.HIGHLIGHTED_LINE_OCCURRENCE_SECONDARY;
             highlightedBinaryTokens.value[secondaryLine] = {};
-            for (const token of dataStore
-                .getGPUscoutResult()
-                .getInstructionTokens(currentKernel.value, currentBinary.value, secondaryLine)) {
+            for (const token of gpuscoutResult.getInstructionTokens(
+                currentKernel.value,
+                currentBinary.value,
+                secondaryLine
+            )) {
                 highlightedBinaryTokens.value[secondaryLine][token] = CODE_BINARY_TOKEN_COLORS.INSTRUCTION;
             }
         }
@@ -211,6 +226,7 @@ export const useCodeViewerStore = defineStore('codeViewer', () => {
         getOccurrenceSourceLines,
         resetOccurrenceLines,
         updateSelectedLine,
+        setUseComparisonCode,
         getSassRegistersVisible,
         setSassRegisterVisibility
     };
