@@ -56,11 +56,14 @@ export class GPUscoutResult {
     }
 
     /**
+     * @param {String} kernel
      * @returns {String[]}
      */
-    getAnalysesWithOccurrences() {
+    getAnalysesWithOccurrences(kernel) {
         return Object.keys(this.analyses).filter(
-            (analysis) => Object.entries(this.analyses[analysis]).filter(([, a]) => a.getOccurrences().length > 0).length > 0
+            (analysis) =>
+                Object.entries(this.analyses[analysis]).filter(([k, a]) => kernel === k && a.getOccurrences().length > 0)
+                    .length > 0
         );
     }
 

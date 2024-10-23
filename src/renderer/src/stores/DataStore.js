@@ -13,6 +13,7 @@ export const useDataStore = defineStore('data', () => {
     const currentKernel = ref('');
     const currentAnalysis = ref('');
     const currentOccurrences = ref([]);
+    const comparisonResultAvailable = ref(false);
 
     /** @returns {GPUscoutResult} */
     const getGPUscoutResult = () => gpuscoutResult;
@@ -29,7 +30,7 @@ export const useDataStore = defineStore('data', () => {
     const getComparisonAnalyses = () => gpuscoutComparisonResult?.analyses || {};
     /** @returns {String[]} */
     const getComparisonKernels = () => gpuscoutComparisonResult?.kernels || [];
-    const hasComparisonResult = computed(() => gpuscoutComparisonResult !== undefined);
+    const hasComparisonResult = computed(() => comparisonResultAvailable.value);
 
     const getCurrentKernel = computed(() => currentKernel.value);
     const getCurrentAnalysis = computed(() => currentAnalysis.value);
@@ -44,6 +45,7 @@ export const useDataStore = defineStore('data', () => {
         gpuscoutResult = new GPUscoutResult(resultData);
         if (comparisonData) {
             gpuscoutComparisonResult = new GPUscoutResult(comparisonData);
+            comparisonResultAvailable.value = true;
         }
 
         if (gpuscoutResult.kernels.length === 0) {
@@ -51,7 +53,7 @@ export const useDataStore = defineStore('data', () => {
         }
         currentKernel.value = gpuscoutResult.kernels[0];
         // TODO: what if 0
-        setCurrentAnalysis(gpuscoutResult.getAnalysesWithOccurrences()[0]);
+        setCurrentAnalysis(gpuscoutResult.getAnalysesWithOccurrences(currentKernel.value)[0]);
 
         console.log(gpuscoutResult);
         console.log(gpuscoutComparisonResult);
