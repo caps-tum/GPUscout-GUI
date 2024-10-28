@@ -1,5 +1,5 @@
 <template>
-    <div class="flex flex-col space-y-2">
+    <div class="flex h-full flex-row gap-2">
         <TopSectionDatatypeConversion
             v-if="analysis === ANALYSIS.datatype_conversion.name"
             :analysis-data="analysisData"

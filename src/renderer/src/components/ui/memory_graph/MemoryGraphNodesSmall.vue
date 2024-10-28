@@ -1,16 +1,22 @@
 <template>
-    <template v-for="node in nodes" :key="node">
-        <div v-if="nodes % 2 === 1 && nodes !== 1" class=""></div>
-        <div
-            class="flex min-h-12 min-w-24 items-center justify-center rounded bg-primary p-2 text-center font-bold text-background"
-        >
-            <slot :name="'node-' + node"></slot>
+    <template v-for="(title, index) in titles" :key="title">
+        <div v-if="titles.length % 2 === 1 && titles.length !== 1" class=""></div>
+        <div class="flex min-h-12 min-w-24 items-center justify-center rounded bg-primary p-2 text-center text-background">
+            <p :class="getBoldness(title)">{{ getTitle(title) }}</p>
         </div>
-        <div v-if="nodes % 2 === 0 && node !== nodes" class=""></div>
+        <div v-if="titles.length % 2 === 0 && index !== titles.length - 1" class=""></div>
     </template>
 </template>
 <script setup>
 defineProps({
-    nodes: Number
+    titles: Array
 });
+
+function getBoldness(title) {
+    return title.startsWith('*') ? 'font-bold text-base' : '';
+}
+
+function getTitle(title) {
+    return title.startsWith('*') ? title.substring(1) : title;
+}
 </script>

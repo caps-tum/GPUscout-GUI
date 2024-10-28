@@ -1,4 +1,4 @@
-import { formatBytes, formatNumber, formatPercent } from '../renderer/src/utils/formatters';
+import { formatBytes, formatInstructions, formatNumber, formatPercent } from '../renderer/src/utils/formatters';
 
 export const METRICS = {
     smsp__warp_issue_stalled_tex_throttle_per_warp_active: {
@@ -119,6 +119,54 @@ export const METRICS = {
         display_name: 'Bank conflicts',
         hint: 'Memory transactions per load access',
         format_function: formatNumber,
+        help_text: 'This is a detailed explanation something'
+    },
+    'memory_flow/num_loads': {
+        display_name: 'Global loads count',
+        hint: 'Number of global loads',
+        format_function: formatInstructions,
+        help_text: 'This is a detailed explanation something'
+    },
+    'memory_flow/global_to_l1_bytes': {
+        display_name: 'GMEM to L1',
+        hint: '',
+        format_function: formatBytes,
+        help_text: 'This is a detailed explanation something'
+    },
+    'memory_flow/global_to_l1_cache_miss_perc': {
+        display_name: 'GMEM L1 Cache misses',
+        hint: '',
+        format_function: formatPercent,
+        help_text: 'This is a detailed explanation something'
+    },
+    'memory_flow/global_l1_to_l2_bytes': {
+        display_name: 'GMEM L1 to L2',
+        hint: '',
+        format_function: formatBytes,
+        help_text: 'This is a detailed explanation something'
+    },
+    'memory_flow/local_to_l1_bytes': {
+        display_name: 'LMEM to L1',
+        hint: '',
+        format_function: formatBytes,
+        help_text: 'This is a detailed explanation something'
+    },
+    'memory_flow/local_l1_to_l2_bytes': {
+        display_name: 'LMEM L1 to L2',
+        hint: '',
+        format_function: formatBytes,
+        help_text: 'This is a detailed explanation something'
+    },
+    'memory_flow/l1_to_l2_cache_miss_perc': {
+        display_name: 'L1 to L2 Cache misses',
+        hint: '',
+        format_function: formatPercent,
+        help_text: 'This is a detailed explanation something'
+    },
+    'memory_flow/l2_to_dram_bytes': {
+        display_name: 'L2 to DRAM',
+        hint: '',
+        format_function: formatBytes,
         help_text: 'This is a detailed explanation something'
     }
 };

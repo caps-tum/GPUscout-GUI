@@ -15,6 +15,7 @@ export const useCodeViewerStore = defineStore('codeViewer', () => {
 
     const currentKernel = computed(() => dataStore.getCurrentKernel);
     const currentOccurrences = computed(() => dataStore.getCurrentOccurrences);
+    const currentAnalysis = computed(() => dataStore.getCurrentAnalysis);
 
     const currentView = ref(CODE_TYPE.NONE);
     const currentBinary = ref(CODE_TYPE.SASS_CODE);
@@ -59,6 +60,7 @@ export const useCodeViewerStore = defineStore('codeViewer', () => {
         resetOccurrenceLines();
         selectedLine.value = '';
         dataStore.setCurrentOccurrences(currentView.value, '');
+        dataStore.setCurrentAnalysis(currentAnalysis.value);
     }
 
     function setSassRegisterVisibility(visible) {

@@ -59,7 +59,7 @@ export function formatNumber(value) {
  * @returns {String} The value formatted
  */
 export function formatInstructions(value) {
-    return `${Math.round(value)} Inst.`;
+    return `${formatNumber(value)} Inst.`;
 }
 
 /**

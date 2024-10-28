@@ -3,11 +3,15 @@
         <div class="shrink-0">
             <TopSection :analysis="currentAnalysis" :kernel="currentKernel" />
         </div>
-        <p class="text-xl text-text">Code View</p>
-        <p class="!-mb-1 !-mt-1 text-sm text-text/50">Here you can see the code</p>
-        <div v-if="hasComparisonResult" class="flex flex-row">
-            <input type="checkbox" :checked="!useComparisonCode" @change="toggleCodeVersions" />
-            <p class="text-text">Display new code</p>
+        <div class="flex flex-row space-x-2">
+            <div class="flex flex-col">
+                <p class="text-xl text-text">Code View</p>
+                <p class="!-mb-1 !-mt-1 text-sm text-text/50">Here you can see the code</p>
+            </div>
+            <div v-if="hasComparisonResult" class="flex flex-row items-end space-x-1">
+                <ToggleSwitch :checked="!useComparisonCode" @changed="toggleCodeVersions" />
+                <p class="text-text">Display new code</p>
+            </div>
         </div>
         <div class="grid flex-grow grid-cols-[75%_24.5%] grid-rows-1 gap-2 overflow-x-hidden">
             <CodeViewer />
@@ -44,6 +48,7 @@ import TopSection from './TopSection.vue';
 import { useDataStore } from '../../../stores/DataStore';
 import { computed } from 'vue';
 import { CODE_TYPE, useCodeViewerStore } from '../../../stores/CodeViewerStore';
+import ToggleSwitch from '../../ui/input/ToggleSwitch.vue';
 
 const dataStore = useDataStore();
 const codeViewerStore = useCodeViewerStore();

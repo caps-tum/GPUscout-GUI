@@ -1,0 +1,48 @@
+import { ANALYSIS } from './analyses';
+
+export const MEMORY_GRAPH_DEFINITION = {
+    global_local_caches: [
+        [{ title: 'Kernel', bold: true }],
+        [
+            {
+                metric: ANALYSIS.register_spilling.metrics.global_loads_count
+            },
+            { title: 'TODO Inst.' }
+        ],
+        [
+            { title: 'Global Memory', size: 'small', bold: true },
+            { title: 'Local Memory', bold: true }
+        ],
+        [
+            { metric: ANALYSIS.register_spilling.metrics.global_memory_to_l1_bytes },
+            { metric: ANALYSIS.register_spilling.metrics.local_memory_to_l1_bytes }
+        ],
+        [
+            {
+                metric: ANALYSIS.register_spilling.metrics.global_memory_to_l1_cache_miss_percent,
+                format: '{0} miss rate',
+                comparison_format: '{0}\nmiss rate\n{1}'
+            },
+            { title: 'L1 Cache', bold: true },
+            {
+                metric: ANALYSIS.register_spilling.metrics.local_memory_to_l1_cache_miss_percent,
+                format: '{0} miss rate',
+                comparison_format: '{0}\nmiss rate\n{1}'
+            }
+        ],
+        [
+            { metric: ANALYSIS.register_spilling.metrics.global_memory_l1_to_l2_bytes },
+            { metric: ANALYSIS.register_spilling.metrics.local_memory_l1_to_l2_bytes }
+        ],
+        [
+            { title: 'L2 Cache', bold: true },
+            {
+                metric: ANALYSIS.register_spilling.metrics.l1_to_l2_cache_miss_percent,
+                format: '{0} miss rate',
+                comparison_format: '{0}\nmiss rate\n{1}'
+            }
+        ],
+        [{ metric: ANALYSIS.register_spilling.metrics.l2_to_dram_bytes }],
+        [{ title: 'DRAM', bold: true }]
+    ]
+};
