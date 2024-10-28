@@ -5,7 +5,7 @@
         </div>
         <p class="text-xl text-text">Code View</p>
         <p class="!-mb-1 !-mt-1 text-sm text-text/50">Here you can see the code</p>
-        <div class="flex flex-row">
+        <div v-if="hasComparisonResult" class="flex flex-row">
             <input type="checkbox" :checked="!useComparisonCode" @change="toggleCodeVersions" />
             <p class="text-text">Display new code</p>
         </div>
@@ -42,7 +42,7 @@ import ButtonSecondary from '../../ui/buttons/ButtonSecondary.vue';
 import CodeInfo from './CodeInfo.vue';
 import TopSection from './TopSection.vue';
 import { useDataStore } from '../../../stores/DataStore';
-import { computed, ref } from 'vue';
+import { computed } from 'vue';
 import { CODE_TYPE, useCodeViewerStore } from '../../../stores/CodeViewerStore';
 
 const dataStore = useDataStore();
@@ -54,6 +54,7 @@ const selectedLine = computed(() => codeViewerStore.getSelectedLine);
 const binaryView = computed(() => codeViewerStore.getCurrentBinary);
 const currentView = computed(() => codeViewerStore.getCurrentView);
 
+const hasComparisonResult = computed(() => dataStore.hasComparisonResult);
 const useComparisonCode = computed(() => codeViewerStore.displayComparisonCode);
 const selectedOccurrences = computed(() => dataStore.getCurrentOccurrences);
 const occurrences = computed(() =>

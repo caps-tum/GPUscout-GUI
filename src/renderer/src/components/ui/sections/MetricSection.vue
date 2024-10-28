@@ -9,12 +9,12 @@
                 :metric="metric.title || metric"
                 :hint="metric.hint"
                 :value="values[index](analysisData)"
-                :comparison-value="values[index](comparisonAnalysisData)"
+                :comparison-value="comparisonAnalysisData ? values[index](comparisonAnalysisData) : undefined"
                 :absolute-value="
                     absoluteValues ? absoluteValues[Math.min(absoluteValues.length - 1, index)](analysisData) : undefined
                 "
                 :comparison-absolute-value="
-                    absoluteValues
+                    absoluteValues && comparisonAnalysisData
                         ? absoluteValues[Math.min(absoluteValues.length - 1, index)](comparisonAnalysisData)
                         : undefined
                 "
@@ -27,12 +27,12 @@
                 :metric="metric.title || metric"
                 :hint="metric.hint"
                 :value="values[index](analysisData)"
-                :comparison-value="values[index](comparisonAnalysisData)"
+                :comparison-value="comparisonAnalysisData ? values[index](comparisonAnalysisData) : undefined"
                 :absolute-value="
                     absoluteValues ? absoluteValues[Math.min(absoluteValues.length - 1, index)](analysisData) : undefined
                 "
                 :comparison-absolute-value="
-                    absoluteValues
+                    absoluteValues && comparisonAnalysisData
                         ? absoluteValues[Math.min(absoluteValues.length - 1, index)](comparisonAnalysisData)
                         : undefined
                 "

@@ -66,10 +66,9 @@ async function proceed() {
         return;
     }
     const analysisFileData = await window.electronAPI.loadAnalysis(selectedAnalysisPath.value);
-    const comparisonAnalysisFileData =
-        selectedComparisonAnalysisPath.value !== undefined
-            ? await window.electronAPI.loadAnalysis(selectedComparisonAnalysisPath.value)
-            : undefined;
+    const comparisonAnalysisFileData = selectedComparisonAnalysisPath.value
+        ? await window.electronAPI.loadAnalysis(selectedComparisonAnalysisPath.value)
+        : undefined;
 
     await dataStore.initialize(analysisFileData, comparisonAnalysisFileData);
     contextStore.setCurrentContext(CONTEXT.ANALYSIS);
