@@ -13,8 +13,8 @@
                 TEXT.analyses.register_spilling.top_section.lmem_impact.type.instruction
             ]"
             :values="[
-                (analysis) => analysis.getMetric(ANALYSIS.register_spilling.metrics.occupancy),
-                (analysis) => analysis.getMetric(ANALYSIS.register_spilling.metrics.local_memory_to_l1_cache_miss_percent),
+                (analysis, metric) => analysis.getMetric(metric),
+                (analysis, metric) => analysis.getMetric(metric),
                 bandwidth,
                 instructions
             ]"
@@ -30,9 +30,9 @@
                 ANALYSIS.register_spilling.metrics.warp_stalls_lg_throttle_percent
             ]"
             :values="[
-                (analysis) => analysis.getMetric(ANALYSIS.register_spilling.metrics.warps_active),
-                (analysis) => analysis.getMetric(ANALYSIS.register_spilling.metrics.warp_stalls_long_scoreboard_percent),
-                (analysis) => analysis.getMetric(ANALYSIS.register_spilling.metrics.warp_stalls_lg_throttle_percent)
+                (analysis, metric) => analysis.getMetric(metric),
+                (analysis, metric) => analysis.getMetric(metric),
+                (analysis, metric) => analysis.getMetric(metric)
             ]"
             :absolute-values="[(analysis) => analysis.getMetric(ANALYSIS.register_spilling.metrics.warps_active)]"
         />

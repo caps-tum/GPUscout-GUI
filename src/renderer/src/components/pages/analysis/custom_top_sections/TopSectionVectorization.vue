@@ -11,10 +11,10 @@
             ANALYSIS.vectorization.metrics.occupancy
         ]"
         :values="[
-            (analysis) => analysis.getMetric(ANALYSIS.vectorization.metrics.non_vectorized_loads),
-            (analysis) => analysis.getMetric(ANALYSIS.vectorization.metrics.instructions_executed),
-            (analysis) => analysis.getMetric(ANALYSIS.vectorization.metrics.instructions_executed_global_loads),
-            (analysis) => analysis.getMetric(ANALYSIS.vectorization.metrics.occupancy)
+            (analysis, metric) => analysis.getMetric(metric),
+            (analysis, metric) => analysis.getMetric(metric),
+            (analysis, metric) => analysis.getMetric(metric),
+            (analysis, metric) => analysis.getMetric(metric)
         ]"
     />
     <MetricSection
@@ -26,10 +26,7 @@
             ANALYSIS.vectorization.metrics.warps_active,
             ANALYSIS.vectorization.metrics.warp_stalls_long_scoreboard_percent
         ]"
-        :values="[
-            (analysis) => analysis.getMetric(ANALYSIS.vectorization.metrics.warps_active),
-            (analysis) => analysis.getMetric(ANALYSIS.vectorization.metrics.warp_stalls_long_scoreboard_percent)
-        ]"
+        :values="[(analysis, metric) => analysis.getMetric(metric), (analysis, metric) => analysis.getMetric(metric)]"
         :absolute-values="[(analysis) => analysis.getMetric(ANALYSIS.vectorization.metrics.warps_active)]"
     />
 </template>

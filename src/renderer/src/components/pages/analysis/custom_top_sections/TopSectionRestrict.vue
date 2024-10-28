@@ -10,10 +10,7 @@
                 ANALYSIS.use_restrict.metrics.instructions_executed_global_operations,
                 ANALYSIS.use_restrict.metrics.warps_active
             ]"
-            :values="[
-                (analysis) => analysis.getMetric(ANALYSIS.use_restrict.metrics.instructions_executed_global_operations),
-                (analysis) => analysis.getMetric(ANALYSIS.use_restrict.metrics.warps_active)
-            ]"
+            :values="[(analysis, metric) => analysis.getMetric(metric), (analysis, metric) => analysis.getMetric(metric)]"
         />
         <MetricSection
             :title="TEXT.analyses.general.warp_stall_analysis.title"
@@ -26,9 +23,9 @@
                 ANALYSIS.use_restrict.metrics.warp_stalls_imc_miss_percent
             ]"
             :values="[
-                (analysis) => analysis.getMetric(ANALYSIS.use_restrict.metrics.warps_active),
-                (analysis) => analysis.getMetric(ANALYSIS.use_restrict.metrics.warp_stalls_long_scoreboard_percent),
-                (analysis) => analysis.getMetric(ANALYSIS.use_restrict.metrics.warp_stalls_imc_miss_percent)
+                (analysis, metric) => analysis.getMetric(metric),
+                (analysis, metric) => analysis.getMetric(metric),
+                (analysis, metric) => analysis.getMetric(metric)
             ]"
             :absolute-values="[(analysis) => analysis.getMetric(ANALYSIS.use_restrict.metrics.warps_active)]"
         >

@@ -32,10 +32,10 @@
             ANALYSIS.datatype_conversion.metrics.warp_stalls_tex_throttle_percent
         ]"
         :values="[
-            (analysis) => analysis.getMetric(ANALYSIS.datatype_conversion.metrics.warps_active),
-            (analysis) => analysis.getMetric(ANALYSIS.datatype_conversion.metrics.warp_stalls_short_scoreboard_percent),
-            (analysis) => analysis.getMetric(ANALYSIS.datatype_conversion.metrics.warp_stalls_mio_throttle_percent),
-            (analysis) => analysis.getMetric(ANALYSIS.datatype_conversion.metrics.warp_stalls_tex_throttle_percent)
+            (analysis, metric) => analysis.getMetric(metric),
+            (analysis, metric) => analysis.getMetric(metric),
+            (analysis, metric) => analysis.getMetric(metric),
+            (analysis, metric) => analysis.getMetric(metric)
         ]"
         :absolute-values="[(analysis) => analysis.getMetric(ANALYSIS.datatype_conversion.metrics.warps_active)]"
     >

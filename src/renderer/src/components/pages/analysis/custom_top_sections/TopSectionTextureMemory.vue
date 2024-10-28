@@ -10,9 +10,9 @@
             ANALYSIS.use_texture.metrics.warp_stalls_tex_throttle_percent
         ]"
         :values="[
-            (analysis) => analysis.getMetric(ANALYSIS.use_texture.metrics.warps_active),
-            (analysis) => analysis.getMetric(ANALYSIS.use_texture.metrics.warp_stalls_long_scoreboard_percent),
-            (analysis) => analysis.getMetric(ANALYSIS.use_texture.metrics.warp_stalls_tex_throttle_percent)
+            (analysis, metric) => analysis.getMetric(metric),
+            (analysis, metric) => analysis.getMetric(metric),
+            (analysis, metric) => analysis.getMetric(metric)
         ]"
         :absolute-values="[(analysis) => analysis.getMetric(ANALYSIS.use_texture.metrics.warps_active)]"
     />

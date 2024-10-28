@@ -10,9 +10,9 @@
             ANALYSIS.use_shared.metrics.bank_conflict
         ]"
         :values="[
-            (analysis) => analysis.getMetric(ANALYSIS.use_shared.metrics.shared_memory_load_count),
-            (analysis) => analysis.getMetric(ANALYSIS.use_shared.metrics.shared_memory_load_efficiency_percent),
-            (analysis) => analysis.getMetric(ANALYSIS.use_shared.metrics.bank_conflict)
+            (analysis, metric) => analysis.getMetric(metric),
+            (analysis, metric) => analysis.getMetric(metric),
+            (analysis, metric) => analysis.getMetric(metric)
         ]"
     />
     <MetricSection
@@ -26,9 +26,9 @@
             ANALYSIS.use_shared.metrics.warp_stalls_mio_throttle_percent
         ]"
         :values="[
-            (analysis) => analysis.getMetric(ANALYSIS.use_shared.metrics.warps_active),
-            (analysis) => analysis.getMetric(ANALYSIS.use_shared.metrics.warp_stalls_long_scoreboard_percent),
-            (analysis) => analysis.getMetric(ANALYSIS.use_shared.metrics.warp_stalls_mio_throttle_percent)
+            (analysis, metric) => analysis.getMetric(metric),
+            (analysis, metric) => analysis.getMetric(metric),
+            (analysis, metric) => analysis.getMetric(metric)
         ]"
         :absolute-values="[(analysis) => analysis.getMetric(ANALYSIS.use_shared.metrics.warps_active)]"
     >

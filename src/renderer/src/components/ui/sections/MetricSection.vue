@@ -8,8 +8,8 @@
                 :key="metric"
                 :metric="metric.title || metric"
                 :hint="metric.hint"
-                :value="values[index](analysisData)"
-                :comparison-value="comparisonAnalysisData ? values[index](comparisonAnalysisData) : undefined"
+                :value="values[index](analysisData, metric)"
+                :comparison-value="comparisonAnalysisData ? values[index](comparisonAnalysisData, metric) : undefined"
                 :absolute-value="
                     absoluteValues ? absoluteValues[Math.min(absoluteValues.length - 1, index)](analysisData) : undefined
                 "
@@ -26,8 +26,8 @@
                 :key="metric"
                 :metric="metric.title || metric"
                 :hint="metric.hint"
-                :value="values[index](analysisData)"
-                :comparison-value="comparisonAnalysisData ? values[index](comparisonAnalysisData) : undefined"
+                :value="values[index](analysisData, metric)"
+                :comparison-value="comparisonAnalysisData ? values[index](comparisonAnalysisData, metric) : undefined"
                 :absolute-value="
                     absoluteValues ? absoluteValues[Math.min(absoluteValues.length - 1, index)](analysisData) : undefined
                 "

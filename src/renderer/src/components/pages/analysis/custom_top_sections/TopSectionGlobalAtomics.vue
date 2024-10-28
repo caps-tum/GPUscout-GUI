@@ -6,10 +6,7 @@
             :analysis-data="analysisData"
             :comparison-analysis-data="comparisonAnalysisData"
             :metrics="[ANALYSIS.global_atomics.metrics.atom_global_count, ANALYSIS.global_atomics.metrics.atom_shared_count]"
-            :values="[
-                (analysis) => analysis.getMetric(ANALYSIS.global_atomics.metrics.atom_global_count),
-                (analysis) => analysis.getMetric(ANALYSIS.global_atomics.metrics.atom_shared_count)
-            ]"
+            :values="[(analysis, metric) => analysis.getMetric(metric), (analysis, metric) => analysis.getMetric(metric)]"
         />
     </div>
     <MetricSection
@@ -24,10 +21,10 @@
             ANALYSIS.global_atomics.metrics.warp_stalls_lg_throttle_percent
         ]"
         :values="[
-            (analysis) => analysis.getMetric(ANALYSIS.global_atomics.metrics.warps_active),
-            (analysis) => analysis.getMetric(ANALYSIS.global_atomics.metrics.warp_stalls_mio_throttle_percent),
-            (analysis) => analysis.getMetric(ANALYSIS.global_atomics.metrics.warp_stalls_long_scoreboard_percent),
-            (analysis) => analysis.getMetric(ANALYSIS.global_atomics.metrics.warp_stalls_lg_throttle_percent)
+            (analysis, metric) => analysis.getMetric(metric),
+            (analysis, metric) => analysis.getMetric(metric),
+            (analysis, metric) => analysis.getMetric(metric),
+            (analysis, metric) => analysis.getMetric(metric)
         ]"
         :absolute-values="[(analysis) => analysis.getMetric(ANALYSIS.global_atomics.metrics.warps_active)]"
     >
