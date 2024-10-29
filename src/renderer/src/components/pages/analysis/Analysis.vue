@@ -1,6 +1,6 @@
 <template>
     <div class="flex h-full w-full flex-col space-y-2">
-        <div class="shrink-0">
+        <div class="max-h-72">
             <TopSection :analysis="currentAnalysis" :kernel="currentKernel" />
         </div>
         <div class="flex flex-row space-x-2">
@@ -9,8 +9,9 @@
                 <p class="!-mb-1 !-mt-1 text-sm text-text/50">Here you can see the code</p>
             </div>
             <div v-if="hasComparisonResult" class="flex flex-row items-end space-x-1">
-                <ToggleSwitch :checked="!useComparisonCode" @changed="toggleCodeVersions" />
-                <p class="text-text">Display new code</p>
+                <p class="text-text">Original Code</p>
+                <ToggleSwitch class="mb-1" :checked="!useComparisonCode" @changed="toggleCodeVersions" />
+                <p class="text-text">New code</p>
             </div>
         </div>
         <div class="grid flex-grow grid-cols-[75%_24.5%] grid-rows-1 gap-2 overflow-x-hidden">

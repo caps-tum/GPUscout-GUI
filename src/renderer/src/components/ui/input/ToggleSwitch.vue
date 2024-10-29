@@ -1,5 +1,5 @@
 <template>
-    <label class="relative inline-block h-5 w-8">
+    <label class="relative inline-block h-4 w-7">
         <input type="checkbox" class="h-0 w-0 opacity-0" :checked="checked" @change="emit('changed')" />
         <span class="slider round"></span>
     </label>
@@ -12,7 +12,9 @@ defineProps({
 const emit = defineEmits(['changed']);
 </script>
 <style scoped>
-/* The slider */
+/*
+ * With modifications taken from https://www.w3schools.com/howto/howto_css_switch.asp
+ */
 .slider {
     position: absolute;
     cursor: pointer;
@@ -21,6 +23,7 @@ const emit = defineEmits(['changed']);
     right: 0;
     bottom: 0;
     -webkit-transition: 0.4s;
+    border-radius: 1.5rem;
     transition: 0.4s;
     @apply bg-text/50;
 }
@@ -28,13 +31,14 @@ const emit = defineEmits(['changed']);
 .slider:before {
     position: absolute;
     content: '';
-    height: 0.75rem;
-    width: 0.75rem;
+    height: 0.5rem;
+    width: 0.5rem;
     left: 4px;
     bottom: 4px;
     background-color: white;
     -webkit-transition: 0.4s;
     transition: 0.4s;
+    border-radius: 50%;
 }
 
 input:checked + .slider {
@@ -49,14 +53,5 @@ input:checked + .slider:before {
     -webkit-transform: translateX(0.75rem);
     -ms-transform: translateX(0.75rem);
     transform: translateX(0.75rem);
-}
-
-/* Rounded sliders */
-.slider.round {
-    border-radius: 1.5rem;
-}
-
-.slider.round:before {
-    border-radius: 50%;
 }
 </style>

@@ -1,11 +1,11 @@
 <template>
-    <div class="flex flex-col rounded bg-secondary/50 p-2 pt-1">
+    <div class="flex min-w-72 flex-col rounded bg-secondary/50 p-2 pt-1">
         <div class="flex flex-row items-center justify-between">
             <p class="text-xl text-text">{{ title }}</p>
             <a v-show="!expanded" class="cursor-pointer" @click="emit('expand')">Expand</a>
         </div>
         <p v-if="hint && expanded" class="-mt-1 text-sm text-text/50">{{ hint }}</p>
-        <div v-if="expanded" class="flex flex-grow flex-row gap-x-2 gap-y-2">
+        <div v-if="expanded" class="flex flex-grow flex-row flex-wrap gap-x-2 gap-y-2 overflow-y-auto">
             <ButtonMetric
                 v-for="(metric, index) in metrics"
                 :key="metric"

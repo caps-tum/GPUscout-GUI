@@ -25,6 +25,16 @@
             bandwidth,
             instructions
         ]"
+        :absolute-values="[
+            () => 0,
+            () => 0,
+            (analysis) => analysis.getMetric(ANALYSIS.register_spilling.metrics.l2_queries_due_to_local_memory_percent),
+            (analysis) =>
+                ((analysis.getMetric(ANALYSIS.register_spilling.metrics.instructions_executed_local_loads) +
+                    analysis.getMetric(ANALYSIS.register_spilling.metrics.instructions_executed_local_stores)) /
+                    analysis.getMetric(ANALYSIS.register_spilling.metrics.instructions_executed)) *
+                100
+        ]"
         :expanded="expandedSection === 2"
         :class="getOrderingClass(2)"
         @expand="expandedSection = 2"
@@ -54,7 +64,6 @@
 import MetricSection from '../../../ui/sections/MetricSection.vue';
 import { ANALYSIS } from '../../../../../../config/analyses';
 import { TEXT } from '../../../../../../config/text';
-import { formatNumber, formatPercent } from '../../../../utils/formatters';
 import { Analysis } from '../../../../utils/Analysis';
 import { MEMORY_GRAPH_DEFINITION } from '../../../../../../config/memory_graphs';
 import MemoryGraph from '../../../ui/memory_graph/MemoryGraph.vue';
@@ -68,28 +77,17 @@ defineProps({
 const expandedSection = ref(1);
 
 const bandwidth = (analysis) =>
-    formatNumber(
+    Math.round(
         (analysis.getMetric(ANALYSIS.register_spilling.metrics.total_l2_queries) *
             analysis.getMetric(ANALYSIS.register_spilling.metrics.l2_queries_due_to_local_memory_percent)) /
             100
-    ) +
-    ' (' +
-    formatPercent(analysis.getMetric(ANALYSIS.register_spilling.metrics.l2_queries_due_to_local_memory_percent)) +
-    ')';
+    );
 
 const instructions = (analysis) =>
-    formatNumber(
+    Math.round(
         analysis.getMetric(ANALYSIS.register_spilling.metrics.instructions_executed_local_loads) +
             analysis.getMetric(ANALYSIS.register_spilling.metrics.instructions_executed_local_stores)
-    ) +
-    ' (' +
-    formatPercent(
-        ((analysis.getMetric(ANALYSIS.register_spilling.metrics.instructions_executed_local_loads) +
-            analysis.getMetric(ANALYSIS.register_spilling.metrics.instructions_executed_local_stores)) /
-            analysis.getMetric(ANALYSIS.register_spilling.metrics.instructions_executed)) *
-            100
-    ) +
-    ')';
+    );
 
 function getOrderingClass(section) {
     return section === expandedSection.value ? 'order-1' : 'order-2';

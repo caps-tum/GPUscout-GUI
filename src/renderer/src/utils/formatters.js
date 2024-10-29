@@ -72,7 +72,14 @@ export function getMetricsData(metricName) {
     } else {
         return {
             display_name: metricName,
-            format_function: (v) => v
+            format_function: (v, a) => {
+                if (!a) return v;
+                let vString = formatNumber(v),
+                    aString = formatNumber(a);
+                if (!Number.isInteger(v)) vString = formatPercent(v);
+                if (!Number.isInteger(a)) aString = formatPercent(a);
+                return `${vString} (${aString})`;
+            }
         };
     }
 }

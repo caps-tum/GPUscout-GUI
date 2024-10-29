@@ -1,5 +1,5 @@
 <template>
-    <div class="flex flex-col rounded bg-secondary/50 p-2">
+    <div class="flex min-w-72 flex-col rounded bg-secondary/50 p-2">
         <div class="flex flex-shrink-0 flex-row justify-between">
             <div class="flex flex-row">
                 <p class="pr-2 text-lg">{{ title }}</p>
@@ -57,8 +57,7 @@ const cols = computed(() => Math.floor(props.sections.length / 2));
 const rows = computed(() => Math.ceil(Math.max(...props.sections.map((e) => e.length)) / 2));
 
 function buildTitles(components, useComparison = false) {
-    if (useComparison && !props.comparisonAnalysisData) return [];
-
+    useComparison = useComparison && props.comparisonAnalysisData !== undefined;
     const analysisData = useComparison ? props.comparisonAnalysisData : props.analysisData;
     const result = [];
 
