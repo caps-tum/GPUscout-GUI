@@ -9,10 +9,13 @@
         <p v-show="occurrences.length === 0 && Object.keys(stalls).length === 0" class="whitespace-pre-line p-1">
             {{ getNoOccurrenceString() }}
         </p>
-        <p v-show="Object.keys(stalls).length > 0" class="sticky top-0 rounded-t bg-secondary p-1 text-center text-text">
+        <p
+            v-show="Object.keys(stalls).length > 0"
+            class="sticky top-0 z-10 rounded-t bg-secondary p-1 text-center text-text"
+        >
             {{ TEXT.code_view.code_info.stalls_title }}
         </p>
-        <p v-show="Object.keys(stalls).length > 0" class="whitespace-pre-line p-1">{{ getStallString() }}</p>
+        <CodeInfoSampling v-if="Object.keys(stalls).length > 0" :stalls="stalls" />
         <p
             v-show="occurrences.length === 1 && occurrences[0].recommendations().length > 0"
             class="sticky top-0 rounded-t bg-secondary p-1 text-center text-text"
@@ -26,11 +29,11 @@
 </template>
 <script setup>
 import { computed } from 'vue';
-import { useCodeViewerStore } from '../../../stores/CodeViewerStore';
-import { TEXT } from '../../../../../config/text';
-import { formatPercent, formatStall } from '../../../utils/formatters';
+import { useCodeViewerStore } from '../../../../stores/CodeViewerStore';
+import { TEXT } from '../../../../../../config/text';
+import CodeInfoSampling from './CodeInfoSampling.vue';
 
-const props = defineProps({
+defineProps({
     analysis: String,
     kernel: String,
     occurrences: Array,
@@ -46,14 +49,5 @@ function getNoOccurrenceString() {
         return TEXT.analyses.general.code_info.no_line_selected;
     }
     return TEXT.analyses.general.code_info.no_info;
-}
-
-function getStallString() {
-    const total = Object.values(props.stalls).reduce((a, b) => a + b, 0);
-    let result = `${total} stall${total > 1 ? 's have' : ' has'} occurred in the current line:\n`;
-    for (const [stall, value] of Object.entries(props.stalls)) {
-        result += `- ${formatStall(stall)}: ${value} (${formatPercent((value / total) * 100)})\n`;
-    }
-    return result;
 }
 </script>

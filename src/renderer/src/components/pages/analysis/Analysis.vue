@@ -44,7 +44,7 @@
 <script setup>
 import CodeViewer from '../../code_viewer/CodeViewer.vue';
 import ButtonSecondary from '../../ui/buttons/ButtonSecondary.vue';
-import CodeInfo from './CodeInfo.vue';
+import CodeInfo from './code_info/CodeInfo.vue';
 import TopSection from './TopSection.vue';
 import { useDataStore } from '../../../stores/DataStore';
 import { computed } from 'vue';

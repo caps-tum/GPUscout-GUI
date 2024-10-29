@@ -266,6 +266,7 @@ export class GPUscoutResult {
         let currentSassLine = '';
         let lastLineBranch = '';
         let relevantStalls = [];
+        let totalStalls = 0;
         let sassRegisterMap = Object.fromEntries(
             sassRegisters
                 .split('\n')
@@ -285,6 +286,7 @@ export class GPUscoutResult {
                 currentKernel = line.replace('.text.', '').replace(':', '');
                 lastLineBranch = '';
                 relevantStalls = stalls[currentKernel] || [];
+                totalStalls = relevantStalls.flatMap((s) => s['stalls'].map((st) => st[1])).reduce((a, b) => a + b, 0);
 
                 this.sassToSourceLines[currentKernel] = {};
                 this.sassCodeLines[currentKernel] = [];
@@ -338,6 +340,12 @@ export class GPUscoutResult {
                     lastLineBranch = line.substring(0, line.length - 1);
                 }
 
+                const lineStalls = Object.fromEntries(
+                    relevantStalls.filter((s) => s['pc_offset'].padStart(4, '0') === address).flatMap((s) => s['stalls'])
+                );
+                if (Object.keys(lineStalls).length > 0) {
+                    lineStalls['total'] = totalStalls;
+                }
                 this.sassCodeLines[currentKernel].push({
                     address: address,
                     tokens: line
@@ -345,9 +353,7 @@ export class GPUscoutResult {
                         .split(/([+-,.:[\]() ])/)
                         .filter((token) => token.length > 0),
                     liveRegisters: liveRegisters,
-                    stalls: Object.fromEntries(
-                        relevantStalls.filter((s) => s['pc_offset'].padStart(4, '0') === address).flatMap((s) => s['stalls'])
-                    )
+                    stalls: lineStalls
                 });
             } else {
                 // We are at the end of a kernel
@@ -369,6 +375,7 @@ export class GPUscoutResult {
                 ({ file }) => file
             );
             let relevantStalls = stalls[kernel] || [];
+            let totalStalls = relevantStalls.flatMap((s) => s['stalls'].map((st) => st[1])).reduce((a, b) => a + b, 0);
 
             let lineNumber = 1;
             const oldToNewLineNumbers = {};
@@ -387,18 +394,22 @@ export class GPUscoutResult {
                 // Add lines
                 for (let i = minLine; i <= maxLine; i++) {
                     oldToNewLineNumbers[sourceFile][i] = lineNumber;
+                    const lineStalls = Object.fromEntries(
+                        relevantStalls
+                            .filter((s) => s['line_number'] === lineNumber)
+                            .flatMap((s) => s['stalls'])
+                            .reduce((a, b) => {
+                                a.find((x) => x[0] === b[0]) ? (a.find((x) => x[0] === b[0])[1] += b[1]) : a.push(b);
+                                return a;
+                            }, [])
+                    );
+                    if (Object.keys(lineStalls).length > 0) {
+                        lineStalls['total'] = totalStalls;
+                    }
                     this.sourceCodeLines[kernel].push({
                         address: lineNumber,
                         tokens: sourceFileContents[sourceFile][i - 1].split(/([ ,(){};+\-*<>=%&./])/),
-                        stalls: Object.fromEntries(
-                            relevantStalls
-                                .filter((s) => s['line_number'] === lineNumber)
-                                .flatMap((s) => s['stalls'])
-                                .reduce((a, b) => {
-                                    a.find((x) => x[0] === b[0]) ? (a.find((x) => x[0] === b[0])[1] += b[1]) : a.push(b);
-                                    return a;
-                                }, [])
-                        )
+                        stalls: lineStalls
                     });
                     lineNumber++;
                 }

@@ -69,6 +69,14 @@ export function formatInstructions(value) {
 export function getMetricsData(metricName) {
     if (METRICS[metricName]) {
         return METRICS[metricName];
+    } else if (metricName.startsWith('smsp__pcsamp')) {
+        const issued = !metricName.endsWith('_not_issued');
+        const stallName = issued ? metricName : metricName.substring(0, metricName.length - 11);
+        const result = STALLS[stallName];
+        if (!issued) {
+            result['display_name'] += ' (not issued)';
+        }
+        return result;
     } else {
         return {
             display_name: metricName,
@@ -87,15 +95,6 @@ export function getMetricsData(metricName) {
 /**
  * @param {String} stall
  */
-export function formatStall(stall) {
-    let stallName = '';
-    if (stall.endsWith('_not_issued')) {
-        stallName = STALLS[stall.substring(0, stall.length - 11)] + ' (not issued)';
-    } else {
-        stallName = STALLS[stall];
-    }
-    if (!stallName) {
-        return stall;
-    }
-    return stallName;
+export function formatStall(absolute, relative) {
+    return `${formatNumber(absolute)} (${formatPercent(relative)})`;
 }
