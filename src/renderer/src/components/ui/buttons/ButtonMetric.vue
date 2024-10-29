@@ -3,11 +3,23 @@
         <a class="flex h-full flex-col -space-y-1 rounded bg-primary py-1 pl-2 pr-3 text-background hover:cursor-pointer">
             <p class="pr-6 text-lg">{{ data.display_name }}</p>
             <p class="max-w-72 text-sm text-background/50">{{ hint || data.hint || '' }}</p>
-            <div class="flex flex-row justify-between">
-                <p class="flex flex-grow flex-col justify-end text-lg">
+            <div class="flex flex-row justify-between text-lg">
+                <p>
                     {{ data.format_function(value, absoluteValue) }}
                 </p>
-                <p v-if="comparisonValue !== undefined" class="flex flex-grow flex-col justify-end text-end text-lg">
+                <div class="flex flex-row px-2">
+                    <p v-if="value > comparisonValue && comparisonValue !== undefined" class="-mt-1 text-2xl text-red-400">
+                        &#x2B06;
+                    </p>
+                    <p v-else-if="comparisonValue !== undefined" class="-mt-1 text-2xl text-green-400">&#x2B07;</p>
+                    <p
+                        v-if="comparisonValue !== undefined"
+                        :class="value > comparisonValue ? 'text-red-400' : 'text-green-400'"
+                    >
+                        {{ data.format_function(value - comparisonValue) }}
+                    </p>
+                </div>
+                <p v-if="comparisonValue !== undefined">
                     {{ data.format_function(comparisonValue, comparisonAbsoluteValue) }}
                 </p>
             </div>
