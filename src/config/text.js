@@ -2,7 +2,7 @@ export const TEXT = {
     code_view: {
         code_info: {
             default_occurrence_title: 'Occurrence found',
-            stalls_title: 'Stalls',
+            stalls_title: 'PC Sampling Stalls',
             recommendations_title: 'Recommendations'
         }
     },

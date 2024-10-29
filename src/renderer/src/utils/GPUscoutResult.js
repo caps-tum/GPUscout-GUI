@@ -1,11 +1,13 @@
 import { ANALYSIS } from '../../../config/analyses';
 import { CODE_TYPE } from '../stores/CodeViewerStore';
 import { Analysis } from './Analysis';
+import { Topology } from './Topology';
 
 export class GPUscoutResult {
-    constructor(resultData) {
+    constructor(resultData, topologyData) {
         const resultJSON = JSON.parse(resultData);
 
+        this.gpuTopology = new Topology(topologyData);
         this.analyses = {};
         this.kernels = [];
         this.sassCodeLines = {};

@@ -42,11 +42,13 @@ export const useDataStore = defineStore('data', () => {
      * Initialize the store with the data from GPUscout
      * @param {String} resultData The data of the "result.json" file
      * @param {String} comparisonData The data of the "result.json" file of a second GPUscout result to compare to
+     * @param {String} topologyData The memory topology data
+     * @param {String} comparisonTopologyData The memory topology data of the comarison result
      */
-    async function initialize(resultData, comparisonData) {
-        gpuscoutResult = new GPUscoutResult(resultData);
+    async function initialize(resultData, comparisonData, topologyData, comparisonTopologyData) {
+        gpuscoutResult = new GPUscoutResult(resultData, topologyData);
         if (comparisonData) {
-            gpuscoutComparisonResult = new GPUscoutResult(comparisonData);
+            gpuscoutComparisonResult = new GPUscoutResult(comparisonData, comparisonTopologyData);
             comparisonResultAvailable.value = true;
         }
 
