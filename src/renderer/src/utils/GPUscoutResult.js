@@ -26,18 +26,20 @@ export class GPUscoutResult {
         this._parseSassCode(
             resultJSON['binary_files']['sass'],
             resultJSON['binary_files']['sass_registers'],
-            resultJSON['stalls']
+            resultJSON['stalls'],
+            resultJSON['kernels']
         );
-        this._parsePtxCode(resultJSON['binary_files']['ptx']);
+        this._parsePtxCode(resultJSON['binary_files']['ptx'], resultJSON['kernels']);
 
-        this._aggregateKernelSourceCode(sourceFileContents, resultJSON['stalls']);
+        this._aggregateKernelSourceCode(sourceFileContents, resultJSON['stalls'], resultJSON['kernels']);
 
         for (const [analysisName, analysisDefinition] of Object.entries(ANALYSIS)) {
             this.analyses[analysisName] = {};
 
             if (!resultJSON['analyses'][analysisDefinition.name]) continue;
 
-            for (const [kernel, analysisData] of Object.entries(resultJSON['analyses'][analysisDefinition.name])) {
+            for (let [kernel, analysisData] of Object.entries(resultJSON['analyses'][analysisDefinition.name])) {
+                kernel = resultJSON['kernels'][kernel];
                 this.analyses[analysisName][kernel] = new Analysis(
                     analysisData,
                     kernel,
@@ -167,8 +169,9 @@ export class GPUscoutResult {
     /**
      * Parse the ptx code and extract the mapping to the source code
      * @param {String} ptxCode The generated ptx source code
+     * @param {Object.<String, String>} kernels
      */
-    _parsePtxCode(ptxCode) {
+    _parsePtxCode(ptxCode, kernels) {
         let currentSourceLine = -1;
         let currentKernel = '';
         let currentSourceFile = '';
@@ -185,7 +188,7 @@ export class GPUscoutResult {
                 // .visible .entry KERNEL_NAME(
                 currentSourceLine = 0;
                 currentPtxLine = 1;
-                currentKernel = line.split(' ').at(-1).replace('(', '');
+                currentKernel = kernels[line.split(' ').at(-1).replace('(', '')];
 
                 this.ptxToSourceLines[currentKernel] = {};
                 this.ptxCodeLines[currentKernel] = [];
@@ -260,8 +263,9 @@ export class GPUscoutResult {
      * @param {String} sassCode The generated sass source code
      * @param {String} sassRegisters The sass code with register information
      * @param {Object.<String, {line_number: Number, pc_offset: String, stalls: {Number|String}[][]}[]>} stalls An object containing all recorded pc sampling stalls
+     * @param {Object.<String, String>} kernels
      */
-    _parseSassCode(sassCode, sassRegisters, stalls) {
+    _parseSassCode(sassCode, sassRegisters, stalls, kernels) {
         let currentSourceLine = -1;
         let currentKernel = '';
         let currentSourceFile = '';
@@ -285,9 +289,9 @@ export class GPUscoutResult {
                 // .text.KERNEL_NAME:
                 currentSourceLine = 0;
                 currentSassLine = '';
-                currentKernel = line.replace('.text.', '').replace(':', '');
+                currentKernel = kernels[line.replace('.text.', '').replace(':', '')];
                 lastLineBranch = '';
-                relevantStalls = stalls[currentKernel] || [];
+                relevantStalls = stalls[line.replace('.text.', '').replace(':', '')] || [];
                 totalStalls = relevantStalls.flatMap((s) => s['stalls'].map((st) => st[1])).reduce((a, b) => a + b, 0);
 
                 this.sassToSourceLines[currentKernel] = {};
