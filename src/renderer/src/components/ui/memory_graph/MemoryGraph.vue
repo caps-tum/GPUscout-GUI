@@ -93,7 +93,7 @@ function getGridStyle() {
     for (let i = 0; i < cols.value; i++) {
         columnTemplate += ' min-content';
         if (i < cols.value - 1) {
-            columnTemplate += ' auto';
+            columnTemplate += ' max-content';
         }
     }
 

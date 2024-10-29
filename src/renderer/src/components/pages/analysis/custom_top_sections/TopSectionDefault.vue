@@ -2,6 +2,7 @@
     <MetricSection
         title="Metrics"
         hint="Important metrics to watch out for"
+        :expanded="true"
         :metrics="Object.keys(analysisData.getMetrics())"
         :values="Object.values(analysisData.getMetrics())"
     >

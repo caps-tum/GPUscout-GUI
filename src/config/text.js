@@ -62,6 +62,9 @@ export const TEXT = {
         },
         global_atomics: {
             top_section: {
+                memory_graph: {
+                    title: 'Memory graph'
+                },
                 atomics_usage: {
                     title: 'Current usage of atomics in the kernel',
                     hint: 'Some hint'
@@ -87,6 +90,9 @@ export const TEXT = {
                     yes: 'Texture memory is currently used in the kernel',
                     no: 'Texture memory is not currently used in the kernel'
                 },
+                memory_graph: {
+                    title: 'Memory graph'
+                },
                 help_strings: {
                     long_scoreboard: 'Long scoreboard stalls should be kept as low as possible',
                     tex_throttle: 'TEX throttle be kept as low as possible'
@@ -106,6 +112,9 @@ export const TEXT = {
         },
         register_spilling: {
             top_section: {
+                memory_graph: {
+                    title: 'Memory graph'
+                },
                 lmem_impact: {
                     title: 'Performance impact of local memory',
                     hint: 'Registers are spilled to local memory, which can degrade performance. High values in any of the following categories indicate optimization potential',

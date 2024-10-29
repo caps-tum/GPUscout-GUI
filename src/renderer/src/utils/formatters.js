@@ -73,10 +73,12 @@ export function getMetricsData(metricName) {
         const issued = !metricName.endsWith('_not_issued');
         const stallName = issued ? metricName : metricName.substring(0, metricName.length - 11);
         const result = STALLS[stallName];
-        if (!issued) {
-            result['display_name'] += ' (not issued)';
-        }
-        return result;
+        return {
+            display_name: result['display_name'] + (issued ? '' : ' (not issued)'),
+            help_text: result['help_text'],
+            hint: '',
+            format_function: result['format_function']
+        };
     } else {
         return {
             display_name: metricName,

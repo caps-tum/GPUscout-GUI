@@ -17,6 +17,9 @@
             (analysis) => analysis.getOccurrences().filter((o) => o.type === 'F2I').length,
             (analysis) => analysis.getOccurrences().filter((o) => o.type === 'I2F').length
         ]"
+        :expanded="expandedSection === 1"
+        :class="getOrderingClass(1)"
+        @expand="expandedSection = 1"
     >
     </MetricSection>
 
@@ -38,6 +41,9 @@
             (analysis, metric) => analysis.getMetric(metric)
         ]"
         :absolute-values="[(analysis) => analysis.getMetric(ANALYSIS.datatype_conversion.metrics.warps_active)]"
+        :expanded="expandedSection === 2"
+        :class="getOrderingClass(2)"
+        @expand="expandedSection = 2"
     >
     </MetricSection>
 </template>
@@ -46,9 +52,16 @@ import MetricSection from '../../../ui/sections/MetricSection.vue';
 import { ANALYSIS } from '../../../../../../config/analyses';
 import { TEXT } from '../../../../../../config/text';
 import { Analysis } from '../../../../utils/Analysis';
+import { ref } from 'vue';
 
 defineProps({
     analysisData: Analysis,
     comparisonAnalysisData: Analysis
 });
+
+const expandedSection = ref(1);
+
+function getOrderingClass(section) {
+    return section === expandedSection.value ? 'order-1' : 'order-2';
+}
 </script>

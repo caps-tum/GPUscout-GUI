@@ -168,5 +168,53 @@ export const METRICS = {
         hint: '',
         format_function: formatBytes,
         help_text: 'This is a detailed explanation something'
+    },
+    'texture_data_memory_flow/kernel_to_tex_instr': {
+        display_name: 'Kernel to Tex',
+        hint: '',
+        format_function: formatInstructions,
+        help_text: 'This is a detailed explanation something'
+    },
+    'texture_data_memory_flow/tex_to_l1_bytes': {
+        display_name: 'Tex to L1',
+        hint: '',
+        format_function: formatBytes,
+        help_text: 'This is a detailed explanation something'
+    },
+    'texture_data_memory_flow/tex_to_l1_cache_miss_perc': {
+        display_name: 'Tex to L1 cache misses',
+        hint: '',
+        format_function: formatPercent,
+        help_text: 'This is a detailed explanation something'
+    },
+    'texture_data_memory_flow/l1_to_l2_cache_miss_perc': {
+        display_name: 'L1 to L2 cache misses',
+        hint: '',
+        format_function: formatPercent,
+        help_text: 'This is a detailed explanation something'
+    },
+    'texture_data_memory_flow/l1_to_l2_bytes': {
+        display_name: 'L1 to L2',
+        hint: '',
+        format_function: formatBytes,
+        help_text: 'This is a detailed explanation something'
+    },
+    'texture_data_memory_flow/l2_to_dram_bytes': {
+        display_name: 'L2 to DRAM',
+        hint: '',
+        format_function: formatBytes,
+        help_text: 'This is a detailed explanation something'
+    },
+    'memory_flow/global_to_l1_red_atom_bytes': {
+        display_name: 'L2 to DRAM',
+        hint: '',
+        format_function: formatBytes,
+        help_text: 'This is a detailed explanation something'
+    },
+    'memory_flow/l1_to_l2_bytes': {
+        display_name: 'L2 to DRAM',
+        hint: '',
+        format_function: formatBytes,
+        help_text: 'This is a detailed explanation something'
     }
 };
