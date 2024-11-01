@@ -1,19 +1,22 @@
 import { ANALYSIS } from '../../../config/analyses';
 import { CODE_TYPE } from '../stores/CodeViewerStore';
 import { Analysis } from './Analysis';
-import { Topology } from './Topology';
 
 export class GPUscoutResult {
     constructor(resultData, topologyData) {
         const resultJSON = JSON.parse(resultData);
 
-        this.gpuTopology = new Topology(topologyData);
         this.analyses = {};
         this.kernels = [];
+
+        this.topology = {};
+
         this.sassCodeLines = {};
         this.sassToSourceLines = {};
+
         this.ptxCodeLines = {};
         this.ptxToSourceLines = {};
+
         this.sourceCodeLines = {};
         this.sourceToSassLines = {};
         this.sourceToPtxLines = {};
@@ -32,6 +35,8 @@ export class GPUscoutResult {
         this._parsePtxCode(resultJSON['binary_files']['ptx'], resultJSON['kernels']);
 
         this._aggregateKernelSourceCode(sourceFileContents, resultJSON['stalls'], resultJSON['kernels']);
+
+        this._parseTopology(topologyData);
 
         for (const [analysisName, analysisDefinition] of Object.entries(ANALYSIS)) {
             this.analyses[analysisName] = {};
@@ -347,7 +352,10 @@ export class GPUscoutResult {
                 }
 
                 const lineStalls = Object.fromEntries(
-                    relevantStalls.filter((s) => s['pc_offset'].padStart(4, '0') === address).flatMap((s) => s['stalls'])
+                    relevantStalls
+                        .filter((s) => s['pc_offset'].padStart(4, '0') === address)
+                        .flatMap((s) => s['stalls'])
+                        .filter((stall) => !stall[0].endsWith('not_issued'))
                 );
                 if (Object.keys(lineStalls).length > 0) {
                     lineStalls['total'] = totalStalls;
@@ -396,6 +404,14 @@ export class GPUscoutResult {
 
                 // The new line numbers dont match the old ones, save the mapping
                 oldToNewLineNumbers[sourceFile] = {};
+
+                if (Object.keys(relevantLines).length > 1) {
+                    this.sourceCodeLines[kernel].push({
+                        address: -1,
+                        tokens: ['File: ' + sourceFile],
+                        stalls: {}
+                    });
+                }
 
                 // Add lines
                 for (let i = minLine; i <= maxLine; i++) {
@@ -450,6 +466,44 @@ export class GPUscoutResult {
                 this.sourceToPtxLines[kernel][key] = Object.entries(this.ptxToSourceLines[kernel])
                     .filter(([, v]) => v === parseInt(key))
                     .map(([k]) => parseInt(k));
+            }
+        }
+    }
+
+    /**
+     * @param {String} topologyData The content of the topology result file
+     */
+    _parseTopology(topologyData) {
+        if (!topologyData) return;
+
+        topologyData = topologyData.split('\n').map((line) => line.split(';'));
+        const lineToVarnames = [
+            [1, 3],
+            [1, 3, 5, 7],
+            [1, 4],
+            [1, 4, 6],
+            [1, 5, 8, 11, 14, 16, 18, 20, 22],
+            [1, 5, 8, 11, 14, 16],
+            [1, 5, 8, 11, 14, 16, 18, 20],
+            [1, 5, 8, 11, 14, 16, 18, 20],
+            [1, 5, 8, 11, 14, 16, 18],
+            [1, 5, 8, 11, 14],
+            [1, 5, 8, 11],
+            [1, 5, 8, 11]
+        ];
+
+        for (const [lineIndex, varIndices] of lineToVarnames.entries()) {
+            const category = topologyData[lineIndex][0].toLowerCase();
+            this.topology[category] = {};
+            for (const varIndex of varIndices) {
+                const varName = topologyData[lineIndex][varIndex].toLowerCase().replaceAll('"', '').trim();
+                let varValue = topologyData[lineIndex][varIndex + 1].trim();
+                if (varValue.includes('"')) {
+                    varValue = varValue.replaceAll('"', '');
+                } else {
+                    varValue = varValue.includes('.') ? parseFloat(varValue) : parseInt(varValue);
+                }
+                this.topology[category][varName] = varValue;
             }
         }
     }

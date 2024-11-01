@@ -107,11 +107,12 @@ export async function getAnalysesInFolder(event, folderPath) {
 
 /**
  * @param event {Object}
- * @param analysisPath {String}
+ * @param filePath {String}
  * @returns {Promise<String>}
  */
-export async function getAnalysis(event, analysisPath) {
-    return await fs.promises.readFile(analysisPath + '.gscout', {
+export async function getFileContent(event, filePath) {
+    console.log(filePath);
+    return await fs.promises.readFile(filePath, {
         encoding: 'utf8'
     });
 }

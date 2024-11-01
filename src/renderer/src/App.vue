@@ -3,9 +3,6 @@
     <NavigationBase v-else />
 
     <PopupMetricHint />
-    <PopupGlobalMemoryFlow />
-    <PopupTextureMemoryFlow />
-    <PopupGlobalLocalMemoryFlow />
 </template>
 <script setup>
 import { CONTEXT, useContextStore } from './stores/ContextStore';
@@ -14,9 +11,6 @@ import { useConfigStore } from './stores/ConfigStore';
 import LandingPage from './components/pages/landing/LandingPage.vue';
 import NavigationBase from './components/navigation/NavigationBase.vue';
 import PopupMetricHint from './components/popups/PopupMetricHint.vue';
-import PopupGlobalMemoryFlow from './components/popups/PopupGlobalMemoryFlow.vue';
-import PopupTextureMemoryFlow from './components/popups/PopupTextureMemoryFlow.vue';
-import PopupGlobalLocalMemoryFlow from './components/popups/PopupGlobalLocalMemoryFlow.vue';
 
 const contextStore = useContextStore();
 const configStore = useConfigStore();

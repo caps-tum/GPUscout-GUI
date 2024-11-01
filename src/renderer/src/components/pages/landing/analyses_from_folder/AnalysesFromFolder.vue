@@ -1,6 +1,6 @@
 <template>
     <div class="rounded bg-secondary/50 p-4 text-text">
-        <p class="-mb-2 text-lg">Available analyses in GPUscout output directory</p>
+        <p class="-mb-2 text-lg">Select analysis in GPUscout output directory</p>
         <p class="text-sm">This list contains all GPUscout reseult files found in the selected output folder</p>
         <div class="my-1 flex flex-row justify-between">
             <TextInput v-model="searchString" placeholder="Search..." />

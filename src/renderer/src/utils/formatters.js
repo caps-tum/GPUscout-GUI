@@ -70,15 +70,7 @@ export function getMetricsData(metricName) {
     if (METRICS[metricName]) {
         return METRICS[metricName];
     } else if (metricName.startsWith('smsp__pcsamp')) {
-        const issued = !metricName.endsWith('_not_issued');
-        const stallName = issued ? metricName : metricName.substring(0, metricName.length - 11);
-        const result = STALLS[stallName];
-        return {
-            display_name: result['display_name'] + (issued ? '' : ' (not issued)'),
-            help_text: result['help_text'],
-            hint: '',
-            format_function: result['format_function']
-        };
+        return STALLS[metricName];
     } else {
         return {
             display_name: metricName,

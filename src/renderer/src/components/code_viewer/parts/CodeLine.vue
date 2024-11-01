@@ -1,10 +1,10 @@
 <template>
     <div ref="line" class="group relative m-0 flex space-x-1" @click="selectLine">
         <p class="sticky left-0 top-0 w-16 shrink-0 select-none bg-secondary px-1 group-hover:bg-gray-200">
-            {{ lineNumber }} {{ hasStalls ? '*' : '' }}
+            {{ lineNumber !== -1 ? lineNumber : '' }} {{ hasStalls ? '*' : '' }}
         </p>
         <p
-            class="flex h-6 max-h-6 w-full flex-grow border-collapse flex-row overflow-hidden text-nowrap group-hover:bg-blue-400"
+            class="flex min-h-6 w-full flex-grow border-collapse flex-row flex-wrap overflow-hidden group-hover:bg-blue-400"
             :class="getHighlight()"
         >
             <CodeLineToken
@@ -66,6 +66,10 @@ function getHighlight() {
 
     if (props.highlightedLines[props.lineNumber] !== undefined) {
         style += props.highlightedLines[props.lineNumber];
+    }
+
+    if (props.lineNumber === -1) {
+        style += 'bg-secondary !ml-0';
     }
     return style;
 }

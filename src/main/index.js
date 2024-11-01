@@ -12,7 +12,8 @@ import {
     removeRecentAnalysis,
     setConfig,
     getAnalysis,
-    checkFileStructure
+    checkFileStructure,
+    getFileContent
 } from './fileManagement';
 import { selectDirectory, selectFile } from './dialog';
 
@@ -71,7 +72,7 @@ app.whenReady().then(async () => {
     ipcMain.handle('recentAnalyses:get', getRecentAnalyses);
     ipcMain.handle('recentAnalyses:add', addRecentAnalysis);
     ipcMain.handle('recentAnalyses:remove', removeRecentAnalysis);
-    ipcMain.handle('analysis:load', getAnalysis);
+    ipcMain.handle('file:load', getFileContent);
 
     await checkFileStructure();
 

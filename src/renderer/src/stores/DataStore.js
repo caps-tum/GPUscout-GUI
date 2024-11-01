@@ -48,7 +48,7 @@ export const useDataStore = defineStore('data', () => {
     async function initialize(resultData, comparisonData, topologyData, comparisonTopologyData) {
         gpuscoutResult = new GPUscoutResult(resultData, topologyData);
         if (comparisonData) {
-            gpuscoutComparisonResult = new GPUscoutResult(comparisonData, comparisonTopologyData);
+            gpuscoutComparisonResult = new GPUscoutResult(comparisonData, comparisonTopologyData || topologyData);
             comparisonResultAvailable.value = true;
         }
 
