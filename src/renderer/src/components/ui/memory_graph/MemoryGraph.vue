@@ -1,37 +1,41 @@
 <template>
-    <div class="flex min-w-72 flex-col rounded bg-secondary/50 p-2">
-        <div class="flex flex-shrink-0 flex-row justify-between">
-            <div class="flex flex-row">
-                <p class="pr-2 text-lg">{{ title }}</p>
-                <ButtonHelp v-if="expanded" class="text-text *:h-5 *:w-5" />
+    <div class="flex min-w-72 flex-col" :class="getOrderClass()">
+        <div class="flex flex-col rounded bg-secondary/50 p-2">
+            <div class="flex flex-shrink-0 flex-row justify-between">
+                <div class="flex flex-row">
+                    <p class="pr-2 text-lg">{{ title }}</p>
+                    <ButtonHelp v-if="expanded" class="text-text *:h-5 *:w-5" />
+                </div>
+                <a v-show="!expanded" class="cursor-pointer" @click="emit('expand')">Expand</a>
             </div>
-            <a v-show="!expanded" class="cursor-pointer" @click="emit('expand')">Expand</a>
-        </div>
-        <div v-if="expanded" class="grid flex-grow grid-flow-col" :style="getGridStyle()">
-            <template v-for="(section, index) of sections" :key="index">
-                <MemoryGraphNodeLarge
-                    v-if="index % 2 === 0 && section[0]['size'] !== 'small'"
-                    :titles="buildTitles(section, true)"
+            <div v-if="expanded" class="grid flex-grow grid-flow-col" :style="getGridStyle()">
+                <template v-for="(section, index) of sections" :key="index">
+                    <MemoryGraphNodeLarge
+                        v-if="index % 2 === 0 && section[0]['size'] !== 'small'"
+                        :titles="buildTitles(section, true)"
+                    />
+                    <MemoryGraphNodesSmall v-else-if="index % 2 === 0" :titles="buildTitles(section)" />
+                    <MemoryGraphArrows
+                        v-else
+                        :labels="buildTitles(section)"
+                        :comparison-labels="buildTitles(section, true)"
+                        :rows="rows"
+                    />
+                </template>
+            </div>
+            <div v-else class="flex flex-grow flex-col gap-y-1 overflow-y-auto">
+                <ButtonMetricList
+                    v-for="metric in getMetrics()"
+                    :key="metric"
+                    :metric="metric"
+                    :value="analysisData.getMetric(metric)"
+                    :comparison-value="comparisonAnalysisData ? comparisonAnalysisData.getMetric(metric) : undefined"
                 />
-                <MemoryGraphNodesSmall v-else-if="index % 2 === 0" :titles="buildTitles(section)" />
-                <MemoryGraphArrows
-                    v-else
-                    :labels="buildTitles(section)"
-                    :comparison-labels="buildTitles(section, true)"
-                    :rows="rows"
-                />
-            </template>
+            </div>
         </div>
-        <div v-else class="flex flex-grow flex-col gap-y-1 overflow-y-auto">
-            <ButtonMetricList
-                v-for="metric in getMetrics()"
-                :key="metric"
-                :metric="metric"
-                :value="analysisData.getMetric(metric)"
-                :comparison-value="comparisonAnalysisData ? comparisonAnalysisData.getMetric(metric) : undefined"
-            />
-        </div>
+        <div v-if="expanded" class="flex-grow"></div>
     </div>
+    <div v-if="expanded" class="order-2 flex-grow"></div>
 </template>
 <script setup>
 import { computed } from 'vue';
@@ -86,6 +90,10 @@ function buildTitles(components, useComparison = false) {
 
 function getMetrics() {
     return props.sections.flatMap((s) => s.filter((x) => x.metric !== undefined).map((x) => x.metric));
+}
+
+function getOrderClass() {
+    return props.expanded ? 'order-1' : 'order-3';
 }
 
 function getGridStyle() {

@@ -1,46 +1,50 @@
 <template>
-    <div class="flex min-w-72 flex-col rounded bg-secondary/50 p-2 pt-1">
-        <div class="flex flex-row items-center justify-between">
-            <p class="text-xl text-text">{{ title }}</p>
-            <a v-show="!expanded" class="cursor-pointer" @click="emit('expand')">Expand</a>
+    <div class="flex min-w-72 flex-col" :class="getOrderClass()">
+        <div class="flex flex-col rounded bg-secondary/50 p-2 pt-1">
+            <div class="flex flex-row items-center justify-between">
+                <p class="text-xl text-text">{{ title }}</p>
+                <a v-show="!expanded" class="cursor-pointer" @click="emit('expand')">Expand</a>
+            </div>
+            <p v-if="hint && expanded" class="-mt-1 text-sm text-text/50">{{ hint }}</p>
+            <div v-if="expanded" class="flex flex-grow flex-row flex-wrap gap-x-2 gap-y-2 overflow-y-auto overflow-x-hidden">
+                <ButtonMetric
+                    v-for="(metric, index) in metrics"
+                    :key="metric"
+                    :metric="metric.title || metric"
+                    :hint="metric.hint"
+                    :value="values[index](analysisData, metric)"
+                    :comparison-value="comparisonAnalysisData ? values[index](comparisonAnalysisData, metric) : undefined"
+                    :absolute-value="
+                        absoluteValues ? absoluteValues[Math.min(absoluteValues.length - 1, index)](analysisData) : undefined
+                    "
+                    :comparison-absolute-value="
+                        absoluteValues && comparisonAnalysisData
+                            ? absoluteValues[Math.min(absoluteValues.length - 1, index)](comparisonAnalysisData)
+                            : undefined
+                    "
+                />
+            </div>
+            <div v-else class="flex flex-grow flex-col flex-wrap gap-y-1">
+                <ButtonMetricList
+                    v-for="(metric, index) in metrics"
+                    :key="metric"
+                    :metric="metric.title || metric"
+                    :hint="metric.hint"
+                    :value="values[index](analysisData, metric)"
+                    :comparison-value="comparisonAnalysisData ? values[index](comparisonAnalysisData, metric) : undefined"
+                />
+            </div>
         </div>
-        <p v-if="hint && expanded" class="-mt-1 text-sm text-text/50">{{ hint }}</p>
-        <div v-if="expanded" class="flex flex-grow flex-row flex-wrap gap-x-2 gap-y-2 overflow-y-auto">
-            <ButtonMetric
-                v-for="(metric, index) in metrics"
-                :key="metric"
-                :metric="metric.title || metric"
-                :hint="metric.hint"
-                :value="values[index](analysisData, metric)"
-                :comparison-value="comparisonAnalysisData ? values[index](comparisonAnalysisData, metric) : undefined"
-                :absolute-value="
-                    absoluteValues ? absoluteValues[Math.min(absoluteValues.length - 1, index)](analysisData) : undefined
-                "
-                :comparison-absolute-value="
-                    absoluteValues && comparisonAnalysisData
-                        ? absoluteValues[Math.min(absoluteValues.length - 1, index)](comparisonAnalysisData)
-                        : undefined
-                "
-            />
-        </div>
-        <div v-else class="flex flex-grow flex-col flex-wrap gap-y-1">
-            <ButtonMetricList
-                v-for="(metric, index) in metrics"
-                :key="metric"
-                :metric="metric.title || metric"
-                :hint="metric.hint"
-                :value="values[index](analysisData, metric)"
-                :comparison-value="comparisonAnalysisData ? values[index](comparisonAnalysisData, metric) : undefined"
-            />
-        </div>
+        <div v-if="expanded" class="flex-grow"></div>
     </div>
+    <div v-if="expanded" class="order-2 flex-grow"></div>
 </template>
 <script setup>
 import { Analysis } from '../../../utils/Analysis';
 import ButtonMetric from '../buttons/ButtonMetric.vue';
 import ButtonMetricList from '../buttons/ButtonMetricList.vue';
 
-defineProps({
+const props = defineProps({
     title: String,
     hint: String,
     analysisData: Analysis,
@@ -52,4 +56,8 @@ defineProps({
 });
 
 const emit = defineEmits(['expand']);
+
+function getOrderClass() {
+    return props.expanded ? 'order-1' : 'order-3';
+}
 </script>

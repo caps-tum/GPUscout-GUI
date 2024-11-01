@@ -10,7 +10,6 @@
         ]"
         :values="[(analysis, metric) => analysis.getMetric(metric), (analysis, metric) => analysis.getMetric(metric)]"
         :expanded="expandedSection === 1"
-        :class="getOrderingClass(1)"
         @expand="expandedSection = 1"
     />
     <MetricSection
@@ -30,7 +29,6 @@
         ]"
         :absolute-values="[(analysis) => analysis.getMetric(ANALYSIS.use_restrict.metrics.warps_active)]"
         :expanded="expandedSection === 2"
-        :class="getOrderingClass(2)"
         @expand="expandedSection = 2"
     >
     </MetricSection>
@@ -48,8 +46,4 @@ defineProps({
 });
 
 const expandedSection = ref(1);
-
-function getOrderingClass(section) {
-    return section === expandedSection.value ? 'order-1' : 'order-2';
-}
 </script>

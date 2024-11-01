@@ -5,7 +5,6 @@
         :comparison-analysis-data="comparisonAnalysisData"
         :sections="MEMORY_GRAPH_DEFINITION.global_local_caches"
         :expanded="expandedSection === 1"
-        :class="getOrderingClass(1)"
         @expand="expandedSection = 1"
     />
     <MetricSection
@@ -36,7 +35,6 @@
                 100
         ]"
         :expanded="expandedSection === 2"
-        :class="getOrderingClass(2)"
         @expand="expandedSection = 2"
     />
     <MetricSection
@@ -56,7 +54,6 @@
         ]"
         :absolute-values="[(analysis) => analysis.getMetric(ANALYSIS.register_spilling.metrics.warps_active)]"
         :expanded="expandedSection === 3"
-        :class="getOrderingClass(3)"
         @expand="expandedSection = 3"
     />
 </template>
@@ -88,8 +85,4 @@ const instructions = (analysis) =>
         analysis.getMetric(ANALYSIS.register_spilling.metrics.instructions_executed_local_loads) +
             analysis.getMetric(ANALYSIS.register_spilling.metrics.instructions_executed_local_stores)
     );
-
-function getOrderingClass(section) {
-    return section === expandedSection.value ? 'order-1' : 'order-2';
-}
 </script>

@@ -5,7 +5,6 @@
         :comparison-analysis-data="comparisonAnalysisData"
         :sections="MEMORY_GRAPH_DEFINITION.texture_memory"
         :expanded="expandedSection === 1"
-        :class="getOrderingClass(1)"
         @expand="expandedSection = 1"
     />
     <MetricSection
@@ -25,7 +24,6 @@
         ]"
         :absolute-values="[(analysis) => analysis.getMetric(ANALYSIS.use_texture.metrics.warps_active)]"
         :expanded="expandedSection === 2"
-        :class="getOrderingClass(2)"
         @expand="expandedSection = 2"
     />
 </template>
@@ -44,8 +42,4 @@ defineProps({
 });
 
 const expandedSection = ref(1);
-
-function getOrderingClass(section) {
-    return section === expandedSection.value ? 'order-1' : 'order-2';
-}
 </script>

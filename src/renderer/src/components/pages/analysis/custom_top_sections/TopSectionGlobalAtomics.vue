@@ -5,7 +5,6 @@
         :comparison-analysis-data="comparisonAnalysisData"
         :sections="MEMORY_GRAPH_DEFINITION.atomics"
         :expanded="expandedSection === 1"
-        :class="getOrderingClass(1)"
         @expand="expandedSection = 1"
     />
     <MetricSection
@@ -16,7 +15,6 @@
         :metrics="[ANALYSIS.global_atomics.metrics.atom_global_count, ANALYSIS.global_atomics.metrics.atom_shared_count]"
         :values="[(analysis, metric) => analysis.getMetric(metric), (analysis, metric) => analysis.getMetric(metric)]"
         :expanded="expandedSection === 2"
-        :class="getOrderingClass(2)"
         @expand="expandedSection = 2"
     />
     <MetricSection
@@ -38,7 +36,6 @@
         ]"
         :absolute-values="[(analysis) => analysis.getMetric(ANALYSIS.global_atomics.metrics.warps_active)]"
         :expanded="expandedSection === 3"
-        :class="getOrderingClass(3)"
         @expand="expandedSection = 3"
     >
     </MetricSection>
@@ -58,8 +55,4 @@ defineProps({
 });
 
 const expandedSection = ref(1);
-
-function getOrderingClass(section) {
-    return section === expandedSection.value ? 'order-1' : 'order-2';
-}
 </script>
