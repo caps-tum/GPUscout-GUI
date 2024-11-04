@@ -1,5 +1,5 @@
 <template>
-    <div class="flex h-full w-full flex-col space-y-2">
+    <div class="flex h-full w-full flex-col space-y-1">
         <div class="flex flex-row space-x-2">
             <div class="-mt-2 flex flex-col">
                 <p class="text-xl text-text">Relevant Kernel Metrics</p>

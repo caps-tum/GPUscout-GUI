@@ -25,7 +25,7 @@
                     />
                 </template>
             </div>
-            <div v-else class="flex flex-grow flex-col gap-y-1 overflow-y-auto">
+            <div v-else class="flex max-h-60 flex-grow flex-col gap-y-1 overflow-y-auto">
                 <ButtonMetricList
                     v-for="metric in getMetrics()"
                     :key="metric"
