@@ -1,6 +1,23 @@
 <template>
     <div class="flex h-full w-full flex-col space-y-2">
-        <div class="max-h-72">
+        <div class="flex flex-row space-x-2">
+            <div class="-mt-2 flex flex-col">
+                <p class="text-xl text-text">Relevant Kernel Metrics</p>
+                <p class="!-mb-1 !-mt-1 text-sm text-text/50">
+                    Here you can see all relevant kernel metrics for the selected analysis
+                </p>
+            </div>
+            <ToggleSwitch
+                class="mb-1"
+                :checked="showMetrics"
+                @changed="
+                    () => {
+                        showMetrics = !showMetrics;
+                    }
+                "
+            />
+        </div>
+        <div v-show="showMetrics" class="max-h-72">
             <TopSection :analysis="currentAnalysis" :kernel="currentKernel" />
         </div>
         <div class="flex flex-row space-x-2">
@@ -47,7 +64,7 @@ import ButtonSecondary from '../../ui/buttons/ButtonSecondary.vue';
 import CodeInfo from './code_info/CodeInfo.vue';
 import TopSection from './TopSection.vue';
 import { useDataStore } from '../../../stores/DataStore';
-import { computed } from 'vue';
+import { computed, ref } from 'vue';
 import { CODE_TYPE, useCodeViewerStore } from '../../../stores/CodeViewerStore';
 import ToggleSwitch from '../../ui/input/ToggleSwitch.vue';
 
@@ -60,6 +77,7 @@ const selectedLine = computed(() => codeViewerStore.getSelectedLine);
 const binaryView = computed(() => codeViewerStore.getCurrentBinary);
 const currentView = computed(() => codeViewerStore.getCurrentView);
 
+const showMetrics = ref(true);
 const hasComparisonResult = computed(() => dataStore.hasComparisonResult);
 const useComparisonCode = computed(() => codeViewerStore.displayComparisonCode);
 const selectedOccurrences = computed(() => dataStore.getCurrentOccurrences);

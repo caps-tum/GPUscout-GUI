@@ -1,12 +1,14 @@
 <template>
     <div class="flex min-w-72 flex-col" :class="getOrderClass()">
-        <div class="flex flex-col rounded bg-secondary/50 p-2">
-            <div class="flex flex-shrink-0 flex-row justify-between">
+        <div class="flex flex-col rounded bg-secondary/50 p-2 pt-1">
+            <div class="flex flex-shrink-0 flex-row items-start justify-between space-x-1">
                 <div class="flex flex-row">
-                    <p class="pr-2 text-lg">{{ title }}</p>
+                    <p class="pr-2 text-xl text-text">{{ title }}</p>
                     <ButtonHelp v-if="expanded" class="text-text *:h-5 *:w-5" />
                 </div>
-                <a v-show="!expanded" class="cursor-pointer" @click="emit('expand')">Expand</a>
+                <a v-show="!expanded" class="cursor-pointer" @click="emit('expand')"
+                    ><img src="../../../assets/up-right-and-down-left-from-center-solid.svg" class="mr-1 mt-1 h-4 w-4"
+                /></a>
             </div>
             <div v-if="expanded" class="grid flex-grow grid-flow-col" :style="getGridStyle()">
                 <template v-for="(section, index) of sections" :key="index">
