@@ -69,8 +69,8 @@ function getHighlight() {
         style += 'bg-secondary !ml-0';
     }
 
-    if (style === '') {
-        style = 'group-hover:bg-secondary/25';
+    if (!style.includes('bg-')) {
+        style += ' group-hover:bg-secondary/25';
     }
     return style;
 }

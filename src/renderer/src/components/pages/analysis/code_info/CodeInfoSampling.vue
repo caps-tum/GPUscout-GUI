@@ -3,6 +3,7 @@
         <ButtonMetric
             metric="Total Samples"
             :value="`${formatNumber(totalLineStalls)} / ${formatNumber(stalls['total'])} (${formatPercent((totalLineStalls / stalls['total']) * 100)})`"
+            :value-small="true"
         />
         <template v-for="stall of Object.keys(stalls).sort((a, b) => stalls[b] - stalls[a])" :key="stall">
             <ButtonMetric
@@ -11,6 +12,7 @@
                 :metric="stall"
                 :value="stalls[stall]"
                 :absolute-value="(stalls[stall] / totalLineStalls) * 100"
+                :value-small="true"
             />
         </template>
     </div>

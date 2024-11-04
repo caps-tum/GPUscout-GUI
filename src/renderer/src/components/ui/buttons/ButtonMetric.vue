@@ -3,7 +3,7 @@
         <a class="flex h-full flex-col -space-y-1 rounded bg-primary py-1 pl-2 pr-3 text-background">
             <p class="pr-6 text-lg">{{ data.display_name }}</p>
             <p class="line-clamp-1 text-sm text-background/50">{{ hint || data.hint || '' }}</p>
-            <div class="flex justify-between text-lg" :class="getFlexDirection()">
+            <div class="flex justify-between" :class="getFlexDirection()">
                 <p>
                     {{ data.format_function(value, absoluteValue) }}
                 </p>
@@ -40,7 +40,8 @@ const props = defineProps({
     comparisonValue: [Number, String],
     hint: String,
     absoluteValue: Number,
-    comparisonAbsoluteValue: Number
+    comparisonAbsoluteValue: Number,
+    valueSmall: Boolean
 });
 
 const contextStore = useContextStore();
@@ -54,6 +55,8 @@ function showHelpPopup() {
 }
 
 function getFlexDirection() {
-    return props.comparisonValue !== undefined ? 'flex-row-reverse' : 'flex-row';
+    let flex = props.comparisonValue !== undefined ? 'flex-row-reverse' : 'flex-row';
+    let textSize = props.valueSmall ? 'text-base' : 'text-lg';
+    return flex + ' ' + textSize;
 }
 </script>
