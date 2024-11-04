@@ -76,10 +76,23 @@ function buildTitles(components, useComparison = false) {
             );
             if (entry.format) {
                 if (useComparison) {
-                    const originalMetricValue = getMetricsData(entry.metric).format_function(
+                    const newMetric = getMetricsData(entry.metric);
+                    const newMetricValue = newMetric.format_function(
                         entry.value || props.analysisData.getMetric(entry.metric)
                     );
-                    metricValue = entry.comparison_format.replace('{0}', originalMetricValue).replace('{1}', metricValue);
+
+                    const isPositiveChange =
+                        (newMetricValue <= metricValue && newMetric.lower_better) ||
+                        (newMetricValue >= metricValue && !newMetric.lower_better);
+                    const changeColor = isPositiveChange ? 'text-green-400' : 'text-red-400';
+
+                    metricValue =
+                        '<p>' +
+                        entry.comparison_format
+                            .replace('{0}', metricValue)
+                            .replace('{1}', `<a class="${changeColor}">${newMetricValue}</a>`)
+                            .replace('{2}', `<a class="w-min ${changeColor}">&#x2B07;</a>`) +
+                        '</p>';
                 } else {
                     metricValue = entry.format.replace('{0}', metricValue);
                 }

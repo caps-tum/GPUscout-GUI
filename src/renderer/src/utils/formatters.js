@@ -64,7 +64,7 @@ export function formatInstructions(value) {
 
 /**
  * @param {String} metricName
- * @returns {{display_name: String, format_function: Function, help_text: String, hint: String}}
+ * @returns {{display_name: String, format_function: Function, help_text: String, hint: String, lower_better: Boolean}}
  */
 export function getMetricsData(metricName) {
     if (METRICS[metricName]) {
@@ -81,7 +81,8 @@ export function getMetricsData(metricName) {
                 if (!Number.isInteger(v)) vString = formatPercent(v);
                 if (!Number.isInteger(a)) aString = formatPercent(a);
                 return `${vString} (${aString})`;
-            }
+            },
+            lower_better: true
         };
     }
 }

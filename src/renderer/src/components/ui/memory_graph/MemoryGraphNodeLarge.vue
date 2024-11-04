@@ -4,7 +4,7 @@
         style="grid-row: 1 / span last-line"
     >
         <template v-for="title of titles" :key="title">
-            <p :class="getBoldness(title)">{{ getTitle(title) }}</p>
+            <p :class="getBoldness(title)" v-html="getTitle(title)"></p>
         </template>
     </div>
 </template>

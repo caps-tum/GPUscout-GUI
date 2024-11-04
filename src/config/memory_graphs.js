@@ -39,7 +39,7 @@ export const MEMORY_GRAPH_DEFINITION = {
             {
                 metric: ANALYSIS.register_spilling.metrics.l1_to_l2_cache_miss_percent,
                 format: '{0} miss rate',
-                comparison_format: '{0}\nmiss rate\n{1}'
+                comparison_format: '{0}\nmiss rate\n{2} {1}'
             }
         ],
         [{ metric: ANALYSIS.register_spilling.metrics.l2_to_dram_bytes }],

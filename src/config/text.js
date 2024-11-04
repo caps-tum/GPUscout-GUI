@@ -1,10 +1,21 @@
 export const TEXT = {
     code_view: {
+        title: 'Code View',
+        hint: 'Here you can see the source and binary code of the selected kernel',
+        toggle: {
+            old: 'Old Kernel',
+            new: 'New Kernel'
+        },
         code_info: {
             default_occurrence_title: 'Occurrence found',
             stalls_title: 'PC Sampling Stalls',
             recommendations_title: 'Recommendations'
         }
+    },
+    top_section: {
+        title: 'Relevant Kernel Metrics',
+        title_comparison: 'Relevant Kernel Metrics (Old vs New Kernel)',
+        hint: 'Here you can see all relevant kernel metrics for the selected analysis in the selected kernel'
     },
     analyses: {
         general: {

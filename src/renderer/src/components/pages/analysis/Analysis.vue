@@ -1,35 +1,37 @@
 <template>
     <div class="flex h-full w-full flex-col space-y-1">
-        <div class="flex flex-row space-x-2">
-            <div class="-mt-2 flex flex-col">
-                <p class="text-xl text-text">Relevant Kernel Metrics</p>
-                <p class="!-mb-1 !-mt-1 text-sm text-text/50">
-                    Here you can see all relevant kernel metrics for the selected analysis
-                </p>
+        <div class="-mt-2 flex flex-col">
+            <div class="flex flex-row">
+                <p v-if="!hasComparisonResult" class="text-xl text-text">{{ TEXT.top_section.title }}</p>
+                <p v-else class="text-xl text-text">{{ TEXT.top_section.title_comparison }}</p>
+                <ToggleSwitch
+                    class="ml-2 mr-1 mt-2"
+                    :checked="!showMetrics"
+                    @changed="
+                        () => {
+                            showMetrics = !showMetrics;
+                        }
+                    "
+                />
+                <p class="mt-1 text-text">Hide</p>
             </div>
-            <ToggleSwitch
-                class="mb-1"
-                :checked="showMetrics"
-                @changed="
-                    () => {
-                        showMetrics = !showMetrics;
-                    }
-                "
-            />
+            <p class="!-mb-1 !-mt-1 text-sm text-text/50">
+                {{ TEXT.top_section.hint }}
+            </p>
         </div>
         <div v-show="showMetrics" class="max-h-72">
             <TopSection :analysis="currentAnalysis" :kernel="currentKernel" />
         </div>
-        <div class="flex flex-row space-x-2">
-            <div class="flex flex-col">
-                <p class="text-xl text-text">Code View</p>
-                <p class="!-mb-1 !-mt-1 text-sm text-text/50">Here you can see the code</p>
+        <div class="flex flex-col">
+            <div class="flex flex-row">
+                <p class="mr-4 text-xl text-text">{{ TEXT.code_view.title }}</p>
+                <div v-if="hasComparisonResult" class="flex flex-row items-end space-x-1">
+                    <p class="text-text">{{ TEXT.code_view.toggle.old }}</p>
+                    <ToggleSwitch class="mb-1" :checked="!useComparisonCode" @changed="toggleCodeVersions" />
+                    <p class="text-text">{{ TEXT.code_view.toggle.new }}</p>
+                </div>
             </div>
-            <div v-if="hasComparisonResult" class="flex flex-row items-end space-x-1">
-                <p class="text-text">Original Code</p>
-                <ToggleSwitch class="mb-1" :checked="!useComparisonCode" @changed="toggleCodeVersions" />
-                <p class="text-text">New code</p>
-            </div>
+            <p class="!-mb-1 !-mt-1 text-sm text-text/50">{{ TEXT.code_view.hint }}</p>
         </div>
         <div class="grid flex-grow grid-cols-[75%_24.5%] grid-rows-1 gap-2 overflow-x-hidden">
             <CodeViewer />
@@ -67,6 +69,7 @@ import { useDataStore } from '../../../stores/DataStore';
 import { computed, ref } from 'vue';
 import { CODE_TYPE, useCodeViewerStore } from '../../../stores/CodeViewerStore';
 import ToggleSwitch from '../../ui/input/ToggleSwitch.vue';
+import { TEXT } from '../../../../../config/text';
 
 const dataStore = useDataStore();
 const codeViewerStore = useCodeViewerStore();

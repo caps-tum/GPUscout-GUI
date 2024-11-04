@@ -3,21 +3,23 @@
         <a class="flex h-full flex-col -space-y-1 rounded bg-primary py-1 pl-2 pr-3 text-background">
             <p class="pr-6 text-lg">{{ data.display_name }}</p>
             <p class="line-clamp-1 text-sm text-background/50">{{ hint || data.hint || '' }}</p>
-            <div class="flex flex-row justify-between text-lg">
+            <div class="flex justify-between text-lg" :class="getFlexDirection()">
                 <p>
                     {{ data.format_function(value, absoluteValue) }}
                 </p>
-                <div class="flex flex-row px-2">
-                    <p v-if="value > comparisonValue && comparisonValue !== undefined" class="-mt-1 text-2xl text-red-400">
-                        &#x2B06;
-                    </p>
-                    <p v-else-if="comparisonValue !== undefined" class="-mt-1 text-2xl text-green-400">&#x2B07;</p>
-                    <p
-                        v-if="comparisonValue !== undefined"
-                        :class="value > comparisonValue ? 'text-red-400' : 'text-green-400'"
-                    >
+                <div
+                    class="flex px-2"
+                    :class="
+                        (value <= comparisonValue && data.lower_better) || (value >= comparisonValue && !data.lower_better)
+                            ? 'text-green-400 ' + getFlexDirection()
+                            : 'text-red-400 ' + getFlexDirection()
+                    "
+                >
+                    <p v-if="comparisonValue !== undefined">
                         {{ data.format_function(value - comparisonValue) }}
                     </p>
+                    <p v-if="value > comparisonValue && comparisonValue !== undefined" class="-mt-1 text-2xl">&#x2B06;</p>
+                    <p v-else-if="comparisonValue !== undefined" class="-mt-1 text-2xl">&#x2B07;</p>
                 </div>
                 <p v-if="comparisonValue !== undefined">
                     {{ data.format_function(comparisonValue, comparisonAbsoluteValue) }}
@@ -49,5 +51,9 @@ function showHelpPopup() {
         metricName: data.display_name,
         helpText: data.help_text
     });
+}
+
+function getFlexDirection() {
+    return props.comparisonValue !== undefined ? 'flex-row-reverse' : 'flex-row';
 }
 </script>
