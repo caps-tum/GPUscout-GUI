@@ -4,12 +4,14 @@ import { CODE_TYPE } from '../stores/CodeViewerStore';
 export class Analysis {
     /**
      * @param {Object} analysisData The data of the analysis
+     * @param {Object} topologyMetrics The relevant metrics of the GPU topology
      * @param {String} kernel The name of the kernel
      * @param {Function} occurrenceConstructor A function returning a new instance of an occurrence element
      */
-    constructor(analysisData, kernel, occurrenceConstructor = (o) => new Occurrence(o)) {
+    constructor(analysisData, topologyMetrics, kernel, occurrenceConstructor = (o) => new Occurrence(o)) {
         this._kernel = kernel;
         this._metrics = {};
+        this.topologyMetrics = topologyMetrics;
         /** @type {Occurrence[]} */ this._occurrences = [];
         this.codeType = CODE_TYPE.NONE;
 

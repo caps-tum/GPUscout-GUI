@@ -19,6 +19,7 @@ import {
  * - display_live_registers: (required) If live register information should be displayed (only on SASS code)
  * - occurrence_constructor: (optional) A constructor for a subclass of occurrence, which parses the data of each occurrence in the json. If omitted, the default constructor will be used (renderer/src/utils/Analysis.js)
  * - metrics: (optional) Maps the json names of all provided metrics to easier to remember internal names
+ * - topology_metrics: (optional) Same as metrics but for metrics that come from the optional topology file
  */
 export const ANALYSIS = {
     datatype_conversion: {
@@ -88,6 +89,9 @@ export const ANALYSIS = {
             instructions_executed: 'smsp__sass_inst_executed',
             occupancy: 'sm__warps_active',
             warps_active: 'smsp__warps_active'
+        },
+        topology_metrics: {
+            l1_cache_size: 'l1_data_cache/size'
         }
     },
     use_restrict: {

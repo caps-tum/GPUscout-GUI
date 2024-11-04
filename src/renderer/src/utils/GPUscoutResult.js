@@ -45,8 +45,22 @@ export class GPUscoutResult {
 
             for (let [kernel, analysisData] of Object.entries(resultJSON['analyses'][analysisDefinition.name])) {
                 kernel = resultJSON['kernels'][kernel];
+
+                const topologyMetrics = {};
+                if (analysisDefinition['topology_metrics'] && topologyData) {
+                    for (const jsonMetricName of Object.values(analysisDefinition['topology_metrics'])) {
+                        const parts = jsonMetricName.split('/');
+                        let metric = this.topology;
+                        for (const part of parts) {
+                            metric = metric[part] || undefined;
+                        }
+                        topologyMetrics[jsonMetricName] = metric;
+                    }
+                }
+
                 this.analyses[analysisName][kernel] = new Analysis(
                     analysisData,
+                    topologyMetrics,
                     kernel,
                     analysisDefinition.occurrence_constructor
                 );
