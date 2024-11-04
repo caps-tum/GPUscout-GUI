@@ -1,12 +1,9 @@
 <template>
     <div ref="line" class="group relative m-0 flex space-x-1" @click="selectLine">
-        <p class="sticky left-0 top-0 w-16 shrink-0 select-none bg-secondary px-1 group-hover:bg-gray-200">
+        <p class="sticky left-0 top-0 w-16 shrink-0 select-none bg-secondary px-1 group-hover:bg-background">
             {{ lineNumber !== -1 ? lineNumber : '' }} {{ hasStalls ? '*' : '' }}
         </p>
-        <p
-            class="flex min-h-6 w-full flex-grow border-collapse flex-row flex-wrap overflow-hidden group-hover:bg-blue-400"
-            :class="getHighlight()"
-        >
+        <p class="flex min-h-6 w-full flex-grow border-collapse flex-row flex-wrap overflow-hidden" :class="getHighlight()">
             <CodeLineToken
                 v-for="token in tokens"
                 :key="token"
@@ -18,7 +15,7 @@
         </p>
         <p
             v-if="showLiveRegisters"
-            class="sticky right-0 top-0 w-16 shrink-0 select-none bg-secondary px-1 text-center group-hover:bg-gray-200"
+            class="sticky right-0 top-0 w-16 shrink-0 select-none bg-secondary px-1 text-center group-hover:bg-background"
         >
             {{ liveRegisters[0] || '-' }} | {{ liveRegisters[1] || '-' }}
         </p>
@@ -70,6 +67,10 @@ function getHighlight() {
 
     if (props.lineNumber === -1) {
         style += 'bg-secondary !ml-0';
+    }
+
+    if (style === '') {
+        style = 'group-hover:bg-secondary/25';
     }
     return style;
 }

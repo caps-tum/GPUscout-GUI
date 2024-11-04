@@ -1,15 +1,13 @@
 export const CODE_BINARY_TOKEN_COLORS = {
-    INSTRUCTION: 'text-orange-400',
-    REGISTER_1: 'text-white',
-    REGISTER_2: 'text-green-400'
+    INSTRUCTION: 'text-white', // The color of instruction tokens of a selected line
+    REGISTER_1: 'text-green-600', // The color of the first highlighted register of an occurrence
+    REGISTER_2: 'text-blue-600' // The color of the seconds highlighted register of an occurrence
 };
 
 export const CODE_STYLES = {
-    OCCURRENCE: 'border-2 border-red-400',
-    SELECTED_LINE: 'bg-green-400',
-    SELECTED_LINE_SECONDARY: 'bg-green-300',
-    HIGHLIGHTED_LINE_NORMAL: 'bg-green-400',
-    HIGHLIGHTED_LINE_NORMAL_SECONDARY: 'bg-green-400',
-    HIGHLIGHTED_LINE_OCCURRENCE: 'bg-sky-400',
-    HIGHLIGHTED_LINE_OCCURRENCE_SECONDARY: 'bg-sky-300'
+    OCCURRENCE: 'border-2 border-red-400', // The border around occurrence lines
+    SELECTED_LINE: 'bg-primary/75', // The color of selected lines
+    SELECTED_LINE_SECONDARY: 'bg-secondary', // The color of the corresponding lines of the selected line in the other code view
+    HIGHLIGHTED_LINE_OCCURRENCE: 'bg-red-400', // The color of selected occurrence lines
+    HIGHLIGHTED_LINE_OCCURRENCE_SECONDARY: 'bg-red-300' // The color of both secondary occurrence lines and the corresponding lines in the other code view
 };
