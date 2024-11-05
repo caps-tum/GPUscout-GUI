@@ -1,8 +1,10 @@
 <template>
-    <a class="text-background hover:cursor-pointer" @click="emit('click')">
-        <img src="../../../assets/circle-question-regular.svg" class="h-5 w-5" alt="" />
+    <a class="fill-white text-background hover:cursor-pointer" @click="emit('click')">
+        <IconHelp class="h-5 w-5" />
     </a>
 </template>
 <script setup>
+import IconHelp from '../icons/IconHelp.vue';
+
 const emit = defineEmits(['click']);
 </script>

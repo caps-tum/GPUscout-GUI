@@ -28,7 +28,7 @@
             </div>
             <div v-else class="flex max-h-full w-full flex-col items-center justify-center">
                 <ButtonSecondary title="Add second GPUscout result to compare to" @click="comparisonMode = true">
-                    <img src="../../../assets/plus-solid.svg" class="h-20 w-full self-center" />
+                    <IconAdd class="h-20 w-full self-center" />
                 </ButtonSecondary>
             </div>
         </div>
@@ -51,6 +51,7 @@ import { useContextStore, CONTEXT } from '../../../stores/ContextStore';
 import ButtonPrimary from '../../ui/buttons/ButtonPrimary.vue';
 import ButtonSecondary from '../../ui/buttons/ButtonSecondary.vue';
 import SelectMemoryTopology from './SelectMemoryTopology.vue';
+import IconAdd from '../../ui/icons/IconAdd.vue';
 
 const configStore = useConfigStore();
 const dataStore = useDataStore();

@@ -4,7 +4,7 @@
         :class="getButtonBackground()"
         @click="chooseAnalysis"
     >
-        <img src="../../../assets/file-solid.svg" class="h-12 w-12" alt="folder" />
+        <IconFile class="h-12 w-12" alt="folder" :class="getButtonBackground()" />
         <div class="flex flex-col">
             <p v-if="!selectedFile" class="text-lg">Choose analysis result file</p>
             <p v-else>Selected Analysis file: {{ selectedFile }}</p>
@@ -14,6 +14,7 @@
 <script setup>
 import { ref } from 'vue';
 import ButtonSecondary from '../../ui/buttons/ButtonSecondary.vue';
+import IconFile from '../../ui/icons/IconFile.vue';
 
 const emit = defineEmits(['analysisSelected']);
 defineExpose({ clear });
@@ -39,6 +40,6 @@ function clear() {
 }
 
 function getButtonBackground() {
-    return selectedFile.value ? '!bg-primary !text-background' : 'bg-secondary';
+    return selectedFile.value ? '!bg-primary !text-background fill-background' : 'bg-secondary';
 }
 </script>

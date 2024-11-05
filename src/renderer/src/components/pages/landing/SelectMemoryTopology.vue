@@ -4,7 +4,7 @@
         :class="getButtonBackground()"
         @click="chooseTopology"
     >
-        <img src="../../../assets/file-solid.svg" class="h-12 w-12" alt="folder" />
+        <IconFile class="h-12 w-12" alt="folder" />
         <div class="flex flex-col">
             <p v-if="!selectedFile" class="text-lg">Choose memory topology result file</p>
             <p v-else>Selected memory topology file: {{ selectedFile }}</p>
@@ -14,6 +14,7 @@
 <script setup>
 import { ref } from 'vue';
 import ButtonSecondary from '../../ui/buttons/ButtonSecondary.vue';
+import IconFile from '../../ui/icons/IconFile.vue';
 
 const emit = defineEmits(['topologySelected']);
 

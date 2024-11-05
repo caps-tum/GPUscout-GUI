@@ -6,9 +6,9 @@
                     <p class="pr-2 text-xl text-text">{{ title }}</p>
                     <ButtonHelp v-if="expanded" class="text-text *:h-5 *:w-5" />
                 </div>
-                <a v-show="!expanded" class="cursor-pointer" @click="emit('expand')"
-                    ><img src="../../../assets/up-right-and-down-left-from-center-solid.svg" class="mr-1 mt-1 h-4 w-4"
-                /></a>
+                <a v-show="!expanded" class="cursor-pointer" @click="emit('expand')">
+                    <IconExpand class="mr-1 mt-1 h-4 w-4" />
+                </a>
             </div>
             <div v-if="expanded" class="grid flex-grow grid-flow-col" :style="getGridStyle()">
                 <template v-for="(section, index) of sections" :key="index">
@@ -48,6 +48,7 @@ import MemoryGraphArrows from './MemoryGraphArrows.vue';
 import MemoryGraphNodeLarge from './MemoryGraphNodeLarge.vue';
 import ButtonMetricList from '../buttons/ButtonMetricList.vue';
 import MemoryGraphNodesSmall from './MemoryGraphNodesSmall.vue';
+import IconExpand from '../icons/IconExpand.vue';
 
 const props = defineProps({
     title: String,
@@ -90,8 +91,8 @@ function buildTitles(components, useComparison = false) {
                         '<p>' +
                         entry.comparison_format
                             .replace('{0}', metricValue)
-                            .replace('{1}', `<a class="${changeColor}">${newMetricValue}</a>`)
-                            .replace('{2}', `<a class="text-lg w-min ${changeColor}">&#x2B07;</a>`) +
+                            .replace('{1}', `<a class="${changeColor}">${newMetricValue}</a></div>`)
+                            .replace('{2}', `<div class="-mt-1"><a class="text-lg w-min ${changeColor}">&#x2B07;</a>`) +
                         '</p>';
                 } else {
                     metricValue = entry.format.replace('{0}', metricValue);
