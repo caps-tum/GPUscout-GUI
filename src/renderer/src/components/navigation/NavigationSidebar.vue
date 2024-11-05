@@ -77,19 +77,29 @@ const analysesBoth = computed(() => analyses.filter((a) => comparisonAnalyses.in
 const kernels = dataStore.getKernels();
 const kernelSelector = ref(null);
 
+/**
+ * Change the currently selected kernel
+ */
 function changeKernel() {
     dataStore.setCurrentKernel(kernelSelector.value.value);
 }
 
+/**
+ * Change the currently selected analysis
+ * @param {String} analysis The name of the analysis to select
+ * @param {Boolean} [useComparisonCode=false] If the comparison code should be displayed in the code view by default
+ */
 function setAnalysis(analysis, useComparisonCode = false) {
     codeViewerStore.setUseComparisonCode(useComparisonCode);
     dataStore.setCurrentAnalysis(analysis);
 }
 
+// Quit the App
 function quitApp() {
     window.close();
 }
 
+// Go back to the landing page
 function toLanding() {
     window.location.reload();
 }

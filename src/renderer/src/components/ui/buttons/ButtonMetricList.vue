@@ -38,6 +38,9 @@ const props = defineProps({
 const contextStore = useContextStore();
 const data = getMetricsData(props.metric);
 
+/**
+ * Open the help popup with the relevant information
+ */
 function showHelpPopup() {
     contextStore.togglePopup(POPUP.METRIC_HELP, true, {
         metricName: data.display_name,

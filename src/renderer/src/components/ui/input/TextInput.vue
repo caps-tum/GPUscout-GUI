@@ -23,6 +23,9 @@ const emit = defineEmits(['changed']);
 
 const input = ref(null);
 
+/**
+ * Emit the change when the user inputs something
+ */
 function onChange() {
     emit('changed', input.value.value);
 }

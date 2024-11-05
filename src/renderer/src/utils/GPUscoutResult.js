@@ -38,14 +38,17 @@ export class GPUscoutResult {
 
         this._parseTopology(topologyData);
 
+        // Add analyses
         for (const [analysisName, analysisDefinition] of Object.entries(ANALYSIS)) {
             this.analyses[analysisName] = {};
 
             if (!resultJSON['analyses'][analysisDefinition.name]) continue;
 
+            // Iterate over all kernels
             for (let [kernel, analysisData] of Object.entries(resultJSON['analyses'][analysisDefinition.name])) {
                 kernel = resultJSON['kernels'][kernel];
 
+                // If topology metrics are available, parse them and pass them along
                 const topologyMetrics = {};
                 if (analysisDefinition['topology_metrics'] && topologyData) {
                     for (const jsonMetricName of Object.values(analysisDefinition['topology_metrics'])) {
@@ -58,6 +61,7 @@ export class GPUscoutResult {
                     }
                 }
 
+                // Create analysis
                 this.analyses[analysisName][kernel] = new Analysis(
                     analysisData,
                     topologyMetrics,
@@ -71,7 +75,7 @@ export class GPUscoutResult {
     /**
      * @param analysis The name of the analysis
      * @param kernel The name of the kernel
-     * @returns {Analysis}
+     * @returns {Analysis} The analysis with the specified name in the specified kernel
      */
     getAnalysis(analysis, kernel) {
         if (!this.analyses[analysis] || !this.analyses[analysis][kernel]) return undefined;
@@ -79,8 +83,8 @@ export class GPUscoutResult {
     }
 
     /**
-     * @param {String} kernel
-     * @returns {String[]}
+     * @param {String} kernel The name of the kernel
+     * @returns {String[]} The names of all analyses with occurrences in this kernel
      */
     getAnalysesWithOccurrences(kernel) {
         return Object.keys(this.analyses).filter(
@@ -92,43 +96,57 @@ export class GPUscoutResult {
 
     /**
      * TODO: handle branch entry that is multiline
-     * @param {String} kernel
-     * @param {String} codeType
-     * @param {String|Number} lineNumber
-     * @returns {String[]}
+     * @param {String} kernel The name of the kernel
+     * @param {String} codeType The selected code type
+     * @param {String|Number} lineNumber The selected line number
+     * @returns {String[]} All tokens of this line that belong to the instruction
      */
     getInstructionTokens(kernel, codeType, lineNumber) {
         if (codeType === CODE_TYPE.SASS_CODE) {
             let tokens = this.sassCodeLines[kernel].find((line) => line.address === lineNumber).tokens;
+
             if (tokens.length > 0 && tokens[0] === '{') {
+                // Line is start of dual issue { INST ...
                 tokens = tokens.filter((_, i) => i >= tokens.findIndex((t) => t !== ' ' && t !== '{'));
             } else if (tokens.length > 0 && tokens[0].startsWith('@')) {
+                // Line starts with predicate check @PX INST ...
                 tokens = tokens.filter((_, i) => i > 1);
             }
+
             let index = tokens.findIndex((t) => t === ' ');
             return tokens.filter((_, i) => i < (index > 0 ? index : tokens.length));
         } else {
             let tokens = this.ptxCodeLines[kernel].find((line) => line.address === lineNumber).tokens;
+
             if (tokens.length > 0 && tokens[0].startsWith('@')) {
+                // Line starts with predicate check @PX INST ...
                 tokens = tokens.filter((_, i) => i > 1);
             }
+
             let index = tokens.findIndex((t) => t === ' ');
             return tokens.filter((_, i) => i < (index > 0 ? index : tokens.length));
-        }
-    }
-
-    getLineStalls(kernel, line, codeType) {
-        if (codeType === CODE_TYPE.SASS_CODE) {
-            return this.sassCodeLines[kernel].find((l) => l.address === line)?.stalls || [];
-        } else {
-            return this.sourceCodeLines[kernel].find((l) => l.address === line)?.stalls || [];
         }
     }
 
     /**
      * @param {String} kernel The name of the kernel
+     * @param {String|Number} line The selected line
+     * @param {String} codeType The selected code type
+     * @returns {Object.<String, Number>[]} All PCSampling stalls occurring at this line
+     */
+    getLineStalls(kernel, line, codeType) {
+        if (codeType === CODE_TYPE.SASS_CODE) {
+            return this.sassCodeLines[kernel].find((l) => l.address === line)?.stalls || [];
+        } else if (codeType === CODE_TYPE.SOURCE_CODE) {
+            return this.sourceCodeLines[kernel].find((l) => l.address === line)?.stalls || [];
+        }
+        return [];
+    }
+
+    /**
+     * @param {String} kernel The name of the kernel
      * @param {String} line The line to get source lines for
-     * @returns {Number}
+     * @returns {Number} The line number of the source line corresponding to this SASS line
      */
     getSassToSourceLine(kernel, line) {
         return this.sassToSourceLines[kernel][line];
@@ -137,7 +155,7 @@ export class GPUscoutResult {
     /**
      * @param {String} kernel The name of the kernel
      * @param {String} line The line to get source lines for
-     * @returns {String}
+     * @returns {Number} The line number of the source line corresponding to this PTX line
      */
     getPtxToSourceLine(kernel, line) {
         return this.ptxToSourceLines[kernel][line];
@@ -145,7 +163,7 @@ export class GPUscoutResult {
 
     /**
      * @param {String} kernel The name of the kernel
-     * @returns {{address: String, tokens: String[]}[]}
+     * @returns {{address: String, tokens: String[]}[]} All SASS lines of this kernel
      */
     getSassCodeLines(kernel) {
         return this.sassCodeLines[kernel];
@@ -153,7 +171,7 @@ export class GPUscoutResult {
 
     /**
      * @param {String} kernel The name of the kernel
-     * @returns {{address: Number, tokens: String[]}[]}
+     * @returns {{address: Number, tokens: String[]}[]} All PTX lines of this kernel
      */
     getPtxCodeLines(kernel) {
         return this.ptxCodeLines[kernel];
@@ -161,7 +179,7 @@ export class GPUscoutResult {
 
     /**
      * @param {String} kernel The name of the kernel
-     * @returns {{address: Number, tokens: String[]}[]}
+     * @returns {{address: Number, tokens: String[]}[]} All source lines of this kernel
      */
     getSourceCodeLines(kernel) {
         return this.sourceCodeLines[kernel];
@@ -170,7 +188,7 @@ export class GPUscoutResult {
     /**
      * @param {String} kernel The name of the kernel
      * @param {String} line The line to get sass lines for
-     * @returns {String[]}
+     * @returns {String[]} All SASS lines corresponding to this source line
      */
     getSourceToSassLines(kernel, line) {
         return this.sourceToSassLines[kernel][line] || [];
@@ -179,7 +197,7 @@ export class GPUscoutResult {
     /**
      * @param {String} kernel The name of the kernel
      * @param {String} line The line to get ptx lines for
-     * @returns {Number[]}
+     * @returns {Number[]} All PTX lines corresponding to this source line
      */
     getSourceToPtxLines(kernel, line) {
         return this.sourceToPtxLines[kernel][line] || [];
@@ -188,7 +206,7 @@ export class GPUscoutResult {
     /**
      * Parse the ptx code and extract the mapping to the source code
      * @param {String} ptxCode The generated ptx source code
-     * @param {Object.<String, String>} kernels
+     * @param {Object.<String, String>} kernels The mapping of kernel names to their demangled names
      */
     _parsePtxCode(ptxCode, kernels) {
         let currentSourceLine = -1;
@@ -259,11 +277,13 @@ export class GPUscoutResult {
                 if (isLabel) {
                     lastLineBranch = line.substring(0, line.length - 1);
                 } else if (lastLineBranch !== '') {
+                    // Update address of branch entry if this is the first instruction after it
                     this.ptxCodeLines[currentKernel].find(
                         (line) => line.tokens.includes(lastLineBranch) && line.address === -1
                     ).address = currentPtxLine;
                     lastLineBranch = '';
                 }
+
                 this.ptxCodeLines[currentKernel].push({
                     address: isLabel ? -1 : currentPtxLine,
                     tokens: line
@@ -282,7 +302,7 @@ export class GPUscoutResult {
      * @param {String} sassCode The generated sass source code
      * @param {String} sassRegisters The sass code with register information
      * @param {Object.<String, {line_number: Number, pc_offset: String, stalls: {Number|String}[][]}[]>} stalls An object containing all recorded pc sampling stalls
-     * @param {Object.<String, String>} kernels
+     * @param {Object.<String, String>} kernels The mapping of kernel names to their demangled names
      */
     _parseSassCode(sassCode, sassRegisters, stalls, kernels) {
         let currentSourceLine = -1;
@@ -348,12 +368,14 @@ export class GPUscoutResult {
                         line: currentSourceLine,
                         file: currentSourceFile
                     };
+                    // Update address of branch entry if this is the first instruction after it
                     if (lastLineBranch !== '') {
                         this.sassCodeLines[currentKernel].find((lines) => lines.address === lastLineBranch).address =
                             address;
                         lastLineBranch = '';
                     }
 
+                    // Save live register info
                     if (sassRegisterMap[address]) {
                         liveRegisters = sassRegisterMap[address]
                             .split('|')
@@ -365,6 +387,7 @@ export class GPUscoutResult {
                     lastLineBranch = line.substring(0, line.length - 1);
                 }
 
+                // Get stalls for this line
                 const lineStalls = Object.fromEntries(
                     relevantStalls
                         .filter((s) => s['pc_offset'].padStart(4, '0') === address)
@@ -374,6 +397,7 @@ export class GPUscoutResult {
                 if (Object.keys(lineStalls).length > 0) {
                     lineStalls['total'] = totalStalls;
                 }
+
                 this.sassCodeLines[currentKernel].push({
                     address: address,
                     tokens: line
@@ -397,7 +421,7 @@ export class GPUscoutResult {
      */
     _aggregateKernelSourceCode(sourceFileContents, stalls) {
         for (const kernel of this.kernels) {
-            // Get relevant lines in all source files
+            // Get relevant lines and in all source files
             let relevantLines = Object.groupBy(
                 Object.values(this.sassToSourceLines[kernel]).concat(Object.values(this.ptxToSourceLines[kernel])),
                 ({ file }) => file
@@ -430,6 +454,7 @@ export class GPUscoutResult {
                 // Add lines
                 for (let i = minLine; i <= maxLine; i++) {
                     oldToNewLineNumbers[sourceFile][i] = lineNumber;
+                    // Aggregate the stalls for this line
                     const lineStalls = Object.fromEntries(
                         relevantStalls
                             .filter((s) => s['line_number'] === lineNumber)
@@ -442,6 +467,7 @@ export class GPUscoutResult {
                     if (Object.keys(lineStalls).length > 0) {
                         lineStalls['total'] = totalStalls;
                     }
+
                     this.sourceCodeLines[kernel].push({
                         address: lineNumber,
                         tokens: sourceFileContents[sourceFile][i - 1].split(/([ ,(){};+\-*<>=%&./])/),
@@ -457,6 +483,7 @@ export class GPUscoutResult {
                 lineNumber++;
             }
 
+            // Apply the new line number mapping to all the mappings
             for (const key of Object.keys(this.sassToSourceLines[kernel])) {
                 this.sassToSourceLines[kernel][key] =
                     oldToNewLineNumbers[this.sassToSourceLines[kernel][key]['file']][
@@ -485,12 +512,14 @@ export class GPUscoutResult {
     }
 
     /**
+     * Parse the topology csv data
      * @param {String} topologyData The content of the topology result file
      */
     _parseTopology(topologyData) {
         if (!topologyData) return;
 
         topologyData = topologyData.split('\n').map((line) => line.split(';'));
+        // Indices of the titles in each row
         const lineToVarnames = [
             [1, 3],
             [1, 3, 5, 7],
@@ -509,9 +538,11 @@ export class GPUscoutResult {
         for (const [lineIndex, varIndices] of lineToVarnames.entries()) {
             const category = topologyData[lineIndex][0].toLowerCase();
             this.topology[category] = {};
+
             for (const varIndex of varIndices) {
                 const varName = topologyData[lineIndex][varIndex].toLowerCase().replaceAll('"', '').trim();
                 let varValue = topologyData[lineIndex][varIndex + 1].trim();
+
                 if (varValue.includes('"')) {
                     varValue = varValue.replaceAll('"', '');
                 } else {

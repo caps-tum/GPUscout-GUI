@@ -15,11 +15,14 @@ export class Analysis {
         /** @type {Occurrence[]} */ this._occurrences = [];
         this.codeType = CODE_TYPE.NONE;
 
+        // Add metrics
         if (analysisData['metrics']) {
             for (const [jsonMetricName, metricValue] of Object.entries(analysisData['metrics'])) {
                 if (metricValue === null) {
+                    // Metric not found
                     this._metrics[jsonMetricName] = 0;
                 } else if (typeof metricValue === 'object') {
+                    // Metric is nested -> Metric name is of form 'category/metric'
                     for (const [deepJsonMetricName, deepMetricValue] of Object.entries(metricValue)) {
                         this._metrics[`${jsonMetricName}/${deepJsonMetricName}`] = deepMetricValue;
                     }
@@ -29,6 +32,7 @@ export class Analysis {
             }
         }
 
+        // Add occurrences
         if (analysisData['occurrences']) {
             for (const occurrence of analysisData['occurrences']) {
                 this._occurrences.push(occurrenceConstructor(occurrence));
@@ -37,7 +41,7 @@ export class Analysis {
     }
 
     /**
-     * @returns {Object.<String, Number>}
+     * @returns {Object.<String, Number>} All metrics of this analysis
      */
     getMetrics() {
         return this._metrics;
@@ -52,14 +56,16 @@ export class Analysis {
     }
 
     /**
-     * @returns {Occurrence[]}
+     * @returns {Occurrence[]} All occurrences of this analysis
      */
     getOccurrences() {
         return this._occurrences;
     }
 
     /**
-     * @returns {Occurrence}
+     * @param {String} codeType The code type the line number belongs to
+     * @param {String|Number} lineNumber The line number of the occurrence
+     * @returns {Occurrence} The occurrence at the specified line number
      */
     getOccurrencesAt(codeType, lineNumber) {
         if (codeType === CODE_TYPE.SOURCE_CODE) {
@@ -70,7 +76,7 @@ export class Analysis {
     }
 
     /**
-     * @returns {String}
+     * @returns {String} The name of the current kernel
      */
     getKernel() {
         return this._kernel;
@@ -89,18 +95,38 @@ export class Occurrence {
         this.data = occurrenceData;
     }
 
+    /**
+     * The code lines to highlight when this occurrence is selected
+     * @returns {String[]|Number[]}
+     */
     linesToHighlight() {
         return [];
     }
 
+    /**
+     * The tokens to highlight on the highlighted code lines
+     * Format:
+     * Key: The line(s) to highlight these tokens on (for example '5', '<5', '<=5', '>5', '>=5') (use numbers for source os ptx code ex. 5 and hex for sass code ex. 0005)
+     * Value: A object with the token to highlight as the key and the color of the highlight as the value
+     * Example: {'<5': { 'R1': CODE_BINARY_TOKEN_COLORS.REGISTER_1 }} to highlight all occurrences of the string 'R1' in the first 4 lines
+     * @returns {Object}
+     */
     tokensToHighlight() {
         return {};
     }
 
+    /**
+     * The title to display in the code view
+     * @returns {String}
+     */
     title() {
         return TEXT.code_view.code_info.default_occurrence_title;
     }
 
+    /**
+     * The description to display in the code view
+     * @returns {String}
+     */
     description() {
         let resultString = 'Problem found:';
         for (const [key, value] of Object.entries(this.data)) {
@@ -109,6 +135,10 @@ export class Occurrence {
         return resultString;
     }
 
+    /**
+     * The recommendations to display in the code view
+     * @returns {String}
+     */
     recommendations() {
         return '';
     }

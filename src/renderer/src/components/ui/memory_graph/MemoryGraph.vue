@@ -63,6 +63,10 @@ const emit = defineEmits(['expand']);
 const cols = computed(() => Math.floor(props.sections.length / 2));
 const rows = computed(() => Math.ceil(Math.max(...props.sections.map((e) => e.length)) / 2));
 
+/**
+ * @param {{[title]: String, [metric]: String, [bold]: Boolean, [value]: (String|Number)}} components The individual components the title is made of
+ * @param {Boolean} [useComparison=false] If the comparison analysis data should be used as default
+ */
 function buildTitles(components, useComparison = false) {
     useComparison = useComparison && props.comparisonAnalysisData !== undefined;
     const analysisData = useComparison ? props.comparisonAnalysisData : props.analysisData;
@@ -70,12 +74,15 @@ function buildTitles(components, useComparison = false) {
 
     for (const entry of components) {
         if (entry.title) {
+            // Display a title
             result.push(entry.bold ? '*' + entry.title : entry.title);
         } else {
+            // Display a metric
             let metricValue = getMetricsData(entry.metric).format_function(
                 entry.value || analysisData.getMetric(entry.metric)
             );
             if (entry.format) {
+                // Use a custom format
                 if (useComparison) {
                     const newMetric = getMetricsData(entry.metric);
                     const newMetricValue = newMetric.format_function(
@@ -104,14 +111,25 @@ function buildTitles(components, useComparison = false) {
     return result;
 }
 
+/**
+ * @returns {String[]} The names of all mentioned metrics
+ */
 function getMetrics() {
     return props.sections.flatMap((s) => s.filter((x) => x.metric !== undefined).map((x) => x.metric));
 }
 
+/**
+ * The ordering classes of the Graph, when expanded the graph should be at the first position
+ * @returns {String}
+ */
 function getOrderClass() {
     return props.expanded ? 'order-1' : 'order-3';
 }
 
+/**
+ * Computes the grid style for the graph to be displayed correctly
+ * @returns {Object}
+ */
 function getGridStyle() {
     let columnTemplate = '';
     for (let i = 0; i < cols.value; i++) {

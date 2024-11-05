@@ -12,10 +12,18 @@ defineProps({
     titles: Array
 });
 
+/**
+ * Return classes to style the font boldness based on the title
+ * @returns {String}
+ */
 function getBoldness(title) {
     return title.startsWith('*') ? 'font-bold text-base' : '';
 }
 
+/**
+ * Sanitize the string
+ * @returns {String}
+ */
 function getTitle(title) {
     return title.startsWith('*') ? title.substring(1) : title;
 }

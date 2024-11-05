@@ -46,35 +46,43 @@ const codeViewerStore = useCodeViewerStore();
 
 const line = ref(null);
 
+/**
+ * Select the current line and code view when clicked on it
+ */
 function selectLine() {
     codeViewerStore.setCurrentView(props.codeType);
     codeViewerStore.setSelectedLine(props.lineNumber);
 }
 
 /**
- * Determines the background style of this code line:
+ * Determines the background style of this code line
  * @returns {String}
  */
 function getHighlight() {
     let style = '';
     if (props.isOccurrence) {
+        // Mark occurrences
         style += CODE_STYLES.OCCURRENCE + ' ';
     }
 
     if (props.highlightedLines[props.lineNumber] !== undefined) {
+        // Highlight line if needed
         style += props.highlightedLines[props.lineNumber];
     }
 
     if (props.lineNumber === -1) {
+        // Style for special lines in the source code that display the file name
         style += 'bg-secondary !ml-0';
     }
 
     if (!style.includes('bg-')) {
+        // If no background style, apply hover style
         style += ' group-hover:bg-secondary/25';
     }
     return style;
 }
 
+// Watch for changes to the scrollToLines array, and scroll to the current line if it was added to it
 watch(
     () => props.scrollToLines,
     (newValue) => {

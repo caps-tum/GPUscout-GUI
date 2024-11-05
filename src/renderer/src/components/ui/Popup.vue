@@ -36,6 +36,7 @@ const contextStore = useContextStore();
 const activePopups = computed(() => contextStore.getActivePopups);
 const openPopups = ref([]);
 
+// Open the popup when it's identifier gets added to the activePopups array
 watch(
     () => activePopups.value,
     (newValue) => {
@@ -51,10 +52,16 @@ watch(
     { deep: true }
 );
 
+/**
+ * Close the popup
+ */
 function close() {
     contextStore.togglePopup(props.type, false);
 }
 
+/**
+ * Get the styles to size the popup correctly based on the provided parameters
+ */
 function getStyle() {
     return {
         zIndex: 50 + activePopups.value.indexOf(props.type) * 10,

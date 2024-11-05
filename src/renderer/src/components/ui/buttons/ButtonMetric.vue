@@ -47,6 +47,9 @@ const props = defineProps({
 const contextStore = useContextStore();
 const data = getMetricsData(props.metric);
 
+/**
+ * Open the help popup with the relevant information
+ */
 function showHelpPopup() {
     contextStore.togglePopup(POPUP.METRIC_HELP, true, {
         metricName: data.display_name,
@@ -54,6 +57,10 @@ function showHelpPopup() {
     });
 }
 
+/**
+ * Order the elements in the correct order depending on if a comparison value is present or not
+ * @returns {String}
+ */
 function getFlexDirection() {
     let flex = props.comparisonValue !== undefined ? 'flex-row-reverse' : 'flex-row';
     let textSize = props.valueSmall ? 'text-base' : 'text-lg';

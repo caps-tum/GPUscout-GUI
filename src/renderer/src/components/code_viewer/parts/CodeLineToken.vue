@@ -10,6 +10,10 @@ const props = defineProps({
     highlightedTokens: Object
 });
 
+/**
+ * Get the highlight of the current token
+ * @returns {String}
+ */
 function getHighlight() {
     for (const key of Object.keys(props.highlightedTokens)) {
         if (!props.highlightedTokens[key][props.token]) {

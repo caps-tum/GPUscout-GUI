@@ -63,6 +63,9 @@ const props = defineProps({
 
 const emit = defineEmits(['expand']);
 
+/**
+ * Order the elements based on the expanded state (The expanded metric section is always first)
+ */
 function getOrderClass() {
     return props.expanded ? 'order-1' : 'order-3';
 }
