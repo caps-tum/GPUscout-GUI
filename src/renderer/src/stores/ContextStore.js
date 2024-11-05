@@ -24,6 +24,10 @@ export const useContextStore = defineStore('context', () => {
     const getActivePopups = computed(() => activePopups.value);
     const getPopupParameters = computed(() => popupParameters.value);
 
+    /**
+     * Change the current context (The visible srceen)
+     * @param {String} context
+     */
     function setCurrentContext(context) {
         currentContext.value = context;
     }

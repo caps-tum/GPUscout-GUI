@@ -64,6 +64,7 @@ export const useDataStore = defineStore('data', () => {
     }
 
     /**
+     * Change the currently selected analysis
      * @param {String} analysis The analysis to switch to
      */
     function setCurrentAnalysis(analysis) {
@@ -82,6 +83,7 @@ export const useDataStore = defineStore('data', () => {
     }
 
     /**
+     * Change the currently selected kernel
      * @param {String} kernel The kernel to switch to
      */
     function setCurrentKernel(kernel) {
@@ -90,6 +92,11 @@ export const useDataStore = defineStore('data', () => {
         codeViewerStore.updateSelectedLine();
     }
 
+    /**
+     * Change the currently selected occurrence in the code view
+     * @param {String} codeType The code type of the currently selected code view
+     * @param {String|Number} lineNumber
+     */
     function setCurrentOccurrences(codeType, lineNumber) {
         currentOccurrences.value = currentOccurrences.value.filter(() => false);
         currentOccurrences.value = (useComparisonCode.value ? gpuscoutComparisonResult : gpuscoutResult)

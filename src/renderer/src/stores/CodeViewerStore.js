@@ -54,6 +54,10 @@ export const useCodeViewerStore = defineStore('codeViewer', () => {
     const getHighlightedSourceTokens = computed(() => highlightedSourceTokens.value);
     const getHighlightedBinaryTokens = computed(() => highlightedBinaryTokens.value);
 
+    /**
+     * Toggles the use of comparison code in the code viewer
+     * @param {Boolean} useComparison
+     */
     function setUseComparisonCode(useComparison) {
         useComparisonCode.value = useComparison;
         resetHighlights();
@@ -63,14 +67,23 @@ export const useCodeViewerStore = defineStore('codeViewer', () => {
         dataStore.setCurrentAnalysis(currentAnalysis.value);
     }
 
+    /**
+     * @param {Boolean} visible If SASS register information should be visible
+     */
     function setSassRegisterVisibility(visible) {
         sassRegistersVisible.value = visible;
     }
 
+    /**
+     * @param {String} view The currently selected code view
+     */
     function setCurrentView(view) {
         currentView.value = view;
     }
 
+    /**
+     * @param {String} binary The currently visible binary code
+     */
     function setCurrentBinary(binary) {
         if (currentBinary.value !== binary) {
             selectedLine.value = '';
@@ -80,6 +93,10 @@ export const useCodeViewerStore = defineStore('codeViewer', () => {
         currentBinary.value = binary;
     }
 
+    /**
+     * @param {String[]} sourceLines The source lines associated with the current occurrence
+     * @param {String[]|Number[]} binaryLines The binary lines associated with the current occurrence
+     */
     function setOccurrenceLines(sourceLines, binaryLines) {
         resetOccurrenceLines();
         occurrenceSourceLines.value = sourceLines;
@@ -193,15 +210,24 @@ export const useCodeViewerStore = defineStore('codeViewer', () => {
         }
     }
 
+    /**
+     * Refresh the value of the selected line
+     */
     function updateSelectedLine() {
         setSelectedLine(selectedLine.value);
     }
 
+    /**
+     * Clear all highlighted lines of the current occurrence
+     */
     function resetOccurrenceLines() {
         occurrenceSourceLines.value = occurrenceSourceLines.value.filter(() => false);
         occurrenceBinaryLines.value = occurrenceBinaryLines.value.filter(() => false);
     }
 
+    /**
+     * Reset all highlights of lines and tokens
+     */
     function resetHighlights() {
         highlightedSourceLines.value = {};
         highlightedBinaryLines.value = {};
