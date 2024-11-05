@@ -1,5 +1,13 @@
 import { formatBytes, formatInstructions, formatNumber, formatPercent } from '../renderer/src/utils/formatters';
 
+/**
+ * This list contains the definition of all metrics and their related information
+ * - display_name: The title of the metric in the GUI
+ * - format_function: The function used to format values of this metric
+ * - hint: The hint displayed in the metric buttons
+ * - help_text: The help text displayed in the help popup
+ * - lower_better: If lower values are considered better (for comparisons)
+ */
 export const METRICS = {
     smsp__warp_issue_stalled_tex_throttle_per_warp_active: {
         display_name: 'Tex Throttle',

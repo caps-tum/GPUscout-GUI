@@ -5,8 +5,8 @@ import { APP_CONFIG_PATH, SAVED_ANALYSES_CONFIG_PATH, SAVED_ANALYSES_DATA_PATH }
 
 /**
  * @param event
- * @param folderPath
- * @returns {Promise<string[]|*[]>}
+ * @param folderPath The path to a folder
+ * @returns {Promise<string[]|*[]>} The files inside that folder
  */
 export async function getFolderContent(event, folderPath) {
     if (!fs.existsSync(folderPath)) {
@@ -16,6 +16,7 @@ export async function getFolderContent(event, folderPath) {
 }
 
 /**
+ * Check or create config file structure
  * @returns {Promise<void>}
  */
 export async function checkFileStructure() {
@@ -37,7 +38,7 @@ export async function checkFileStructure() {
 }
 
 /**
- * @returns {Promise<String>}
+ * @returns {Promise<String>} The config file content
  */
 export async function getConfig() {
     const configFilePath = join(app.getPath('userData'), APP_CONFIG_PATH);
@@ -47,7 +48,7 @@ export async function getConfig() {
 
 /**
  * @param event {Object}
- * @param content {String}
+ * @param content {String} The new content of the config file
  * @returns {Promise<void>}
  */
 export async function setConfig(event, content) {
@@ -93,8 +94,8 @@ export async function removeRecentAnalysis(event, analysisID) {
 
 /**
  * @param event {Object}
- * @param folderPath {String}
- * @returns {Promise<String[]>}
+ * @param folderPath {String} The path to a folder
+ * @returns {Promise<String[]>} All GPUscout related files in that folder
  */
 export async function getAnalysesInFolder(event, folderPath) {
     const folderContent = await getFolderContent(event, folderPath);
@@ -107,8 +108,8 @@ export async function getAnalysesInFolder(event, folderPath) {
 
 /**
  * @param event {Object}
- * @param filePath {String}
- * @returns {Promise<String>}
+ * @param filePath {String} The path to a file
+ * @returns {Promise<String>} The content of that file
  */
 export async function getFileContent(event, filePath) {
     console.log(filePath);

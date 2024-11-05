@@ -2,8 +2,8 @@ import { dialog } from 'electron';
 
 /**
  * @param event
- * @param defaultPath
- * @returns {Promise<string|string>}
+ * @param defaultPath The default path to open the folder picker on
+ * @returns {Promise<string|string>} The path to the selected folder
  */
 export async function selectDirectory(event, defaultPath) {
     const result = await dialog.showOpenDialog(undefined, {
@@ -15,8 +15,8 @@ export async function selectDirectory(event, defaultPath) {
 
 /**
  * @param event
- * @param filters
- * @returns {Promise<string|string>}
+ * @param filters Filters to apply to the file picker
+ * @returns {Promise<string|string>} The path to the selected file
  */
 export async function selectFile(event, filters) {
     const result = await dialog.showOpenDialog(undefined, {

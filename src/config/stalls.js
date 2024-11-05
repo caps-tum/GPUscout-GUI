@@ -1,5 +1,12 @@
 import { formatStall } from '../renderer/src/utils/formatters';
 
+/**
+ * This list contains the definition of all stalls and their related information
+ * - display_name: The title of the stall in the GUI
+ * - format_function: The function used to format values of this stall
+ * - help_text: The help text displayed in the help popup
+ * - lower_better: If lower values are considered better (for comparisons)
+ */
 export const STALLS = {
     smsp__pcsamp_warps_issue_stalled_imc_miss: {
         display_name: 'IMC Miss',
