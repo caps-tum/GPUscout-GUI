@@ -45,19 +45,33 @@ onMounted(async () => {
     await getFilesInFolder();
 });
 
+/**
+ * @returns {String[]} The titles of all available analyses matching the search string
+ */
 function getTitles() {
     return files.value.filter((file) => file.toLowerCase().includes(searchString.value.toLowerCase()));
 }
 
+/**
+ * Called when an analysis has been selected
+ * @param {String} analysisTitle The title of the selected analysis
+ */
 function onAnalysisSelected(analysisTitle) {
     selectedAnalysis.value = analysisTitle;
     emit('analysisSelected', props.gpuscoutOutputFolder + '/' + analysisTitle);
 }
 
+/**
+ * @param {String} title The title of the analysis
+ * @returns {String} The button style depending on if this analysis has been selected
+ */
 function getSelectedStyle(title) {
     return selectedAnalysis.value === title ? '!bg-primary !text-background' : '';
 }
 
+/**
+ * Opens the folder picker to choose the gpuscout output folder
+ */
 async function chooseFolder() {
     const selectedDirectory = await window.electronAPI.selectDirectory(props.gpuscoutOutputFolder);
 
@@ -67,6 +81,9 @@ async function chooseFolder() {
     }
 }
 
+/**
+ * Fetch all files that are inside the gpuscout output folder
+ */
 async function getFilesInFolder() {
     files.value = await window.electronAPI.getAnalysesInDirectory(props.gpuscoutOutputFolder);
 }

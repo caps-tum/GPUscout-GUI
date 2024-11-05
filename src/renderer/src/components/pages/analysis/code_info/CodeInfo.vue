@@ -44,6 +44,9 @@ const codeViewerStore = useCodeViewerStore();
 
 const selectedLine = computed(() => codeViewerStore.getSelectedLine);
 
+/**
+ * @returns {String} The string to display when no occurrence is selected
+ */
 function getNoOccurrenceString() {
     if (!selectedLine.value) {
         return TEXT.analyses.general.code_info.no_line_selected;

@@ -20,6 +20,9 @@ const emit = defineEmits(['topologySelected']);
 
 const selectedFile = ref('');
 
+/**
+ * Open the file picker to choose the topology file
+ */
 async function chooseTopology() {
     const result = await window.electronAPI.selectFile([
         {
@@ -34,6 +37,9 @@ async function chooseTopology() {
     emit('topologySelected', result);
 }
 
+/**
+ * Get button background depending on if a file has been selected
+ */
 function getButtonBackground() {
     return selectedFile.value ? '!bg-primary !text-background' : 'bg-secondary';
 }

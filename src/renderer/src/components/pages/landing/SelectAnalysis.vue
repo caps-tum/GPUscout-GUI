@@ -21,6 +21,9 @@ defineExpose({ clear });
 
 const selectedFile = ref('');
 
+/**
+ * Open the file picker to choose the analysis file
+ */
 async function chooseAnalysis() {
     const result = await window.electronAPI.selectFile([
         {
@@ -35,10 +38,16 @@ async function chooseAnalysis() {
     emit('analysisSelected', result, true);
 }
 
+/**
+ * Unselect the selected file
+ */
 function clear() {
     selectedFile.value = '';
 }
 
+/**
+ * Get the button background depending on if it has been selected
+ */
 function getButtonBackground() {
     return selectedFile.value ? '!bg-primary !text-background fill-background' : 'bg-secondary';
 }

@@ -68,10 +68,19 @@ const selectedMT4GPath = ref('');
 const selectedComparisonMT4GPath = ref('');
 const comparisonMode = ref(false);
 
+/**
+ * Called when the GPUscout output folder changed
+ * @param {String} directory The chosen directory
+ */
 async function folderChanged(directory) {
     configStore.setOption('gpuscoutOutputFolder', directory);
 }
 
+/**
+ * Called when an analysis has been selected
+ * @param {String} analysisPath The path of the chosen file
+ * @param {Boolean} [isFile=false] If the file has been chosen manually and not from the list
+ */
 function onAnalysisSelected(analysisPath, isFile = false) {
     if (!isFile) {
         analysisSelector.value.clear();
@@ -79,6 +88,11 @@ function onAnalysisSelected(analysisPath, isFile = false) {
     selectedAnalysisPath.value = analysisPath;
 }
 
+/**
+ * Called when a comparison analysis has been selected
+ * @param {String} analysisPath The path of the chosen file
+ * @param {Boolean} [isFile=false] If the file has been chosen manually and not from the list
+ */
 function onComparisonAnalysisSelected(analysisPath, isFile = false) {
     if (!isFile) {
         comparisonAnalysisSelector.value.clear();
@@ -86,19 +100,31 @@ function onComparisonAnalysisSelected(analysisPath, isFile = false) {
     selectedComparisonAnalysisPath.value = analysisPath;
 }
 
+/**
+ * Called when a topology file has been selected
+ * @param {String} topologyPath The path of the chosen file
+ */
 function onMT4GSelected(topologyPath) {
     selectedMT4GPath.value = topologyPath;
 }
 
+/**
+ * Called when a comparison topology file has been selected
+ * @param {String} topologyPath The path of the chosen file
+ */
 function onCompatisonMT4GSelected(topologyPath) {
     selectedComparisonMT4GPath.value = topologyPath;
 }
 
+/**
+ * Proceed to the analysis screens
+ */
 async function proceed() {
     if (!selectedAnalysisPath.value) {
         alert('No analysis selected');
         return;
     }
+
     const analysisFileData = await window.electronAPI.loadFile(selectedAnalysisPath.value + '.gscout');
     const comparisonAnalysisFileData = selectedComparisonAnalysisPath.value
         ? await window.electronAPI.loadFile(selectedComparisonAnalysisPath.value + '.gscout')
