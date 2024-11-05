@@ -141,14 +141,8 @@ export const useCodeViewerStore = defineStore('codeViewer', () => {
 
         // Highlight the base lines of all selected occurrences
         for (const occurrence of currentOccurrences.value) {
-            highlightedSourceLines.value[occurrence.sourceLineNumber] =
-                currentView.value === CODE_TYPE.SOURCE_CODE
-                    ? CODE_STYLES.HIGHLIGHTED_LINE_OCCURRENCE
-                    : CODE_STYLES.HIGHLIGHTED_LINE_OCCURRENCE_SECONDARY;
-            highlightedBinaryLines.value[occurrence.binaryLineNumber] =
-                currentView.value !== CODE_TYPE.SOURCE_CODE
-                    ? CODE_STYLES.HIGHLIGHTED_LINE_OCCURRENCE
-                    : CODE_STYLES.HIGHLIGHTED_LINE_OCCURRENCE_SECONDARY;
+            highlightedSourceLines.value[occurrence.sourceLineNumber] = CODE_STYLES.HIGHLIGHTED_LINE_OCCURRENCE;
+            highlightedBinaryLines.value[occurrence.binaryLineNumber] = CODE_STYLES.HIGHLIGHTED_LINE_OCCURRENCE;
             // Highlight the instruction
             highlightedBinaryTokens.value[occurrence.binaryLineNumber] = {};
             for (const token of gpuscoutResult.getInstructionTokens(
@@ -179,6 +173,15 @@ export const useCodeViewerStore = defineStore('codeViewer', () => {
         // Highlight all relevant secondary lines for this occurrence as well as the instruction in each line
         for (const secondaryLine of currentOccurrences.value[0].linesToHighlight()) {
             highlightedBinaryLines.value[secondaryLine] = CODE_STYLES.HIGHLIGHTED_LINE_OCCURRENCE_SECONDARY;
+
+            if (currentBinary.value === CODE_TYPE.SASS_CODE) {
+                highlightedSourceLines.value[gpuscoutResult.getSassToSourceLine(currentKernel.value, secondaryLine)] =
+                    CODE_STYLES.HIGHLIGHTED_LINE_OCCURRENCE_SECONDARY;
+            } else {
+                highlightedSourceLines.value[gpuscoutResult.getPtxToSourceLine(currentKernel.value, secondaryLine)] =
+                    CODE_STYLES.HIGHLIGHTED_LINE_OCCURRENCE_SECONDARY;
+            }
+
             highlightedBinaryTokens.value[secondaryLine] = {};
             for (const token of gpuscoutResult.getInstructionTokens(
                 currentKernel.value,
