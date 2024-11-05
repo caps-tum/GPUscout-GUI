@@ -11,8 +11,8 @@
                     class="flex px-2"
                     :class="
                         (value <= comparisonValue && data.lower_better) || (value >= comparisonValue && !data.lower_better)
-                            ? 'text-green-400 ' + getFlexDirection()
-                            : 'text-red-400 ' + getFlexDirection()
+                            ? 'text-green-300 ' + getFlexDirection()
+                            : 'text-red-300 ' + getFlexDirection()
                     "
                 >
                     <p v-if="comparisonValue !== undefined">
