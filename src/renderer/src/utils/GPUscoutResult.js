@@ -106,14 +106,14 @@ export class GPUscoutResult {
                 tokens = tokens.filter((_, i) => i > 1);
             }
             let index = tokens.findIndex((t) => t === ' ');
-            return tokens.filter((tok, i) => tok !== '.' && i < (index > 0 ? index : tokens.length));
+            return tokens.filter((_, i) => i < (index > 0 ? index : tokens.length));
         } else {
             let tokens = this.ptxCodeLines[kernel].find((line) => line.address === lineNumber).tokens;
             if (tokens.length > 0 && tokens[0].startsWith('@')) {
                 tokens = tokens.filter((_, i) => i > 1);
             }
             let index = tokens.findIndex((t) => t === ' ');
-            return tokens.filter((tok, i) => tok !== '.' && i < (index > 0 ? index : tokens.length));
+            return tokens.filter((_, i) => i < (index > 0 ? index : tokens.length));
         }
     }
 

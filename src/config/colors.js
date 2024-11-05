@@ -1,7 +1,7 @@
 export const CODE_BINARY_TOKEN_COLORS = {
-    INSTRUCTION: 'text-white', // The color of instruction tokens of a selected line
-    REGISTER_1: 'text-green-600', // The color of the first highlighted register of an occurrence
-    REGISTER_2: 'text-blue-600' // The color of the seconds highlighted register of an occurrence
+    INSTRUCTION: 'bg-white', // The color of instruction tokens of a selected line
+    REGISTER_1: 'bg-green-600', // The color of the first highlighted register of an occurrence
+    REGISTER_2: 'bg-blue-600' // The color of the seconds highlighted register of an occurrence
 };
 
 export const CODE_STYLES = {
