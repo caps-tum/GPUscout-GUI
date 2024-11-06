@@ -1,4 +1,29 @@
 export const TEXT = {
+    landing_page: {
+        select_result_title: '1. Select GPUscout result to analyze:',
+        select_comparison_result_title: '2. Select GPUscout result to compare to:',
+        select_topology_title: 'Select memory topology (optional):',
+        select_folder: {
+            title: 'Select analysis in GPUscout output directory',
+            hint: 'This list contains all GPUscout result files found in the selected folder'
+        },
+        select_file: {
+            not_selected: 'Choose GPUscout result file',
+            selected: 'Selected analysis file: {0}'
+        },
+        select_topology: {
+            not_selected: 'Choose memory topology result file',
+            selected: 'Selected memory topology file: {0}'
+        }
+    },
+    navigation: {
+        comparison_titles: {
+            only_current: 'Analyses only in current result:',
+            only_original: 'Analyses only in original result:',
+            both: 'Analyses only both results:'
+        },
+        analyses_title: 'Relevant analyses:'
+    },
     code_view: {
         title: 'Code View',
         hint: 'Here you can see the source and binary code of the selected kernel',

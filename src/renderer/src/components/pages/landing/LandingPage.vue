@@ -3,7 +3,7 @@
         <p class="mb-20 text-9xl font-bold">GPUscout-GUI</p>
         <div class="flex w-full flex-row justify-center space-x-4 px-12">
             <div class="flex max-h-full w-full flex-col">
-                <p class="mb-2 text-2xl font-bold">1. Select GPUscout result to analyze:</p>
+                <p class="mb-2 text-2xl font-bold">{{ TEXT.landing_page.select_result_title }}</p>
                 <SelectAnalysis ref="analysisSelector" @analysis-selected="onAnalysisSelected" />
                 <p class="w-full py-1 text-center text-xl font-bold">OR</p>
                 <AnalysesFromFolder
@@ -11,11 +11,11 @@
                     @analysis-selected="onAnalysisSelected"
                     @folder-changed="folderChanged"
                 />
-                <p class="w-full py-1 text-xl font-bold">Select memory topology (optional)</p>
+                <p class="w-full py-1 text-xl font-bold">{{ TEXT.landing_page.select_topology_title }}</p>
                 <SelectMemoryTopology @topology-selected="onMT4GSelected" />
             </div>
             <div v-if="comparisonMode" class="flex max-h-full w-full flex-col">
-                <p class="mb-2 text-2xl font-bold">2. Select GPUscout result to compare to:</p>
+                <p class="mb-2 text-2xl font-bold">{{ TEXT.landing_page.select_comparison_result_title }}</p>
                 <SelectAnalysis ref="comparisonAnalysisSelector" @analysis-selected="onComparisonAnalysisSelected" />
                 <p class="w-full py-1 text-center text-xl font-bold">OR</p>
                 <AnalysesFromFolder
@@ -23,7 +23,7 @@
                     @analysis-selected="onComparisonAnalysisSelected"
                     @folder-changed="folderChanged"
                 />
-                <p class="w-full py-1 text-xl font-bold">Select memory topology (optional)</p>
+                <p class="w-full py-1 text-xl font-bold">{{ TEXT.landing_page.select_topology_title }}</p>
                 <SelectMemoryTopology @topology-selected="onCompatisonMT4GSelected" />
             </div>
             <div v-else class="flex max-h-full w-full flex-col items-center justify-center">
@@ -52,6 +52,7 @@ import ButtonPrimary from '../../ui/buttons/ButtonPrimary.vue';
 import ButtonSecondary from '../../ui/buttons/ButtonSecondary.vue';
 import SelectMemoryTopology from './SelectMemoryTopology.vue';
 import IconAdd from '../../ui/icons/IconAdd.vue';
+import { TEXT } from '../../../../../config/text';
 
 const configStore = useConfigStore();
 const dataStore = useDataStore();

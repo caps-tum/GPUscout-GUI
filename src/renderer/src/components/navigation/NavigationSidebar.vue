@@ -14,7 +14,9 @@
                 </select>
             </div>
             <div v-if="isComparison" class="flex flex-col">
-                <p v-if="analysesOnlyCurrent.length > 0" class="p-2 font-bold">Analyses only in modified result:</p>
+                <p v-if="analysesOnlyCurrent.length > 0" class="p-2 font-bold">
+                    {{ TEXT.navigation.comparison_titles.only_current }}
+                </p>
                 <a
                     v-for="analysis in analysesOnlyCurrent"
                     :key="analysis"
@@ -22,7 +24,7 @@
                     @click="() => setAnalysis(analysis)"
                     >{{ ANALYSIS[analysis].display_name || analysis }}</a
                 >
-                <p v-if="analysesBoth.length > 0" class="p-2 font-bold">Analyses in both results:</p>
+                <p v-if="analysesBoth.length > 0" class="p-2 font-bold">{{ TEXT.navigation.comparison_titles.both }}</p>
                 <a
                     v-for="analysis in analysesBoth"
                     :key="analysis"
@@ -30,7 +32,9 @@
                     @click="() => setAnalysis(analysis)"
                     >{{ ANALYSIS[analysis].display_name || analysis }}</a
                 >
-                <p v-if="analysesOnlyOriginal.length > 0" class="p-2 font-bold">Analyses only in original result:</p>
+                <p v-if="analysesOnlyOriginal.length > 0" class="p-2 font-bold">
+                    {{ TEXT.navigation.comparison_titles.only_original }}
+                </p>
                 <a
                     v-for="analysis in analysesOnlyOriginal"
                     :key="analysis"
@@ -40,7 +44,7 @@
                 >
             </div>
             <div v-else class="flex flex-col">
-                <p class="p-2 font-bold">Relevant Analyses:</p>
+                <p class="p-2 font-bold">{{ TEXT.navigation.analyses_title }}</p>
                 <a
                     v-for="analysis in analyses"
                     :key="analysis"
@@ -61,6 +65,7 @@ import { computed, ref } from 'vue';
 import { ANALYSIS } from '../../../../config/analyses';
 import { useDataStore } from '../../stores/DataStore';
 import { useCodeViewerStore } from '../../stores/CodeViewerStore';
+import { TEXT } from '../../../../config/text';
 
 const dataStore = useDataStore();
 const codeViewerStore = useCodeViewerStore();

@@ -6,8 +6,8 @@
     >
         <IconFile class="h-12 w-12" alt="folder" />
         <div class="flex flex-col">
-            <p v-if="!selectedFile" class="text-lg">Choose memory topology result file</p>
-            <p v-else>Selected memory topology file: {{ selectedFile }}</p>
+            <p v-if="!selectedFile" class="text-lg">{{ TEXT.landing_page.select_topology.not_selected }}</p>
+            <p v-else>{{ TEXT.landing_page.select_topology.selected.replace('{0}', selectedFile) }}</p>
         </div>
     </ButtonSecondary>
 </template>
@@ -15,6 +15,7 @@
 import { ref } from 'vue';
 import ButtonSecondary from '../../ui/buttons/ButtonSecondary.vue';
 import IconFile from '../../ui/icons/IconFile.vue';
+import { TEXT } from '../../../../../config/text';
 
 const emit = defineEmits(['topologySelected']);
 

@@ -1,7 +1,7 @@
 <template>
     <div class="rounded bg-secondary/50 p-4 text-text">
-        <p class="-mb-2 text-lg">Select analysis in GPUscout output directory</p>
-        <p class="text-sm">This list contains all GPUscout reseult files found in the selected output folder</p>
+        <p class="-mb-2 text-lg">{{ TEXT.landing_page.select_folder.title }}</p>
+        <p class="text-sm">{{ TEXT.landing_page.select_folder.hint }}</p>
         <div class="my-1 flex flex-row justify-between">
             <TextInput v-model="searchString" placeholder="Search..." />
             <div class="flex flex-row space-x-1">
@@ -29,6 +29,7 @@
 import TextInput from '../../../ui/input/TextInput.vue';
 import { onMounted, ref } from 'vue';
 import ButtonSecondary from '../../../ui/buttons/ButtonSecondary.vue';
+import { TEXT } from '../../../../../../config/text';
 
 const props = defineProps({
     gpuscoutOutputFolder: String
