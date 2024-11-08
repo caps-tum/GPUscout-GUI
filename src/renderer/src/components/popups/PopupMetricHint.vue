@@ -1,8 +1,6 @@
 <template>
     <Popup :type="POPUP.METRIC_HELP" :title="'Description of ' + parameters.metricName">
-        <div class="whitespace-pre-line p-2">
-            {{ parameters.helpText }}
-        </div>
+        <div class="whitespace-pre-line p-2" v-html="parameters.helpText"></div>
     </Popup>
 </template>
 <script setup>
