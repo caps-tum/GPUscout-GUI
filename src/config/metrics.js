@@ -1,4 +1,5 @@
 import { formatBytes, formatInstructions, formatNumber, formatPercent } from '../renderer/src/utils/formatters';
+import { STALLS } from './stalls';
 
 /**
  * This list contains the definition of all metrics and their related information
@@ -13,35 +14,35 @@ export const METRICS = {
         display_name: 'Tex Throttle',
         hint: 'Warp stalled due to full TEX pipeline',
         format_function: formatPercent,
-        help_text: 'This is a detailed explanation of the TEX Throttle',
+        help_text: STALLS.smsp__pcsamp_warps_issue_stalled_tex_throttle.help_text,
         lower_better: true
     },
     smsp__warp_issue_stalled_mio_throttle_per_warp_active: {
         display_name: 'MIO Throttle',
         hint: 'Warp stalled due to full memory I/O pipeline',
         format_function: formatPercent,
-        help_text: 'This is a detailed explanation of the MIO Throttle',
+        help_text: STALLS.smsp__pcsamp_warps_issue_stalled_mio_throttle.help_text,
         lower_better: true
     },
     smsp__warp_issue_stalled_short_scoreboard_per_warp_active: {
         display_name: 'Short Scoreboard',
         hint: 'Warp stalled due short scoreboard dependency',
         format_function: formatPercent,
-        help_text: 'This is a detailed explanation of the short scoreboard stall',
+        help_text: STALLS.smsp__pcsamp_warps_issue_stalled_short_scoreboard.help_text,
         lower_better: true
     },
     smsp__warp_issue_stalled_long_scoreboard_per_warp_active: {
         display_name: 'Long Scoreboard',
         hint: 'Warp stalled due long scoreboard dependency',
         format_function: formatPercent,
-        help_text: 'This is a detailed explanation of the long scoreboard stall',
+        help_text: STALLS.smsp__pcsamp_warps_issue_stalled_long_scoreboard.help_text,
         lower_better: true
     },
     smsp__warp_issue_stalled_lg_throttle_per_warp_active: {
         display_name: 'LG Throttle',
         hint: 'Warp stalled due full L1 instruction queue for global memory operations',
         format_function: formatPercent,
-        help_text: 'This is a detailed explanation of the lg throttle stall',
+        help_text: STALLS.smsp__pcsamp_warps_issue_stalled_lg_throttle.help_text,
         lower_better: true
     },
     smsp__warps_active: {
@@ -83,7 +84,7 @@ export const METRICS = {
         display_name: 'IMC Miss',
         hint: 'Warp stalled waiting for immediate constant cache miss',
         format_function: formatPercent,
-        help_text: 'This is a detailed explanation of imc miss',
+        help_text: STALLS.smsp__pcsamp_warps_issue_stalled_imc_miss.help_text,
         lower_better: true
     },
     global_data_per_instruction: {
