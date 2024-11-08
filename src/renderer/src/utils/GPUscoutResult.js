@@ -136,9 +136,9 @@ export class GPUscoutResult {
      */
     getLineStalls(kernel, line, codeType) {
         if (codeType === CODE_TYPE.SASS_CODE) {
-            return this.sassCodeLines[kernel].find((l) => l.address === line)?.stalls || [];
+            return this.sassCodeLines[kernel].findLast((l) => l.address === line)?.stalls || [];
         } else if (codeType === CODE_TYPE.SOURCE_CODE) {
-            return this.sourceCodeLines[kernel].find((l) => l.address === line)?.stalls || [];
+            return this.sourceCodeLines[kernel].findLast((l) => l.address === line)?.stalls || [];
         }
         return [];
     }
