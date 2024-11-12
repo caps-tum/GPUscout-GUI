@@ -99,9 +99,7 @@ export async function removeRecentAnalysis(event, analysisID) {
  */
 export async function getAnalysesInFolder(event, folderPath) {
     const folderContent = await getFolderContent(event, folderPath);
-    const analysisTitles = folderContent
-        .filter((file) => file.endsWith('.gscout'))
-        .map((file) => file.replace('.gscout', ''));
+    const analysisTitles = folderContent.filter((file) => file.endsWith('.json')).map((file) => file.replace('.json', ''));
 
     return analysisTitles;
 }

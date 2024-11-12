@@ -52,15 +52,15 @@ export const ANALYSIS = {
             warp_stalls_lg_throttle_percent: 'smsp__warp_issue_stalled_lg_throttle_per_warp_active',
             warp_stalls_mio_throttle_percent: 'smsp__warp_issue_stalled_mio_throttle_per_warp_active',
             warp_stalls_long_scoreboard_percent: 'smsp__warp_issue_stalled_long_scoreboard_per_warp_active',
-            kernel_to_shared_memory_bytes: 'memory_flow/kernel_to_shared_bytes',
-            global_memory_to_l1_red_atom_bytes: 'memory_flow/global_to_l1_red_atom_bytes',
-            l2_to_dram_bytes: 'memory_flow/l2_to_dram_bytes',
-            l1_to_l2_bytes: 'memory_flow/l1_to_l2_bytes',
-            l1_to_l2_cache_miss_percent: 'memory_flow/l1_to_l2_cache_miss_perc',
-            global_memory_to_l1_cache_miss_percent: 'memory_flow/global_to_l1_cache_miss_perc',
             warps_active: 'smsp__warps_active',
             atom_global_count: 'atom_global_count',
-            atom_shared_count: 'atom_shared_count'
+            atom_shared_count: 'atom_shared_count',
+            kernel_to_shared_memory_bytes: 'atomic_data_memory_flow/kernel_to_shared_bytes',
+            global_memory_to_l1_red_atom_bytes: 'atomic_data_memory_flow/global_to_l1_red_atom_bytes',
+            global_memory_to_l1_cache_miss_percent: 'atomic_data_memory_flow/global_to_l1_cache_miss_perc',
+            l1_to_l2_bytes: 'atomic_data_memory_flow/l1_to_l2_bytes',
+            l1_to_l2_cache_miss_percent: 'atomic_data_memory_flow/l1_to_l2_cache_miss_perc',
+            l2_to_dram_bytes: 'atomic_data_memory_flow/l2_to_dram_bytes'
         }
     },
     register_spilling: {
@@ -72,23 +72,23 @@ export const ANALYSIS = {
         metrics: {
             warp_stalls_lg_throttle_percent: 'smsp__warp_issue_stalled_lg_throttle_per_warp_active',
             warp_stalls_long_scoreboard_percent: 'smsp__warp_issue_stalled_long_scoreboard_per_warp_active',
-            kernel_to_shared_memory_bytes: 'memory_flow/kernel_to_shared_bytes',
-            l2_queries_due_to_local_memory_percent: 'l2_queries_due_to_mem_perc',
-            global_loads_count: 'memory_flow/num_loads',
-            global_memory_to_l1_bytes: 'memory_flow/global_to_l1_bytes',
-            global_memory_to_l1_cache_miss_percent: 'memory_flow/global_to_l1_cache_miss_perc',
-            global_memory_l1_to_l2_bytes: 'memory_flow/global_l1_to_l2_bytes',
-            local_memory_to_l1_bytes: 'memory_flow/local_to_l1_bytes',
-            local_memory_to_l1_cache_miss_percent: 'memory_flow/local_to_l1_cache_miss_perc',
-            local_memory_l1_to_l2_bytes: 'memory_flow/local_l1_to_l2_bytes',
-            l1_to_l2_cache_miss_percent: 'memory_flow/l1_to_l2_cache_miss_perc',
-            l2_to_dram_bytes: 'memory_flow/l2_to_dram_bytes',
-            total_l2_queries: 'total_l2_queries',
             instructions_executed_local_loads: 'smsp__inst_executed_op_local_ld',
             instructions_executed_local_stores: 'smsp__inst_executed_op_local_st',
             instructions_executed: 'smsp__sass_inst_executed',
             occupancy: 'sm__warps_active',
-            warps_active: 'smsp__warps_active'
+            warps_active: 'smsp__warps_active',
+            total_l2_queries: 'l2_queries/total_l2_queries',
+            l2_queries_due_to_local_memory_percent: 'l2_queries/l2_queries_due_to_mem_perc',
+            global_loads_count: 'load_data_memory_flow/num_loads',
+            kernel_to_shared_memory_bytes: 'load_data_memory_flow/kernel_to_shared_bytes',
+            local_memory_to_l1_bytes: 'load_data_memory_flow/local_to_l1_bytes',
+            global_memory_to_l1_bytes: 'load_data_memory_flow/global_to_l1_bytes',
+            local_memory_to_l1_cache_miss_percent: 'load_data_memory_flow/local_to_l1_cache_miss_perc',
+            global_memory_to_l1_cache_miss_percent: 'load_data_memory_flow/global_to_l1_cache_miss_perc',
+            local_memory_l1_to_l2_bytes: 'load_data_memory_flow/local_l1_to_l2_bytes',
+            global_memory_l1_to_l2_bytes: 'load_data_memory_flow/global_l1_to_l2_bytes',
+            l1_to_l2_cache_miss_percent: 'load_data_memory_flow/l1_to_l2_cache_miss_perc',
+            l2_to_dram_bytes: 'load_data_memory_flow/l2_to_dram_bytes'
         },
         topology_metrics: {
             l1_cache_size: 'l1_data_cache/size'
@@ -117,9 +117,9 @@ export const ANALYSIS = {
         metrics: {
             warp_stalls_mio_throttle_percent: 'smsp__warp_issue_stalled_mio_throttle_per_warp_active',
             warp_stalls_long_scoreboard_percent: 'smsp__warp_issue_stalled_long_scoreboard_per_warp_active',
-            shared_memory_load_count: 'data_memory_flow/shared_mem_load_operations',
-            shared_memory_load_efficiency_percent: 'bank_conflict/shared_mem_load_efficiency_perc',
-            bank_conflict: 'bank_conflict/bank_conflict'
+            shared_memory_load_count: 'shared_data_memory_flow/shared_mem_load_operations',
+            shared_memory_load_efficiency_percent: 'shared_memory_bank_conflict/shared_mem_load_efficiency_perc',
+            bank_conflict: 'shared_memory_bank_conflict/bank_conflict'
         }
     },
     use_texture: {
@@ -131,14 +131,14 @@ export const ANALYSIS = {
         metrics: {
             warp_stalls_tex_throttle_percent: 'smsp__warp_issue_stalled_tex_throttle_per_warp_active',
             warp_stalls_long_scoreboard_percent: 'smsp__warp_issue_stalled_long_scoreboard_per_warp_active',
+            warps_active: 'smsp__warps_active',
+            texture_memory_used: 'texture_memory_used',
             kernel_to_texture_memory_instruction_count: 'texture_data_memory_flow/kernel_to_tex_instr',
             texture_memory_to_l1_bytes: 'texture_data_memory_flow/tex_to_l1_bytes',
             texture_memory_to_l1_cache_miss_percent: 'texture_data_memory_flow/tex_to_l1_cache_miss_perc',
             l1_to_l2_cache_miss_percent: 'texture_data_memory_flow/l1_to_l2_cache_miss_perc',
             l1_to_l2_bytes: 'texture_data_memory_flow/l1_to_l2_bytes',
-            l2_to_dram_bytes: 'texture_data_memory_flow/l2_to_dram_bytes',
-            warps_active: 'smsp__warps_active',
-            texture_memory_used: 'texture_memory_used'
+            l2_to_dram_bytes: 'texture_data_memory_flow/l2_to_dram_bytes'
         }
     },
     vectorization: {

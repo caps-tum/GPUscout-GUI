@@ -126,9 +126,9 @@ async function proceed() {
         return;
     }
 
-    const analysisFileData = await window.electronAPI.loadFile(selectedAnalysisPath.value + '.gscout');
+    const analysisFileData = await window.electronAPI.loadFile(selectedAnalysisPath.value + '.json');
     const comparisonAnalysisFileData = selectedComparisonAnalysisPath.value
-        ? await window.electronAPI.loadFile(selectedComparisonAnalysisPath.value + '.gscout')
+        ? await window.electronAPI.loadFile(selectedComparisonAnalysisPath.value + '.json')
         : undefined;
     const topologyData = selectedMT4GPath.value ? await window.electronAPI.loadFile(selectedMT4GPath.value) : undefined;
     const comparisonTopologyData = selectedComparisonMT4GPath.value

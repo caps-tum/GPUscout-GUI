@@ -8,7 +8,7 @@
             <div
                 class="flex h-8 w-full flex-row items-center justify-between border-b border-text bg-background pl-2 text-text"
             >
-                <p>{{ title }}</p>
+                <p class="font-bold">{{ title }}</p>
                 <button class="h-full w-14 bg-red-400 text-white" @click="close">X</button>
             </div>
             <div class="h-full w-full overflow-y-auto">

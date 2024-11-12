@@ -2,7 +2,7 @@
     <div class="relative min-w-16 flex-shrink flex-grow">
         <a class="flex h-full flex-col -space-y-1 rounded bg-primary py-1 pl-2 pr-3 text-background">
             <p class="pr-6 text-lg">{{ data.display_name }}</p>
-            <p class="line-clamp-1 text-sm text-background/50">{{ hint || data.hint || '' }}</p>
+            <p class="line-clamp-2 max-w-80 text-sm text-background/50">{{ hint || data.hint || '' }}</p>
             <div class="flex justify-between" :class="getFlexDirection()">
                 <p>
                     {{ data.format_function(value, absoluteValue) }}

@@ -6,7 +6,7 @@
         :comparison-analysis-data="comparisonAnalysisData"
         :metrics="[
             ANALYSIS.use_restrict.metrics.instructions_executed_global_operations,
-            ANALYSIS.use_restrict.metrics.warps_active
+            ANALYSIS.use_restrict.metrics.occupancy_percent
         ]"
         :values="[(analysis, metric) => analysis.getMetric(metric), (analysis, metric) => analysis.getMetric(metric)]"
         :expanded="expandedSection === 1"

@@ -20,18 +20,18 @@ export const useDataStore = defineStore('data', () => {
     /** @returns {GPUscoutResult} */
     const getGPUscoutResult = () => gpuscoutResult;
     /** @returns {Object.<String, {}>} */
-    const getAnalyses = () => gpuscoutResult?.analyses || {};
+    const getAnalyses = () => gpuscoutResult?.getAnalyses() || {};
     /** @returns {String[]} */
-    const getKernels = () => gpuscoutResult?.kernels || [];
+    const getKernels = () => gpuscoutResult?.getKernels() || [];
 
     /** @type {GPUscoutResult} */
     let gpuscoutComparisonResult;
     /** @returns {GPUscoutResult} */
     const getGPUscoutComparisonResult = () => gpuscoutComparisonResult;
     /** @returns {Object.<String, {}>} */
-    const getComparisonAnalyses = () => gpuscoutComparisonResult?.analyses || {};
+    const getComparisonAnalyses = () => gpuscoutComparisonResult?.getAnalyses() || {};
     /** @returns {String[]} */
-    const getComparisonKernels = () => gpuscoutComparisonResult?.kernels || [];
+    const getComparisonKernels = () => gpuscoutComparisonResult?.getKernels() || [];
     const hasComparisonResult = computed(() => comparisonResultAvailable.value);
 
     const getCurrentKernel = computed(() => currentKernel.value);
@@ -52,10 +52,10 @@ export const useDataStore = defineStore('data', () => {
             comparisonResultAvailable.value = true;
         }
 
-        if (gpuscoutResult.kernels.length === 0) {
+        if (gpuscoutResult.getKernels().length === 0) {
             alert('No kernels found!');
         }
-        currentKernel.value = gpuscoutResult.kernels[0];
+        currentKernel.value = gpuscoutResult.getKernels()[0];
         // TODO: what if 0
         setCurrentAnalysis(gpuscoutResult.getAnalysesWithOccurrences(currentKernel.value)[0]);
 

@@ -29,7 +29,7 @@ async function chooseAnalysis() {
     const result = await window.electronAPI.selectFile([
         {
             name: 'GPUscout result file',
-            extensions: ['gscout']
+            extensions: ['json']
         }
     ]);
     if (!result) {

@@ -1,3 +1,4 @@
+import MetricSection from '../renderer/src/components/ui/sections/MetricSection.vue';
 import { ANALYSIS } from './analyses';
 
 /**
@@ -58,22 +59,44 @@ export const MEMORY_GRAPH_DEFINITION = {
     ],
     texture_memory: [
         [{ title: 'Kernel', bold: true }],
-        [{ metric: ANALYSIS.use_texture.metrics.kernel_to_texture_memory_instruction_count }],
-        [{ title: 'Texture Memory', bold: true }],
-        [{ metric: ANALYSIS.use_texture.metrics.texture_memory_to_l1_bytes }],
         [
-            { title: 'L1 Cache', bold: true },
+            { metric: ANALYSIS.use_texture.metrics.kernel_to_texture_memory_instruction_count },
+            { metric: ANALYSIS.register_spilling.metrics.global_loads_count }
+        ],
+        [
+            { title: 'Texture Memory', bold: true, size: 'small' },
+            { title: 'Global Memory', bold: true, size: 'small' }
+        ],
+        [
+            { metric: ANALYSIS.use_texture.metrics.texture_memory_to_l1_bytes },
+            { metric: ANALYSIS.register_spilling.metrics.global_memory_to_l1_bytes }
+        ],
+        [
             {
                 metric: ANALYSIS.use_texture.metrics.texture_memory_to_l1_cache_miss_percent,
                 format: '{0} miss rate',
                 comparison_format: '{0}\nmiss rate\n{1}'
+            },
+            { title: 'L1 Cache', bold: true },
+            {
+                metric: ANALYSIS.register_spilling.metrics.global_memory_to_l1_cache_miss_percent,
+                format: '{0} miss rate',
+                comparison_format: '{0}\nmiss rate\n{1}'
             }
         ],
-        [{ metric: ANALYSIS.use_texture.metrics.l1_to_l2_bytes }],
         [
-            { title: 'L2 Cache', bold: true },
+            { metric: ANALYSIS.use_texture.metrics.l1_to_l2_bytes },
+            { metric: ANALYSIS.register_spilling.metrics.global_memory_l1_to_l2_bytes }
+        ],
+        [
             {
                 metric: ANALYSIS.use_texture.metrics.l1_to_l2_cache_miss_percent,
+                format: '{0} miss rate',
+                comparison_format: '{0}\nmiss rate\n{1}'
+            },
+            { title: 'L2 Cache', bold: true },
+            {
+                metric: ANALYSIS.register_spilling.metrics.global_memory_to_l1_cache_miss_percent,
                 format: '{0} miss rate',
                 comparison_format: '{0}\nmiss rate\n{1}'
             }
@@ -106,6 +129,35 @@ export const MEMORY_GRAPH_DEFINITION = {
             }
         ],
         [{ metric: ANALYSIS.global_atomics.metrics.l2_to_dram_bytes }],
+        [{ title: 'DRAM', bold: true }]
+    ],
+    global_caches: [
+        [{ title: 'Kernel', bold: true }],
+        [
+            {
+                metric: ANALYSIS.register_spilling.metrics.global_loads_count
+            }
+        ],
+        [{ title: 'Global Memory', size: 'small', bold: true }],
+        [{ metric: ANALYSIS.register_spilling.metrics.global_memory_to_l1_bytes }],
+        [
+            { title: 'L1 Cache', bold: true },
+            {
+                metric: ANALYSIS.register_spilling.metrics.global_memory_to_l1_cache_miss_percent,
+                format: '{0} miss rate',
+                comparison_format: '{0}\nmiss rate\n{1}'
+            }
+        ],
+        [{ metric: ANALYSIS.register_spilling.metrics.global_memory_l1_to_l2_bytes }],
+        [
+            { title: 'L2 Cache', bold: true },
+            {
+                metric: ANALYSIS.register_spilling.metrics.l1_to_l2_cache_miss_percent,
+                format: '{0} miss rate',
+                comparison_format: '{0}\nmiss rate\n{2} {1}'
+            }
+        ],
+        [{ metric: ANALYSIS.register_spilling.metrics.l2_to_dram_bytes }],
         [{ title: 'DRAM', bold: true }]
     ]
 };

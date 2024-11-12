@@ -1,5 +1,5 @@
 <template>
-    <Popup :type="POPUP.METRIC_HELP" :title="'Description of ' + parameters.metricName">
+    <Popup :type="POPUP.METRIC_HELP" :title="parameters.metricName">
         <div class="whitespace-pre-line p-2" v-html="parameters.helpText"></div>
     </Popup>
 </template>
