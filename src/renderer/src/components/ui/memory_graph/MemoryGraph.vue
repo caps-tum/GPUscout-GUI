@@ -80,17 +80,17 @@ function buildTitles(components, useComparison = false) {
                 if (title.includes('L1')) {
                     title = title.replace(
                         '{size}',
-                        `\n(${Math.ceil(analysisData.getTopologyMetric('l1_data_cache/size'))}kB)`
+                        `\n(${Math.ceil(analysisData.getTopologyMetric('l1_data_cache/size'))}KiB)`
                     );
                 } else if (title.includes('L2')) {
                     title = title.replace(
                         '{size}',
-                        `\n(${Math.ceil(analysisData.getTopologyMetric('l2_data_cache/size'))}MB)`
+                        `\n(${Math.ceil(analysisData.getTopologyMetric('l2_data_cache/size'))}MiB)`
                     );
                 } else if (title.includes('DRAM')) {
                     title = title.replace(
                         '{size}',
-                        `\n(${Math.ceil(analysisData.getTopologyMetric('main_memory/size'))}GB)`
+                        `\n(${Math.ceil(analysisData.getTopologyMetric('main_memory/size'))}GiB)`
                     );
                 }
             } else {

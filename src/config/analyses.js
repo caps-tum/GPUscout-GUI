@@ -119,7 +119,8 @@ export const ANALYSIS = {
             warp_stalls_long_scoreboard_percent: 'smsp__warp_issue_stalled_long_scoreboard_per_warp_active',
             shared_memory_load_count: 'shared_data_memory_flow/shared_mem_load_operations',
             shared_memory_load_efficiency_percent: 'shared_memory_bank_conflict/shared_mem_load_efficiency_perc',
-            bank_conflict: 'shared_memory_bank_conflict/bank_conflict'
+            bank_conflict: 'shared_memory_bank_conflict/bank_conflict',
+            warps_active: 'smsp__warps_active'
         }
     },
     use_texture: {

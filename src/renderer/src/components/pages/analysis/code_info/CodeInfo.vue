@@ -22,9 +22,11 @@
         >
             {{ TEXT.code_view.code_info.recommendations_title }}
         </p>
-        <p v-show="occurrences.length === 1 && occurrences[0].recommendations().length > 0" class="whitespace-pre-line p-1">
-            {{ occurrences[0]?.recommendations() }}
-        </p>
+        <p
+            v-show="occurrences.length === 1 && occurrences[0].recommendations().length > 0"
+            class="whitespace-pre-line p-1"
+            v-html="occurrences[0]?.recommendations()"
+        ></p>
     </div>
 </template>
 <script setup>

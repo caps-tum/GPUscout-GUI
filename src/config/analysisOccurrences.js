@@ -13,15 +13,17 @@ export class DatatypeConversionOccurrence extends Occurrence {
     }
 
     description() {
-        return `Datatype converion found in the current line. Type of the conversion: <b>${this.type}</b>.`;
+        return `The current instruction performs a datatype conversion. The type of the conversion is <b>${this.type}</b>.`;
     }
 
     recommendations() {
-        let stalls = 'short scoreboard and mio throttle stalls';
+        let stalls = '- Short scoreboard stalls\n- Mio Throttle stalls';
         if (this.type === 'F2F') {
-            stalls = 'short scoreboard, mio throttle and tex throttle stalls';
+            stalls = '- Short scoreboard stalls\n- Mio Throttle stalls\n- Tex Throttle stalls';
         }
-        return `Datatype conversions should be avoided whenever possible due to their performance impact. In the case of this occurrence, the datatype conversions should especially be avoided in case of high ${stalls}.`;
+        return `Datatype conversions should be avoided whenever possible due to their performance impact.
+In the case of a <b>${this.type}</b> coversion, high values in any of the following stalls in the current line indicate a potential performance bottleneck:\n${stalls}
+After modifying the code, improvements in the mentioned warp stalls should be seen.`;
     }
 }
 
@@ -34,16 +36,20 @@ export class GlobalAtomicsOccurrence extends Occurrence {
     }
 
     title() {
-        return this.isGlobalAtomic ? 'Global Atomic' : 'Shared Atomic';
+        return this.isGlobalAtomic ? 'Use of Global Atomic' : 'Use of Shared Atomic';
     }
 
     description() {
-        let result = `Use of <b>${this.isGlobalAtomic ? 'global' : 'shared'}</b> atomics found in the current code line.\nThis instruction is ${this.isInForLoop ? '' : 'not '}in a for loop.`;
+        let result = `Use of <b>${this.isGlobalAtomic ? 'global' : 'shared'}</b> atomics found in the current line.\nThis instruction is ${this.isInForLoop ? '' : 'not '}in a for loop.`;
         return result;
     }
 
     recommendations() {
-        return 'Shared atomics should be used in case of high long scoreboard and lg throttle, but low mio throttle, with global atomics being recommended to use in the inverse case. In case of high values in all 3 stalls, try to switch the use of atomics and check the results.';
+        return `The use of global or shared atomics can lead to increases in LG Throttle, MIO Throttle, as well as long scoreboard stalls. In the case of high LG Throttle, but low MIO Throttle stalls, shared atomics should be used, with global atomics being recommended in cases of high MIO Throttle stalls, but low LG Throttle and long scoreboard stalls.
+If high values are seen in all three stall reasons, try to switch between global and shared atomics and compare the results.
+
+Additionally, global atomics should never be used in the instruction executed is inside a for loop.
+After modifying the code, improvements or only slight increases should be seen in the mentioned warp stalls, with the total number of stalls decreasing.`;
     }
 }
 
@@ -122,19 +128,26 @@ export class UseRestrictOccurrence extends Occurrence {
     }
 
     title() {
-        return this.isReadOnlyMemoryUsed ? 'Restrict Used' : 'Use Restrict';
+        return this.isReadOnlyMemoryUsed ? 'Use of Restrict' : 'Use Restrict';
     }
 
     description() {
         if (this.isReadOnlyMemoryUsed) {
-            return `Register <b>${this.register}</b> is already using the read-only cache.`;
+            return `Register <b>${this.register}</b> is already using read-only cache.`;
         } else {
-            let result = `Register <b>${this.register}</b> is not aliased anywhere in the kernel and would thus benefit from using __restrict__.\nThere are currently <b>${this.usedRegisters}</b> out of <b>TODO</b> available registers used.`;
+            let result = `Register <b>${this.register}</b> is not aliased anywhere in the kernel and would thus benefit from being marked with the __restrict__ keyword.
+There are currently <b>${this.usedRegisters}</b> out of <b>TODO</b> available registers used.`;
             if (this.registerPressureIncrease > 0) {
-                result += `The previous SASS instruction increased the register pressure with <b>${this.registerPressureIncrease}</b> more registers.`;
+                result += `The previous SASS instruction increased the register pressure by <b>${this.registerPressureIncrease}</b> additional registers.`;
             }
             return result;
         }
+    }
+
+    recommendations() {
+        return `By marking pointers with the __restrict__ property, the compiler will be informed that data written through a pointer will not be read by another pointer, which allows for more aggressive optimizations and often leads to performance gains.
+This means that restrict should be used whenever available, the only exception being in cases of already high register pressure. As using the __restrict__ keyword can further increase total used registers, it should not be used when the used register count is already near total available registers.
+After modyfing the code, the total number of stalls should decrease, with increases in IMC Miss stalls being the exception. Other metrics that should be followed are the number of global memory instructions, which should decrease, as well as the occupancy, which should not go down too much (due to increased register usage).`;
     }
 
     tokensToHighlight() {
@@ -169,7 +182,7 @@ export class UseSharedOccurrence extends Occurrence {
     }
 
     title() {
-        return this.isSharedMemory ? 'Shared Memory used' : 'Use Shared Memory';
+        return this.isSharedMemory ? 'Use of Shared Memory' : 'Use Shared Memory';
     }
 
     description() {
@@ -179,7 +192,7 @@ export class UseSharedOccurrence extends Occurrence {
             } else {
                 let result = `Register <b>${this.register}</b> already stores data to shared memory in the current line.`;
                 if (this.instructionsToSharedMemoryStore > 0) {
-                    result += `\nData loaded from global memory is stored to shared memory at address after <b>${this.instructionsToSharedMemoryStore}</b> instructions.`;
+                    result += `\nData loaded from global memory is stored to shared memory in the current instruction after <b>${this.instructionsToSharedMemoryStore}</b> instructions.`;
                 }
                 return result;
             }
@@ -189,14 +202,18 @@ export class UseSharedOccurrence extends Occurrence {
                 result += '\nAdditionally, this instruction is executed within a for loop.';
             }
 
-            result += '\nGlobal loads of this register are found at the following addresses:';
-            for (const address of this.globalLoadBinaryLineNumbers) {
-                result += `\n- <b>${address}</b>`;
+            if (this.globalLoadBinaryLineNumbers.length > 0) {
+                result += '\nGlobal loads of this register are found at the following addresses:';
+                for (const address of this.globalLoadBinaryLineNumbers) {
+                    result += `\n- <b>${address}</b>`;
+                }
             }
 
-            result += '\nComputation instructions of this register are found at the following addresses:';
-            for (const address of this.computationInstructionBinaryLineNumbers) {
-                result += `\n- <b>${address}</b>`;
+            if (this.computationInstructionBinaryLineNumbers.length > 0) {
+                result += '\nComputation instructions of this register are found at the following addresses:';
+                for (const address of this.computationInstructionBinaryLineNumbers) {
+                    result += `\n- <b>${address}</b>`;
+                }
             }
 
             return result;
@@ -204,7 +221,11 @@ export class UseSharedOccurrence extends Occurrence {
     }
 
     recommendations() {
-        return `Use of shared memory is encouraged if the current register is used in more computation instructions than global loads. If the load instruction is inside a for loop, shared memory could also improve performance.\nIn addition to using shared memory, anynchronous global to shared memory copy operations should be used when the shared store is not performed immediately after the load from global memory.`;
+        return `Shared memory is faster than global memory and should be used when data is used frequently. This can be checked by looking at the number of computation instructions and global loads the current register is involved in. If the register is used in more computation instructions than global loads, the use of shared memory is encouraged.
+If the load instruction is inside a for loop, shared memory could also improve performance.
+In addition to using shared memory, anynchronous global to shared memory copy operations should be used when the store to shared memory is not performed immediately after the load from global memory.
+In cases of high MIO stalls, the use of shared memory should be reduced, as data is loaded too frequently.
+After modifying the code, total stalls should decrease. After switching to using shared memory, load efficiency should increase, along with the number of shared memory load operations. Any existing or new bank conflicts should be resolved, as they can impact performance significantly.`;
     }
 
     tokensToHighlight() {

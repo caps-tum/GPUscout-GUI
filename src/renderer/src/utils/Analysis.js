@@ -12,6 +12,7 @@ export class Analysis {
     constructor(analysisData, metrics, topologyMetrics, kernel, occurrenceConstructor = (o) => new Occurrence(o)) {
         this._kernel = kernel;
         this._metrics = metrics || {};
+        this._ownMetrics = {};
         this._topologyMetrics = topologyMetrics;
         /** @type {Occurrence[]} */ this._occurrences = [];
         this.codeType = CODE_TYPE.NONE;
@@ -22,13 +23,16 @@ export class Analysis {
                 if (metricValue === null) {
                     // Metric not found
                     this._metrics[jsonMetricName] = 0;
+                    this._ownMetrics[jsonMetricName] = 0;
                 } else if (typeof metricValue === 'object') {
                     // Metric is nested -> Metric name is of form 'category/metric'
                     for (const [deepJsonMetricName, deepMetricValue] of Object.entries(metricValue)) {
                         this._metrics[`${jsonMetricName}/${deepJsonMetricName}`] = deepMetricValue;
+                        this._ownMetrics[`${jsonMetricName}/${deepJsonMetricName}`] = deepMetricValue;
                     }
                 } else {
                     this._metrics[jsonMetricName] = metricValue;
+                    this._ownMetrics[jsonMetricName] = metricValue;
                 }
             }
         }
@@ -54,6 +58,13 @@ export class Analysis {
      */
     getMetric(metric) {
         return this._metrics[metric] || 0;
+    }
+
+    /**
+     * @returns {Object.<String, Number>} All metrics of only this analysis
+     */
+    getOwnMetrics() {
+        return this._ownMetrics;
     }
 
     /**

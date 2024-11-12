@@ -3,8 +3,10 @@
         title="Metrics"
         hint="Important metrics to watch out for"
         :expanded="true"
-        :metrics="Object.keys(analysisData.getMetrics())"
-        :values="Object.values(analysisData.getMetrics())"
+        :analysis-data="analysisData"
+        :comparison-analysis-data="comparisonAnalysisData"
+        :metrics="Object.keys(analysisData.getOwnMetrics())"
+        :values="Array(analysisData.getOwnMetrics().length).fill((analysis, metric) => analysis.getMetric(metric))"
     >
     </MetricSection>
 </template>

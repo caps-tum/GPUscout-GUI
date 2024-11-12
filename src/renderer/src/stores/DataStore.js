@@ -57,7 +57,20 @@ export const useDataStore = defineStore('data', () => {
         }
         currentKernel.value = gpuscoutResult.getKernels()[0];
         // TODO: what if 0
-        setCurrentAnalysis(gpuscoutResult.getAnalysesWithOccurrences(currentKernel.value)[0]);
+        if (gpuscoutResult.getAnalysesWithOccurrences(currentKernel.value).length === 0) {
+            if (
+                comparisonResultAvailable.value &&
+                gpuscoutComparisonResult.getAnalysesWithOccurrences(currentKernel.value).length > 0
+            ) {
+                setCurrentAnalysis(gpuscoutComparisonResult.getAnalysesWithOccurrences(currentKernel.value)[0]);
+            } else {
+                alert('No analyses have found any improvements.');
+                window.location.reload();
+                return;
+            }
+        } else {
+            setCurrentAnalysis(gpuscoutResult.getAnalysesWithOccurrences(currentKernel.value)[0]);
+        }
 
         console.log(gpuscoutResult);
         console.log(gpuscoutComparisonResult);

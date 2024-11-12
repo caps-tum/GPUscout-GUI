@@ -35,12 +35,7 @@
             :analysis-data="analysisData"
             :comparison-analysis-data="comparisonAnalayisData"
         />
-        <TopSectionDefault
-            v-else
-            :kernel="kernel"
-            :analysis-data="analysisData"
-            :comparison-analysis-data="comparisonAnalayisData"
-        />
+        <TopSectionDefault v-else :analysis-data="analysisData" :comparison-analysis-data="comparisonAnalayisData" />
     </div>
 </template>
 <script setup>

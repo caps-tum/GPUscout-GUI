@@ -138,6 +138,13 @@ More information is available at <a href="https://docs.nvidia.com/nsight-compute
         help_text: 'This is a detailed explanation something',
         lower_better: true
     },
+    deadlock_detect_flag: {
+        display_name: 'Deadlock detected',
+        hint: 'If a deadlock has been detected in the kernel',
+        format_function: formatPercent,
+        help_text: 'This is a detailed explanation something',
+        lower_better: true
+    },
     'load_data_memory_flow/num_loads': {
         display_name: 'Global loads count',
         hint: 'Number of global loads',
@@ -220,7 +227,7 @@ More information is available at <a href="https://docs.nvidia.com/nsight-compute
         hint: 'Shared memory load efficiency',
         format_function: formatPercent,
         help_text: 'This is a detailed explanation something',
-        lower_better: true
+        lower_better: false
     },
     'shared_memory_bank_conflict/bank_conflict': {
         display_name: 'Bank conflicts',
@@ -288,7 +295,7 @@ More information is available at <a href="https://docs.nvidia.com/nsight-compute
     'atomic_data_memory_flow/global_to_l1_cache_miss_perc': {
         display_name: 'Global to L1 Cache misses',
         hint: '',
-        format_function: formatBytes,
+        format_function: formatPercent,
         help_text: 'This is a detailed explanation something',
         lower_better: true
     },
@@ -302,7 +309,7 @@ More information is available at <a href="https://docs.nvidia.com/nsight-compute
     'atomic_data_memory_flow/l1_to_l2_cache_miss_perc': {
         display_name: 'L1 to L2 Cache misses',
         hint: '',
-        format_function: formatBytes,
+        format_function: formatPercent,
         help_text: 'This is a detailed explanation something',
         lower_better: true
     },
