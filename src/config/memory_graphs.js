@@ -9,7 +9,7 @@ import { ANALYSIS } from './analyses';
  *   - Small graph nodes: Marked with the "size: 'small'" attribute. The title and bold attributes specify the text of the node as well as if this text should be bold
  *   - Large graph nodes: If none of the entries of a column definition has the "size: 'small'" attribute, they are merged into one large node, with the text of the individual nodes being displayed from top to bottom.
  *     Entries can have either a title attribute specifying text (again bold or not), or be formatted depending on a metric value.
- *     When formatting using metric values, the metric attribute specifies the name of the metric to use, with the format and comparison_format attributes specifying the format string the metric values get inserted into ({0} for the current metric value, {1} for the comparison metric value, {2} for an arrow indicating the difference of both).
+ *     When formatting using metric values, the metric attribute specifies the name of the metric to use, with the format and comparison_format attributes specifying the format string the metric values get inserted into ({value} for the current metric value, {comp_value} for the comparison metric value, {diff_arrow} for an arrow indicating the difference of both).
  *   - The first and last column of a memory graph have to contain nodes, with every other column being interpreted as arrows. Arrow nodes can have either a title or metric associated with them.
  */
 export const MEMORY_GRAPH_DEFINITION = {
@@ -32,14 +32,14 @@ export const MEMORY_GRAPH_DEFINITION = {
         [
             {
                 metric: ANALYSIS.register_spilling.metrics.global_memory_to_l1_cache_miss_percent,
-                format: '{0} miss rate',
-                comparison_format: '{0}\nmiss rate\n{1}'
+                format: '{value} miss rate',
+                comparison_format: '{value}\nmiss rate\n{comp_value}'
             },
-            { title: 'L1 Cache', bold: true },
+            { title: 'L1 Cache {size}', bold: true },
             {
                 metric: ANALYSIS.register_spilling.metrics.local_memory_to_l1_cache_miss_percent,
-                format: '{0} miss rate',
-                comparison_format: '{0}\nmiss rate\n{1}'
+                format: '{value} miss rate',
+                comparison_format: '{value}\nmiss rate\n{comp_value}'
             }
         ],
         [
@@ -47,15 +47,15 @@ export const MEMORY_GRAPH_DEFINITION = {
             { metric: ANALYSIS.register_spilling.metrics.local_memory_l1_to_l2_bytes }
         ],
         [
-            { title: 'L2 Cache', bold: true },
+            { title: 'L2 Cache {size}', bold: true },
             {
                 metric: ANALYSIS.register_spilling.metrics.l1_to_l2_cache_miss_percent,
-                format: '{0} miss rate',
-                comparison_format: '{0}\nmiss rate\n{2} {1}'
+                format: '{value} miss rate',
+                comparison_format: '{value}\nmiss rate\n{diff_arrow} {comp_value}'
             }
         ],
         [{ metric: ANALYSIS.register_spilling.metrics.l2_to_dram_bytes }],
-        [{ title: 'DRAM', bold: true }]
+        [{ title: 'DRAM {size}', bold: true }]
     ],
     texture_memory: [
         [{ title: 'Kernel', bold: true }],
@@ -74,14 +74,14 @@ export const MEMORY_GRAPH_DEFINITION = {
         [
             {
                 metric: ANALYSIS.use_texture.metrics.texture_memory_to_l1_cache_miss_percent,
-                format: '{0} miss rate',
-                comparison_format: '{0}\nmiss rate\n{1}'
+                format: '{value} miss rate',
+                comparison_format: '{value}\nmiss rate\n{comp_value}'
             },
-            { title: 'L1 Cache', bold: true },
+            { title: 'L1 Cache {size}', bold: true },
             {
                 metric: ANALYSIS.register_spilling.metrics.global_memory_to_l1_cache_miss_percent,
-                format: '{0} miss rate',
-                comparison_format: '{0}\nmiss rate\n{1}'
+                format: '{value} miss rate',
+                comparison_format: '{value}\nmiss rate\n{comp_value}'
             }
         ],
         [
@@ -91,18 +91,18 @@ export const MEMORY_GRAPH_DEFINITION = {
         [
             {
                 metric: ANALYSIS.use_texture.metrics.l1_to_l2_cache_miss_percent,
-                format: '{0} miss rate',
-                comparison_format: '{0}\nmiss rate\n{1}'
+                format: '{value} miss rate',
+                comparison_format: '{value}\nmiss rate\n{comp_value}'
             },
-            { title: 'L2 Cache', bold: true },
+            { title: 'L2 Cache {size}', bold: true },
             {
                 metric: ANALYSIS.register_spilling.metrics.global_memory_to_l1_cache_miss_percent,
-                format: '{0} miss rate',
-                comparison_format: '{0}\nmiss rate\n{1}'
+                format: '{value} miss rate',
+                comparison_format: '{value}\nmiss rate\n{comp_value}'
             }
         ],
         [{ metric: ANALYSIS.use_texture.metrics.l2_to_dram_bytes }],
-        [{ title: 'DRAM', bold: true }]
+        [{ title: 'DRAM {size}', bold: true }]
     ],
     atomics: [
         [{ title: 'Global Memory', bold: true }],
@@ -112,24 +112,24 @@ export const MEMORY_GRAPH_DEFINITION = {
             }
         ],
         [
-            { title: 'L1 Cache', bold: true },
+            { title: 'L1 Cache {size}', bold: true },
             {
                 metric: ANALYSIS.global_atomics.metrics.global_memory_to_l1_cache_miss_percent,
-                format: '{0} miss rate',
-                comparison_format: '{0}\nmiss rate\n{1}'
+                format: '{value} miss rate',
+                comparison_format: '{value}\nmiss rate\n{comp_value}'
             }
         ],
         [{ metric: ANALYSIS.global_atomics.metrics.l1_to_l2_bytes }],
         [
-            { title: 'L2 Cache', bold: true },
+            { title: 'L2 Cache {size}', bold: true },
             {
                 metric: ANALYSIS.global_atomics.metrics.l1_to_l2_cache_miss_percent,
-                format: '{0} miss rate',
-                comparison_format: '{0}\nmiss rate\n{1}'
+                format: '{value} miss rate',
+                comparison_format: '{value}\nmiss rate\n{comp_value}'
             }
         ],
         [{ metric: ANALYSIS.global_atomics.metrics.l2_to_dram_bytes }],
-        [{ title: 'DRAM', bold: true }]
+        [{ title: 'DRAM {size}', bold: true }]
     ],
     global_caches: [
         [{ title: 'Kernel', bold: true }],
@@ -141,23 +141,23 @@ export const MEMORY_GRAPH_DEFINITION = {
         [{ title: 'Global Memory', size: 'small', bold: true }],
         [{ metric: ANALYSIS.register_spilling.metrics.global_memory_to_l1_bytes }],
         [
-            { title: 'L1 Cache', bold: true },
+            { title: 'L1 Cache {size}', bold: true },
             {
                 metric: ANALYSIS.register_spilling.metrics.global_memory_to_l1_cache_miss_percent,
-                format: '{0} miss rate',
-                comparison_format: '{0}\nmiss rate\n{1}'
+                format: '{value} miss rate',
+                comparison_format: '{value}\nmiss rate\n{comp_value}'
             }
         ],
         [{ metric: ANALYSIS.register_spilling.metrics.global_memory_l1_to_l2_bytes }],
         [
-            { title: 'L2 Cache', bold: true },
+            { title: 'L2 Cache {size}', bold: true },
             {
                 metric: ANALYSIS.register_spilling.metrics.l1_to_l2_cache_miss_percent,
-                format: '{0} miss rate',
-                comparison_format: '{0}\nmiss rate\n{2} {1}'
+                format: '{value} miss rate',
+                comparison_format: '{value}\nmiss rate\n{diff_arrow} {comp_value}'
             }
         ],
         [{ metric: ANALYSIS.register_spilling.metrics.l2_to_dram_bytes }],
-        [{ title: 'DRAM', bold: true }]
+        [{ title: 'DRAM {size}', bold: true }]
     ]
 };

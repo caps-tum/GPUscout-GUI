@@ -12,7 +12,7 @@ export class Analysis {
     constructor(analysisData, metrics, topologyMetrics, kernel, occurrenceConstructor = (o) => new Occurrence(o)) {
         this._kernel = kernel;
         this._metrics = metrics || {};
-        this.topologyMetrics = topologyMetrics;
+        this._topologyMetrics = topologyMetrics;
         /** @type {Occurrence[]} */ this._occurrences = [];
         this.codeType = CODE_TYPE.NONE;
 
@@ -54,6 +54,18 @@ export class Analysis {
      */
     getMetric(metric) {
         return this._metrics[metric] || 0;
+    }
+
+    /**
+     * @param {String} metric The name of the metric
+     * @returns {Number} The value of the metric
+     */
+    getTopologyMetric(metric) {
+        return this._topologyMetrics[metric] || 0;
+    }
+
+    hasTopologyMetrics() {
+        return this._topologyMetrics !== undefined && Object.keys(this._topologyMetrics).length > 0;
     }
 
     /**

@@ -75,7 +75,28 @@ function buildTitles(components, useComparison = false) {
     for (const entry of components) {
         if (entry.title) {
             // Display a title
-            result.push(entry.bold ? '*' + entry.title : entry.title);
+            let title = entry.bold ? '*' + entry.title : entry.title;
+            if (title.includes('{size}') && analysisData.hasTopologyMetrics()) {
+                if (title.includes('L1')) {
+                    title = title.replace(
+                        '{size}',
+                        `\n(${Math.ceil(analysisData.getTopologyMetric('l1_data_cache/size'))}kB)`
+                    );
+                } else if (title.includes('L2')) {
+                    title = title.replace(
+                        '{size}',
+                        `\n(${Math.ceil(analysisData.getTopologyMetric('l2_data_cache/size'))}MB)`
+                    );
+                } else if (title.includes('DRAM')) {
+                    title = title.replace(
+                        '{size}',
+                        `\n(${Math.ceil(analysisData.getTopologyMetric('main_memory/size'))}GB)`
+                    );
+                }
+            } else {
+                title = title.replaceAll('{size}', '');
+            }
+            result.push(title);
         } else {
             // Display a metric
             let metricValue = getMetricsData(entry.metric).format_function(
@@ -97,12 +118,15 @@ function buildTitles(components, useComparison = false) {
                     metricValue =
                         '<p>' +
                         entry.comparison_format
-                            .replace('{0}', metricValue)
-                            .replace('{1}', `<a class="${changeColor}">${newMetricValue}</a></div>`)
-                            .replace('{2}', `<div class="-mt-1"><a class="text-lg w-min ${changeColor}">&#x2B07;</a>`) +
+                            .replace('{value}', metricValue)
+                            .replace('{comp_value}', `<a class="${changeColor}">${newMetricValue}</a></div>`)
+                            .replace(
+                                '{diff_arrow}',
+                                `<div class="-mt-1"><a class="text-lg w-min ${changeColor}">&#x2B07;</a>`
+                            ) +
                         '</p>';
                 } else {
-                    metricValue = entry.format.replace('{0}', metricValue);
+                    metricValue = entry.format.replace('{value}', metricValue);
                 }
             }
             result.push(metricValue);

@@ -37,20 +37,7 @@ export class GPUscoutResult {
 
         this._aggregateKernelSourceCode(sourceFileContents, resultJSON['stalls'], resultJSON['kernels']);
 
-        this._parseTopology(topologyData);
-
-        for (const kernel of Object.keys(resultJSON['metrics'])) {
-            this._metrics[resultJSON['kernels'][kernel]] = {};
-            for (const [key, value] of Object.entries(resultJSON['metrics'][kernel])) {
-                if (typeof value === 'object') {
-                    for (const [deepJsonMetricName, deepMetricValue] of Object.entries(value)) {
-                        this._metrics[resultJSON['kernels'][kernel]][`${key}/${deepJsonMetricName}`] = deepMetricValue;
-                    }
-                } else {
-                    this._metrics[resultJSON['kernels'][kernel]][key] = value;
-                }
-            }
-        }
+        this._parseMetrics(resultJSON, topologyData);
 
         // Add analyses
         for (const [analysisName, analysisDefinition] of Object.entries(ANALYSIS)) {
@@ -62,25 +49,12 @@ export class GPUscoutResult {
             for (let [kernel, analysisData] of Object.entries(resultJSON['analyses'][analysisDefinition.name])) {
                 kernel = resultJSON['kernels'][kernel];
 
-                // If topology metrics are available, parse them and pass them along
-                const topologyMetrics = {};
-                if (analysisDefinition['topology_metrics'] && topologyData) {
-                    for (const jsonMetricName of Object.values(analysisDefinition['topology_metrics'])) {
-                        const parts = jsonMetricName.split('/');
-                        let metric = this._topology;
-                        for (const part of parts) {
-                            metric = metric[part] || undefined;
-                        }
-                        topologyMetrics[jsonMetricName] = metric;
-                    }
-                }
-
                 // Create analysis
                 const metrics = this._metrics[kernel];
                 this._analyses[analysisName][kernel] = new Analysis(
                     analysisData,
                     metrics,
-                    topologyMetrics,
+                    this._topology,
                     kernel,
                     analysisDefinition.occurrence_constructor
                 );
@@ -536,10 +510,24 @@ export class GPUscoutResult {
     }
 
     /**
-     * Parse the topology csv data
+     * Parse metrics and optionally the topology csv data
+     * @param {Object} resultJSON The JSON-formatted GPUscout result file
      * @param {String} topologyData The content of the topology result file
      */
-    _parseTopology(topologyData) {
+    _parseMetrics(resultJSON, topologyData) {
+        for (const kernel of Object.keys(resultJSON['metrics'])) {
+            this._metrics[resultJSON['kernels'][kernel]] = {};
+            for (const [key, value] of Object.entries(resultJSON['metrics'][kernel])) {
+                if (typeof value === 'object') {
+                    for (const [deepJsonMetricName, deepMetricValue] of Object.entries(value)) {
+                        this._metrics[resultJSON['kernels'][kernel]][`${key}/${deepJsonMetricName}`] = deepMetricValue;
+                    }
+                } else {
+                    this._metrics[resultJSON['kernels'][kernel]][key] = value;
+                }
+            }
+        }
+
         if (!topologyData) return;
 
         topologyData = topologyData.split('\n').map((line) => line.split(';'));
@@ -561,7 +549,6 @@ export class GPUscoutResult {
 
         for (const [lineIndex, varIndices] of lineToVarnames.entries()) {
             const category = topologyData[lineIndex][0].toLowerCase();
-            this._topology[category] = {};
 
             for (const varIndex of varIndices) {
                 const varName = topologyData[lineIndex][varIndex].toLowerCase().replaceAll('"', '').trim();
@@ -572,7 +559,7 @@ export class GPUscoutResult {
                 } else {
                     varValue = varValue.includes('.') ? parseFloat(varValue) : parseInt(varValue);
                 }
-                this._topology[category][varName] = varValue;
+                this._topology[`${category}/${varName}`] = varValue;
             }
         }
     }
