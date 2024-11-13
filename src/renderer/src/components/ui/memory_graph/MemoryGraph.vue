@@ -111,8 +111,10 @@ function buildTitles(components, useComparison = false) {
                     );
 
                     const isPositiveChange =
-                        (newMetricValue <= metricValue && newMetric.lower_better) ||
-                        (newMetricValue >= metricValue && !newMetric.lower_better);
+                        (props.analysisData.getMetric(entry.metric) <= analysisData.getMetric(entry.metric) &&
+                            newMetric.lower_better) ||
+                        (props.analysisData.getMetric(entry.metric) >= analysisData.getMetric(entry.metric) &&
+                            !newMetric.lower_better);
                     const changeColor = isPositiveChange ? 'text-green-300' : 'text-red-300';
 
                     metricValue =

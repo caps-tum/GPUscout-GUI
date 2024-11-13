@@ -19,7 +19,7 @@ export const MEMORY_GRAPH_DEFINITION = {
             {
                 metric: ANALYSIS.register_spilling.metrics.global_loads_count
             },
-            { title: 'TODO Inst.' }
+            { metric: ANALYSIS.register_spilling.metrics.local_loads_count }
         ],
         [
             { title: 'Global Memory', size: 'small', bold: true },

@@ -145,6 +145,13 @@ More information is available at <a href="https://docs.nvidia.com/nsight-compute
         help_text: 'This is a detailed explanation something',
         lower_better: true
     },
+    sm__sass_inst_executed_op_local_ld: {
+        display_name: 'Local loads count',
+        hint: 'Number of local loads',
+        format_function: formatInstructions,
+        help_text: 'This is a detailed explanation something',
+        lower_better: true
+    },
     'load_data_memory_flow/num_loads': {
         display_name: 'Global loads count',
         hint: 'Number of global loads',

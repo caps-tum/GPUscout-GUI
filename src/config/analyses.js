@@ -80,6 +80,7 @@ export const ANALYSIS = {
             total_l2_queries: 'l2_queries/total_l2_queries',
             l2_queries_due_to_local_memory_percent: 'l2_queries/l2_queries_due_to_mem_perc',
             global_loads_count: 'load_data_memory_flow/num_loads',
+            local_loads_count: 'sm__sass_inst_executed_op_local_ld',
             kernel_to_shared_memory_bytes: 'load_data_memory_flow/kernel_to_shared_bytes',
             local_memory_to_l1_bytes: 'load_data_memory_flow/local_to_l1_bytes',
             global_memory_to_l1_bytes: 'load_data_memory_flow/global_to_l1_bytes',
