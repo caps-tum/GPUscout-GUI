@@ -76,11 +76,11 @@ export class RegisterSpillingOccurrence extends Occurrence {
     }
 
     title() {
-        return 'Register spill';
+        return 'Register Spill';
     }
 
     description() {
-        let result = `Register <b>${this.register}</b> spilled in this <b>${this.operation}</b> operation.`;
+        let result = `Register <b>${this.register}</b> spilled in the current line in <b>${this.operation}</b> operation.`;
 
         if (this.hasPreviousComputeInstruction) {
             result += `The previous compute instruction this register was used in was <b>${this.previousComputeInstruction}</b> in line <b>${this.previousComputeBinaryLineNumber}</b>.`;
@@ -98,7 +98,11 @@ export class RegisterSpillingOccurrence extends Occurrence {
     }
 
     recommendations() {
-        return `In case of high performance impacts of local memory on the bandwidth or instructions of the current kernel, try to decrease general register usage, or increase the available registers per thread.\nIf not used already, using non-caching loads for global memory can also help decrease local memory L1 cache misses.\nIn case of bandwidth limitation, increasing the L1 size is also recommended.`;
+        return `Register spilling happens in cases, where more registers are needed than are available, so register data gets "spilled" to local memory. This can impact performance by leading to increasing memory traffic and instruction count. There are multiple cases to consider:
+- <b>Bandwith limitation</b>: Code is considered bandwidth-limited in case a high percentage of L2 queries are due to local memory. This can be resolved by increasing L1 cache size, increasing available registers by thread, decreasing register usage or using non-caching loads for global memory.
+- <b>Instruction limitation</b>: Code is considered instruction-limited in case a large fraction of instruction issued is due to local memory. This can be resolved by increasing available registers by thread, decreasing register usage or using non-caching loads for global memory.
+In cases of general low local memory usage, register spills can also be contained by the L1 cache, significantly decreasing their performance impact.
+When making changes to the code, L1 cache utilization, used and available registers, as well as occupancy should be compared, with high LG Throttle stalls and long scoreboard stalls in the current line likely also being a result of the spill.`;
     }
 
     tokensToHighlight() {
@@ -260,7 +264,7 @@ export class UseTextureOccurrence extends Occurrence {
         if (this.isSpatialLocality) {
             result += `Spatial locality has been found for the data stored in this register.`;
             if (this.unrollBinaryLineNumbers.length > 1) {
-                result += ` Namely at the following addresses:\n`;
+                result += ` Namely at the following addresses (in addition to the current address):\n`;
                 for (const address of this.unrollBinaryLineNumbers.filter((n) => n !== this.binaryLineNumber)) {
                     result += `- <b>${address}</b>\n`;
                 }
@@ -272,7 +276,7 @@ export class UseTextureOccurrence extends Occurrence {
     }
 
     recommendations() {
-        return 'Texture memory should be used especially when spatial locality has been found. As using texture memory can increase both long scoreboard and tex throttle stalls, these values should not be too high and kept in mind when making changes.';
+        return `Texture memory should be used for data that is updated rarely, and especially if data accesses have spatial locality. As using texture memory can increase both Tex Throttle and long scoreboard stalls, these should be considered before and after making changes. Another reason to use texture memory is in cases of high L1 or L2 cache miss rates, as texture memory uses its own read-only cache, eleviating pressure on the global memory caches.`;
     }
 
     linesToHighlight() {
@@ -303,7 +307,7 @@ export class VectorizationOccurrence extends Occurrence {
     title() {
         return this.registerLoadType === 0 && this.unrollBinaryLineNumbers.length > 0
             ? 'Use Vectorized Load'
-            : 'Vectorized Load';
+            : 'Use of Vectorized Load';
     }
 
     description() {
@@ -323,10 +327,7 @@ export class VectorizationOccurrence extends Occurrence {
     }
 
     recommendations() {
-        if (this.registerLoadType === 0 && this.adjacentMemoryAccesses > 0) {
-            return 'Vectorized loads should be used instead here, when long scoreboard stalls are not too high. As using vectorized loads can increase long scoreboard stalls, keep this metric in mind before and after applying changes.';
-        }
-        return '';
+        return `Using vectorized loads can both improve performance and reduce total instructions as one instruction can replace multiple individual load instructions. Additional effects of using vectorized loads include slightly increased long scoreboard stalls, as well as a decreased ocupancy, so these metrics should be kept in mind before and after making changes. The total number of instructions and number of global load instructions should go down however and can be used as a metric for the effectiveness of a change. Additionally, the data requested from global memory per instruction should increase.`;
     }
 
     tokensToHighlight() {
@@ -356,6 +357,10 @@ export class WarpDivergenceOccurrence extends Occurrence {
 
     description() {
         return `Conditional branching detected in the current line with target branch <b>${this.targetBranch}</b> starting at line number <b>${this.targetBranchStartSourceLineNumber}</b>.`;
+    }
+
+    recommendations() {
+        return `Diverging branches can impact performance negatively and thus should be avoided where possible. Along with general performance improvements, total stalls, as well as IMC and long scoreboard stalls can also decrease when problematic in the current line.`;
     }
 
     tokensToHighlight() {
