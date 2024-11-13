@@ -156,11 +156,11 @@ export const TEXT = {
                     hint: 'Registers are spilled to local memory, which can degrade performance. High values in any of the following categories indicate optimization potential',
                     type: {
                         bandwidth: {
-                            title: 'Bandwidth',
+                            title: 'LMEM Bandwidth impact',
                             hint: 'Percentage of queries that are issued due to local memory accesses'
                         },
                         instruction: {
-                            title: 'Instructions',
+                            title: 'LMEM Instruction impact',
                             hint: 'Perccentage of instructions that are issued due to local memory accesses'
                         }
                     }
