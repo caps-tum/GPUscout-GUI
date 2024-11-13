@@ -101,47 +101,49 @@ function toggleCodeVersions() {
 
 function selectPreviousOccurrence() {
     let currentIndex = -1;
+    const occs = occurrences.value.toSorted((a, b) => a.binaryLineNumber - b.binaryLineNumber);
     if (currentView.value !== CODE_TYPE.SOURCE_CODE) {
-        currentIndex = occurrences.value.findLastIndex((o) => o.binaryLineNumber < selectedLine.value);
+        currentIndex = occs.findLastIndex((o) => o.binaryLineNumber < selectedLine.value);
     } else if (selectedOccurrences.value.length > 0) {
         const minBinaryLine = selectedOccurrences.value
             .map((so) => so.binaryLineNumber)
             .reduce((min, curr) => (curr < min ? curr : min));
-        currentIndex = occurrences.value.findLastIndex((o) => o.binaryLineNumber < minBinaryLine);
+        currentIndex = occs.findLastIndex((o) => o.binaryLineNumber < minBinaryLine);
     } else {
-        const binaryLine = occurrences.value
+        const binaryLine = occs
             .filter((oc) => oc.sourceLineNumber < selectedLine.value)
             .map((oc) => oc.binaryLineNumber)
             .reduce((min, curr) => (curr < min ? min : curr), 0);
-        currentIndex = occurrences.value.findIndex((o) => o.binaryLineNumber === binaryLine);
+        currentIndex = occs.findIndex((o) => o.binaryLineNumber === binaryLine);
     }
 
     if (currentIndex >= 0) {
         codeViewerStore.setCurrentView(binaryView.value);
-        codeViewerStore.setSelectedLine(occurrences.value[currentIndex].binaryLineNumber, true);
+        codeViewerStore.setSelectedLine(occs[currentIndex].binaryLineNumber, true);
     }
 }
 
 function selectNextOccurrence() {
     let currentIndex = -1;
+    const occs = occurrences.value.toSorted((a, b) => a.binaryLineNumber - b.binaryLineNumber);
     if (currentView.value !== CODE_TYPE.SOURCE_CODE) {
-        currentIndex = occurrences.value.findIndex((o) => o.binaryLineNumber > selectedLine.value);
+        currentIndex = occs.findIndex((o) => o.binaryLineNumber > selectedLine.value);
     } else if (selectedOccurrences.value.length > 0) {
         const maxBinaryLine = selectedOccurrences.value
             .map((so) => so.binaryLineNumber)
             .reduce((max, curr) => (curr > max ? curr : max));
-        currentIndex = occurrences.value.findIndex((o) => o.binaryLineNumber > maxBinaryLine);
+        currentIndex = occs.findIndex((o) => o.binaryLineNumber > maxBinaryLine);
     } else {
-        const binaryLine = occurrences.value
+        const binaryLine = occs
             .filter((oc) => oc.sourceLineNumber > selectedLine.value)
             .map((oc) => oc.binaryLineNumber)
             .reduce((max, curr) => (curr > max ? max : curr), 99999);
-        currentIndex = occurrences.value.findIndex((o) => o.binaryLineNumber === binaryLine);
+        currentIndex = occs.findIndex((o) => o.binaryLineNumber === binaryLine);
     }
 
     if (currentIndex >= 0) {
         codeViewerStore.setCurrentView(binaryView.value);
-        codeViewerStore.setSelectedLine(occurrences.value[currentIndex].binaryLineNumber, true);
+        codeViewerStore.setSelectedLine(occs[currentIndex].binaryLineNumber, true);
     }
 }
 </script>
