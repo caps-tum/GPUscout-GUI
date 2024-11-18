@@ -17,7 +17,7 @@
             v-if="showLiveRegisters"
             class="sticky right-0 top-0 w-16 shrink-0 select-none bg-secondary px-1 text-center group-hover:bg-background"
         >
-            {{ liveRegisters[0] || '-' }} | {{ liveRegisters[1] || '-' }}
+            {{ liveRegisters[0] || '0' }} | {{ liveRegisters[1] || '0' }}
         </p>
     </div>
 </template>

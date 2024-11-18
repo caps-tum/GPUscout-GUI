@@ -86,7 +86,7 @@ export class RegisterSpillingOccurrence extends Occurrence {
             result += `The previous compute instruction this register was used in was <b>${this.previousComputeInstruction}</b> in line <b>${this.previousComputeBinaryLineNumber}</b>.`;
         }
 
-        result += `\nAt the moment of spilling, <b>${this.usedRegisters}</b> out of the available <b>TODO</b> registers were in use. `;
+        result += `\nAt the moment of spilling, <b>${this.usedRegisters}</b> registers were in use. `;
 
         if (this.registerPressureIncrease > 0) {
             result += `The previous SASS instruction increased the register pressure with <b>${this.registerPressureIncrease}</b> more registers.\n`;
@@ -140,7 +140,7 @@ export class UseRestrictOccurrence extends Occurrence {
             return `Register <b>${this.register}</b> is already using read-only cache.`;
         } else {
             let result = `Register <b>${this.register}</b> is not aliased anywhere in the kernel and would thus benefit from being marked with the __restrict__ keyword.
-There are currently <b>${this.usedRegisters}</b> out of <b>TODO</b> available registers used.`;
+There are currently <b>${this.usedRegisters}</b> registers used.`;
             if (this.registerPressureIncrease > 0) {
                 result += `The previous SASS instruction increased the register pressure by <b>${this.registerPressureIncrease}</b> additional registers.`;
             }

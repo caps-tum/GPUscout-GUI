@@ -85,7 +85,6 @@ export class GPUscoutResult {
     }
 
     /**
-     * TODO: handle branch entry that is multiline
      * @param {String} kernel The name of the kernel
      * @param {String} codeType The selected code type
      * @param {String|Number} lineNumber The selected line number

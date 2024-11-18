@@ -56,7 +56,7 @@ export const useDataStore = defineStore('data', () => {
             alert('No kernels found!');
         }
         currentKernel.value = gpuscoutResult.getKernels()[0];
-        // TODO: what if 0
+
         if (gpuscoutResult.getAnalysesWithOccurrences(currentKernel.value).length === 0) {
             if (
                 comparisonResultAvailable.value &&
