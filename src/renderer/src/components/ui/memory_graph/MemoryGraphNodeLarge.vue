@@ -18,7 +18,7 @@ defineProps({
  * @returns {String}
  */
 function getBoldness(title) {
-    return title.startsWith('*') ? 'font-bold text-base my-2' : '';
+    return title.startsWith('*') ? 'font-bold first-line:text-base my-2' : '';
 }
 
 /**

@@ -313,7 +313,7 @@ export class VectorizationOccurrence extends Occurrence {
     description() {
         if (this.registerLoadType === 0 && this.adjacentMemoryAccesses > 0) {
             let result = `Register <b>${this.register}</b> has <b>${this.adjacentMemoryAccesses}</b> adjacent memory accesses and thus should use a vectorized load instead. In addition to the current line, adjacent memory accesses happen at the following addresses:\n`;
-            for (const access of this.unrollBinaryLineNumbers.filter((n) => n !== this.binaryLineNumber)) {
+            for (const access of this.unrollBinaryLineNumbers) {
                 result += `- <b>${access}</b>\n`;
             }
             return result;

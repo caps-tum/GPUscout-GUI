@@ -77,21 +77,12 @@ function buildTitles(components, useComparison = false) {
             // Display a title
             let title = entry.bold ? '*' + entry.title : entry.title;
             if (title.includes('{size}') && analysisData.hasTopologyMetrics()) {
-                if (title.includes('L1')) {
-                    title = title.replace(
-                        '{size}',
-                        `\n(${Math.ceil(analysisData.getTopologyMetric('l1_data_cache/size'))}KiB)`
-                    );
-                } else if (title.includes('L2')) {
-                    title = title.replace(
-                        '{size}',
-                        `\n(${Math.ceil(analysisData.getTopologyMetric('l2_data_cache/size'))}MiB)`
-                    );
-                } else if (title.includes('DRAM')) {
-                    title = title.replace(
-                        '{size}',
-                        `\n(${Math.ceil(analysisData.getTopologyMetric('main_memory/size'))}GiB)`
-                    );
+                const topString = getTopologyString(title, analysisData);
+                if (useComparison && props.analysisData.hasTopologyMetrics()) {
+                    const compTopString = getTopologyString(title, props.analysisData);
+                    title = title.replace('{size}', `\n(${compTopString} vs ${topString})`);
+                } else {
+                    title = title.replace('{size}', `\n(${topString})`);
                 }
             } else {
                 title = title.replaceAll('{size}', '');
@@ -135,6 +126,17 @@ function buildTitles(components, useComparison = false) {
         }
     }
     return result;
+}
+
+function getTopologyString(title, analysisData) {
+    if (title.includes('L1')) {
+        return `${Math.ceil(analysisData.getTopologyMetric('l1_data_cache/size'))}${analysisData.getTopologyMetric('l1_data_cache/size_unit')}`;
+    } else if (title.includes('L2')) {
+        return `${Math.ceil(analysisData.getTopologyMetric('l2_data_cache/size'))}${analysisData.getTopologyMetric('l2_data_cache/size_unit')}`;
+    } else if (title.includes('DRAM')) {
+        return `${Math.ceil(analysisData.getTopologyMetric('main_memory/size'))}${analysisData.getTopologyMetric('main_memory/size_unit')}`;
+    }
+    return '';
 }
 
 /**

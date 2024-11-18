@@ -549,9 +549,13 @@ export class GPUscoutResult {
         for (const [lineIndex, varIndices] of lineToVarnames.entries()) {
             const category = topologyData[lineIndex][0].toLowerCase();
 
-            for (const varIndex of varIndices) {
-                const varName = topologyData[lineIndex][varIndex].toLowerCase().replaceAll('"', '').trim();
-                let varValue = topologyData[lineIndex][varIndex + 1].trim();
+            for (let i = 0; i < varIndices.length; i++) {
+                const varName = topologyData[lineIndex][varIndices[i]].toLowerCase().replaceAll('"', '').trim();
+                let varValue = topologyData[lineIndex][varIndices[i] + 1].trim();
+                let varUnit =
+                    i < varIndices.length - 1 && varIndices[i + 1] - varIndices[i] >= 2
+                        ? topologyData[lineIndex][varIndices[i] + 2].replaceAll('"', '')
+                        : '';
 
                 if (varValue.includes('"')) {
                     varValue = varValue.replaceAll('"', '');
@@ -559,6 +563,9 @@ export class GPUscoutResult {
                     varValue = varValue.includes('.') ? parseFloat(varValue) : parseInt(varValue);
                 }
                 this._topology[`${category}/${varName}`] = varValue;
+                if (varUnit) {
+                    this._topology[`${category}/${varName}_unit`] = varUnit;
+                }
             }
         }
     }
