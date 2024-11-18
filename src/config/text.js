@@ -1,7 +1,7 @@
 export const TEXT = {
     landing_page: {
         select_result_title: '1. Select GPUscout result to analyze:',
-        select_comparison_result_title: '2. Select GPUscout result to compare to:',
+        select_comparison_result_title: '2. Select GPUscout result to compare to (optional):',
         select_topology_title: 'Select memory topology (optional):',
         select_folder: {
             title: 'Select analysis in GPUscout output directory',
@@ -14,6 +14,10 @@ export const TEXT = {
         select_topology: {
             not_selected: 'Choose memory topology result file',
             selected: 'Selected memory topology file: {0}'
+        },
+        error_messages: {
+            no_analysis: 'Please select an analysis to proceed',
+            duplicate_analysis: 'Please select different analyses to proceed'
         }
     },
     navigation: {

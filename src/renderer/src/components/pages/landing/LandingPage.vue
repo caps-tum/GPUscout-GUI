@@ -32,12 +32,17 @@
                 </ButtonSecondary>
             </div>
         </div>
-        <ButtonPrimary
-            :disabled="selectedAnalysisPath === ''"
-            title="Proceed"
-            class="absolute bottom-2 right-2"
-            @click="proceed"
-        />
+        <div class="absolute bottom-2 right-2 flex flex-row items-center justify-center space-x-2 text-lg text-red-400">
+            <p v-show="selectedAnalysisPath === ''">{{ TEXT.landing_page.error_messages.no_analysis }}</p>
+            <p v-show="selectedAnalysisPath === selectedComparisonAnalysisPath && selectedAnalysisPath !== ''">
+                {{ TEXT.landing_page.error_messages.duplicate_analysis }}
+            </p>
+            <ButtonPrimary
+                :disabled="selectedAnalysisPath === '' || selectedAnalysisPath === selectedComparisonAnalysisPath"
+                title="Proceed"
+                @click="proceed"
+            />
+        </div>
     </div>
 </template>
 <script setup>
