@@ -92,7 +92,9 @@ export class GPUscoutResult {
      */
     getInstructionTokens(kernel, codeType, lineNumber) {
         if (codeType === CODE_TYPE.SASS_CODE) {
-            let tokens = this._sassCodeLines[kernel].find((line) => line.address === lineNumber).tokens;
+            let tokens = this._sassCodeLines[kernel]
+                .filter((line) => line.address === lineNumber)
+                .flatMap((line) => line.tokens);
 
             if (tokens.length > 0 && tokens[0] === '{') {
                 // Line is start of dual issue { INST ...
@@ -105,7 +107,9 @@ export class GPUscoutResult {
             let index = tokens.findIndex((t) => t === ' ');
             return tokens.filter((_, i) => i < (index > 0 ? index : tokens.length));
         } else {
-            let tokens = this._ptxCodeLines[kernel].find((line) => line.address === lineNumber).tokens;
+            let tokens = this._ptxCodeLines[kernel]
+                .filter((line) => line.address === lineNumber)
+                .flatMap((line) => line.tokens);
 
             if (tokens.length > 0 && tokens[0].startsWith('@')) {
                 // Line starts with predicate check @PX INST ...
