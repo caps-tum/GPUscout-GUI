@@ -6,6 +6,7 @@ export const CODE_BINARY_TOKEN_COLORS = {
 
 export const CODE_STYLES = {
     OCCURRENCE: 'border-2 border-red-400', // The border around occurrence lines
+    INFO_OCCURRENCE: 'border-2 border-blue-400', // The border around occurrence lines
     SELECTED_LINE: 'bg-primary/75', // The color of selected lines
     SELECTED_LINE_SECONDARY: 'bg-secondary', // The color of the corresponding lines of the selected line in the other code view
     HIGHLIGHTED_LINE_OCCURRENCE: 'bg-red-400', // The color of selected occurrence lines

@@ -7,6 +7,7 @@
             :highlighted-tokens="highlightedSourceTokens"
             :scroll-to-lines="scrollToSourceLines"
             :occurrence-lines="occurrenceSourceLines"
+            :info-lines="infoOccurrenceSourceLines"
             :current-view="currentView"
         />
         <CodeView
@@ -24,6 +25,7 @@
             :highlighted-tokens="highlightedBinaryTokens"
             :scroll-to-lines="scrollToBinaryLines"
             :occurrence-lines="occurrenceBinaryLines"
+            :info-lines="infoOccurrenceBinaryLines"
             :current-view="currentView"
         />
     </div>
@@ -39,6 +41,9 @@ const codeViewStore = useCodeViewerStore();
 
 const occurrenceBinaryLines = computed(() => codeViewStore.getOccurrenceBinaryLines);
 const occurrenceSourceLines = computed(() => codeViewStore.getOccurrenceSourceLines);
+
+const infoOccurrenceBinaryLines = computed(() => codeViewStore.getInfoOccurrenceBinaryLines);
+const infoOccurrenceSourceLines = computed(() => codeViewStore.getInfoOccurrenceSourceLines);
 
 const scrollToSourceLines = computed(() => codeViewStore.getScrollToSourceLines);
 const scrollToBinaryLines = computed(() => codeViewStore.getScrollToBinaryLines);

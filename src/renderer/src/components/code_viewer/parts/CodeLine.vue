@@ -35,6 +35,7 @@ const props = defineProps({
     highlightedTokens: Object,
     scrollToLines: Array,
     isOccurrence: Boolean,
+    isInfo: Boolean,
     hasStalls: Boolean,
     currentView: Number,
     selectedOccurrences: Array,
@@ -63,6 +64,10 @@ function getHighlight() {
     if (props.isOccurrence) {
         // Mark occurrences
         style += CODE_STYLES.OCCURRENCE + ' ';
+    }
+    if (props.isInfo) {
+        // Mark occurrences
+        style += CODE_STYLES.INFO_OCCURRENCE + ' ';
     }
 
     if (props.highlightedLines[props.lineNumber] !== undefined) {

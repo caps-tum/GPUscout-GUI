@@ -2,14 +2,10 @@
 require('@rushstack/eslint-patch/modern-module-resolution');
 
 module.exports = {
-    extends: [
-        'eslint:recommended',
-        'plugin:vue/vue3-recommended',
-        '@electron-toolkit',
-        '@vue/eslint-config-prettier'
-    ],
+    extends: ['eslint:recommended', 'plugin:vue/vue3-recommended', '@electron-toolkit', '@vue/eslint-config-prettier'],
     rules: {
         'vue/require-default-prop': 'off',
+        'vue/no-v-html': 'off',
         'vue/multi-word-component-names': 'off',
         'prettier/prettier': 'off'
     }

@@ -90,8 +90,10 @@ export const useDataStore = defineStore('data', () => {
         codeViewerStore.setSassRegisterVisibility(ANALYSIS[analysis].display_live_registers);
         codeViewerStore.updateSelectedLine();
         codeViewerStore.setOccurrenceLines(
-            occurrences.map((o) => o.sourceLineNumber),
-            occurrences.map((o) => o.binaryLineNumber)
+            occurrences.filter((o) => o.isWarning).map((o) => o.sourceLineNumber),
+            occurrences.filter((o) => o.isWarning).map((o) => o.binaryLineNumber),
+            occurrences.filter((o) => !o.isWarning).map((o) => o.sourceLineNumber),
+            occurrences.filter((o) => !o.isWarning).map((o) => o.binaryLineNumber)
         );
     }
 

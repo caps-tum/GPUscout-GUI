@@ -16,6 +16,7 @@
                 :scroll-to-lines="scrollToLines"
                 :has-stalls="codeType !== CODE_TYPE.PTX_CODE && Object.keys(line.stalls).length > 0"
                 :is-occurrence="occurrenceLines.includes(line.address)"
+                :is-info="infoLines.includes(line.address)"
                 :current-view="currentView"
                 :selected-occurrences="selectedOccurrences"
                 :show-live-registers="displayLiveRegisters && codeType === CODE_TYPE.SASS_CODE"
@@ -36,6 +37,7 @@ defineProps({
     highlightedTokens: Object,
     scrollToLines: Array,
     occurrenceLines: Array,
+    infoLines: Array,
     currentView: Number
 });
 

@@ -26,6 +26,9 @@ export const useCodeViewerStore = defineStore('codeViewer', () => {
     const occurrenceSourceLines = ref([]);
     const occurrenceBinaryLines = ref([]);
 
+    const infoOccurrenceSourceLines = ref([]);
+    const infoOccurrenceBinaryLines = ref([]);
+
     const scrollToSourceLines = ref([]);
     const scrollToBinaryLines = ref([]);
 
@@ -41,6 +44,9 @@ export const useCodeViewerStore = defineStore('codeViewer', () => {
 
     const getOccurrenceSourceLines = computed(() => occurrenceSourceLines.value);
     const getOccurrenceBinaryLines = computed(() => occurrenceBinaryLines.value);
+
+    const getInfoOccurrenceSourceLines = computed(() => infoOccurrenceSourceLines.value);
+    const getInfoOccurrenceBinaryLines = computed(() => infoOccurrenceBinaryLines.value);
 
     const getScrollToSourceLines = computed(() => scrollToSourceLines.value);
     const getScrollToBinaryLines = computed(() => scrollToBinaryLines.value);
@@ -97,10 +103,12 @@ export const useCodeViewerStore = defineStore('codeViewer', () => {
      * @param {String[]} sourceLines The source lines associated with the current occurrence
      * @param {String[]|Number[]} binaryLines The binary lines associated with the current occurrence
      */
-    function setOccurrenceLines(sourceLines, binaryLines) {
+    function setOccurrenceLines(sourceLines, binaryLines, infoSourceLines, infoBinaryLines) {
         resetOccurrenceLines();
         occurrenceSourceLines.value = sourceLines;
         occurrenceBinaryLines.value = binaryLines;
+        infoOccurrenceSourceLines.value = infoSourceLines;
+        infoOccurrenceBinaryLines.value = infoBinaryLines;
     }
 
     /**
@@ -223,6 +231,8 @@ export const useCodeViewerStore = defineStore('codeViewer', () => {
     function resetOccurrenceLines() {
         occurrenceSourceLines.value = occurrenceSourceLines.value.filter(() => false);
         occurrenceBinaryLines.value = occurrenceBinaryLines.value.filter(() => false);
+        infoOccurrenceSourceLines.value = infoOccurrenceSourceLines.value.filter(() => false);
+        infoOccurrenceBinaryLines.value = infoOccurrenceBinaryLines.value.filter(() => false);
     }
 
     /**
@@ -259,6 +269,8 @@ export const useCodeViewerStore = defineStore('codeViewer', () => {
         updateSelectedLine,
         setUseComparisonCode,
         getSassRegistersVisible,
-        setSassRegisterVisibility
+        setSassRegisterVisibility,
+        getInfoOccurrenceBinaryLines,
+        getInfoOccurrenceSourceLines
     };
 });

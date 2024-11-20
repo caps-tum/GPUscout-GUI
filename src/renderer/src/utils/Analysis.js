@@ -115,6 +115,7 @@ export class Occurrence {
         /** @type {Number} */ this.sourceLineNumber = occurrenceData['line_number'];
         /** @type {Number|String} */ this.binaryLineNumber =
             occurrenceData['pc_offset'] || parseInt(occurrenceData['line_number_raw']);
+        /** @type {Boolean} */ this.isWarning = occurrenceData['severity'] === 'WARNING';
 
         this.data = occurrenceData;
     }
