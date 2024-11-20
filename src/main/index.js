@@ -18,10 +18,10 @@ import { selectDirectory, selectFile } from './dialog';
 function createWindow() {
     // Create the browser window.
     const mainWindow = new BrowserWindow({
-        width: 1280,
-        height: 720,
-        minWidth: 1280,
-        minHeight: 720,
+        width: 1300,
+        height: 900,
+        minWidth: 1300,
+        minHeight: 900,
         show: false,
         autoHideMenuBar: true,
         ...(process.platform === 'linux' ? { icon } : {}),
@@ -32,6 +32,7 @@ function createWindow() {
     });
 
     mainWindow.on('ready-to-show', () => {
+        mainWindow.maximize();
         mainWindow.show();
     });
 

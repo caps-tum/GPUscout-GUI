@@ -1,6 +1,6 @@
 <template>
     <div class="flex min-w-72 flex-col" :class="getOrderClass()">
-        <div class="flex flex-col rounded bg-secondary/50 p-2 pt-1">
+        <div class="flex flex-col overflow-auto rounded bg-secondary/50 p-2 pt-1">
             <div class="flex flex-shrink-0 flex-row items-start justify-between space-x-1">
                 <div class="flex flex-row">
                     <p class="pr-2 text-xl text-text">{{ title }}</p>

@@ -19,7 +19,7 @@
                 {{ TEXT.top_section.hint }}
             </p>
         </div>
-        <div v-show="showMetrics" class="max-h-72">
+        <div v-show="showMetrics" class="max-h-[calc(min(18rem,30vh))]">
             <TopSection :analysis="currentAnalysis" :kernel="currentKernel" />
         </div>
         <div class="flex flex-col">

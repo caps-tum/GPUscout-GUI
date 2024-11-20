@@ -80,6 +80,7 @@ const comparisonMode = ref(false);
  */
 async function folderChanged(directory) {
     configStore.setOption('gpuscoutOutputFolder', directory);
+    window.location.reload();
 }
 
 /**
