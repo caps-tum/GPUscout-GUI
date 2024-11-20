@@ -101,6 +101,7 @@ export class RegisterSpillingOccurrence extends Occurrence {
         return `Register spilling happens in cases, where more registers are needed than are available, so register data gets "spilled" to local memory. This can impact performance by leading to increasing memory traffic and instruction count. There are multiple cases to consider:
 - <b>Bandwith limitation</b>: Code is considered bandwidth-limited in case a high percentage of L2 queries are due to local memory. This can be resolved by increasing L1 cache size, increasing available registers by thread, decreasing register usage or using non-caching loads for global memory.
 - <b>Instruction limitation</b>: Code is considered instruction-limited in case a large fraction of instruction issued is due to local memory. This can be resolved by increasing available registers by thread, decreasing register usage or using non-caching loads for global memory.
+
 In cases of general low local memory usage, register spills can also be contained by the L1 cache, significantly decreasing their performance impact.
 When making changes to the code, L1 cache utilization, used and available registers, as well as occupancy should be compared, with high LG Throttle stalls and long scoreboard stalls in the current line likely also being a result of the spill.`;
     }
@@ -151,6 +152,7 @@ There are currently <b>${this.usedRegisters}</b> registers used.`;
     recommendations() {
         return `By marking pointers with the __restrict__ property, the compiler will be informed that data written through a pointer will not be read by another pointer, which allows for more aggressive optimizations and often leads to performance gains.
 This means that restrict should be used whenever available, the only exception being in cases of already high register pressure. As using the __restrict__ keyword can further increase total used registers, it should not be used when the used register count is already near total available registers.
+
 After modyfing the code, the total number of stalls should decrease, with increases in IMC Miss stalls being the exception. Other metrics that should be followed are the number of global memory instructions, which should decrease, as well as the occupancy, which should not go down too much (due to increased register usage).`;
     }
 
@@ -226,8 +228,10 @@ export class UseSharedOccurrence extends Occurrence {
 
     recommendations() {
         return `Shared memory is faster than global memory and should be used when data is used frequently. This can be checked by looking at the number of computation instructions and global loads the current register is involved in. If the register is used in more computation instructions than global loads, the use of shared memory is encouraged.
+
 If the load instruction is inside a for loop, shared memory could also improve performance.
 In addition to using shared memory, anynchronous global to shared memory copy operations should be used when the store to shared memory is not performed immediately after the load from global memory.
+
 In cases of high MIO stalls, the use of shared memory should be reduced, as data is loaded too frequently.
 After modifying the code, total stalls should decrease. After switching to using shared memory, load efficiency should increase, along with the number of shared memory load operations. Any existing or new bank conflicts should be resolved, as they can impact performance significantly.`;
     }
@@ -327,7 +331,7 @@ export class VectorizationOccurrence extends Occurrence {
     }
 
     recommendations() {
-        return `Using vectorized loads can both improve performance and reduce total instructions as one instruction can replace multiple individual load instructions. Additional effects of using vectorized loads include slightly increased long scoreboard stalls, as well as a decreased ocupancy, so these metrics should be kept in mind before and after making changes. The total number of instructions and number of global load instructions should go down however and can be used as a metric for the effectiveness of a change. Additionally, the data requested from global memory per instruction should increase.`;
+        return `Using vectorized loads can both improve performance and reduce total instructions as one instruction can replace multiple individual load instructions. Additional effects of using vectorized loads include slightly increased long scoreboard stalls, as well as a decreased ocupancy, so these metrics should be kept in mind before and after making changes. The total number of instructions and number of global load instructions should go down however, and can be used as a metric for the effectiveness of a change. Additionally, the data requested from global memory per instruction should increase.`;
     }
 
     tokensToHighlight() {
