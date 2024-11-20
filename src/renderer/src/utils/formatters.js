@@ -67,8 +67,8 @@ export function formatInstructions(value) {
  * @returns {{display_name: String, format_function: Function, help_text: String, hint: String, lower_better: Boolean}}
  */
 export function getMetricsData(metricName) {
-    if (METRICS[metricName]) {
-        return METRICS[metricName];
+    if (Object.values(METRICS).find((m) => m.name === metricName)) {
+        return Object.values(METRICS).find((m) => m.name === metricName);
     } else if (metricName.startsWith('smsp__pcsamp')) {
         return STALLS[metricName];
     } else {

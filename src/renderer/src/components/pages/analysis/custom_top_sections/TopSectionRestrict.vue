@@ -4,10 +4,7 @@
         :hint="TEXT.analyses.general.metrics.hint"
         :analysis-data="analysisData"
         :comparison-analysis-data="comparisonAnalysisData"
-        :metrics="[
-            ANALYSIS.use_restrict.metrics.instructions_executed_global_operations,
-            ANALYSIS.use_restrict.metrics.occupancy_percent
-        ]"
+        :metrics="[METRICS.instructions_global.name, METRICS.occupancy.name]"
         :values="[(analysis, metric) => analysis.getMetric(metric), (analysis, metric) => analysis.getMetric(metric)]"
         :expanded="expandedSection === 1"
         @expand="expandedSection = 1"
@@ -17,17 +14,13 @@
         :hint="TEXT.analyses.general.warp_stall_analysis.hint"
         :analysis-data="analysisData"
         :comparison-analysis-data="comparisonAnalysisData"
-        :metrics="[
-            ANALYSIS.use_restrict.metrics.warps_active,
-            ANALYSIS.use_restrict.metrics.warp_stalls_long_scoreboard_percent,
-            ANALYSIS.use_restrict.metrics.warp_stalls_imc_miss_percent
-        ]"
+        :metrics="[METRICS.stalls_total.name, METRICS.stalls_long_scoreboard_perc.name, METRICS.stalls_imc_miss_perc.name]"
         :values="[
             (analysis, metric) => analysis.getMetric(metric),
             (analysis, metric) => analysis.getMetric(metric),
             (analysis, metric) => analysis.getMetric(metric)
         ]"
-        :absolute-values="[(analysis) => analysis.getMetric(ANALYSIS.use_restrict.metrics.warps_active)]"
+        :absolute-values="[(analysis) => analysis.getMetric(METRICS.stalls_total.name)]"
         :expanded="expandedSection === 2"
         @expand="expandedSection = 2"
     >
@@ -39,6 +32,7 @@ import { ANALYSIS } from '../../../../../../config/analyses';
 import { TEXT } from '../../../../../../config/text';
 import { Analysis } from '../../../../utils/Analysis';
 import { ref } from 'vue';
+import { METRICS } from '../../../../../../config/metrics';
 
 defineProps({
     analysisData: Analysis,

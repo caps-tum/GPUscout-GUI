@@ -5,10 +5,10 @@
         :analysis-data="analysisData"
         :comparison-analysis-data="comparisonAnalysisData"
         :metrics="[
-            ANALYSIS.vectorization.metrics.non_vectorized_loads,
-            ANALYSIS.vectorization.metrics.instructions_executed,
-            ANALYSIS.vectorization.metrics.instructions_executed_global_loads,
-            ANALYSIS.vectorization.metrics.occupancy
+            METRICS.instructions_global_loads_non_vectorized.name,
+            METRICS.instructions_global_loads.name,
+            METRICS.instructions_total.name,
+            METRICS.occupancy.name
         ]"
         :values="[
             (analysis, metric) => analysis.getMetric(metric),
@@ -24,12 +24,9 @@
         :hint="TEXT.analyses.general.warp_stall_analysis.hint"
         :analysis-data="analysisData"
         :comparison-analysis-data="comparisonAnalysisData"
-        :metrics="[
-            ANALYSIS.vectorization.metrics.warps_active,
-            ANALYSIS.vectorization.metrics.warp_stalls_long_scoreboard_percent
-        ]"
+        :metrics="[METRICS.stalls_total.name, METRICS.stalls_long_scoreboard_perc.name]"
         :values="[(analysis, metric) => analysis.getMetric(metric), (analysis, metric) => analysis.getMetric(metric)]"
-        :absolute-values="[(analysis) => analysis.getMetric(ANALYSIS.vectorization.metrics.warps_active)]"
+        :absolute-values="[(analysis) => analysis.getMetric(METRICS.stalls_total.name)]"
         :expanded="expandedSection === 2"
         @expand="expandedSection = 2"
     />
@@ -40,6 +37,7 @@ import { ANALYSIS } from '../../../../../../config/analyses';
 import { TEXT } from '../../../../../../config/text';
 import { Analysis } from '../../../../utils/Analysis';
 import { ref } from 'vue';
+import { METRICS } from '../../../../../../config/metrics';
 
 defineProps({
     analysisData: Analysis,

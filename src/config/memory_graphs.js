@@ -1,5 +1,6 @@
 import MetricSection from '../renderer/src/components/ui/sections/MetricSection.vue';
 import { ANALYSIS } from './analyses';
+import { METRICS } from './metrics';
 
 /**
  * This object contains the definitions of all memory graphs for different analyses. Configuration is as follows:
@@ -17,147 +18,132 @@ export const MEMORY_GRAPH_DEFINITION = {
         [{ title: 'Kernel', bold: true }],
         [
             {
-                metric: ANALYSIS.register_spilling.metrics.global_loads_count
+                metric: METRICS.instructions_global_loads.name
             },
-            { metric: ANALYSIS.register_spilling.metrics.local_loads_count }
+            { metric: METRICS.instructions_local_loads.name }
         ],
         [
             { title: 'Global Memory', size: 'small', bold: true },
             { title: 'Local Memory', bold: true }
         ],
-        [
-            { metric: ANALYSIS.register_spilling.metrics.global_memory_to_l1_bytes },
-            { metric: ANALYSIS.register_spilling.metrics.local_memory_to_l1_bytes }
-        ],
+        [{ metric: METRICS.load_data_global_to_l1_bytes.name }, { metric: METRICS.load_data_local_to_l1_bytes.name }],
         [
             {
-                metric: ANALYSIS.register_spilling.metrics.global_memory_to_l1_cache_miss_percent,
+                metric: METRICS.load_data_global_to_l1_cache_miss_perc.name,
                 format: '{value} miss rate',
                 comparison_format: '{value}\nmiss rate\n{comp_value}'
             },
             { title: 'L1 Cache {size}', bold: true },
             {
-                metric: ANALYSIS.register_spilling.metrics.local_memory_to_l1_cache_miss_percent,
+                metric: METRICS.load_data_local_to_l1_cache_miss_perc.name,
                 format: '{value} miss rate',
                 comparison_format: '{value}\nmiss rate\n{comp_value}'
             }
         ],
-        [
-            { metric: ANALYSIS.register_spilling.metrics.global_memory_l1_to_l2_bytes },
-            { metric: ANALYSIS.register_spilling.metrics.local_memory_l1_to_l2_bytes }
-        ],
+        [{ metric: METRICS.load_data_global_l1_to_l2_bytes.name }, { metric: METRICS.load_data_local_l1_to_l2_bytes.name }],
         [
             { title: 'L2 Cache {size}', bold: true },
             {
-                metric: ANALYSIS.register_spilling.metrics.l1_to_l2_cache_miss_percent,
+                metric: METRICS.load_data_l1_to_l2_cache_miss_perc.name,
                 format: '{value} miss rate',
                 comparison_format: '{value}\nmiss rate\n{diff_arrow} {comp_value}'
             }
         ],
-        [{ metric: ANALYSIS.register_spilling.metrics.l2_to_dram_bytes }],
+        [{ metric: METRICS.load_data_l2_to_dram_bytes.name }],
         [{ title: 'DRAM {size}', bold: true }]
     ],
     texture_memory: [
         [{ title: 'Kernel', bold: true }],
-        [
-            { metric: ANALYSIS.use_texture.metrics.kernel_to_texture_memory_instruction_count },
-            { metric: ANALYSIS.register_spilling.metrics.global_loads_count }
-        ],
+        [{ metric: METRICS.texture_data_kernel_to_tex_instr.name }, { metric: METRICS.instructions_global_loads.name }],
         [
             { title: 'Texture Memory', bold: true, size: 'small' },
             { title: 'Global Memory', bold: true, size: 'small' }
         ],
-        [
-            { metric: ANALYSIS.use_texture.metrics.texture_memory_to_l1_bytes },
-            { metric: ANALYSIS.register_spilling.metrics.global_memory_to_l1_bytes }
-        ],
+        [{ metric: METRICS.texture_data_tex_to_l1_bytes.name }, { metric: METRICS.load_data_global_to_l1_bytes.name }],
         [
             {
-                metric: ANALYSIS.use_texture.metrics.texture_memory_to_l1_cache_miss_percent,
+                metric: METRICS.texture_data_tex_to_l1_cache_miss_perc.name,
                 format: '{value} miss rate',
                 comparison_format: '{value}\nmiss rate\n{comp_value}'
             },
             { title: 'L1 Cache {size}', bold: true },
             {
-                metric: ANALYSIS.register_spilling.metrics.global_memory_to_l1_cache_miss_percent,
+                metric: METRICS.load_data_global_to_l1_cache_miss_perc.name,
                 format: '{value} miss rate',
                 comparison_format: '{value}\nmiss rate\n{comp_value}'
             }
         ],
-        [
-            { metric: ANALYSIS.use_texture.metrics.l1_to_l2_bytes },
-            { metric: ANALYSIS.register_spilling.metrics.global_memory_l1_to_l2_bytes }
-        ],
+        [{ metric: METRICS.texture_data_l1_to_l2_bytes.name }, { metric: METRICS.load_data_global_l1_to_l2_bytes.name }],
         [
             {
-                metric: ANALYSIS.use_texture.metrics.l1_to_l2_cache_miss_percent,
+                metric: METRICS.texture_data_l1_to_l2_cache_miss_perc.name,
                 format: '{value} miss rate',
                 comparison_format: '{value}\nmiss rate\n{comp_value}'
             },
             { title: 'L2 Cache {size}', bold: true },
             {
-                metric: ANALYSIS.register_spilling.metrics.global_memory_to_l1_cache_miss_percent,
+                metric: METRICS.load_data_l1_to_l2_cache_miss_perc.name,
                 format: '{value} miss rate',
                 comparison_format: '{value}\nmiss rate\n{comp_value}'
             }
         ],
-        [{ metric: ANALYSIS.use_texture.metrics.l2_to_dram_bytes }],
+        [{ metric: METRICS.texture_data_l2_to_dram_bytes.name }],
         [{ title: 'DRAM {size}', bold: true }]
     ],
     atomics: [
         [{ title: 'Global Memory', bold: true }],
         [
             {
-                metric: ANALYSIS.global_atomics.metrics.global_memory_to_l1_red_atom_bytes
+                metric: METRICS.atomic_data_global_to_l1_red_atom_bytes.name
             }
         ],
         [
             { title: 'L1 Cache {size}', bold: true },
             {
-                metric: ANALYSIS.global_atomics.metrics.global_memory_to_l1_cache_miss_percent,
+                metric: METRICS.atomic_data_global_to_l1_cache_miss_perc.name,
                 format: '{value} miss rate',
                 comparison_format: '{value}\nmiss rate\n{comp_value}'
             }
         ],
-        [{ metric: ANALYSIS.global_atomics.metrics.l1_to_l2_bytes }],
+        [{ metric: METRICS.atomic_data_l1_to_l2_bytes.name }],
         [
             { title: 'L2 Cache {size}', bold: true },
             {
-                metric: ANALYSIS.global_atomics.metrics.l1_to_l2_cache_miss_percent,
+                metric: METRICS.atomic_data_l1_to_l2_cache_miss_perc.name,
                 format: '{value} miss rate',
                 comparison_format: '{value}\nmiss rate\n{comp_value}'
             }
         ],
-        [{ metric: ANALYSIS.global_atomics.metrics.l2_to_dram_bytes }],
+        [{ metric: METRICS.atomic_data_l2_to_dram_bytes.name }],
         [{ title: 'DRAM {size}', bold: true }]
     ],
     global_caches: [
         [{ title: 'Kernel', bold: true }],
         [
             {
-                metric: ANALYSIS.register_spilling.metrics.global_loads_count
+                metric: METRICS.instructions_global_loads.name
             }
         ],
         [{ title: 'Global Memory', size: 'small', bold: true }],
-        [{ metric: ANALYSIS.register_spilling.metrics.global_memory_to_l1_bytes }],
+        [{ metric: METRICS.load_data_global_to_l1_bytes.name }],
         [
             { title: 'L1 Cache {size}', bold: true },
             {
-                metric: ANALYSIS.register_spilling.metrics.global_memory_to_l1_cache_miss_percent,
+                metric: METRICS.load_data_global_to_l1_cache_miss_perc.name,
                 format: '{value} miss rate',
                 comparison_format: '{value}\nmiss rate\n{comp_value}'
             }
         ],
-        [{ metric: ANALYSIS.register_spilling.metrics.global_memory_l1_to_l2_bytes }],
+        [{ metric: METRICS.load_data_global_l1_to_l2_bytes.name }],
         [
             { title: 'L2 Cache {size}', bold: true },
             {
-                metric: ANALYSIS.register_spilling.metrics.l1_to_l2_cache_miss_percent,
+                metric: METRICS.load_data_l1_to_l2_cache_miss_perc.name,
                 format: '{value} miss rate',
                 comparison_format: '{value}\nmiss rate\n{diff_arrow} {comp_value}'
             }
         ],
-        [{ metric: ANALYSIS.register_spilling.metrics.l2_to_dram_bytes }],
+        [{ metric: METRICS.load_data_l2_to_dram_bytes.name }],
         [{ title: 'DRAM {size}', bold: true }]
     ]
 };

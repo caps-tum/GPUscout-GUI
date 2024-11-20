@@ -13,8 +13,8 @@
         :analysis-data="analysisData"
         :comparison-analysis-data="comparisonAnalysisData"
         :metrics="[
-            ANALYSIS.register_spilling.metrics.occupancy,
-            ANALYSIS.register_spilling.metrics.local_memory_to_l1_cache_miss_percent,
+            METRICS.occupancy.name,
+            METRICS.load_data_local_to_l1_cache_miss_perc.name,
             TEXT.analyses.register_spilling.top_section.lmem_impact.type.bandwidth,
             TEXT.analyses.register_spilling.top_section.lmem_impact.type.instruction
         ]"
@@ -29,9 +29,9 @@
             () => 0,
             (analysis) => analysis.getMetric(ANALYSIS.register_spilling.metrics.l2_queries_due_to_local_memory_percent),
             (analysis) =>
-                ((analysis.getMetric(ANALYSIS.register_spilling.metrics.instructions_executed_local_loads) +
-                    analysis.getMetric(ANALYSIS.register_spilling.metrics.instructions_executed_local_stores)) /
-                    analysis.getMetric(ANALYSIS.register_spilling.metrics.instructions_executed)) *
+                ((analysis.getMetric(METRICS.instructions_local_loads) +
+                    analysis.getMetric(METRICS.instructions_executed_local_stores)) /
+                    analysis.getMetric(METRICS.instructions_total)) *
                 100
         ]"
         :expanded="expandedSection === 2"
@@ -43,16 +43,16 @@
         :analysis-data="analysisData"
         :comparison-analysis-data="comparisonAnalysisData"
         :metrics="[
-            ANALYSIS.register_spilling.metrics.warps_active,
-            ANALYSIS.register_spilling.metrics.warp_stalls_long_scoreboard_percent,
-            ANALYSIS.register_spilling.metrics.warp_stalls_lg_throttle_percent
+            METRICS.stalls_total.name,
+            METRICS.stalls_long_scoreboard_perc.name,
+            METRICS.stalls_lg_throttle_perc.name
         ]"
         :values="[
             (analysis, metric) => analysis.getMetric(metric),
             (analysis, metric) => analysis.getMetric(metric),
             (analysis, metric) => analysis.getMetric(metric)
         ]"
-        :absolute-values="[(analysis) => analysis.getMetric(ANALYSIS.register_spilling.metrics.warps_active)]"
+        :absolute-values="[(analysis) => analysis.getMetric(METRICS.stalls_total.name)]"
         :expanded="expandedSection === 3"
         @expand="expandedSection = 3"
     />
@@ -65,6 +65,7 @@ import { Analysis } from '../../../../utils/Analysis';
 import { MEMORY_GRAPH_DEFINITION } from '../../../../../../config/memory_graphs';
 import MemoryGraph from '../../../ui/memory_graph/MemoryGraph.vue';
 import { ref } from 'vue';
+import { METRICS } from '../../../../../../config/metrics';
 
 defineProps({
     analysisData: Analysis,

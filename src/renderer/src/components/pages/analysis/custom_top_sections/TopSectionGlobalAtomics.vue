@@ -12,7 +12,7 @@
         :hint="TEXT.analyses.global_atomics.top_section.atomics_usage.hint"
         :analysis-data="analysisData"
         :comparison-analysis-data="comparisonAnalysisData"
-        :metrics="[ANALYSIS.global_atomics.metrics.atom_global_count, ANALYSIS.global_atomics.metrics.atom_shared_count]"
+        :metrics="[METRICS.global_atomics_count.name, METRICS.shared_atomics_count.name]"
         :values="[(analysis, metric) => analysis.getMetric(metric), (analysis, metric) => analysis.getMetric(metric)]"
         :expanded="expandedSection === 2"
         @expand="expandedSection = 2"
@@ -23,10 +23,10 @@
         :analysis-data="analysisData"
         :comparison-analysis-data="comparisonAnalysisData"
         :metrics="[
-            ANALYSIS.global_atomics.metrics.warps_active,
-            ANALYSIS.global_atomics.metrics.warp_stalls_mio_throttle_percent,
-            ANALYSIS.global_atomics.metrics.warp_stalls_long_scoreboard_percent,
-            ANALYSIS.global_atomics.metrics.warp_stalls_lg_throttle_percent
+            METRICS.stalls_total.name,
+            METRICS.stalls_mio_throttle_perc.name,
+            METRICS.stalls_long_scoreboard_perc.name,
+            METRICS.stalls_lg_throttle_perc.name
         ]"
         :values="[
             (analysis, metric) => analysis.getMetric(metric),
@@ -34,7 +34,7 @@
             (analysis, metric) => analysis.getMetric(metric),
             (analysis, metric) => analysis.getMetric(metric)
         ]"
-        :absolute-values="[(analysis) => analysis.getMetric(ANALYSIS.global_atomics.metrics.warps_active)]"
+        :absolute-values="[(analysis) => analysis.getMetric(METRICS.stalls_total.name)]"
         :expanded="expandedSection === 3"
         @expand="expandedSection = 3"
     >
@@ -48,6 +48,7 @@ import { Analysis } from '../../../../utils/Analysis';
 import { ref } from 'vue';
 import { MEMORY_GRAPH_DEFINITION } from '../../../../../../config/memory_graphs';
 import MemoryGraph from '../../../ui/memory_graph/MemoryGraph.vue';
+import { METRICS } from '../../../../../../config/metrics';
 
 defineProps({
     analysisData: Analysis,

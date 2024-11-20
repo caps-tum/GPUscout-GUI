@@ -6,8 +6,8 @@
         :comparison-analysis-data="comparisonAnalysisData"
         :metrics="[
             ANALYSIS.use_shared.metrics.shared_memory_load_count,
-            ANALYSIS.use_shared.metrics.shared_memory_load_efficiency_percent,
-            ANALYSIS.use_shared.metrics.bank_conflict
+            METRICS.shared_load_efficiency_perc.name,
+            METRICS.shared_bank_conflict.name
         ]"
         :values="[
             (analysis, metric) => analysis.getMetric(metric),
@@ -23,16 +23,16 @@
         :analysis-data="analysisData"
         :comparison-analysis-data="comparisonAnalysisData"
         :metrics="[
-            ANALYSIS.use_shared.metrics.warps_active,
-            ANALYSIS.use_shared.metrics.warp_stalls_long_scoreboard_percent,
-            ANALYSIS.use_shared.metrics.warp_stalls_mio_throttle_percent
+            METRICS.stalls_total.name,
+            METRICS.stalls_long_scoreboard_perc.name,
+            METRICS.stalls_mio_throttle_perc.name
         ]"
         :values="[
             (analysis, metric) => analysis.getMetric(metric),
             (analysis, metric) => analysis.getMetric(metric),
             (analysis, metric) => analysis.getMetric(metric)
         ]"
-        :absolute-values="[(analysis) => analysis.getMetric(ANALYSIS.use_shared.metrics.warps_active)]"
+        :absolute-values="[(analysis) => analysis.getMetric(METRICS.stalls_total.name)]"
         :expanded="expandedSection === 2"
         @expand="expandedSection = 2"
     >
@@ -44,6 +44,7 @@ import { ANALYSIS } from '../../../../../../config/analyses';
 import { TEXT } from '../../../../../../config/text';
 import { Analysis } from '../../../../utils/Analysis';
 import { ref } from 'vue';
+import { METRICS } from '../../../../../../config/metrics';
 
 defineProps({
     analysisData: Analysis,
