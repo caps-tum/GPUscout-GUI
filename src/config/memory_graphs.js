@@ -1,5 +1,3 @@
-import MetricSection from '../renderer/src/components/ui/sections/MetricSection.vue';
-import { ANALYSIS } from './analyses';
 import { METRICS } from './metrics';
 
 /**
@@ -29,24 +27,24 @@ export const MEMORY_GRAPH_DEFINITION = {
         [{ metric: METRICS.load_data_global_to_l1_bytes.name }, { metric: METRICS.load_data_local_to_l1_bytes.name }],
         [
             {
-                metric: METRICS.load_data_global_to_l1_cache_miss_perc.name,
-                format: '{value} miss rate',
-                comparison_format: '{value}\nmiss rate\n{comp_value}'
+                metric: METRICS.load_data_global_to_l1_cache_hit_perc.name,
+                format: '{value} hit rate',
+                comparison_format: '{value}\nhit rate\n{comp_value}'
             },
             { title: 'L1 Cache {size}', bold: true },
             {
-                metric: METRICS.load_data_local_to_l1_cache_miss_perc.name,
-                format: '{value} miss rate',
-                comparison_format: '{value}\nmiss rate\n{comp_value}'
+                metric: METRICS.load_data_local_to_l1_cache_hit_perc.name,
+                format: '{value} hit rate',
+                comparison_format: '{value}\nhit rate\n{comp_value}'
             }
         ],
         [{ metric: METRICS.load_data_global_l1_to_l2_bytes.name }, { metric: METRICS.load_data_local_l1_to_l2_bytes.name }],
         [
             { title: 'L2 Cache {size}', bold: true },
             {
-                metric: METRICS.load_data_l1_to_l2_cache_miss_perc.name,
-                format: '{value} miss rate',
-                comparison_format: '{value}\nmiss rate\n{diff_arrow} {comp_value}'
+                metric: METRICS.load_data_l1_to_l2_cache_hit_perc.name,
+                format: '{value} hit rate',
+                comparison_format: '{value}\nhit rate\n{diff_arrow} {comp_value}'
             }
         ],
         [{ metric: METRICS.load_data_l2_to_dram_bytes.name }],
@@ -62,29 +60,29 @@ export const MEMORY_GRAPH_DEFINITION = {
         [{ metric: METRICS.texture_data_tex_to_l1_bytes.name }, { metric: METRICS.load_data_global_to_l1_bytes.name }],
         [
             {
-                metric: METRICS.texture_data_tex_to_l1_cache_miss_perc.name,
-                format: '{value} miss rate',
-                comparison_format: '{value}\nmiss rate\n{comp_value}'
+                metric: METRICS.texture_data_tex_to_l1_cache_hit_perc.name,
+                format: '{value} hit rate',
+                comparison_format: '{value}\nhit rate\n{comp_value}'
             },
             { title: 'L1 Cache {size}', bold: true },
             {
-                metric: METRICS.load_data_global_to_l1_cache_miss_perc.name,
-                format: '{value} miss rate',
-                comparison_format: '{value}\nmiss rate\n{comp_value}'
+                metric: METRICS.load_data_global_to_l1_cache_hit_perc.name,
+                format: '{value} hit rate',
+                comparison_format: '{value}\nhit rate\n{comp_value}'
             }
         ],
         [{ metric: METRICS.texture_data_l1_to_l2_bytes.name }, { metric: METRICS.load_data_global_l1_to_l2_bytes.name }],
         [
             {
-                metric: METRICS.texture_data_l1_to_l2_cache_miss_perc.name,
-                format: '{value} miss rate',
-                comparison_format: '{value}\nmiss rate\n{comp_value}'
+                metric: METRICS.texture_data_l1_to_l2_cache_hit_perc.name,
+                format: '{value} hit rate',
+                comparison_format: '{value}\nhit rate\n{comp_value}'
             },
             { title: 'L2 Cache {size}', bold: true },
             {
-                metric: METRICS.load_data_l1_to_l2_cache_miss_perc.name,
-                format: '{value} miss rate',
-                comparison_format: '{value}\nmiss rate\n{comp_value}'
+                metric: METRICS.load_data_l1_to_l2_cache_hit_perc.name,
+                format: '{value} hit rate',
+                comparison_format: '{value}\nhit rate\n{comp_value}'
             }
         ],
         [{ metric: METRICS.texture_data_l2_to_dram_bytes.name }],
@@ -100,18 +98,18 @@ export const MEMORY_GRAPH_DEFINITION = {
         [
             { title: 'L1 Cache {size}', bold: true },
             {
-                metric: METRICS.atomic_data_global_to_l1_cache_miss_perc.name,
-                format: '{value} miss rate',
-                comparison_format: '{value}\nmiss rate\n{comp_value}'
+                metric: METRICS.atomic_data_global_to_l1_cache_hit_perc.name,
+                format: '{value} hit rate',
+                comparison_format: '{value}\nhit rate\n{comp_value}'
             }
         ],
         [{ metric: METRICS.atomic_data_l1_to_l2_bytes.name }],
         [
             { title: 'L2 Cache {size}', bold: true },
             {
-                metric: METRICS.atomic_data_l1_to_l2_cache_miss_perc.name,
-                format: '{value} miss rate',
-                comparison_format: '{value}\nmiss rate\n{comp_value}'
+                metric: METRICS.atomic_data_l1_to_l2_cache_hit_perc.name,
+                format: '{value} hit rate',
+                comparison_format: '{value}\nhit rate\n{comp_value}'
             }
         ],
         [{ metric: METRICS.atomic_data_l2_to_dram_bytes.name }],
@@ -129,18 +127,18 @@ export const MEMORY_GRAPH_DEFINITION = {
         [
             { title: 'L1 Cache {size}', bold: true },
             {
-                metric: METRICS.load_data_global_to_l1_cache_miss_perc.name,
-                format: '{value} miss rate',
-                comparison_format: '{value}\nmiss rate\n{comp_value}'
+                metric: METRICS.load_data_global_to_l1_cache_hit_perc.name,
+                format: '{value} hit rate',
+                comparison_format: '{value}\nhit rate\n{comp_value}'
             }
         ],
         [{ metric: METRICS.load_data_global_l1_to_l2_bytes.name }],
         [
             { title: 'L2 Cache {size}', bold: true },
             {
-                metric: METRICS.load_data_l1_to_l2_cache_miss_perc.name,
-                format: '{value} miss rate',
-                comparison_format: '{value}\nmiss rate\n{diff_arrow} {comp_value}'
+                metric: METRICS.load_data_l1_to_l2_cache_hit_perc.name,
+                format: '{value} hit rate',
+                comparison_format: '{value}\nhit rate\n{diff_arrow} {comp_value}'
             }
         ],
         [{ metric: METRICS.load_data_l2_to_dram_bytes.name }],

@@ -533,6 +533,13 @@ export class GPUscoutResult {
                     this._metrics[resultJSON['kernels'][kernel]][key] = value;
                 }
             }
+
+            for (const metric of Object.keys(this._metrics[resultJSON['kernels'][kernel]])) {
+                if (metric.endsWith('cache_miss_perc')) {
+                    this._metrics[resultJSON['kernels'][kernel]][metric.replace('cache_miss_perc', 'cache_hit_perc')] =
+                        100 - this._metrics[resultJSON['kernels'][kernel]][metric];
+                }
+            }
         }
 
         if (!topologyData) return;

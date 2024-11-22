@@ -218,21 +218,21 @@ More information is available at <a href="https://docs.nvidia.com/nsight-compute
         help_text: 'This is a detailed explanation something',
         lower_better: true
     },
-    load_data_local_to_l1_cache_miss_perc: {
-        name: 'load_data_memory_flow/local_to_l1_cache_miss_perc',
-        display_name: 'LMEM L1 Cache misses',
-        hint: 'Percentage of L1 cache misses due to local memory',
+    load_data_local_to_l1_cache_hit_perc: {
+        name: 'load_data_memory_flow/local_to_l1_cache_hit_perc',
+        display_name: 'LMEM L1 Cache hit rate',
+        hint: 'Percentage of L1 cache hits due to local memory',
         format_function: formatPercent,
         help_text: 'Something',
-        lower_better: true
+        lower_better: false
     },
-    load_data_global_to_l1_cache_miss_perc: {
-        name: 'load_data_memory_flow/global_to_l1_cache_miss_perc',
-        display_name: 'GMEM L1 Cache misses',
+    load_data_global_to_l1_cache_hit_perc: {
+        name: 'load_data_memory_flow/global_to_l1_cache_hit_perc',
+        display_name: 'GMEM L1 Cache hit rate',
         hint: '',
         format_function: formatPercent,
         help_text: 'This is a detailed explanation something',
-        lower_better: true
+        lower_better: false
     },
     load_data_local_l1_to_l2_bytes: {
         name: 'load_data_memory_flow/local_l1_to_l2_bytes',
@@ -250,13 +250,13 @@ More information is available at <a href="https://docs.nvidia.com/nsight-compute
         help_text: 'This is a detailed explanation something',
         lower_better: true
     },
-    load_data_l1_to_l2_cache_miss_perc: {
-        name: 'load_data_memory_flow/l1_to_l2_cache_miss_perc',
-        display_name: 'L1 to L2 Cache misses',
+    load_data_l1_to_l2_cache_hit_perc: {
+        name: 'load_data_memory_flow/l1_to_l2_cache_hits_perc',
+        display_name: 'L1 to L2 Cache hit rate',
         hint: '',
         format_function: formatPercent,
         help_text: 'This is a detailed explanation something',
-        lower_better: true
+        lower_better: false
     },
     load_data_l2_to_dram_bytes: {
         name: 'load_data_memory_flow/l2_to_dram_bytes',
@@ -306,21 +306,21 @@ More information is available at <a href="https://docs.nvidia.com/nsight-compute
         help_text: 'This is a detailed explanation something',
         lower_better: true
     },
-    texture_data_tex_to_l1_cache_miss_perc: {
-        name: 'texture_data_memory_flow/tex_to_l1_cache_miss_perc',
-        display_name: 'Tex to L1 cache misses',
+    texture_data_tex_to_l1_cache_hit_perc: {
+        name: 'texture_data_memory_flow/tex_to_l1_cache_hit_perc',
+        display_name: 'Tex to L1 cache hit rate',
         hint: '',
         format_function: formatPercent,
         help_text: 'This is a detailed explanation something',
-        lower_better: true
+        lower_better: false
     },
-    texture_data_l1_to_l2_cache_miss_perc: {
-        name: 'texture_data_memory_flow/l1_to_l2_cache_miss_perc',
-        display_name: 'L1 to L2 cache misses',
+    texture_data_l1_to_l2_cache_hit_perc: {
+        name: 'texture_data_memory_flow/l1_to_l2_cache_hit_perc',
+        display_name: 'L1 to L2 cache hit rate',
         hint: '',
         format_function: formatPercent,
         help_text: 'This is a detailed explanation something',
-        lower_better: true
+        lower_better: false
     },
     texture_data_l1_to_l2_bytes: {
         name: 'texture_data_memory_flow/l1_to_l2_bytes',
@@ -354,13 +354,13 @@ More information is available at <a href="https://docs.nvidia.com/nsight-compute
         help_text: 'This is a detailed explanation something',
         lower_better: true
     },
-    atomic_data_global_to_l1_cache_miss_perc: {
-        name: 'atomic_data_memory_flow/global_to_l1_cache_miss_perc',
-        display_name: 'Global to L1 Cache misses',
+    atomic_data_global_to_l1_cache_hit_perc: {
+        name: 'atomic_data_memory_flow/global_to_l1_cache_hit_perc',
+        display_name: 'Global to L1 Cache hit rate',
         hint: '',
         format_function: formatPercent,
         help_text: 'This is a detailed explanation something',
-        lower_better: true
+        lower_better: false
     },
     atomic_data_l1_to_l2_bytes: {
         name: 'atomic_data_memory_flow/l1_to_l2_bytes',
@@ -370,13 +370,13 @@ More information is available at <a href="https://docs.nvidia.com/nsight-compute
         help_text: 'This is a detailed explanation something',
         lower_better: true
     },
-    atomic_data_l1_to_l2_cache_miss_perc: {
-        name: 'atomic_data_memory_flow/l1_to_l2_cache_miss_perc',
-        display_name: 'L1 to L2 Cache misses',
+    atomic_data_l1_to_l2_cache_hit_perc: {
+        name: 'atomic_data_memory_flow/l1_to_l2_cache_hit_perc',
+        display_name: 'L1 to L2 Cache hit rate',
         hint: '',
         format_function: formatPercent,
         help_text: 'This is a detailed explanation something',
-        lower_better: true
+        lower_better: false
     },
     atomic_data_l2_to_dram_bytes: {
         name: 'atomic_data_memory_flow/l2_to_dram_bytes',

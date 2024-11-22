@@ -14,7 +14,7 @@
         :comparison-analysis-data="comparisonAnalysisData"
         :metrics="[
             METRICS.occupancy.name,
-            METRICS.load_data_local_to_l1_cache_miss_perc.name,
+            METRICS.load_data_local_to_l1_cache_hit_perc.name,
             TEXT.analyses.register_spilling.top_section.lmem_impact.type.bandwidth,
             TEXT.analyses.register_spilling.top_section.lmem_impact.type.instruction
         ]"

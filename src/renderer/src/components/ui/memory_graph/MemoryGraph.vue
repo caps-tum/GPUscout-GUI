@@ -76,11 +76,11 @@ function buildTitles(components, useComparison = false) {
         if (entry.title) {
             // Display a title
             let title = entry.bold ? '*' + entry.title : entry.title;
-            if (title.includes('{size}') && analysisData.hasTopologyMetrics()) {
-                const topString = getTopologyString(title, analysisData);
-                if (useComparison && props.analysisData.hasTopologyMetrics()) {
-                    const compTopString = getTopologyString(title, props.analysisData);
-                    title = title.replace('{size}', `\n(${compTopString} vs ${topString})`);
+            if (title.includes('{size}') && props.analysisData.hasTopologyMetrics()) {
+                const topString = getTopologyString(title, props.analysisData);
+                if (useComparison && props.analysisData.hasTopologyMetrics() && analysisData.hasTopologyMetrics()) {
+                    const compTopString = getTopologyString(title, analysisData);
+                    title = title.replace('{size}', `\n(${topString} vs ${compTopString})`);
                 } else {
                     title = title.replace('{size}', `\n(${topString})`);
                 }
