@@ -14,7 +14,7 @@
                 <ButtonSecondary title="Choose Folder" class="!p-1 !text-base" @click="chooseFolder" />
             </div>
         </div>
-        <div class="flex max-h-[25vh] flex-col space-y-1 overflow-y-auto">
+        <div class="flex max-h-[calc(90vh-30rem)] flex-col space-y-1 overflow-y-auto">
             <ButtonSecondary
                 v-for="title in getTitles()"
                 :key="title"

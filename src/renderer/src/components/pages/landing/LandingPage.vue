@@ -1,8 +1,8 @@
 <template>
-    <div class="flex h-full w-full flex-col items-center justify-center">
-        <p class="mb-20 text-9xl font-bold">GPUscout-GUI</p>
+    <div class="flex h-full w-full flex-col items-center">
+        <p class="mb-10 text-9xl font-bold">GPUscout-GUI</p>
         <div class="flex w-full flex-row justify-center space-x-4 px-12">
-            <div class="flex max-h-full w-full flex-col">
+            <div class="flex w-full flex-col">
                 <p class="mb-2 text-2xl font-bold">{{ TEXT.landing_page.select_result_title }}</p>
                 <SelectAnalysis ref="analysisSelector" @analysis-selected="onAnalysisSelected" />
                 <p class="w-full py-1 text-center text-xl font-bold">OR</p>
@@ -52,7 +52,6 @@ import AnalysesFromFolder from './analyses_from_folder/AnalysesFromFolder.vue';
 import { ref } from 'vue';
 import SelectAnalysis from './SelectAnalysis.vue';
 import { useDataStore } from '../../../stores/DataStore';
-import { useContextStore, CONTEXT } from '../../../stores/ContextStore';
 import ButtonPrimary from '../../ui/buttons/ButtonPrimary.vue';
 import ButtonSecondary from '../../ui/buttons/ButtonSecondary.vue';
 import SelectMemoryTopology from './SelectMemoryTopology.vue';
@@ -61,7 +60,6 @@ import { TEXT } from '../../../../../config/text';
 
 const configStore = useConfigStore();
 const dataStore = useDataStore();
-const contextStore = useContextStore();
 
 const config = computed(() => configStore.getConfig);
 
