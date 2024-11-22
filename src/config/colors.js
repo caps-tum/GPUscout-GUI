@@ -10,5 +10,7 @@ export const CODE_STYLES = {
     SELECTED_LINE: 'bg-primary/75', // The color of selected lines
     SELECTED_LINE_SECONDARY: 'bg-secondary', // The color of the corresponding lines of the selected line in the other code view
     HIGHLIGHTED_LINE_OCCURRENCE: 'bg-red-400', // The color of selected occurrence lines
-    HIGHLIGHTED_LINE_OCCURRENCE_SECONDARY: 'bg-red-300' // The color of both secondary occurrence lines and the corresponding lines in the other code view
+    HIGHLIGHTED_LINE_OCCURRENCE_SECONDARY: 'bg-red-300', // The color of both secondary occurrence lines and the corresponding lines in the other code view
+    HIGHLIGHTED_LINE_INFO: 'bg-blue-400', // The color of selected occurrence info lines
+    HIGHLIGHTED_LINE_INFO_SECONDARY: 'bg-blue-300' // The color of both secondary occurrence info lines and the corresponding lines in the other code view
 };

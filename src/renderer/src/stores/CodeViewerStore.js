@@ -166,8 +166,9 @@ export const useCodeViewerStore = defineStore('codeViewer', () => {
 
         // Highlight the base lines of all selected occurrences
         for (const occurrence of currentOccurrences.value) {
-            highlightedSourceLines.value[occurrence.sourceLineNumber] = CODE_STYLES.HIGHLIGHTED_LINE_OCCURRENCE;
-            highlightedBinaryLines.value[occurrence.binaryLineNumber] = CODE_STYLES.HIGHLIGHTED_LINE_OCCURRENCE;
+            const color = occurrence.isWarning ? CODE_STYLES.HIGHLIGHTED_LINE_OCCURRENCE : CODE_STYLES.HIGHLIGHTED_LINE_INFO;
+            highlightedSourceLines.value[occurrence.sourceLineNumber] = color;
+            highlightedBinaryLines.value[occurrence.binaryLineNumber] = color;
             // Highlight the instruction
             highlightedBinaryTokens.value[occurrence.binaryLineNumber] = {};
             for (const token of gpuscoutResult.getInstructionTokens(
@@ -197,14 +198,15 @@ export const useCodeViewerStore = defineStore('codeViewer', () => {
 
         // Highlight all relevant secondary lines for this occurrence as well as the instruction in each line
         for (const secondaryLine of currentOccurrences.value[0].linesToHighlight()) {
-            highlightedBinaryLines.value[secondaryLine] = CODE_STYLES.HIGHLIGHTED_LINE_OCCURRENCE_SECONDARY;
+            const color = currentOccurrences.value[0].isWarning
+                ? CODE_STYLES.HIGHLIGHTED_LINE_OCCURRENCE_SECONDARY
+                : CODE_STYLES.HIGHLIGHTED_LINE_INFO_SECONDARY;
+            highlightedBinaryLines.value[secondaryLine] = color;
 
             if (currentBinary.value === CODE_TYPE.SASS_CODE) {
-                highlightedSourceLines.value[gpuscoutResult.getSassToSourceLine(currentKernel.value, secondaryLine)] =
-                    CODE_STYLES.HIGHLIGHTED_LINE_OCCURRENCE_SECONDARY;
+                highlightedSourceLines.value[gpuscoutResult.getSassToSourceLine(currentKernel.value, secondaryLine)] = color;
             } else {
-                highlightedSourceLines.value[gpuscoutResult.getPtxToSourceLine(currentKernel.value, secondaryLine)] =
-                    CODE_STYLES.HIGHLIGHTED_LINE_OCCURRENCE_SECONDARY;
+                highlightedSourceLines.value[gpuscoutResult.getPtxToSourceLine(currentKernel.value, secondaryLine)] = color;
             }
 
             highlightedBinaryTokens.value[secondaryLine] = {};

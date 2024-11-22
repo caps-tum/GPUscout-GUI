@@ -80,10 +80,10 @@ const selectedLine = computed(() => codeViewerStore.getSelectedLine);
 const binaryView = computed(() => codeViewerStore.getCurrentBinary);
 const currentView = computed(() => codeViewerStore.getCurrentView);
 
-const showMetrics = ref(true);
 const hasComparisonResult = computed(() => dataStore.hasComparisonResult);
 const useComparisonCode = computed(() => codeViewerStore.displayComparisonCode);
 const selectedOccurrences = computed(() => dataStore.getCurrentOccurrences);
+const showMetrics = ref(hasComparisonResult.value);
 const occurrences = computed(() =>
     useComparisonCode.value
         ? dataStore.getGPUscoutComparisonResult().getAnalysis(currentAnalysis.value, currentKernel.value).getOccurrences()
