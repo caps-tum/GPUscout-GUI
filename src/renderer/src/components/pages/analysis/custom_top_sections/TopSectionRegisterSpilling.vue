@@ -27,11 +27,11 @@
         :absolute-values="[
             () => 0,
             () => 0,
-            (analysis) => analysis.getMetric(ANALYSIS.register_spilling.metrics.l2_queries_due_to_local_memory_percent),
+            (analysis) => analysis.getMetric(METRICS.queries_l2_due_to_local.name),
             (analysis) =>
-                ((analysis.getMetric(METRICS.instructions_local_loads) +
-                    analysis.getMetric(METRICS.instructions_executed_local_stores)) /
-                    analysis.getMetric(METRICS.instructions_total)) *
+                ((analysis.getMetric(METRICS.instructions_local_loads.name) +
+                    analysis.getMetric(METRICS.instructions_local_stores.name)) /
+                    analysis.getMetric(METRICS.instructions_total.name)) *
                 100
         ]"
         :expanded="expandedSection === 2"
@@ -59,7 +59,6 @@
 </template>
 <script setup>
 import MetricSection from '../../../ui/sections/MetricSection.vue';
-import { ANALYSIS } from '../../../../../../config/analyses';
 import { TEXT } from '../../../../../../config/text';
 import { Analysis } from '../../../../utils/Analysis';
 import { MEMORY_GRAPH_DEFINITION } from '../../../../../../config/memory_graphs';
@@ -76,14 +75,12 @@ const expandedSection = ref(1);
 
 const bandwidth = (analysis) =>
     Math.round(
-        (analysis.getMetric(ANALYSIS.register_spilling.metrics.total_l2_queries) *
-            analysis.getMetric(ANALYSIS.register_spilling.metrics.l2_queries_due_to_local_memory_percent)) /
-            100
+        (analysis.getMetric(METRICS.queries_l2.name) * analysis.getMetric(METRICS.queries_l2_due_to_local.name)) / 100
     );
 
 const instructions = (analysis) =>
     Math.round(
-        analysis.getMetric(ANALYSIS.register_spilling.metrics.instructions_executed_local_loads) +
-            analysis.getMetric(ANALYSIS.register_spilling.metrics.instructions_executed_local_stores)
+        analysis.getMetric(METRICS.instructions_local_loads.name) +
+            analysis.getMetric(METRICS.instructions_local_stores.name)
     );
 </script>

@@ -106,6 +106,14 @@ More information is available at <a href="https://docs.nvidia.com/nsight-compute
         help_text: 'This is a detailed explanation of occupancy',
         lower_better: false
     },
+    instructions_total: {
+        name: 'smsp__sass_inst_executed',
+        display_name: 'Instructions executed',
+        hint: 'Total number of instructions executed',
+        format_function: formatNumber,
+        help_text: 'This is a detailed explanation something',
+        lower_better: true
+    },
     instructions_global: {
         name: 'smsp__sass_inst_executed_op_global',
         display_name: 'Global Memory Instructions',
@@ -126,15 +134,23 @@ More information is available at <a href="https://docs.nvidia.com/nsight-compute
         name: 'sm__sass_inst_executed_op_global_ld',
         display_name: 'Global load instructions',
         hint: 'Total number of global load instructions',
-        format_function: formatNumber,
+        format_function: formatInstructions,
         help_text: 'This is a detailed explanation of global loads',
         lower_better: true
     },
-    instructions_total: {
-        name: 'smsp__sass_inst_executed',
-        display_name: 'Instructions executed',
-        hint: 'Total number of instructions executed',
-        format_function: formatNumber,
+    instructions_local_loads: {
+        name: 'smsp__inst_executed_op_local_ld',
+        display_name: 'Local loads count',
+        hint: 'Number of local loads',
+        format_function: formatInstructions,
+        help_text: 'This is a detailed explanation something',
+        lower_better: true
+    },
+    instructions_local_stores: {
+        name: 'smsp__inst_executed_op_local_st',
+        display_name: 'Local stores count',
+        hint: 'Number of local stores',
+        format_function: formatInstructions,
         help_text: 'This is a detailed explanation something',
         lower_better: true
     },
@@ -162,11 +178,19 @@ More information is available at <a href="https://docs.nvidia.com/nsight-compute
         help_text: 'This is a detailed explanation something',
         lower_better: true
     },
-    instructions_local_loads: {
-        name: 'deadlock_detect_flag',
-        display_name: 'Local loads count',
-        hint: 'Number of local loads',
-        format_function: formatInstructions,
+    queries_l2: {
+        name: 'l2_queries/total_l2_queries',
+        display_name: 'L2 queries',
+        hint: 'Number of queries to the L2 cache',
+        format_function: formatNumber,
+        help_text: 'This is a detailed explanation something',
+        lower_better: true
+    },
+    queries_l2_due_to_local: {
+        name: 'l2_queries/l2_queries_due_to_mem_perc',
+        display_name: 'L2 queries due to LMEM',
+        hint: 'Number of queries to the L2 cache due to local memory',
+        format_function: formatNumber,
         help_text: 'This is a detailed explanation something',
         lower_better: true
     },
@@ -219,7 +243,7 @@ More information is available at <a href="https://docs.nvidia.com/nsight-compute
         lower_better: true
     },
     load_data_global_l1_to_l2_bytes: {
-        name: 'load_data_memory_flow/global_l1_to_l2_byte',
+        name: 'load_data_memory_flow/global_l1_to_l2_bytes',
         display_name: 'GMEM L1 to L2',
         hint: '',
         format_function: formatBytes,
