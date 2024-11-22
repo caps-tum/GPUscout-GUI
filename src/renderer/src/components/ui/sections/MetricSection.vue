@@ -10,7 +10,7 @@
             <p v-if="hint && expanded" class="-mt-1 text-sm text-text/50">{{ hint }}</p>
             <div
                 v-if="expanded"
-                class="flex max-h-60 flex-grow flex-row flex-wrap gap-x-2 gap-y-2 overflow-y-auto overflow-x-hidden"
+                class="flex max-h-56 flex-grow flex-row flex-wrap gap-x-2 gap-y-2 overflow-y-auto overflow-x-hidden"
             >
                 <ButtonMetric
                     v-for="(metric, index) in metrics"
