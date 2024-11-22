@@ -142,6 +142,5 @@ async function proceed() {
         : undefined;
 
     await dataStore.initialize(analysisFileData, comparisonAnalysisFileData, topologyData, comparisonTopologyData);
-    contextStore.setCurrentContext(CONTEXT.ANALYSIS);
 }
 </script>

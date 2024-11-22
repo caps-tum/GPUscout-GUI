@@ -44,7 +44,7 @@
                 >
             </div>
             <div v-else class="flex flex-col">
-                <p class="p-2 font-bold">{{ TEXT.navigation.analyses_title }}</p>
+                <p v-if="analyses?.length > 0" class="p-2 font-bold">{{ TEXT.navigation.analyses_title }}</p>
                 <a
                     v-for="analysis in analyses"
                     :key="analysis"

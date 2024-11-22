@@ -36,7 +36,6 @@ import { TEXT } from '../../../../../../config/text';
 import CodeInfoSampling from './CodeInfoSampling.vue';
 
 defineProps({
-    analysis: String,
     kernel: String,
     occurrences: Array,
     stalls: Object

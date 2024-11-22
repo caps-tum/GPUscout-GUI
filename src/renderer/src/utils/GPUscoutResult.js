@@ -62,6 +62,10 @@ export class GPUscoutResult {
         }
     }
 
+    getMetric(metric) {
+        return this._metrics[metric] || 0;
+    }
+
     /**
      * @param analysis The name of the analysis
      * @param kernel The name of the kernel

@@ -1,8 +1,9 @@
 <template>
     <div class="flex h-full w-full items-center justify-center rounded bg-primary text-background">
-        <p class="text-lg font-bold">
-            {{ ANALYSIS[currentAnalysis]?.display_name }} Analysis for Kernel {{ currentKernel }}
+        <p v-if="currentAnalysis" class="text-lg font-bold">
+            {{ ANALYSIS[currentAnalysis].display_name }} Analysis for Kernel {{ currentKernel }}
         </p>
+        <p v-else class="text-lg font-bold">Summary for Kernel {{ currentKernel }}</p>
     </div>
 </template>
 <script setup>

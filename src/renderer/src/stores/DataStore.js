@@ -3,9 +3,11 @@ import { GPUscoutResult } from '../utils/GPUscoutResult';
 import { computed, ref } from 'vue';
 import { CODE_TYPE, useCodeViewerStore } from './CodeViewerStore';
 import { ANALYSIS } from '../../../config/analyses';
+import { CONTEXT, useContextStore } from './ContextStore';
 
 export const useDataStore = defineStore('data', () => {
     const codeViewerStore = useCodeViewerStore();
+    const contextStore = useContextStore();
 
     const useComparisonCode = computed(() => codeViewerStore.displayComparisonCode);
 
@@ -64,12 +66,11 @@ export const useDataStore = defineStore('data', () => {
             ) {
                 setCurrentAnalysis(gpuscoutComparisonResult.getAnalysesWithOccurrences(currentKernel.value)[0]);
             } else {
-                alert('No analyses have found any improvements.');
-                window.location.reload();
-                return;
+                contextStore.setCurrentContext(CONTEXT.SUMMARY);
             }
         } else {
             setCurrentAnalysis(gpuscoutResult.getAnalysesWithOccurrences(currentKernel.value)[0]);
+            contextStore.setCurrentContext(CONTEXT.ANALYSIS);
         }
 
         console.log(gpuscoutResult);
@@ -82,6 +83,7 @@ export const useDataStore = defineStore('data', () => {
      */
     function setCurrentAnalysis(analysis) {
         currentAnalysis.value = analysis;
+        if (!currentAnalysis.value) return;
         const occurrences = (useComparisonCode.value ? gpuscoutComparisonResult : gpuscoutResult)
             .getAnalysis(analysis, currentKernel.value)
             .getOccurrences();
@@ -114,9 +116,11 @@ export const useDataStore = defineStore('data', () => {
      */
     function setCurrentOccurrences(codeType, lineNumber) {
         currentOccurrences.value = currentOccurrences.value.filter(() => false);
-        currentOccurrences.value = (useComparisonCode.value ? gpuscoutComparisonResult : gpuscoutResult)
-            .getAnalysis(currentAnalysis.value, currentKernel.value)
-            .getOccurrencesAt(codeType, lineNumber);
+        if (currentAnalysis.value) {
+            currentOccurrences.value = (useComparisonCode.value ? gpuscoutComparisonResult : gpuscoutResult)
+                .getAnalysis(currentAnalysis.value, currentKernel.value)
+                .getOccurrencesAt(codeType, lineNumber);
+        }
     }
 
     return {

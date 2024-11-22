@@ -5,7 +5,8 @@ export const CONTEXT = {
     NONE: 0,
     START_SCREEN: 1,
     ANALYSIS: 2,
-    CODE_VIEW: 3
+    CODE_VIEW: 3,
+    SUMMARY: 4
 };
 
 export const POPUP = {
