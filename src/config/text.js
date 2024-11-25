@@ -69,8 +69,11 @@ export const TEXT = {
         },
         datatype_conversion: {
             top_section: {
+                memory_graph: {
+                    title: 'Global Loads'
+                },
                 conversion_numbers: {
-                    title: 'Number of datytype conversions found:',
+                    title: 'Datytype conversions found:',
                     hint: 'These values represent the total amount of datatype conversations found in the current kernel. Generally, these values should be kept as low as possible.',
                     type: {
                         total: {

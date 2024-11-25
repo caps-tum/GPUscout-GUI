@@ -1,6 +1,6 @@
 <template>
     <MemoryGraph
-        :title="TEXT.analyses.register_spilling.top_section.memory_graph.title"
+        :title="TEXT.analyses.datatype_conversion.top_section.memory_graph.title"
         :analysis-data="analysisData"
         :comparison-analysis-data="comparisonAnalysisData"
         :sections="MEMORY_GRAPH_DEFINITION.global_caches"

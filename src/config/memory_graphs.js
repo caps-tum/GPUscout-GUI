@@ -123,7 +123,7 @@ export const MEMORY_GRAPH_DEFINITION = {
             }
         ],
         [{ title: 'Global Memory', size: 'small', bold: true }],
-        [{ metric: METRICS.load_data_global_to_l1_bytes.name }],
+        [{ metric: METRICS.load_data_global_to_l1_bytes.name, direction: 'left' }],
         [
             { title: 'L1 Cache {size}', bold: true },
             {
@@ -132,7 +132,7 @@ export const MEMORY_GRAPH_DEFINITION = {
                 comparison_format: '{value}\nhit rate\n{comp_value}'
             }
         ],
-        [{ metric: METRICS.load_data_global_l1_to_l2_bytes.name }],
+        [{ metric: METRICS.load_data_global_l1_to_l2_bytes.name, direction: 'left' }],
         [
             { title: 'L2 Cache {size}', bold: true },
             {
@@ -141,7 +141,7 @@ export const MEMORY_GRAPH_DEFINITION = {
                 comparison_format: '{value}\nhit rate\n{diff_arrow} {comp_value}'
             }
         ],
-        [{ metric: METRICS.load_data_l2_to_dram_bytes.name }],
+        [{ metric: METRICS.load_data_l2_to_dram_bytes.name, direction: 'left' }],
         [{ title: 'DRAM {size}', bold: true }]
     ]
 };

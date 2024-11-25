@@ -22,6 +22,7 @@
                         :labels="buildTitles(section)"
                         :comparison-labels="buildTitles(section, true)"
                         :rows="rows"
+                        :direction="section[0]['direction'] || 'right'"
                     />
                 </template>
             </div>
