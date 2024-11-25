@@ -3,7 +3,7 @@
         :title="TEXT.analyses.register_spilling.top_section.memory_graph.title"
         :analysis-data="analysisData"
         :comparison-analysis-data="comparisonAnalysisData"
-        :sections="MEMORY_GRAPH_DEFINITION.global_local_caches"
+        :graph="MEMORY_GRAPH_DEFINITION.global_local_caches"
         :expanded="expandedSection === 1"
         @expand="expandedSection = 1"
     />

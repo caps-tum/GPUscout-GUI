@@ -3,6 +3,7 @@
     <NavigationBase v-else />
 
     <PopupMetricHint />
+    <PopupMemoryGraph />
 </template>
 <script setup>
 import { CONTEXT, useContextStore } from './stores/ContextStore';
@@ -11,6 +12,7 @@ import { useConfigStore } from './stores/ConfigStore';
 import LandingPage from './components/pages/landing/LandingPage.vue';
 import NavigationBase from './components/navigation/NavigationBase.vue';
 import PopupMetricHint from './components/popups/PopupMetricHint.vue';
+import PopupMemoryGraph from './components/popups/PopupMemoryGraph.vue';
 
 const contextStore = useContextStore();
 const configStore = useConfigStore();

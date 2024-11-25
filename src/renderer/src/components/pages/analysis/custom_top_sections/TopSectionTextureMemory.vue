@@ -3,7 +3,7 @@
         :title="TEXT.analyses.use_texture.top_section.memory_graph.title"
         :analysis-data="analysisData"
         :comparison-analysis-data="comparisonAnalysisData"
-        :sections="MEMORY_GRAPH_DEFINITION.texture_memory"
+        :graph="MEMORY_GRAPH_DEFINITION.texture_memory"
         :expanded="expandedSection === 1"
         @expand="expandedSection = 1"
     />

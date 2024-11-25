@@ -11,9 +11,7 @@ export const CONTEXT = {
 
 export const POPUP = {
     METRIC_HELP: 0,
-    GLOBAL_MEMORY_FLOW: 1,
-    TEXTURE_MEMORY_FLOW: 2,
-    GLOBAL_LOCAL_MEMORY_FLOW: 3
+    MEMORY_GRAPH: 1
 };
 
 export const useContextStore = defineStore('context', () => {

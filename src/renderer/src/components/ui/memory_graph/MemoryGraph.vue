@@ -2,28 +2,28 @@
     <div class="flex min-w-72 flex-col" :class="getOrderClass()">
         <div class="flex flex-col overflow-auto rounded bg-secondary/50 p-2 pt-1">
             <div class="flex flex-shrink-0 flex-row items-start justify-between space-x-1">
-                <div class="flex flex-row">
-                    <p class="pr-2 text-xl text-text">{{ title }}</p>
-                    <ButtonHelp v-if="expanded" class="text-text *:h-5 *:w-5" />
-                </div>
+                <p class="pr-2 text-xl text-text">{{ title }}</p>
                 <a v-show="!expanded" class="cursor-pointer" @click="emit('expand')">
                     <IconExpand class="mr-1 mt-1 h-4 w-4" />
                 </a>
             </div>
             <div v-if="expanded" class="grid flex-grow grid-flow-col" :style="getGridStyle()">
-                <template v-for="(section, index) of sections" :key="index">
-                    <MemoryGraphNodeLarge
-                        v-if="index % 2 === 0 && section[0]['size'] !== 'small'"
-                        :titles="buildTitles(section, true)"
-                    />
-                    <MemoryGraphNodesSmall v-else-if="index % 2 === 0" :titles="buildTitles(section)" />
-                    <MemoryGraphArrows
-                        v-else
-                        :labels="buildTitles(section)"
-                        :comparison-labels="buildTitles(section, true)"
-                        :rows="rows"
-                        :direction="section[0]['direction'] || 'right'"
-                    />
+                <template v-for="column of graph.content" :key="column">
+                    <template v-for="(entry, row) of column" :key="row">
+                        <MemoryGraphNode
+                            v-if="entry instanceof Node"
+                            :node="entry"
+                            :analysis-data="analysisData"
+                            :comparison-analysis-data="comparisonAnalysisData"
+                        />
+                        <MemoryGraphArrow
+                            v-else-if="entry instanceof Arrow"
+                            :arrow="entry"
+                            :analysis-data="analysisData"
+                            :comparison-analysis-data="comparisonAnalysisData"
+                        />
+                        <div v-else-if="entry instanceof Spacer"></div>
+                    </template>
                 </template>
             </div>
             <div v-else class="flex max-h-60 flex-grow flex-col gap-y-1 overflow-y-auto">
@@ -43,17 +43,15 @@
 <script setup>
 import { computed } from 'vue';
 import { Analysis } from '../../../utils/Analysis';
-import { getMetricsData } from '../../../utils/formatters';
-import ButtonHelp from '../buttons/ButtonHelp.vue';
-import MemoryGraphArrows from './MemoryGraphArrows.vue';
-import MemoryGraphNodeLarge from './MemoryGraphNodeLarge.vue';
 import ButtonMetricList from '../buttons/ButtonMetricList.vue';
-import MemoryGraphNodesSmall from './MemoryGraphNodesSmall.vue';
 import IconExpand from '../icons/IconExpand.vue';
+import { Arrow, MemoryGraph, Node, Spacer } from '../../../utils/MemoryGraphComponents';
+import MemoryGraphNode from './MemoryGraphNode.vue';
+import MemoryGraphArrow from './MemoryGraphArrow.vue';
 
 const props = defineProps({
     title: String,
-    sections: Array,
+    graph: MemoryGraph,
     analysisData: Analysis,
     comparisonAnalysisData: Analysis,
     expanded: Boolean
@@ -61,90 +59,17 @@ const props = defineProps({
 
 const emit = defineEmits(['expand']);
 
-const cols = computed(() => Math.floor(props.sections.length / 2));
-const rows = computed(() => Math.ceil(Math.max(...props.sections.map((e) => e.length)) / 2));
-
-/**
- * @param {{[title]: String, [metric]: String, [bold]: Boolean, [value]: (String|Number)}} components The individual components the title is made of
- * @param {Boolean} [useComparison=false] If the comparison analysis data should be used as default
- */
-function buildTitles(components, useComparison = false) {
-    useComparison = useComparison && props.comparisonAnalysisData !== undefined;
-    const analysisData = useComparison ? props.comparisonAnalysisData : props.analysisData;
-    const result = [];
-
-    for (const entry of components) {
-        if (entry.title) {
-            // Display a title
-            let title = entry.bold ? '*' + entry.title : entry.title;
-            if (title.includes('{size}') && props.analysisData.hasTopologyMetrics()) {
-                const topString = getTopologyString(title, props.analysisData);
-                if (useComparison && props.analysisData.hasTopologyMetrics() && analysisData.hasTopologyMetrics()) {
-                    const compTopString = getTopologyString(title, analysisData);
-                    title = title.replace('{size}', `\n(${topString} vs ${compTopString})`);
-                } else {
-                    title = title.replace('{size}', `\n(${topString})`);
-                }
-            } else {
-                title = title.replaceAll('{size}', '');
-            }
-            result.push(title);
-        } else {
-            // Display a metric
-            let metricValue = getMetricsData(entry.metric).format_function(
-                entry.value || analysisData.getMetric(entry.metric)
-            );
-            if (entry.format) {
-                // Use a custom format
-                if (useComparison) {
-                    const newMetric = getMetricsData(entry.metric);
-                    const newMetricValue = newMetric.format_function(
-                        entry.value || props.analysisData.getMetric(entry.metric)
-                    );
-
-                    const isPositiveChange =
-                        (props.analysisData.getMetric(entry.metric) <= analysisData.getMetric(entry.metric) &&
-                            newMetric.lower_better) ||
-                        (props.analysisData.getMetric(entry.metric) >= analysisData.getMetric(entry.metric) &&
-                            !newMetric.lower_better);
-                    const changeColor = isPositiveChange ? 'text-green-300' : 'text-red-300';
-
-                    metricValue =
-                        '<p>' +
-                        entry.comparison_format
-                            .replace('{value}', metricValue)
-                            .replace('{comp_value}', `<a class="${changeColor}">${newMetricValue}</a></div>`)
-                            .replace(
-                                '{diff_arrow}',
-                                `<div class="-mt-1"><a class="text-lg w-min ${changeColor}">&#x2B07;</a>`
-                            ) +
-                        '</p>';
-                } else {
-                    metricValue = entry.format.replace('{value}', metricValue);
-                }
-            }
-            result.push(metricValue);
-        }
-    }
-    return result;
-}
-
-function getTopologyString(title, analysisData) {
-    if (title.includes('L1')) {
-        return `${Math.ceil(analysisData.getTopologyMetric('l1_data_cache/size'))}${analysisData.getTopologyMetric('l1_data_cache/size_unit')}`;
-    } else if (title.includes('L2')) {
-        return `${Math.ceil(analysisData.getTopologyMetric('l2_data_cache/size'))}${analysisData.getTopologyMetric('l2_data_cache/size_unit')}`;
-    } else if (title.includes('DRAM')) {
-        return `${Math.ceil(analysisData.getTopologyMetric('main_memory/size'))}${analysisData.getTopologyMetric('main_memory/size_unit')}`;
-    }
-    return '';
-}
+const cols = computed(() => Math.floor(props.graph.content.length / 2));
+const rows = computed(() => Math.ceil(Math.max(props.graph.rows) / 2));
 
 /**
  * @returns {String[]} The names of all mentioned metrics
  */
 function getMetrics() {
-    return props.sections.flatMap((s) => s.filter((x) => x.metric !== undefined).map((x) => x.metric));
+    return props.graph.content
+        .flatMap((s) => (s instanceof Node ? s.content : s))
+        .filter((s) => s.metric !== undefined)
+        .map((x) => x.metric);
 }
 
 /**

@@ -134,7 +134,7 @@ export const TEXT = {
                     no: 'Texture memory is not currently used in the kernel'
                 },
                 memory_graph: {
-                    title: 'Memory graph'
+                    title: 'Texture memory usage'
                 },
                 help_strings: {
                     long_scoreboard: 'Long scoreboard stalls should be kept as low as possible',
@@ -156,7 +156,7 @@ export const TEXT = {
         register_spilling: {
             top_section: {
                 memory_graph: {
-                    title: 'Memory graph'
+                    title: 'Global & Local Loads'
                 },
                 lmem_impact: {
                     title: 'Performance impact of local memory',

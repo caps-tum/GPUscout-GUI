@@ -1,3 +1,12 @@
+import {
+    Arrow,
+    DIRECTION,
+    MemoryGraph,
+    Node,
+    NodeMetricContent,
+    NodeTextContent,
+    Spacer
+} from '../renderer/src/utils/MemoryGraphComponents';
 import { METRICS } from './metrics';
 
 /**
@@ -12,136 +21,256 @@ import { METRICS } from './metrics';
  *   - The first and last column of a memory graph have to contain nodes, with every other column being interpreted as arrows. Arrow nodes can have either a title or metric associated with them.
  */
 export const MEMORY_GRAPH_DEFINITION = {
-    global_local_caches: [
-        [{ title: 'Kernel', bold: true }],
+    global_local_caches: new MemoryGraph(
+        3,
+        [new Node(new NodeTextContent('Kernel')).setRowSpan(3)],
         [
-            {
-                metric: METRICS.instructions_global_loads.name
-            },
-            { metric: METRICS.instructions_local_loads.name }
+            new Arrow(METRICS.instructions_global_loads.name),
+            new Arrow(METRICS.instructions_local_loads.name).addSpaceAbove()
+        ],
+        [new Node(new NodeTextContent('Global Memory')), new Node(new NodeTextContent('Local Memory')).addSpaceAbove()],
+        [
+            new Arrow(METRICS.load_data_global_to_l1_bytes.name).setDirection(DIRECTION.LEFT),
+            new Arrow(METRICS.load_data_local_to_l1_bytes.name).setDirection(DIRECTION.LEFT).addSpaceAbove()
         ],
         [
-            { title: 'Global Memory', size: 'small', bold: true },
-            { title: 'Local Memory', bold: true }
-        ],
-        [{ metric: METRICS.load_data_global_to_l1_bytes.name }, { metric: METRICS.load_data_local_to_l1_bytes.name }],
-        [
-            {
-                metric: METRICS.load_data_global_to_l1_cache_hit_perc.name,
-                format: '{value} hit rate',
-                comparison_format: '{value}\nhit rate\n{comp_value}'
-            },
-            { title: 'L1 Cache {size}', bold: true },
-            {
-                metric: METRICS.load_data_local_to_l1_cache_hit_perc.name,
-                format: '{value} hit rate',
-                comparison_format: '{value}\nhit rate\n{comp_value}'
-            }
-        ],
-        [{ metric: METRICS.load_data_global_l1_to_l2_bytes.name }, { metric: METRICS.load_data_local_l1_to_l2_bytes.name }],
-        [
-            { title: 'L2 Cache {size}', bold: true },
-            {
-                metric: METRICS.load_data_l1_to_l2_cache_hit_perc.name,
-                format: '{value} hit rate',
-                comparison_format: '{value}\nhit rate\n{diff_arrow} {comp_value}'
-            }
-        ],
-        [{ metric: METRICS.load_data_l2_to_dram_bytes.name }],
-        [{ title: 'DRAM {size}', bold: true }]
-    ],
-    texture_memory: [
-        [{ title: 'Kernel', bold: true }],
-        [{ metric: METRICS.texture_data_kernel_to_tex_instr.name }, { metric: METRICS.instructions_global_loads.name }],
-        [
-            { title: 'Texture Memory', bold: true, size: 'small' },
-            { title: 'Global Memory', bold: true, size: 'small' }
-        ],
-        [{ metric: METRICS.texture_data_tex_to_l1_bytes.name }, { metric: METRICS.load_data_global_to_l1_bytes.name }],
-        [
-            {
-                metric: METRICS.texture_data_tex_to_l1_cache_hit_perc.name,
-                format: '{value} hit rate',
-                comparison_format: '{value}\nhit rate\n{comp_value}'
-            },
-            { title: 'L1 Cache {size}', bold: true },
-            {
-                metric: METRICS.load_data_global_to_l1_cache_hit_perc.name,
-                format: '{value} hit rate',
-                comparison_format: '{value}\nhit rate\n{comp_value}'
-            }
-        ],
-        [{ metric: METRICS.texture_data_l1_to_l2_bytes.name }, { metric: METRICS.load_data_global_l1_to_l2_bytes.name }],
-        [
-            {
-                metric: METRICS.texture_data_l1_to_l2_cache_hit_perc.name,
-                format: '{value} hit rate',
-                comparison_format: '{value}\nhit rate\n{comp_value}'
-            },
-            { title: 'L2 Cache {size}', bold: true },
-            {
-                metric: METRICS.load_data_l1_to_l2_cache_hit_perc.name,
-                format: '{value} hit rate',
-                comparison_format: '{value}\nhit rate\n{comp_value}'
-            }
-        ],
-        [{ metric: METRICS.texture_data_l2_to_dram_bytes.name }],
-        [{ title: 'DRAM {size}', bold: true }]
-    ],
-    atomics: [
-        [{ title: 'Global Memory', bold: true }],
-        [
-            {
-                metric: METRICS.atomic_data_global_to_l1_red_atom_bytes.name
-            }
+            new Node(
+                new NodeMetricContent(
+                    METRICS.load_data_global_to_l1_cache_hit_perc.name,
+                    '{value} hit rate',
+                    '{value} vs {comp_value} hit rate'
+                ),
+                new NodeTextContent('L1 Cache {size}'),
+                new NodeMetricContent(
+                    METRICS.load_data_local_to_l1_cache_hit_perc.name,
+                    '{value} hit rate',
+                    '{value} vs {comp_value} hit rate'
+                )
+            ).setRowSpan(3)
         ],
         [
-            { title: 'L1 Cache {size}', bold: true },
-            {
-                metric: METRICS.atomic_data_global_to_l1_cache_hit_perc.name,
-                format: '{value} hit rate',
-                comparison_format: '{value}\nhit rate\n{comp_value}'
-            }
+            new Arrow(METRICS.load_data_global_l1_to_l2_bytes.name).setDirection(DIRECTION.LEFT),
+            new Arrow(METRICS.load_data_local_l1_to_l2_bytes.name).setDirection(DIRECTION.LEFT).addSpaceAbove()
         ],
-        [{ metric: METRICS.atomic_data_l1_to_l2_bytes.name }],
         [
-            { title: 'L2 Cache {size}', bold: true },
-            {
-                metric: METRICS.atomic_data_l1_to_l2_cache_hit_perc.name,
-                format: '{value} hit rate',
-                comparison_format: '{value}\nhit rate\n{comp_value}'
-            }
+            new Node(
+                new NodeTextContent('L2 Cache {size}'),
+                new NodeMetricContent(
+                    METRICS.load_data_l1_to_l2_cache_hit_perc.name,
+                    '{value} hit rate',
+                    '{value} vs {comp_value} hit rate'
+                )
+            ).setRowSpan(3)
         ],
-        [{ metric: METRICS.atomic_data_l2_to_dram_bytes.name }],
-        [{ title: 'DRAM {size}', bold: true }]
-    ],
-    global_caches: [
-        [{ title: 'Kernel', bold: true }],
+        [new Arrow(METRICS.load_data_l2_to_dram_bytes.name).setDirection(DIRECTION.LEFT).addSpaceAbove()],
+        [new Node(new NodeTextContent('DRAM {size}')).setRowSpan(3)]
+    ),
+    texture_memory: new MemoryGraph(
+        3,
+        [new Node(new NodeTextContent('Kernel')).setRowSpan(3)],
         [
-            {
-                metric: METRICS.instructions_global_loads.name
-            }
+            new Arrow(METRICS.texture_data_kernel_to_tex_instr.name),
+            new Arrow(METRICS.instructions_global_loads.name).addSpaceAbove()
         ],
-        [{ title: 'Global Memory', size: 'small', bold: true }],
-        [{ metric: METRICS.load_data_global_to_l1_bytes.name, direction: 'left' }],
+        [new Node(new NodeTextContent('Texture Memory')), new Node(new NodeTextContent('Global Memory')).addSpaceAbove()],
         [
-            { title: 'L1 Cache {size}', bold: true },
-            {
-                metric: METRICS.load_data_global_to_l1_cache_hit_perc.name,
-                format: '{value} hit rate',
-                comparison_format: '{value}\nhit rate\n{comp_value}'
-            }
+            new Arrow(METRICS.texture_data_tex_to_l1_bytes.name).setDirection(DIRECTION.LEFT),
+            new Arrow(METRICS.load_data_global_to_l1_bytes.name).setDirection(DIRECTION.LEFT).addSpaceAbove()
         ],
-        [{ metric: METRICS.load_data_global_l1_to_l2_bytes.name, direction: 'left' }],
         [
-            { title: 'L2 Cache {size}', bold: true },
-            {
-                metric: METRICS.load_data_l1_to_l2_cache_hit_perc.name,
-                format: '{value} hit rate',
-                comparison_format: '{value}\nhit rate\n{diff_arrow} {comp_value}'
-            }
+            new Node(
+                new NodeMetricContent(
+                    METRICS.texture_data_tex_to_l1_cache_hit_perc.name,
+                    '{value} hit rate',
+                    '{value} vs {comp_value} hit rate'
+                ),
+                new NodeTextContent('L1 Cache {size}'),
+                new NodeMetricContent(
+                    METRICS.load_data_global_to_l1_cache_hit_perc.name,
+                    '{value} hit rate',
+                    '{value} vs {comp_value} hit rate'
+                )
+            ).setRowSpan(3)
         ],
-        [{ metric: METRICS.load_data_l2_to_dram_bytes.name, direction: 'left' }],
-        [{ title: 'DRAM {size}', bold: true }]
-    ]
+        [
+            new Arrow(METRICS.texture_data_l1_to_l2_bytes.name).setDirection(DIRECTION.LEFT),
+            new Arrow(METRICS.load_data_global_l1_to_l2_bytes.name).setDirection(DIRECTION.LEFT).addSpaceAbove()
+        ],
+        [
+            new Node(
+                new NodeMetricContent(
+                    METRICS.texture_data_l1_to_l2_cache_hit_perc.name,
+                    '{value} hit rate',
+                    '{value} vs {comp_value} hit rate'
+                ),
+                new NodeTextContent('L2 Cache {size}'),
+                new NodeMetricContent(
+                    METRICS.load_data_l1_to_l2_cache_hit_perc.name,
+                    '{value} hit rate',
+                    '{value} vs {comp_value} hit rate'
+                )
+            ).setRowSpan(3)
+        ],
+        [new Arrow(METRICS.texture_data_l2_to_dram_bytes.name).setDirection(DIRECTION.LEFT).addSpaceAbove()],
+        [new Node(new NodeTextContent('DRAM {size}')).setRowSpan(3)]
+    ),
+    atomics: new MemoryGraph(
+        1,
+        [new Node(new NodeTextContent('Global Memory'))],
+        [new Arrow(METRICS.atomic_data_global_to_l1_red_atom_bytes.name)],
+        [
+            new Node(
+                new NodeTextContent('L1 Cache {size}'),
+                new NodeMetricContent(
+                    METRICS.atomic_data_global_to_l1_cache_hit_perc.name,
+                    '{value} hit rate',
+                    '{value} vs {comp_value} hit rate'
+                )
+            )
+        ],
+        [new Arrow(METRICS.atomic_data_l1_to_l2_bytes.name)],
+        [
+            new Node(
+                new NodeTextContent('L2 Cache {size}'),
+                new NodeMetricContent(
+                    METRICS.atomic_data_l1_to_l2_cache_hit_perc.name,
+                    '{value} hit rate',
+                    '{value} vs {comp_value} hit rate'
+                )
+            )
+        ],
+        [new Arrow(METRICS.atomic_data_l2_to_dram_bytes.name)],
+        [new Node(new NodeTextContent('DRAM {size}'))]
+    ),
+    global_caches: new MemoryGraph(
+        1,
+        [new Node(new NodeTextContent('Kernel'))],
+        [new Arrow(METRICS.instructions_global_loads.name)],
+        [new Node(new NodeTextContent('Global Memory'))],
+        [new Arrow(METRICS.load_data_global_to_l1_bytes.name).setDirection(DIRECTION.LEFT)],
+        [
+            new Node(
+                new NodeTextContent('L1 Cache {size}'),
+                new NodeMetricContent(
+                    METRICS.load_data_global_to_l1_cache_hit_perc.name,
+                    '{value} hit rate',
+                    '{value} vs {comp_value} hit rate'
+                )
+            )
+        ],
+        [new Arrow(METRICS.load_data_global_l1_to_l2_bytes.name).setDirection(DIRECTION.LEFT)],
+        [
+            new Node(
+                new NodeTextContent('L2 Cache {size}'),
+                new NodeMetricContent(
+                    METRICS.load_data_l1_to_l2_cache_hit_perc.name,
+                    '{value} hit rate',
+                    '{value} vs {comp_value} hit rate'
+                )
+            )
+        ],
+        [new Arrow(METRICS.load_data_l2_to_dram_bytes.name).setDirection(DIRECTION.LEFT)],
+        [new Node(new NodeTextContent('DRAM {size}'))]
+    ),
+    complete: new MemoryGraph(
+        9,
+        [new Node(new NodeTextContent('Kernel')).setRowSpan(9)],
+        [
+            new Arrow(METRICS.instructions_total.name).setDirection(DIRECTION.BIDIRECTIONAL),
+            new Arrow(METRICS.instructions_total.name).setDirection(DIRECTION.BIDIRECTIONAL).addSpaceAbove(),
+            new Arrow(METRICS.instructions_total.name).setDirection(DIRECTION.BIDIRECTIONAL).addSpaceAbove(),
+            new Arrow(METRICS.instructions_total.name).setDirection(DIRECTION.BIDIRECTIONAL).addSpaceAbove(),
+            new Arrow(METRICS.instructions_total.name).setDirection(DIRECTION.BIDIRECTIONAL).addSpaceAbove()
+        ],
+        [
+            new Node(new NodeTextContent('Global Memory')),
+            new Node(new NodeTextContent('Local Memory')).addSpaceAbove(),
+            new Node(new NodeTextContent('Shared Memory')).addSpaceAbove(),
+            new Node(new NodeTextContent('Texture Memory')).addSpaceAbove(),
+            new Node(new NodeTextContent('Surface Memory')).addSpaceAbove()
+        ],
+        [
+            new Arrow(METRICS.load_data_global_to_l1_bytes.name).setDirection(DIRECTION.BIDIRECTIONAL),
+            new Arrow(METRICS.load_data_global_to_l1_bytes.name)
+                .setDirection(DIRECTION.BIDIRECTIONAL)
+                .addSpaceAbove()
+                .addSpaceBelow(),
+            new Spacer(),
+            new Arrow(METRICS.load_data_global_to_l1_bytes.name).setDirection(DIRECTION.BIDIRECTIONAL).addSpaceAbove(),
+            new Arrow(METRICS.load_data_global_to_l1_bytes.name).setDirection(DIRECTION.BIDIRECTIONAL).addSpaceAbove()
+        ],
+        [
+            new Node(
+                new NodeMetricContent(
+                    METRICS.load_data_l1_to_l2_cache_hit_perc.name,
+                    '{value} hit rate',
+                    '{value} vs {comp_value} hit rate'
+                ),
+                new NodeMetricContent(
+                    METRICS.load_data_l1_to_l2_cache_hit_perc.name,
+                    '{value} hit rate',
+                    '{value} vs {comp_value} hit rate'
+                ),
+                new NodeTextContent('L1 Cache {size}'),
+                new NodeMetricContent(
+                    METRICS.load_data_l1_to_l2_cache_hit_perc.name,
+                    '{value} hit rate',
+                    '{value} vs {comp_value} hit rate'
+                ),
+                new NodeMetricContent(
+                    METRICS.load_data_l1_to_l2_cache_hit_perc.name,
+                    '{value} hit rate',
+                    '{value} vs {comp_value} hit rate'
+                )
+            ).setRowSpan(9)
+        ],
+        [
+            new Arrow(METRICS.load_data_local_l1_to_l2_bytes.name).setDirection(DIRECTION.BIDIRECTIONAL),
+            new Arrow(METRICS.load_data_local_l1_to_l2_bytes.name)
+                .setDirection(DIRECTION.BIDIRECTIONAL)
+                .addSpaceAbove()
+                .addSpaceBelow(),
+            new Spacer(),
+            new Arrow(METRICS.load_data_local_l1_to_l2_bytes.name).setDirection(DIRECTION.BIDIRECTIONAL).addSpaceAbove(),
+            new Arrow(METRICS.load_data_local_l1_to_l2_bytes.name).setDirection(DIRECTION.BIDIRECTIONAL).addSpaceAbove()
+        ],
+        [
+            new Node(
+                new NodeMetricContent(
+                    METRICS.load_data_l1_to_l2_cache_hit_perc.name,
+                    '{value} hit rate',
+                    '{value} vs {comp_value} hit rate'
+                ),
+                new NodeMetricContent(
+                    METRICS.load_data_l1_to_l2_cache_hit_perc.name,
+                    '{value} hit rate',
+                    '{value} vs {comp_value} hit rate'
+                ),
+                new NodeTextContent('L2 Cache {size}'),
+                new NodeMetricContent(
+                    METRICS.load_data_l1_to_l2_cache_hit_perc.name,
+                    '{value} hit rate',
+                    '{value} vs {comp_value} hit rate'
+                ),
+                new NodeMetricContent(
+                    METRICS.load_data_l1_to_l2_cache_hit_perc.name,
+                    '{value} hit rate',
+                    '{value} vs {comp_value} hit rate'
+                )
+            ).setRowSpan(9)
+        ],
+        [
+            new Spacer(),
+            new Spacer(),
+            new Spacer(),
+            new Arrow(METRICS.load_data_l2_to_dram_bytes.name)
+                .setDirection(DIRECTION.BIDIRECTIONAL)
+                .addSpaceBelow()
+                .addSpaceAbove(),
+            new Spacer(),
+            new Spacer(),
+            new Spacer()
+        ],
+        [new Node(new NodeTextContent('DRAM {size}')).setRowSpan(9)]
+    )
 };

@@ -110,7 +110,7 @@ More information is available at <a href="https://docs.nvidia.com/nsight-compute
         name: 'smsp__sass_inst_executed',
         display_name: 'Instructions executed',
         hint: 'Total number of instructions executed',
-        format_function: formatNumber,
+        format_function: formatInstructions,
         help_text: 'This is a detailed explanation something',
         lower_better: true
     },

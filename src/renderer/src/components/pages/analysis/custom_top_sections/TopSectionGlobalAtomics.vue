@@ -3,7 +3,7 @@
         :title="TEXT.analyses.global_atomics.top_section.memory_graph.title"
         :analysis-data="analysisData"
         :comparison-analysis-data="comparisonAnalysisData"
-        :sections="MEMORY_GRAPH_DEFINITION.atomics"
+        :graph="MEMORY_GRAPH_DEFINITION.atomics"
         :expanded="expandedSection === 1"
         @expand="expandedSection = 1"
     />
