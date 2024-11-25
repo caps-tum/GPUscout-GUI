@@ -190,14 +190,14 @@ export const MEMORY_GRAPH_DEFINITION = {
             new Node(new NodeTextContent('Surface Memory')).addSpaceAbove()
         ],
         [
-            new Arrow(METRICS.load_data_global_to_l1_bytes.name).setDirection(DIRECTION.BIDIRECTIONAL),
+            new Arrow(METRICS.load_data_global_to_l1_bytes.name).setDirection(DIRECTION.BOTH),
             new Arrow(METRICS.load_data_global_to_l1_bytes.name)
-                .setDirection(DIRECTION.BIDIRECTIONAL)
+                .setDirection(DIRECTION.BOTH)
                 .addSpaceAbove()
                 .addSpaceBelow(),
             new Spacer(),
-            new Arrow(METRICS.load_data_global_to_l1_bytes.name).setDirection(DIRECTION.BIDIRECTIONAL).addSpaceAbove(),
-            new Arrow(METRICS.load_data_global_to_l1_bytes.name).setDirection(DIRECTION.BIDIRECTIONAL).addSpaceAbove()
+            new Arrow(METRICS.load_data_global_to_l1_bytes.name).setDirection(DIRECTION.BOTH).addSpaceAbove(),
+            new Arrow(METRICS.load_data_global_to_l1_bytes.name).setDirection(DIRECTION.BOTH).addSpaceAbove()
         ],
         [
             new Node(
@@ -225,14 +225,14 @@ export const MEMORY_GRAPH_DEFINITION = {
             ).setRowSpan(9)
         ],
         [
-            new Arrow(METRICS.load_data_local_l1_to_l2_bytes.name).setDirection(DIRECTION.BIDIRECTIONAL),
+            new Arrow(METRICS.load_data_local_l1_to_l2_bytes.name).setDirection(DIRECTION.BOTH),
             new Arrow(METRICS.load_data_local_l1_to_l2_bytes.name)
-                .setDirection(DIRECTION.BIDIRECTIONAL)
+                .setDirection(DIRECTION.BOTH)
                 .addSpaceAbove()
                 .addSpaceBelow(),
             new Spacer(),
-            new Arrow(METRICS.load_data_local_l1_to_l2_bytes.name).setDirection(DIRECTION.BIDIRECTIONAL).addSpaceAbove(),
-            new Arrow(METRICS.load_data_local_l1_to_l2_bytes.name).setDirection(DIRECTION.BIDIRECTIONAL).addSpaceAbove()
+            new Arrow(METRICS.load_data_local_l1_to_l2_bytes.name).setDirection(DIRECTION.BOTH).addSpaceAbove(),
+            new Arrow(METRICS.load_data_local_l1_to_l2_bytes.name).setDirection(DIRECTION.BOTH).addSpaceAbove()
         ],
         [
             new Node(
@@ -263,8 +263,8 @@ export const MEMORY_GRAPH_DEFINITION = {
             new Spacer(),
             new Spacer(),
             new Spacer(),
-            new Arrow(METRICS.load_data_l2_to_dram_bytes.name)
-                .setDirection(DIRECTION.BIDIRECTIONAL)
+            new Arrow(METRICS.load_data_l2_to_dram_bytes.name, METRICS.atomic_data_l2_to_dram_bytes.name)
+                .setDirection(DIRECTION.BOTH)
                 .addSpaceBelow()
                 .addSpaceAbove(),
             new Spacer(),

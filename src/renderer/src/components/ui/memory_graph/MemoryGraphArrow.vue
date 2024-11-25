@@ -1,18 +1,32 @@
 <template>
     <div v-if="arrow.spaceAbove"></div>
-    <div class="relative grid min-w-12 grid-cols-1 grid-rows-[50%_50%] flex-col" :class="getArrowClass()">
-        <div
-            v-if="comparisonAnalysisData === undefined"
-            class="flex flex-col justify-end border-b border-black px-2 pb-1 text-center text-sm text-text"
-        >
-            {{ getTitle() }}
-        </div>
-        <template v-else>
-            <div class="flex flex-col justify-end border-b border-black px-2 pb-1 text-center text-sm text-text">
-                {{ getTitle(true) }}
+    <div class="relative grid min-w-12 grid-cols-1 grid-rows-[50%_50%] flex-col">
+        <template v-if="!arrow.metricBottom">
+            <div
+                class="flex flex-col justify-end border-b border-black px-2 pb-1 text-center text-sm text-text"
+                :class="getArrowClass()"
+            >
+                {{ getTitle(comparisonAnalysisData !== undefined) }}
             </div>
-            <div class="flex flex-col justify-start border-t border-black px-2 pt-1 text-center text-sm text-text">
-                {{ getTitle(false) }}
+            <div
+                class="flex flex-col justify-start border-t border-black px-2 pt-1 text-center text-sm text-text"
+                :class="getArrowClass(true)"
+            >
+                {{ getTitle(comparisonAnalysisData === undefined) }}
+            </div>
+        </template>
+        <template v-else>
+            <div
+                class="flex flex-col justify-end border-b border-black px-2 pb-1 text-center text-sm text-text"
+                :class="getArrowClass()"
+            >
+                {{ getTitle(true) }} {{ comparisonAnalysisData !== undefined ? 'vs ' + getTitle(false) : '' }}
+            </div>
+            <div
+                class="flex flex-col justify-start border-t border-black px-2 pt-1 text-center text-sm text-text"
+                :class="getArrowClass(true)"
+            >
+                {{ getTitle(true, true) }} {{ comparisonAnalysisData !== undefined ? 'vs ' + getTitle(false, true) : '' }}
             </div>
         </template>
     </div>
@@ -29,19 +43,24 @@ const props = defineProps({
     comparisonAnalysisData: Analysis
 });
 
-function getTitle(comparison = false) {
-    const formatFunction = getMetricsData(props.arrow.metric).format_function;
+function getTitle(comparison = false, useBottomMetric = false) {
+    if (comparison && !props.comparisonAnalysisData) return '';
+    const formatFunction = getMetricsData(useBottomMetric ? props.arrow.metricBottom : props.arrow.metric).format_function;
     if (comparison) {
-        return formatFunction(props.comparisonAnalysisData.getMetric(props.arrow.metric));
+        return formatFunction(
+            props.comparisonAnalysisData.getMetric(useBottomMetric ? props.arrow.metricBottom : props.arrow.metric)
+        );
     } else {
-        return formatFunction(props.analysisData.getMetric(props.arrow.metric));
+        return formatFunction(props.analysisData.getMetric(useBottomMetric ? props.arrow.metricBottom : props.arrow.metric));
     }
 }
 
-function getArrowClass() {
+function getArrowClass(second = false) {
+    if (second) return props.arrow.direction === DIRECTION.BOTH ? 'mt-[3px] arrow-left arrow-left-both border-t-2' : '';
     if (props.arrow.direction === DIRECTION.RIGHT) return 'arrow-right';
     if (props.arrow.direction === DIRECTION.LEFT) return 'arrow-left';
     if (props.arrow.direction === DIRECTION.BIDIRECTIONAL) return 'arrow-right arrow-left';
+    if (props.arrow.direction === DIRECTION.BOTH) return 'mb-[3px] arrow-right arrow-right-both border-b-2';
 }
 </script>
 <style scoped>
@@ -73,5 +92,15 @@ function getArrowClass() {
     border-color: transparent black transparent transparent;
     left: 0;
     transform: translate(-1px, -50%);
+}
+
+.arrow-right-both:before {
+    top: calc(50% + 2px) !important;
+    transform: translate(1px, calc(-50% + 2px)) !important;
+}
+
+.arrow-left-both:after {
+    top: calc(50% - 2px) !important;
+    transform: translate(-1px, calc(-50% - 2px)) !important;
 }
 </style>

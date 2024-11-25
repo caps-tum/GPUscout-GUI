@@ -56,7 +56,7 @@ function getTitle(entry) {
         if (props.comparisonAnalysisData !== undefined) {
             return entry.comparisonFormat
                 .replace('{value}', formatFunction(props.analysisData.getMetric(entry.metric)))
-                .replace('{comp_format}', formatFunction(props.comparisonAnalysisData.getMetric(entry.metric)));
+                .replace('{comp_value}', formatFunction(props.comparisonAnalysisData.getMetric(entry.metric)));
         }
         return entry.format.replace('{value}', formatFunction(props.analysisData.getMetric(entry.metric)));
     }

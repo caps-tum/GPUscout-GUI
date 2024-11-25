@@ -42,12 +42,14 @@ export class NodeMetricContent {
 export const DIRECTION = {
     RIGHT: 1,
     LEFT: 2,
-    BIDIRECTIONAL: 3
+    BIDIRECTIONAL: 3,
+    BOTH: 4
 };
 
 export class Arrow {
-    constructor(metric) {
+    constructor(metric, metricBottom = undefined) {
         this.metric = metric;
+        this.metricBottom = metricBottom;
         this.direction = DIRECTION.RIGHT;
         this.spaceAbove = false;
         this.spaceBelow = false;
