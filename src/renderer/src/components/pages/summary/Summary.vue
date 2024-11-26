@@ -1,25 +1,28 @@
 <template>
     <div class="flex h-full w-full flex-col space-y-1">
-        <div class="-mt-2 flex flex-col">
-            <div class="flex flex-row">
-                <p v-if="!hasComparisonResult" class="text-xl text-text">{{ TEXT.top_section.title }}</p>
-                <p v-else class="text-xl text-text">{{ TEXT.top_section.title_comparison }}</p>
-                <ToggleSwitch
-                    class="ml-2 mr-1 mt-2"
-                    :checked="!showMetrics"
-                    @changed="
-                        () => {
-                            showMetrics = !showMetrics;
-                        }
-                    "
-                />
-                <p class="mt-1 text-text">Hide</p>
+        <div class="flex flex-row justify-between">
+            <div class="-mt-2 flex flex-col">
+                <div class="flex flex-row">
+                    <p v-if="!hasComparisonResult" class="text-xl text-text">{{ TEXT.top_section.title }}</p>
+                    <p v-else class="text-xl text-text">{{ TEXT.top_section.title_comparison }}</p>
+                    <ToggleSwitch
+                        class="ml-2 mr-1 mt-2"
+                        :checked="!showMetrics"
+                        @changed="
+                            () => {
+                                showMetrics = !showMetrics;
+                            }
+                        "
+                    />
+                    <p class="mt-1 text-text">Hide</p>
+                </div>
+                <p class="!-mb-1 !-mt-1 text-sm text-text/50">
+                    {{ TEXT.top_section.hint }}
+                </p>
             </div>
-            <p class="!-mb-1 !-mt-1 text-sm text-text/50">
-                {{ TEXT.top_section.hint }}
-            </p>
+            <ButtonPrimary class="!px-4 !py-0" @click="openLargeMemoryGraph">View Complete Memory Graph</ButtonPrimary>
         </div>
-        <div v-show="showMetrics" class="max-h-[calc(min(18rem,30vh))] overflow-x-auto">
+        <div v-show="showMetrics" class="max-h-[calc(min(18rem,30vh))] flex-shrink-0 overflow-x-auto">
             <TopSectionSummary :analysis-data="currentAnalysis" />
         </div>
         <div class="flex flex-col">
@@ -46,6 +49,7 @@
 <script setup>
 import { computed, ref } from 'vue';
 import { useCodeViewerStore } from '../../../stores/CodeViewerStore';
+import { useContextStore, POPUP } from '../../../stores/ContextStore';
 import { useDataStore } from '../../../stores/DataStore';
 import ToggleSwitch from '../../ui/input/ToggleSwitch.vue';
 import CodeInfo from '../analysis/code_info/CodeInfo.vue';
@@ -53,9 +57,11 @@ import CodeViewer from '../../code_viewer/CodeViewer.vue';
 import { TEXT } from '../../../../../config/text';
 import TopSectionSummary from './TopSectionSummary.vue';
 import { ANALYSIS } from '../../../../../config/analyses';
+import ButtonPrimary from "../../ui/buttons/ButtonPrimary.vue"
 
 const dataStore = useDataStore();
 const codeViewerStore = useCodeViewerStore();
+const contextStore = useContextStore();
 
 const currentKernel = computed(() => dataStore.getCurrentKernel);
 const currentAnalysis = computed(() =>
@@ -73,6 +79,10 @@ const lineStalls = computed(() =>
         ? dataStore.getGPUscoutComparisonResult().getLineStalls(currentKernel.value, selectedLine.value, currentView.value)
         : dataStore.getGPUscoutResult().getLineStalls(currentKernel.value, selectedLine.value, currentView.value)
 );
+
+function openLargeMemoryGraph() {
+    contextStore.togglePopup(POPUP.MEMORY_GRAPH, true);
+}
 
 function toggleCodeVersions() {
     codeViewerStore.setUseComparisonCode(!useComparisonCode.value);
