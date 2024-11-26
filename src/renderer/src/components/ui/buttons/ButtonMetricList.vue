@@ -2,7 +2,7 @@
     <div class="shrink-0">
         <a class="flex h-full flex-row justify-between space-x-2 rounded bg-primary p-2 py-1 text-background">
             <div class="flex flex-row items-center justify-center">
-                <p>{{ data.display_name }}</p>
+                <p class="line-clamp-2">{{ data.display_name }}</p>
                 <ButtonHelp
                     v-if="data.help_text"
                     class="ml-1 self-start *:h-4 *:min-h-4 *:w-4 *:min-w-4"
