@@ -2,6 +2,12 @@ export class MemoryGraph {
     constructor(rows, ...content) {
         this.rows = rows;
         this.content = content;
+        this.large = false;
+    }
+
+    makeLarge() {
+        this.large = true;
+        return this;
     }
 }
 

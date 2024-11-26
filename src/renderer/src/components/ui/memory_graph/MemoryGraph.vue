@@ -1,6 +1,6 @@
 <template>
     <div class="flex min-w-72 flex-col" :class="getOrderClass()">
-        <div class="flex flex-col overflow-auto rounded bg-secondary/50 p-2 pt-1">
+        <div class="flex flex-col overflow-auto rounded p-2 pt-1" :class="noBackground ? '' : 'bg-secondary/50'">
             <div class="flex flex-shrink-0 flex-row items-start justify-between space-x-1">
                 <p class="pr-2 text-xl text-text">{{ title }}</p>
                 <a v-show="!expanded" class="cursor-pointer" @click="emit('expand')">
@@ -15,12 +15,14 @@
                             :node="entry"
                             :analysis-data="analysisData"
                             :comparison-analysis-data="comparisonAnalysisData"
+                            :large="graph.large"
                         />
                         <MemoryGraphArrow
                             v-else-if="entry instanceof Arrow"
                             :arrow="entry"
                             :analysis-data="analysisData"
                             :comparison-analysis-data="comparisonAnalysisData"
+                            :large="graph.large"
                         />
                         <div v-else-if="entry instanceof Spacer"></div>
                     </template>
@@ -54,7 +56,8 @@ const props = defineProps({
     graph: MemoryGraph,
     analysisData: Analysis,
     comparisonAnalysisData: Analysis,
-    expanded: Boolean
+    expanded: Boolean,
+    noBackground: Boolean
 });
 
 const emit = defineEmits(['expand']);

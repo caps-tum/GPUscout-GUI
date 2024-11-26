@@ -1,9 +1,9 @@
 <template>
     <div v-if="node.spaceAbove"></div>
     <div
-        class="grid min-w-20 grid-cols-1 whitespace-pre-line rounded bg-primary px-2 py-1 text-center text-sm text-background"
+        class="grid grid-cols-1 whitespace-pre-line rounded bg-primary px-2 py-1 text-center text-sm text-background"
         :style="{ gridRow: `auto / span ${node.rowSpan}` }"
-        :class="`grid-rows-${node.content.length}`"
+        :class="getDynStyle()"
     >
         <template v-for="entry of node.content" :key="entry">
             <p class="self-center" :class="getBoldness(entry)" v-html="getTitle(entry)"></p>
@@ -18,8 +18,14 @@ import { Node, NodeMetricContent, NodeTextContent } from '../../../utils/MemoryG
 const props = defineProps({
     node: Node,
     analysisData: Analysis,
-    comparisonAnalysisData: Analysis
+    comparisonAnalysisData: Analysis,
+    large: Boolean
 });
+
+function getDynStyle() {
+    const large = props.large ? 'min-w-28 !p-2' : 'min-w-20';
+    return `grid-rows-${props.node.content.length} ${large}`;
+}
 
 /**
  * Return classes to style the font boldness
@@ -52,13 +58,24 @@ function getTitle(entry) {
         }
         return entry.title.replace('{size}', '');
     } else if (entry instanceof NodeMetricContent) {
-        const formatFunction = getMetricsData(entry.metric).format_function;
+        const metricData = getMetricsData(entry.metric);
         if (props.comparisonAnalysisData !== undefined) {
+            const isPositiveChange =
+                (props.analysisData.getMetric(entry.metric) <= props.comparisonAnalysisData.getMetric(entry.metric) &&
+                    metricData.lower_better) ||
+                (props.analysisData.getMetric(entry.metric) >= props.comparisonAnalysisData.getMetric(entry.metric) &&
+                    !metricData.lower_better);
+            const changeColor = isPositiveChange ? 'text-green-300' : 'text-red-300';
             return entry.comparisonFormat
-                .replace('{value}', formatFunction(props.analysisData.getMetric(entry.metric)))
-                .replace('{comp_value}', formatFunction(props.comparisonAnalysisData.getMetric(entry.metric)));
+                .replace(
+                    '{value}',
+                    `<p class="${changeColor}">` +
+                        metricData.format_function(props.analysisData.getMetric(entry.metric)) +
+                        '</p>'
+                )
+                .replace('{comp_value}', metricData.format_function(props.comparisonAnalysisData.getMetric(entry.metric)));
         }
-        return entry.format.replace('{value}', formatFunction(props.analysisData.getMetric(entry.metric)));
+        return entry.format.replace('{value}', metricData.format_function(props.analysisData.getMetric(entry.metric)));
     }
 }
 

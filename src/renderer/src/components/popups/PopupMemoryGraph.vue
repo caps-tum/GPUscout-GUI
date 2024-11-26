@@ -8,6 +8,7 @@
                     :comparison-analysis-data="comparisonAnalysisData"
                     :graph="MEMORY_GRAPH_DEFINITION.complete"
                     :expanded="true"
+                    :no-background="true"
                 />
             </div>
         </div>
@@ -26,9 +27,7 @@ const dataStore = useDataStore();
 const currentKernel = computed(() => dataStore.getCurrentKernel);
 const currentAnalysis = computed(() => dataStore.getCurrentAnalysis);
 
-const analysisData = computed(() =>
-    dataStore.getGPUscoutResult().getAnalysis('use_restrict', currentKernel.value)
-);
+const analysisData = computed(() => dataStore.getGPUscoutResult().getAnalysis('use_restrict', currentKernel.value));
 const comparisonAnalysisData = computed(() =>
     dataStore.getGPUscoutComparisonResult()?.getAnalysis('use_restrict', currentKernel.value)
 );

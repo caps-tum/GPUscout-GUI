@@ -1,33 +1,29 @@
 <template>
     <div v-if="arrow.spaceAbove"></div>
-    <div class="relative grid min-w-12 grid-cols-1 grid-rows-[50%_50%] flex-col">
+    <div class="relative grid grid-cols-1 grid-rows-[50%_50%] flex-col" :class="large ? 'min-w-20' : 'min-w-12'">
         <template v-if="!arrow.metricBottom">
             <div
                 class="flex flex-col justify-end border-b border-black px-2 pb-1 text-center text-sm text-text"
                 :class="getArrowClass()"
-            >
-                {{ getTitle(comparisonAnalysisData !== undefined) }}
-            </div>
+                v-html="getTitle(comparisonAnalysisData !== undefined)"
+            ></div>
             <div
                 class="flex flex-col justify-start border-t border-black px-2 pt-1 text-center text-sm text-text"
                 :class="getArrowClass(true)"
-            >
-                {{ getTitle(comparisonAnalysisData === undefined) }}
-            </div>
+                v-html="getTitle(comparisonAnalysisData === undefined)"
+            ></div>
         </template>
         <template v-else>
             <div
-                class="flex flex-col justify-end border-b border-black px-2 pb-1 text-center text-sm text-text"
+                class="whitespace-nowrap border-b border-black px-2 pb-1 text-center text-sm text-text"
                 :class="getArrowClass()"
-            >
-                {{ getTitle(false) }} {{ comparisonAnalysisData !== undefined ? 'vs ' + getTitle(true) : '' }}
-            </div>
+                v-html="getTitle(false) + (comparisonAnalysisData !== undefined ? ' vs ' + getTitle(true) : '')"
+            ></div>
             <div
-                class="flex flex-col justify-start border-t border-black px-2 pt-1 text-center text-sm text-text"
+                class="whitespace-nowrap border-t border-black px-2 pt-1 text-center text-sm text-text"
                 :class="getArrowClass(true)"
-            >
-                {{ getTitle(false, true) }} {{ comparisonAnalysisData !== undefined ? 'vs ' + getTitle(true, true) : '' }}
-            </div>
+                v-html="getTitle(false, true) + (comparisonAnalysisData !== undefined ? ' vs ' + getTitle(true, true) : '')"
+            ></div>
         </template>
     </div>
     <div v-if="arrow.spaceBelow"></div>
@@ -40,18 +36,28 @@ import { Arrow, DIRECTION } from '../../../utils/MemoryGraphComponents';
 const props = defineProps({
     arrow: Arrow,
     analysisData: Analysis,
-    comparisonAnalysisData: Analysis
+    comparisonAnalysisData: Analysis,
+    large: Boolean
 });
 
 function getTitle(comparison = false, useBottomMetric = false) {
     if (comparison && !props.comparisonAnalysisData) return '';
-    const formatFunction = getMetricsData(useBottomMetric ? props.arrow.metricBottom : props.arrow.metric).format_function;
+    const metric = useBottomMetric ? props.arrow.metricBottom : props.arrow.metric;
+    const metricsData = getMetricsData(metric);
     if (comparison) {
-        return formatFunction(
-            props.comparisonAnalysisData.getMetric(useBottomMetric ? props.arrow.metricBottom : props.arrow.metric)
+        const isPositiveChange =
+            (props.analysisData.getMetric(metric) <= props.comparisonAnalysisData.getMetric(metric) &&
+                metricsData.lower_better) ||
+            (props.analysisData.getMetric(metric) >= props.comparisonAnalysisData.getMetric(metric) &&
+                !metricsData.lower_better);
+        const changeColor = isPositiveChange ? 'text-green-500' : 'text-red-500';
+        return (
+            `<a class="${changeColor}"> ` +
+            metricsData.format_function(props.comparisonAnalysisData.getMetric(metric)) +
+            '</a>'
         );
     } else {
-        return formatFunction(props.analysisData.getMetric(useBottomMetric ? props.arrow.metricBottom : props.arrow.metric));
+        return metricsData.format_function(props.analysisData.getMetric(metric));
     }
 }
 

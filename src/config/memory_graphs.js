@@ -282,6 +282,6 @@ export const MEMORY_GRAPH_DEFINITION = {
             new Spacer(),
             new Spacer()
         ],
-        [new Node(new NodeTextContent('DRAM {size}')).setRowSpan(9)]
-    )
+        [new Spacer(), new Spacer(), new Spacer(), new Spacer(), new Node(new NodeTextContent('DRAM {size}')).setRowSpan(1)]
+    ).makeLarge()
 };
