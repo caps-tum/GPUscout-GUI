@@ -140,7 +140,7 @@ More information is available at <a href="https://docs.nvidia.com/nsight-compute
     },
     general_l2_cache_hit_perc: {
         name: 'general/l2_cache_hit_perc',
-        display_name: 'general l2_cache_hit_perc',
+        display_name: 'L2 Cache hits',
         hint: '',
         format_function: formatPercent,
         help_text: 'This is a detailed explanation something',
@@ -148,7 +148,7 @@ More information is available at <a href="https://docs.nvidia.com/nsight-compute
     },
     general_l2_queries: {
         name: 'general/l2_queries',
-        display_name: 'general l2_queries',
+        display_name: 'L2 queries',
         hint: '',
         format_function: formatInstructions,
         help_text: 'This is a detailed explanation something',
@@ -156,7 +156,7 @@ More information is available at <a href="https://docs.nvidia.com/nsight-compute
     },
     general_loads_l2_cache_hit_perc: {
         name: 'general/loads_l2_cache_hit_perc',
-        display_name: 'general loads_l2_cache_hit_perc',
+        display_name: 'L2 loads cache hits',
         hint: '',
         format_function: formatPercent,
         help_text: 'This is a detailed explanation something',
@@ -164,7 +164,7 @@ More information is available at <a href="https://docs.nvidia.com/nsight-compute
     },
     general_loads_l2_to_dram_bytes: {
         name: 'general/loads_l2_to_dram_bytes',
-        display_name: 'general loads_l2_to_dram_bytes',
+        display_name: 'L2 loads to DRAM',
         hint: '',
         format_function: formatBytes,
         help_text: 'This is a detailed explanation something',
@@ -172,7 +172,7 @@ More information is available at <a href="https://docs.nvidia.com/nsight-compute
     },
     general_stores_l2_cache_hit_perc: {
         name: 'general/stores_l2_cache_hit_perc',
-        display_name: 'general stores_l2_cache_hit_perc',
+        display_name: 'L2 stores cache hits',
         hint: '',
         format_function: formatPercent,
         help_text: 'This is a detailed explanation something',
@@ -180,7 +180,7 @@ More information is available at <a href="https://docs.nvidia.com/nsight-compute
     },
     general_stores_l2_to_dram_bytes: {
         name: 'general/stores_l2_to_dram_bytes',
-        display_name: 'general stores_l2_to_dram_bytes',
+        display_name: 'L2 stores to DRAM',
         hint: '',
         format_function: formatBytes,
         help_text: 'This is a detailed explanation something',
@@ -188,7 +188,7 @@ More information is available at <a href="https://docs.nvidia.com/nsight-compute
     },
     global_atomic_l1_cache_hit_perc: {
         name: 'global/atomic_l1_cache_hit_perc',
-        display_name: 'global atomic_l1_cache_hit_perc',
+        display_name: 'GA L1 cache hits',
         hint: '',
         format_function: formatPercent,
         help_text: 'This is a detailed explanation something',
@@ -196,7 +196,7 @@ More information is available at <a href="https://docs.nvidia.com/nsight-compute
     },
     global_atomic_to_l1_bytes: {
         name: 'global/atomic_to_l1_bytes',
-        display_name: 'global atomic_to_l1_bytes',
+        display_name: 'GA to L1',
         hint: '',
         format_function: formatBytes,
         help_text: 'This is a detailed explanation something',
@@ -204,7 +204,7 @@ More information is available at <a href="https://docs.nvidia.com/nsight-compute
     },
     global_atomics_l1_to_l2_bytes: {
         name: 'global/atomics_l1_to_l2_bytes',
-        display_name: 'global atomics_l1_to_l2_bytes',
+        display_name: 'GA L1 to L2',
         hint: '',
         format_function: formatBytes,
         help_text: 'This is a detailed explanation something',
@@ -212,7 +212,7 @@ More information is available at <a href="https://docs.nvidia.com/nsight-compute
     },
     global_atomics_l2_cache_hit_perc: {
         name: 'global/atomics_l2_cache_hit_perc',
-        display_name: 'global atomics_l2_cache_hit_perc',
+        display_name: 'GA L2 cache hits',
         hint: '',
         format_function: formatPercent,
         help_text: 'This is a detailed explanation something',
@@ -220,7 +220,7 @@ More information is available at <a href="https://docs.nvidia.com/nsight-compute
     },
     global_atomics_l2_to_dram_bytes: {
         name: 'global/atomics_l2_to_dram_bytes',
-        display_name: 'global atomics_l2_to_dram_bytes',
+        display_name: 'GA L2 to DRAM',
         hint: '',
         format_function: formatBytes,
         help_text: 'This is a detailed explanation something',
@@ -228,7 +228,7 @@ More information is available at <a href="https://docs.nvidia.com/nsight-compute
     },
     global_bytes_per_instruction: {
         name: 'global/bytes_per_instruction',
-        display_name: 'global bytes_per_instruction',
+        display_name: 'GMEM Bytes per Instr.',
         hint: '',
         format_function: formatBytes,
         help_text: 'This is a detailed explanation something',
@@ -252,7 +252,7 @@ More information is available at <a href="https://docs.nvidia.com/nsight-compute
     },
     global_loads_l1_cache_hit_perc: {
         name: 'global/loads_l1_cache_hit_perc',
-        display_name: 'global loads_l1_cache_hit_perc',
+        display_name: 'Global load L1 cache hits',
         hint: '',
         format_function: formatPercent,
         help_text: 'This is a detailed explanation something',
@@ -260,7 +260,7 @@ More information is available at <a href="https://docs.nvidia.com/nsight-compute
     },
     global_loads_l1_to_l2_bytes: {
         name: 'global/loads_l1_to_l2_bytes',
-        display_name: 'global loads_l1_to_l2_bytes',
+        display_name: 'Global load L1 to L2',
         hint: '',
         format_function: formatBytes,
         help_text: 'This is a detailed explanation something',
@@ -268,7 +268,7 @@ More information is available at <a href="https://docs.nvidia.com/nsight-compute
     },
     global_loads_to_l1_bytes: {
         name: 'global/loads_to_l1_bytes',
-        display_name: 'global loads_to_l1_bytes',
+        display_name: 'Global load to L1',
         hint: '',
         format_function: formatBytes,
         help_text: 'This is a detailed explanation something',
@@ -276,7 +276,7 @@ More information is available at <a href="https://docs.nvidia.com/nsight-compute
     },
     global_stores_instructions: {
         name: 'global/stores_instructions',
-        display_name: 'global stores_instructions',
+        display_name: 'Global Stores',
         hint: '',
         format_function: formatInstructions,
         help_text: 'This is a detailed explanation something',
@@ -284,7 +284,7 @@ More information is available at <a href="https://docs.nvidia.com/nsight-compute
     },
     global_stores_l1_cache_hit_perc: {
         name: 'global/stores_l1_cache_hit_perc',
-        display_name: 'global stores_l1_cache_hit_perc',
+        display_name: 'Global store L1 cache hits',
         hint: '',
         format_function: formatPercent,
         help_text: 'This is a detailed explanation something',
@@ -292,7 +292,7 @@ More information is available at <a href="https://docs.nvidia.com/nsight-compute
     },
     global_stores_l1_to_l2_bytes: {
         name: 'global/stores_l1_to_l2_bytes',
-        display_name: 'global stores_l1_to_l2_bytes',
+        display_name: 'Global store L1 to L2',
         hint: '',
         format_function: formatBytes,
         help_text: 'This is a detailed explanation something',
@@ -300,7 +300,7 @@ More information is available at <a href="https://docs.nvidia.com/nsight-compute
     },
     global_stores_to_l1_bytes: {
         name: 'global/stores_to_l1_bytes',
-        display_name: 'global stores_to_l1_bytes',
+        display_name: 'Global store to L1',
         hint: '',
         format_function: formatBytes,
         help_text: 'This is a detailed explanation something',
@@ -308,7 +308,7 @@ More information is available at <a href="https://docs.nvidia.com/nsight-compute
     },
     local_instructions: {
         name: 'local/instructions',
-        display_name: 'local instructions',
+        display_name: 'LMEM instructions',
         hint: '',
         format_function: formatInstructions,
         help_text: 'This is a detailed explanation something',
@@ -316,7 +316,7 @@ More information is available at <a href="https://docs.nvidia.com/nsight-compute
     },
     local_l2_queries_perc: {
         name: 'local/l2_queries_perc',
-        display_name: 'local l2_queries_perc',
+        display_name: 'L2 Queries due to LMEM',
         hint: '',
         format_function: formatPercent,
         help_text: 'This is a detailed explanation something',
@@ -324,7 +324,7 @@ More information is available at <a href="https://docs.nvidia.com/nsight-compute
     },
     local_loads_instructions: {
         name: 'local/loads_instructions',
-        display_name: 'local loads_instructions',
+        display_name: 'Local Loads',
         hint: '',
         format_function: formatInstructions,
         help_text: 'This is a detailed explanation something',
@@ -332,7 +332,7 @@ More information is available at <a href="https://docs.nvidia.com/nsight-compute
     },
     local_loads_l1_cache_hit_perc: {
         name: 'local/loads_l1_cache_hit_perc',
-        display_name: 'local loads_l1_cache_hit_perc',
+        display_name: 'Local load L1 cache hits',
         hint: '',
         format_function: formatPercent,
         help_text: 'This is a detailed explanation something',
@@ -340,7 +340,7 @@ More information is available at <a href="https://docs.nvidia.com/nsight-compute
     },
     local_loads_l1_to_l2_bytes: {
         name: 'local/loads_l1_to_l2_bytes',
-        display_name: 'local loads_l1_to_l2_bytes',
+        display_name: 'Local load L1 to L2',
         hint: '',
         format_function: formatBytes,
         help_text: 'This is a detailed explanation something',
@@ -348,7 +348,7 @@ More information is available at <a href="https://docs.nvidia.com/nsight-compute
     },
     local_loads_to_l1_bytes: {
         name: 'local/loads_to_l1_bytes',
-        display_name: 'local loads_to_l1_bytes',
+        display_name: 'Local load to L1',
         hint: '',
         format_function: formatBytes,
         help_text: 'This is a detailed explanation something',
@@ -356,7 +356,7 @@ More information is available at <a href="https://docs.nvidia.com/nsight-compute
     },
     local_stores_instructions: {
         name: 'local/stores_instructions',
-        display_name: 'local stores_instructions',
+        display_name: 'Local Stores',
         hint: '',
         format_function: formatInstructions,
         help_text: 'This is a detailed explanation something',
@@ -364,7 +364,7 @@ More information is available at <a href="https://docs.nvidia.com/nsight-compute
     },
     local_stores_l1_cache_hit_perc: {
         name: 'local/stores_l1_cache_hit_perc',
-        display_name: 'local stores_l1_cache_hit_perc',
+        display_name: 'Local store L1 cache hits',
         hint: '',
         format_function: formatPercent,
         help_text: 'This is a detailed explanation something',
@@ -372,7 +372,7 @@ More information is available at <a href="https://docs.nvidia.com/nsight-compute
     },
     local_stores_l1_to_l2_bytes: {
         name: 'local/stores_l1_to_l2_bytes',
-        display_name: 'local stores_l1_to_l2_bytes',
+        display_name: 'Local store L1 to L2',
         hint: '',
         format_function: formatBytes,
         help_text: 'This is a detailed explanation something',
@@ -380,7 +380,7 @@ More information is available at <a href="https://docs.nvidia.com/nsight-compute
     },
     local_stores_to_l1_bytes: {
         name: 'local/stores_to_l1_bytes',
-        display_name: 'local stores_to_l1_bytes',
+        display_name: 'Local store to L1',
         hint: '',
         format_function: formatBytes,
         help_text: 'This is a detailed explanation something',
@@ -388,7 +388,7 @@ More information is available at <a href="https://docs.nvidia.com/nsight-compute
     },
     shared_instructions: {
         name: 'shared/instructions',
-        display_name: 'shared instructions',
+        display_name: 'Shared instructions',
         hint: '',
         format_function: formatInstructions,
         help_text: 'This is a detailed explanation something',
@@ -404,24 +404,24 @@ More information is available at <a href="https://docs.nvidia.com/nsight-compute
     },
     shared_loads_bank_conflict: {
         name: 'shared/loads_bank_conflict',
-        display_name: 'shared loads_bank_conflict',
-        hint: '',
+        display_name: 'Bank conflict',
+        hint: 'If a bank conflict is present',
         format_function: formatInstructions,
         help_text: 'This is a detailed explanation something',
         lower_better: true
     },
     shared_loads_efficiency_perc: {
         name: 'shared/loads_efficiency_perc',
-        display_name: 'shared loads_efficiency_perc',
-        hint: '',
+        display_name: 'Shared Loads efficiency',
+        hint: 'Hint please',
         format_function: formatPercent,
         help_text: 'This is a detailed explanation something',
         lower_better: true
     },
     shared_loads_instructions: {
         name: 'shared/loads_instructions',
-        display_name: 'shared loads_instructions',
-        hint: '',
+        display_name: 'Shared Loads',
+        hint: 'Number of shared load instructions',
         format_function: formatInstructions,
         help_text: 'This is a detailed explanation something',
         lower_better: true
@@ -508,7 +508,7 @@ More information is available at <a href="https://docs.nvidia.com/nsight-compute
     },
     texture_instructions: {
         name: 'texture/instructions',
-        display_name: 'texture instructions',
+        display_name: 'Texture instructions',
         hint: '',
         format_function: formatInstructions,
         help_text: 'This is a detailed explanation something',
@@ -516,7 +516,7 @@ More information is available at <a href="https://docs.nvidia.com/nsight-compute
     },
     texture_loads_l1_cache_hit_perc: {
         name: 'texture/loads_l1_cache_hit_perc',
-        display_name: 'texture loads_l1_cache_hit_perc',
+        display_name: 'Texture L1 cache hits',
         hint: '',
         format_function: formatPercent,
         help_text: 'This is a detailed explanation something',
@@ -524,7 +524,7 @@ More information is available at <a href="https://docs.nvidia.com/nsight-compute
     },
     texture_loads_l1_to_l2_bytes: {
         name: 'texture/loads_l1_to_l2_bytes',
-        display_name: 'texture loads_l1_to_l2_bytes',
+        display_name: 'Texture L1 to L2',
         hint: '',
         format_function: formatBytes,
         help_text: 'This is a detailed explanation something',
@@ -532,7 +532,7 @@ More information is available at <a href="https://docs.nvidia.com/nsight-compute
     },
     texture_loads_l2_to_dram_bytes: {
         name: 'texture/loads_l2_to_dram_bytes',
-        display_name: 'texture loads_l2_to_dram_bytes',
+        display_name: 'Texture L2 to DRAM',
         hint: '',
         format_function: formatBytes,
         help_text: 'This is a detailed explanation something',
@@ -540,7 +540,7 @@ More information is available at <a href="https://docs.nvidia.com/nsight-compute
     },
     texture_loads_to_l1_bytes: {
         name: 'texture/loads_to_l1_bytes',
-        display_name: 'texture loads_to_l1_bytes',
+        display_name: 'Texture to L1',
         hint: '',
         format_function: formatBytes,
         help_text: 'This is a detailed explanation something',
