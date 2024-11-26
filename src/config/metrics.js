@@ -82,6 +82,14 @@ More information is available at <a href="https://docs.nvidia.com/nsight-compute
         help_text: STALLS.smsp__pcsamp_warps_issue_stalled_imc_miss.help_text,
         lower_better: true
     },
+    occupancy: {
+        name: 'sm__warps_active',
+        display_name: 'Occupancy',
+        hint: 'Occupancy achieved',
+        format_function: formatPercent,
+        help_text: 'This is a detailed explanation of occupancy',
+        lower_better: false
+    },
     global_atomics_count: {
         name: 'atom_global_count',
         display_name: 'Global atomics',
@@ -96,62 +104,6 @@ More information is available at <a href="https://docs.nvidia.com/nsight-compute
         hint: 'The total number of shared atomics used',
         format_function: formatNumber,
         help_text: 'This is a detailed explanation of shared atomics',
-        lower_better: true
-    },
-    occupancy: {
-        name: 'sm__warps_active',
-        display_name: 'Occupancy',
-        hint: 'Occupancy achieved',
-        format_function: formatPercent,
-        help_text: 'This is a detailed explanation of occupancy',
-        lower_better: false
-    },
-    instructions_total: {
-        name: 'smsp__sass_inst_executed',
-        display_name: 'Instructions executed',
-        hint: 'Total number of instructions executed',
-        format_function: formatInstructions,
-        help_text: 'This is a detailed explanation something',
-        lower_better: true
-    },
-    instructions_global: {
-        name: 'smsp__sass_inst_executed_op_global',
-        display_name: 'Global Memory Instructions',
-        hint: 'Number of instructions due to global memory accesses',
-        format_function: formatNumber,
-        help_text: 'This is a detailed explanation of global memory',
-        lower_better: true
-    },
-    global_data_per_instruction: {
-        name: 'global_data_per_instruction',
-        display_name: 'GMEM Data / Inst.',
-        hint: 'Data processed by global memory per instruction',
-        format_function: formatBytes,
-        help_text: 'This is a detailed explanation of global memory',
-        lower_better: true
-    },
-    instructions_global_loads: {
-        name: 'sm__sass_inst_executed_op_global_ld',
-        display_name: 'Global load instructions',
-        hint: 'Total number of global load instructions',
-        format_function: formatInstructions,
-        help_text: 'This is a detailed explanation of global loads',
-        lower_better: true
-    },
-    instructions_local_loads: {
-        name: 'smsp__inst_executed_op_local_ld',
-        display_name: 'Local loads count',
-        hint: 'Number of local loads',
-        format_function: formatInstructions,
-        help_text: 'This is a detailed explanation something',
-        lower_better: true
-    },
-    instructions_local_stores: {
-        name: 'smsp__inst_executed_op_local_st',
-        display_name: 'Local stores count',
-        hint: 'Number of local stores',
-        format_function: formatInstructions,
-        help_text: 'This is a detailed explanation something',
         lower_better: true
     },
     instructions_global_loads_non_vectorized: {
@@ -178,209 +130,417 @@ More information is available at <a href="https://docs.nvidia.com/nsight-compute
         help_text: 'This is a detailed explanation something',
         lower_better: true
     },
-    queries_l2: {
-        name: 'l2_queries/total_l2_queries',
-        display_name: 'L2 queries',
-        hint: 'Number of queries to the L2 cache',
-        format_function: formatNumber,
+    general_total_instructions: {
+        name: 'general/total_instructions',
+        display_name: 'Total instructions',
+        hint: 'Total number of instructions executed',
+        format_function: formatInstructions,
         help_text: 'This is a detailed explanation something',
         lower_better: true
     },
-    queries_l2_due_to_local: {
-        name: 'l2_queries/l2_queries_due_to_mem_perc',
-        display_name: 'L2 queries due to LMEM',
-        hint: 'Number of queries to the L2 cache due to local memory',
-        format_function: formatNumber,
-        help_text: 'This is a detailed explanation something',
-        lower_better: true
-    },
-    load_data_kernel_to_shared_bytes: {
-        name: 'load_data_memory_flow/kernel_to_shared_bytes',
-        display_name: 'Kernel to Shared Mem',
-        hint: '',
-        format_function: formatBytes,
-        help_text: 'This is a detailed explanation something',
-        lower_better: true
-    },
-    load_data_local_to_l1_bytes: {
-        name: 'load_data_memory_flow/local_to_l1_byte',
-        display_name: 'LMEM to L1',
-        hint: '',
-        format_function: formatBytes,
-        help_text: 'This is a detailed explanation something',
-        lower_better: true
-    },
-    load_data_global_to_l1_bytes: {
-        name: 'load_data_memory_flow/global_to_l1_bytes',
-        display_name: 'GMEM to L1',
-        hint: '',
-        format_function: formatBytes,
-        help_text: 'This is a detailed explanation something',
-        lower_better: true
-    },
-    load_data_local_to_l1_cache_hit_perc: {
-        name: 'load_data_memory_flow/local_to_l1_cache_hit_perc',
-        display_name: 'LMEM L1 Cache hit rate',
-        hint: 'Percentage of L1 cache hits due to local memory',
-        format_function: formatPercent,
-        help_text: 'Something',
-        lower_better: false
-    },
-    load_data_global_to_l1_cache_hit_perc: {
-        name: 'load_data_memory_flow/global_to_l1_cache_hit_perc',
-        display_name: 'GMEM L1 Cache hit rate',
+    general_l2_cache_hit_perc: {
+        name: 'general/l2_cache_hit_perc',
+        display_name: 'general l2_cache_hit_perc',
         hint: '',
         format_function: formatPercent,
         help_text: 'This is a detailed explanation something',
-        lower_better: false
-    },
-    load_data_local_l1_to_l2_bytes: {
-        name: 'load_data_memory_flow/local_l1_to_l2_bytes',
-        display_name: 'LMEM L1 to L2',
-        hint: '',
-        format_function: formatBytes,
-        help_text: 'This is a detailed explanation something',
         lower_better: true
     },
-    load_data_global_l1_to_l2_bytes: {
-        name: 'load_data_memory_flow/global_l1_to_l2_bytes',
-        display_name: 'GMEM L1 to L2',
-        hint: '',
-        format_function: formatBytes,
-        help_text: 'This is a detailed explanation something',
-        lower_better: true
-    },
-    load_data_l1_to_l2_cache_hit_perc: {
-        name: 'load_data_memory_flow/l1_to_l2_cache_hits_perc',
-        display_name: 'L1 to L2 Cache hit rate',
-        hint: '',
-        format_function: formatPercent,
-        help_text: 'This is a detailed explanation something',
-        lower_better: false
-    },
-    load_data_l2_to_dram_bytes: {
-        name: 'load_data_memory_flow/l2_to_dram_bytes',
-        display_name: 'L2 to DRAM',
-        hint: '',
-        format_function: formatBytes,
-        help_text: 'This is a detailed explanation something',
-        lower_better: true
-    },
-    instructions_shared_loads: {
-        name: 'shared_data_memory_flow/shared_mem_load_operations',
-        display_name: 'Load operations',
-        hint: 'Number of load instructions to shared memory',
-        format_function: formatNumber,
-        help_text: 'This is a detailed explanation something',
-        lower_better: true
-    },
-    shared_load_efficiency_perc: {
-        name: 'shared_memory_bank_conflict/shared_mem_load_efficiency_perc',
-        display_name: 'Load efficiency',
-        hint: 'Shared memory load efficiency',
-        format_function: formatPercent,
-        help_text: 'This is a detailed explanation something',
-        lower_better: false
-    },
-    shared_bank_conflict: {
-        name: 'shared_memory_bank_conflict/bank_conflict',
-        display_name: 'Bank conflicts',
-        hint: 'Memory transactions per load access',
-        format_function: formatNumber,
-        help_text: 'This is a detailed explanation something',
-        lower_better: true
-    },
-    texture_data_kernel_to_tex_instr: {
-        name: 'texture_data_memory_flow/kernel_to_tex_instr',
-        display_name: 'Kernel to Tex',
+    general_l2_queries: {
+        name: 'general/l2_queries',
+        display_name: 'general l2_queries',
         hint: '',
         format_function: formatInstructions,
         help_text: 'This is a detailed explanation something',
         lower_better: true
     },
-    texture_data_tex_to_l1_bytes: {
-        name: 'texture_data_memory_flow/tex_to_l1_bytes',
-        display_name: 'Tex to L1',
-        hint: '',
-        format_function: formatBytes,
-        help_text: 'This is a detailed explanation something',
-        lower_better: true
-    },
-    texture_data_tex_to_l1_cache_hit_perc: {
-        name: 'texture_data_memory_flow/tex_to_l1_cache_hit_perc',
-        display_name: 'Tex to L1 cache hit rate',
+    general_loads_l2_cache_hit_perc: {
+        name: 'general/loads_l2_cache_hit_perc',
+        display_name: 'general loads_l2_cache_hit_perc',
         hint: '',
         format_function: formatPercent,
         help_text: 'This is a detailed explanation something',
-        lower_better: false
+        lower_better: true
     },
-    texture_data_l1_to_l2_cache_hit_perc: {
-        name: 'texture_data_memory_flow/l1_to_l2_cache_hit_perc',
-        display_name: 'L1 to L2 cache hit rate',
+    general_loads_l2_to_dram_bytes: {
+        name: 'general/loads_l2_to_dram_bytes',
+        display_name: 'general loads_l2_to_dram_bytes',
+        hint: '',
+        format_function: formatBytes,
+        help_text: 'This is a detailed explanation something',
+        lower_better: true
+    },
+    general_stores_l2_cache_hit_perc: {
+        name: 'general/stores_l2_cache_hit_perc',
+        display_name: 'general stores_l2_cache_hit_perc',
         hint: '',
         format_function: formatPercent,
         help_text: 'This is a detailed explanation something',
-        lower_better: false
+        lower_better: true
     },
-    texture_data_l1_to_l2_bytes: {
-        name: 'texture_data_memory_flow/l1_to_l2_bytes',
-        display_name: 'L1 to L2',
+    general_stores_l2_to_dram_bytes: {
+        name: 'general/stores_l2_to_dram_bytes',
+        display_name: 'general stores_l2_to_dram_bytes',
         hint: '',
         format_function: formatBytes,
         help_text: 'This is a detailed explanation something',
         lower_better: true
     },
-    texture_data_l2_to_dram_bytes: {
-        name: 'texture_data_memory_flow/l2_to_dram_bytes',
-        display_name: 'L2 to DRAM',
-        hint: '',
-        format_function: formatBytes,
-        help_text: 'This is a detailed explanation something',
-        lower_better: true
-    },
-    atomic_data_kernel_to_shared_bytes: {
-        name: 'atomic_data_memory_flow/kernel_to_shared_bytes',
-        display_name: 'Kernel to Shared Mem',
-        hint: '',
-        format_function: formatBytes,
-        help_text: 'This is a detailed explanation something',
-        lower_better: true
-    },
-    atomic_data_global_to_l1_red_atom_bytes: {
-        name: 'atomic_data_memory_flow/global_to_l1_red_atom_bytes',
-        display_name: 'Global to L1',
-        hint: '',
-        format_function: formatBytes,
-        help_text: 'This is a detailed explanation something',
-        lower_better: true
-    },
-    atomic_data_global_to_l1_cache_hit_perc: {
-        name: 'atomic_data_memory_flow/global_to_l1_cache_hit_perc',
-        display_name: 'Global to L1 Cache hit rate',
+    global_atomic_l1_cache_hit_perc: {
+        name: 'global/atomic_l1_cache_hit_perc',
+        display_name: 'global atomic_l1_cache_hit_perc',
         hint: '',
         format_function: formatPercent,
         help_text: 'This is a detailed explanation something',
-        lower_better: false
+        lower_better: true
     },
-    atomic_data_l1_to_l2_bytes: {
-        name: 'atomic_data_memory_flow/l1_to_l2_bytes',
-        display_name: 'L1 to L2',
+    global_atomic_to_l1_bytes: {
+        name: 'global/atomic_to_l1_bytes',
+        display_name: 'global atomic_to_l1_bytes',
         hint: '',
         format_function: formatBytes,
         help_text: 'This is a detailed explanation something',
         lower_better: true
     },
-    atomic_data_l1_to_l2_cache_hit_perc: {
-        name: 'atomic_data_memory_flow/l1_to_l2_cache_hit_perc',
-        display_name: 'L1 to L2 Cache hit rate',
+    global_atomics_l1_to_l2_bytes: {
+        name: 'global/atomics_l1_to_l2_bytes',
+        display_name: 'global atomics_l1_to_l2_bytes',
+        hint: '',
+        format_function: formatBytes,
+        help_text: 'This is a detailed explanation something',
+        lower_better: true
+    },
+    global_atomics_l2_cache_hit_perc: {
+        name: 'global/atomics_l2_cache_hit_perc',
+        display_name: 'global atomics_l2_cache_hit_perc',
         hint: '',
         format_function: formatPercent,
         help_text: 'This is a detailed explanation something',
-        lower_better: false
+        lower_better: true
     },
-    atomic_data_l2_to_dram_bytes: {
-        name: 'atomic_data_memory_flow/l2_to_dram_bytes',
-        display_name: 'L2 to DRAM',
+    global_atomics_l2_to_dram_bytes: {
+        name: 'global/atomics_l2_to_dram_bytes',
+        display_name: 'global atomics_l2_to_dram_bytes',
+        hint: '',
+        format_function: formatBytes,
+        help_text: 'This is a detailed explanation something',
+        lower_better: true
+    },
+    global_bytes_per_instruction: {
+        name: 'global/bytes_per_instruction',
+        display_name: 'global bytes_per_instruction',
+        hint: '',
+        format_function: formatBytes,
+        help_text: 'This is a detailed explanation something',
+        lower_better: true
+    },
+    global_instructions: {
+        name: 'global/instructions',
+        display_name: 'Global Instructions',
+        hint: 'Total number of global load/store instructions',
+        format_function: formatInstructions,
+        help_text: 'This is a detailed explanation something',
+        lower_better: true
+    },
+    global_loads_instructions: {
+        name: 'global/loads_instructions',
+        display_name: 'Global Loads',
+        hint: 'Total number of global load instructions',
+        format_function: formatInstructions,
+        help_text: 'This is a detailed explanation something',
+        lower_better: true
+    },
+    global_loads_l1_cache_hit_perc: {
+        name: 'global/loads_l1_cache_hit_perc',
+        display_name: 'global loads_l1_cache_hit_perc',
+        hint: '',
+        format_function: formatPercent,
+        help_text: 'This is a detailed explanation something',
+        lower_better: true
+    },
+    global_loads_l1_to_l2_bytes: {
+        name: 'global/loads_l1_to_l2_bytes',
+        display_name: 'global loads_l1_to_l2_bytes',
+        hint: '',
+        format_function: formatBytes,
+        help_text: 'This is a detailed explanation something',
+        lower_better: true
+    },
+    global_loads_to_l1_bytes: {
+        name: 'global/loads_to_l1_bytes',
+        display_name: 'global loads_to_l1_bytes',
+        hint: '',
+        format_function: formatBytes,
+        help_text: 'This is a detailed explanation something',
+        lower_better: true
+    },
+    global_stores_instructions: {
+        name: 'global/stores_instructions',
+        display_name: 'global stores_instructions',
+        hint: '',
+        format_function: formatInstructions,
+        help_text: 'This is a detailed explanation something',
+        lower_better: true
+    },
+    global_stores_l1_cache_hit_perc: {
+        name: 'global/stores_l1_cache_hit_perc',
+        display_name: 'global stores_l1_cache_hit_perc',
+        hint: '',
+        format_function: formatPercent,
+        help_text: 'This is a detailed explanation something',
+        lower_better: true
+    },
+    global_stores_l1_to_l2_bytes: {
+        name: 'global/stores_l1_to_l2_bytes',
+        display_name: 'global stores_l1_to_l2_bytes',
+        hint: '',
+        format_function: formatBytes,
+        help_text: 'This is a detailed explanation something',
+        lower_better: true
+    },
+    global_stores_to_l1_bytes: {
+        name: 'global/stores_to_l1_bytes',
+        display_name: 'global stores_to_l1_bytes',
+        hint: '',
+        format_function: formatBytes,
+        help_text: 'This is a detailed explanation something',
+        lower_better: true
+    },
+    local_instructions: {
+        name: 'local/instructions',
+        display_name: 'local instructions',
+        hint: '',
+        format_function: formatInstructions,
+        help_text: 'This is a detailed explanation something',
+        lower_better: true
+    },
+    local_l2_queries_perc: {
+        name: 'local/l2_queries_perc',
+        display_name: 'local l2_queries_perc',
+        hint: '',
+        format_function: formatPercent,
+        help_text: 'This is a detailed explanation something',
+        lower_better: true
+    },
+    local_loads_instructions: {
+        name: 'local/loads_instructions',
+        display_name: 'local loads_instructions',
+        hint: '',
+        format_function: formatInstructions,
+        help_text: 'This is a detailed explanation something',
+        lower_better: true
+    },
+    local_loads_l1_cache_hit_perc: {
+        name: 'local/loads_l1_cache_hit_perc',
+        display_name: 'local loads_l1_cache_hit_perc',
+        hint: '',
+        format_function: formatPercent,
+        help_text: 'This is a detailed explanation something',
+        lower_better: true
+    },
+    local_loads_l1_to_l2_bytes: {
+        name: 'local/loads_l1_to_l2_bytes',
+        display_name: 'local loads_l1_to_l2_bytes',
+        hint: '',
+        format_function: formatBytes,
+        help_text: 'This is a detailed explanation something',
+        lower_better: true
+    },
+    local_loads_to_l1_bytes: {
+        name: 'local/loads_to_l1_bytes',
+        display_name: 'local loads_to_l1_bytes',
+        hint: '',
+        format_function: formatBytes,
+        help_text: 'This is a detailed explanation something',
+        lower_better: true
+    },
+    local_stores_instructions: {
+        name: 'local/stores_instructions',
+        display_name: 'local stores_instructions',
+        hint: '',
+        format_function: formatInstructions,
+        help_text: 'This is a detailed explanation something',
+        lower_better: true
+    },
+    local_stores_l1_cache_hit_perc: {
+        name: 'local/stores_l1_cache_hit_perc',
+        display_name: 'local stores_l1_cache_hit_perc',
+        hint: '',
+        format_function: formatPercent,
+        help_text: 'This is a detailed explanation something',
+        lower_better: true
+    },
+    local_stores_l1_to_l2_bytes: {
+        name: 'local/stores_l1_to_l2_bytes',
+        display_name: 'local stores_l1_to_l2_bytes',
+        hint: '',
+        format_function: formatBytes,
+        help_text: 'This is a detailed explanation something',
+        lower_better: true
+    },
+    local_stores_to_l1_bytes: {
+        name: 'local/stores_to_l1_bytes',
+        display_name: 'local stores_to_l1_bytes',
+        hint: '',
+        format_function: formatBytes,
+        help_text: 'This is a detailed explanation something',
+        lower_better: true
+    },
+    shared_instructions: {
+        name: 'shared/instructions',
+        display_name: 'shared instructions',
+        hint: '',
+        format_function: formatInstructions,
+        help_text: 'This is a detailed explanation something',
+        lower_better: true
+    },
+    shared_ldgsts_instructions: {
+        name: 'shared/ldgsts_instructions',
+        display_name: 'shared ldgsts_instructions',
+        hint: '',
+        format_function: formatInstructions,
+        help_text: 'This is a detailed explanation something',
+        lower_better: true
+    },
+    shared_loads_bank_conflict: {
+        name: 'shared/loads_bank_conflict',
+        display_name: 'shared loads_bank_conflict',
+        hint: '',
+        format_function: formatInstructions,
+        help_text: 'This is a detailed explanation something',
+        lower_better: true
+    },
+    shared_loads_efficiency_perc: {
+        name: 'shared/loads_efficiency_perc',
+        display_name: 'shared loads_efficiency_perc',
+        hint: '',
+        format_function: formatPercent,
+        help_text: 'This is a detailed explanation something',
+        lower_better: true
+    },
+    shared_loads_instructions: {
+        name: 'shared/loads_instructions',
+        display_name: 'shared loads_instructions',
+        hint: '',
+        format_function: formatInstructions,
+        help_text: 'This is a detailed explanation something',
+        lower_better: true
+    },
+    shared_stores_instructions: {
+        name: 'shared/stores_instructions',
+        display_name: 'shared stores_instructions',
+        hint: '',
+        format_function: formatInstructions,
+        help_text: 'This is a detailed explanation something',
+        lower_better: true
+    },
+    surface_instructions: {
+        name: 'surface/instructions',
+        display_name: 'surface instructions',
+        hint: '',
+        format_function: formatInstructions,
+        help_text: 'This is a detailed explanation something',
+        lower_better: true
+    },
+    surface_loads_instructions: {
+        name: 'surface/loads_instructions',
+        display_name: 'surface loads_instructions',
+        hint: '',
+        format_function: formatInstructions,
+        help_text: 'This is a detailed explanation something',
+        lower_better: true
+    },
+    surface_loads_l1_cache_hit_perc: {
+        name: 'surface/loads_l1_cache_hit_perc',
+        display_name: 'surface loads_l1_cache_hit_perc',
+        hint: '',
+        format_function: formatPercent,
+        help_text: 'This is a detailed explanation something',
+        lower_better: true
+    },
+    surface_loads_l1_to_l2_bytes: {
+        name: 'surface/loads_l1_to_l2_bytes',
+        display_name: 'surface loads_l1_to_l2_bytes',
+        hint: '',
+        format_function: formatBytes,
+        help_text: 'This is a detailed explanation something',
+        lower_better: true
+    },
+    surface_loads_to_l1_bytes: {
+        name: 'surface/loads_to_l1_bytes',
+        display_name: 'surface loads_to_l1_bytes',
+        hint: '',
+        format_function: formatBytes,
+        help_text: 'This is a detailed explanation something',
+        lower_better: true
+    },
+    surface_stores_instructions: {
+        name: 'surface/stores_instructions',
+        display_name: 'surface stores_instructions',
+        hint: '',
+        format_function: formatInstructions,
+        help_text: 'This is a detailed explanation something',
+        lower_better: true
+    },
+    surface_stores_l1_cache_hit_perc: {
+        name: 'surface/stores_l1_cache_hit_perc',
+        display_name: 'surface stores_l1_cache_hit_perc',
+        hint: '',
+        format_function: formatPercent,
+        help_text: 'This is a detailed explanation something',
+        lower_better: true
+    },
+    surface_stores_l1_to_l2_bytes: {
+        name: 'surface/stores_l1_to_l2_bytes',
+        display_name: 'surface stores_l1_to_l2_bytes',
+        hint: '',
+        format_function: formatBytes,
+        help_text: 'This is a detailed explanation something',
+        lower_better: true
+    },
+    surface_stores_to_l1_bytes: {
+        name: 'surface/stores_to_l1_bytes',
+        display_name: 'surface stores_to_l1_bytes',
+        hint: '',
+        format_function: formatBytes,
+        help_text: 'This is a detailed explanation something',
+        lower_better: true
+    },
+    texture_instructions: {
+        name: 'texture/instructions',
+        display_name: 'texture instructions',
+        hint: '',
+        format_function: formatInstructions,
+        help_text: 'This is a detailed explanation something',
+        lower_better: true
+    },
+    texture_loads_l1_cache_hit_perc: {
+        name: 'texture/loads_l1_cache_hit_perc',
+        display_name: 'texture loads_l1_cache_hit_perc',
+        hint: '',
+        format_function: formatPercent,
+        help_text: 'This is a detailed explanation something',
+        lower_better: true
+    },
+    texture_loads_l1_to_l2_bytes: {
+        name: 'texture/loads_l1_to_l2_bytes',
+        display_name: 'texture loads_l1_to_l2_bytes',
+        hint: '',
+        format_function: formatBytes,
+        help_text: 'This is a detailed explanation something',
+        lower_better: true
+    },
+    texture_loads_l2_to_dram_bytes: {
+        name: 'texture/loads_l2_to_dram_bytes',
+        display_name: 'texture loads_l2_to_dram_bytes',
+        hint: '',
+        format_function: formatBytes,
+        help_text: 'This is a detailed explanation something',
+        lower_better: true
+    },
+    texture_loads_to_l1_bytes: {
+        name: 'texture/loads_to_l1_bytes',
+        display_name: 'texture loads_to_l1_bytes',
         hint: '',
         format_function: formatBytes,
         help_text: 'This is a detailed explanation something',

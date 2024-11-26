@@ -1,3 +1,5 @@
+import { formatPercent } from '../renderer/src/utils/formatters';
+
 export const TEXT = {
     landing_page: {
         select_result_title: '1. Select GPUscout result to analyze:',

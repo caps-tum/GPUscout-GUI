@@ -4,7 +4,7 @@
         :hint="TEXT.analyses.general.metrics.hint"
         :analysis-data="analysisData"
         :comparison-analysis-data="comparisonAnalysisData"
-        :metrics="[METRICS.instructions_global.name, METRICS.occupancy.name]"
+        :metrics="[METRICS.global_instructions.name, METRICS.occupancy.name]"
         :values="[(analysis, metric) => analysis.getMetric(metric), (analysis, metric) => analysis.getMetric(metric)]"
         :expanded="expandedSection === 1"
         @expand="expandedSection = 1"
@@ -20,7 +20,7 @@
             (analysis, metric) => analysis.getMetric(metric),
             (analysis, metric) => analysis.getMetric(metric)
         ]"
-        :absolute-values="[(analysis) => analysis.getMetric(METRICS.stalls_total.name)]"
+        :absolute-values="[(analysis) => analysis.getMetric(METRICS.stalls_total)]"
         :expanded="expandedSection === 2"
         @expand="expandedSection = 2"
     >

@@ -5,9 +5,9 @@
         :analysis-data="analysisData"
         :comparison-analysis-data="comparisonAnalysisData"
         :metrics="[
-            METRICS.instructions_shared_loads.name,
-            METRICS.shared_load_efficiency_perc.name,
-            METRICS.shared_bank_conflict.name
+            METRICS.shared_loads_instructions.name,
+            METRICS.shared_loads_efficiency_perc.name,
+            METRICS.shared_loads_bank_conflict.name
         ]"
         :values="[
             (analysis, metric) => analysis.getMetric(metric),

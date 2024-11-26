@@ -20,13 +20,13 @@
                 class="flex flex-col justify-end border-b border-black px-2 pb-1 text-center text-sm text-text"
                 :class="getArrowClass()"
             >
-                {{ getTitle(true) }} {{ comparisonAnalysisData !== undefined ? 'vs ' + getTitle(false) : '' }}
+                {{ getTitle(false) }} {{ comparisonAnalysisData !== undefined ? 'vs ' + getTitle(true) : '' }}
             </div>
             <div
                 class="flex flex-col justify-start border-t border-black px-2 pt-1 text-center text-sm text-text"
                 :class="getArrowClass(true)"
             >
-                {{ getTitle(true, true) }} {{ comparisonAnalysisData !== undefined ? 'vs ' + getTitle(false, true) : '' }}
+                {{ getTitle(false, true) }} {{ comparisonAnalysisData !== undefined ? 'vs ' + getTitle(true, true) : '' }}
             </div>
         </template>
     </div>

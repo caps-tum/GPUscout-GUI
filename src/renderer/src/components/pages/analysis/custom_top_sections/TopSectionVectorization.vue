@@ -6,8 +6,8 @@
         :comparison-analysis-data="comparisonAnalysisData"
         :metrics="[
             METRICS.instructions_global_loads_non_vectorized.name,
-            METRICS.instructions_global_loads.name,
-            METRICS.instructions_total.name,
+            METRICS.global_loads_instructions.name,
+            METRICS.general_total_instructions.name,
             METRICS.occupancy.name
         ]"
         :values="[

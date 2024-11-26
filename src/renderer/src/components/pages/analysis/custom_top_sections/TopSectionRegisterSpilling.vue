@@ -14,24 +14,27 @@
         :comparison-analysis-data="comparisonAnalysisData"
         :metrics="[
             METRICS.occupancy.name,
-            METRICS.load_data_local_to_l1_cache_hit_perc.name,
+            METRICS.local_loads_l1_cache_hit_perc.name,
             TEXT.analyses.register_spilling.top_section.lmem_impact.type.bandwidth,
             TEXT.analyses.register_spilling.top_section.lmem_impact.type.instruction
         ]"
         :values="[
             (analysis, metric) => analysis.getMetric(metric),
             (analysis, metric) => analysis.getMetric(metric),
-            bandwidth,
-            instructions
+            (analysis) =>
+                Math.round(
+                    analysis.getMetric(METRICS.general_l2_queries.name) *
+                        (analysis.getMetric(METRICS.local_l2_queries_perc.name) / 100)
+                ),
+            (analysis) => analysis.getMetric(METRICS.local_instructions.name)
         ]"
         :absolute-values="[
             () => 0,
             () => 0,
-            (analysis) => analysis.getMetric(METRICS.queries_l2_due_to_local.name),
+            (analysis) => analysis.getMetric(METRICS.local_l2_queries_perc.name),
             (analysis) =>
-                ((analysis.getMetric(METRICS.instructions_local_loads.name) +
-                    analysis.getMetric(METRICS.instructions_local_stores.name)) /
-                    analysis.getMetric(METRICS.instructions_total.name)) *
+                (analysis.getMetric(METRICS.local_instructions.name) /
+                    analysis.getMetric(METRICS.general_total_instructions.name)) *
                 100
         ]"
         :expanded="expandedSection === 2"
@@ -72,15 +75,4 @@ defineProps({
 });
 
 const expandedSection = ref(1);
-
-const bandwidth = (analysis) =>
-    Math.round(
-        (analysis.getMetric(METRICS.queries_l2.name) * analysis.getMetric(METRICS.queries_l2_due_to_local.name)) / 100
-    );
-
-const instructions = (analysis) =>
-    Math.round(
-        analysis.getMetric(METRICS.instructions_local_loads.name) +
-            analysis.getMetric(METRICS.instructions_local_stores.name)
-    );
 </script>
