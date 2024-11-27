@@ -1,7 +1,7 @@
 <template>
     <Popup distance-x="10vw" distance-y="10vh" :type="POPUP.MEMORY_GRAPH" title="Complete Memory graph">
-        <div class="flex w-full justify-center">
-            <div class="w-max">
+        <div class="space-2 flex w-full flex-col justify-center p-2">
+            <div class="w-max self-center">
                 <MemoryGraph
                     v-if="analysisData"
                     :analysis-data="analysisData"
@@ -11,6 +11,7 @@
                     :no-background="true"
                 />
             </div>
+            <div>{{ TEXT.complete_memory_graph.help_text }}</div>
         </div>
     </Popup>
 </template>
@@ -21,11 +22,11 @@ import Popup from '../ui/Popup.vue';
 import MemoryGraph from '../ui/memory_graph/MemoryGraph.vue';
 import { useDataStore } from '../../stores/DataStore';
 import { MEMORY_GRAPH_DEFINITION } from '../../../../config/memory_graphs';
+import { TEXT } from '../../../../config/text';
 
 const dataStore = useDataStore();
 
 const currentKernel = computed(() => dataStore.getCurrentKernel);
-const currentAnalysis = computed(() => dataStore.getCurrentAnalysis);
 
 const analysisData = computed(() => dataStore.getGPUscoutResult().getAnalysis('use_restrict', currentKernel.value));
 const comparisonAnalysisData = computed(() =>

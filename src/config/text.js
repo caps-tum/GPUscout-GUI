@@ -1,9 +1,7 @@
-import { formatPercent } from '../renderer/src/utils/formatters';
-
 export const TEXT = {
     landing_page: {
         select_result_title: '1. Select GPUscout result to analyze:',
-        select_comparison_result_title: '2. Select GPUscout result to compare to (optional):',
+        select_comparison_result_title: '2. Select an older GPUscout result to compare to (optional):',
         select_topology_title: 'Select memory topology (optional):',
         select_folder: {
             title: 'Select analysis in GPUscout output directory',
@@ -18,8 +16,8 @@ export const TEXT = {
             selected: 'Selected memory topology file: {0}'
         },
         error_messages: {
-            no_analysis: 'Please select an analysis to proceed',
-            duplicate_analysis: 'Please select different analyses to proceed'
+            no_analysis: 'Please select a result file to proceed',
+            duplicate_analysis: 'Please select different result files to proceed'
         }
     },
     navigation: {
@@ -47,6 +45,9 @@ export const TEXT = {
         title: 'Relevant Kernel Metrics',
         title_comparison: 'Relevant Kernel Metrics (Old vs New Kernel)',
         hint: 'Here you can see all relevant kernel metrics for the selected analysis in the selected kernel'
+    },
+    complete_memory_graph: {
+        help_text: 'This is a very long help text'
     },
     analyses: {
         general: {
@@ -136,7 +137,7 @@ export const TEXT = {
                     no: 'Texture memory is not currently used in the kernel'
                 },
                 memory_graph: {
-                    title: 'Texture memory usage'
+                    title: 'Texture Loads'
                 },
                 help_strings: {
                     long_scoreboard: 'Long scoreboard stalls should be kept as low as possible',

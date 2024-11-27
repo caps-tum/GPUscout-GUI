@@ -13,7 +13,7 @@ import { STALLS } from './stalls';
  */
 export const METRICS = {
     stalls_total: {
-        name: 'smsp__warps_active',
+        name: 'misc/smsp__warps_active',
         display_name: 'Stalls',
         hint: 'Total number of stalls encountered in this kernel',
         format_function: formatNumber,
@@ -35,7 +35,7 @@ More information is available at <a href="https://docs.nvidia.com/nsight-compute
         lower_better: true
     },
     stalls_tex_throttle_perc: {
-        name: 'smsp__warp_issue_stalled_tex_throttle_per_warp_active',
+        name: 'misc/smsp__warp_issue_stalled_tex_throttle_per_warp_active',
         display_name: 'Tex Throttle Stalls',
         hint: 'Warp stalled due to full TEX pipeline',
         format_function: formatPercent,
@@ -43,7 +43,7 @@ More information is available at <a href="https://docs.nvidia.com/nsight-compute
         lower_better: true
     },
     stalls_mio_throttle_perc: {
-        name: 'smsp__warp_issue_stalled_mio_throttle_per_warp_active',
+        name: 'misc/smsp__warp_issue_stalled_mio_throttle_per_warp_active',
         display_name: 'MIO Throttle Stalls',
         hint: 'Warp stalled due to full memory I/O pipeline',
         format_function: formatPercent,
@@ -51,7 +51,7 @@ More information is available at <a href="https://docs.nvidia.com/nsight-compute
         lower_better: true
     },
     stalls_short_scoreboard_perc: {
-        name: 'smsp__warp_issue_stalled_short_scoreboard_per_warp_active',
+        name: 'misc/smsp__warp_issue_stalled_short_scoreboard_per_warp_active',
         display_name: 'Short Scoreboard Stalls',
         hint: 'Warp stalled due short scoreboard dependency',
         format_function: formatPercent,
@@ -59,7 +59,7 @@ More information is available at <a href="https://docs.nvidia.com/nsight-compute
         lower_better: true
     },
     stalls_long_scoreboard_perc: {
-        name: 'smsp__warp_issue_stalled_long_scoreboard_per_warp_active',
+        name: 'misc/smsp__warp_issue_stalled_long_scoreboard_per_warp_active',
         display_name: 'Long Scoreboard Stalls',
         hint: 'Warp stalled due long scoreboard dependency',
         format_function: formatPercent,
@@ -67,7 +67,7 @@ More information is available at <a href="https://docs.nvidia.com/nsight-compute
         lower_better: true
     },
     stalls_lg_throttle_perc: {
-        name: 'smsp__warp_issue_stalled_lg_throttle_per_warp_active',
+        name: 'misc/smsp__warp_issue_stalled_lg_throttle_per_warp_active',
         display_name: 'LG Throttle Stalls',
         hint: 'Warp stalled due full L1 instruction queue for global memory operations',
         format_function: formatPercent,
@@ -75,7 +75,7 @@ More information is available at <a href="https://docs.nvidia.com/nsight-compute
         lower_better: true
     },
     stalls_imc_miss_perc: {
-        name: 'smsp__warp_issue_stalled_imc_miss_per_warp_active',
+        name: 'misc/smsp__warp_issue_stalled_imc_miss_per_warp_active',
         display_name: 'IMC Miss Stalls',
         hint: 'Warp stalled waiting for immediate constant cache miss',
         format_function: formatPercent,
@@ -83,7 +83,7 @@ More information is available at <a href="https://docs.nvidia.com/nsight-compute
         lower_better: true
     },
     occupancy: {
-        name: 'sm__warps_active',
+        name: 'misc/sm__warps_active',
         display_name: 'Occupancy',
         hint: 'Occupancy achieved',
         format_function: formatPercent,
@@ -91,7 +91,7 @@ More information is available at <a href="https://docs.nvidia.com/nsight-compute
         lower_better: false
     },
     global_atomics_count: {
-        name: 'atom_global_count',
+        name: 'misc/atom_global_count',
         display_name: 'Global atomics',
         hint: 'The total number of global atomics used',
         format_function: formatNumber,
@@ -99,7 +99,7 @@ More information is available at <a href="https://docs.nvidia.com/nsight-compute
         lower_better: true
     },
     shared_atomics_count: {
-        name: 'atom_shared_count',
+        name: 'misc/atom_shared_count',
         display_name: 'Shared atomics',
         hint: 'The total number of shared atomics used',
         format_function: formatNumber,
@@ -107,7 +107,7 @@ More information is available at <a href="https://docs.nvidia.com/nsight-compute
         lower_better: true
     },
     instructions_global_loads_non_vectorized: {
-        name: 'global_load_count',
+        name: 'misc/global_load_count',
         display_name: 'Non-vectorized Loads',
         hint: 'Total number of Non-vectorized load inst.',
         format_function: formatNumber,
@@ -115,7 +115,7 @@ More information is available at <a href="https://docs.nvidia.com/nsight-compute
         lower_better: true
     },
     branch_divergence_perc: {
-        name: 'branch_divergence_perc',
+        name: 'misc/branch_divergence_perc',
         display_name: 'Branch divergence',
         hint: 'Fraction of branches that diverge',
         format_function: formatPercent,
@@ -123,7 +123,7 @@ More information is available at <a href="https://docs.nvidia.com/nsight-compute
         lower_better: true
     },
     deadlock_detected: {
-        name: 'deadlock_detect_flag',
+        name: 'misc/deadlock_detect_flag',
         display_name: 'Deadlock detected',
         hint: 'If a deadlock has been detected in the kernel',
         format_function: formatPercent,
