@@ -475,7 +475,7 @@ export class GPUscoutResult {
 
                     this._sourceCodeLines[kernel].push({
                         address: lineNumber,
-                        tokens: sourceFileContents[sourceFile][i - 1].split(/([ ,(){};+\-*<>=%&./])/),
+                        tokens: [sourceFileContents[sourceFile][i - 1]],
                         stalls: lineStalls
                     });
                     lineNumber++;

@@ -21,9 +21,7 @@ function getHighlight() {
         }
         if (
             (key.startsWith('<=') && props.lineNumber.toString() <= key.substring(2)) ||
-            (key.startsWith('< ') && props.lineNumber.toString() < key.substring(2)) ||
             (key.startsWith('>=') && props.lineNumber.toString() >= key.substring(2)) ||
-            (key.startsWith('> ') && props.lineNumber.toString() > key.substring(2)) ||
             props.lineNumber.toString() === key ||
             key === '*'
         ) {

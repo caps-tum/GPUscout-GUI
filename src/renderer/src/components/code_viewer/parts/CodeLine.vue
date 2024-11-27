@@ -4,14 +4,19 @@
             {{ lineNumber !== -1 ? lineNumber : '' }} {{ hasStalls ? '*' : '' }}
         </p>
         <p class="flex min-h-6 w-full flex-grow border-collapse flex-row flex-wrap overflow-hidden" :class="getHighlight()">
-            <CodeLineToken
-                v-for="token in tokens"
-                :key="token"
-                :line-number="lineNumber"
-                :mode="codeType"
-                :token="token"
-                :highlighted-tokens="highlightedTokens"
-            />
+            <template v-if="tokens.map((t) => getTokenHighlight(t)).filter((h) => h === true).length > 0">
+                <CodeLineToken
+                    v-for="token in tokens"
+                    :key="token"
+                    :line-number="lineNumber"
+                    :mode="codeType"
+                    :token="token"
+                    :highlighted-tokens="highlightedTokens"
+                />
+            </template>
+            <template v-else>
+                {{ tokens.join('') }}
+            </template>
         </p>
         <p
             v-if="showLiveRegisters"
@@ -53,6 +58,23 @@ const line = ref(null);
 function selectLine() {
     codeViewerStore.setCurrentView(props.codeType);
     codeViewerStore.setSelectedLine(props.lineNumber);
+}
+
+function getTokenHighlight(token) {
+    for (const key of Object.keys(props.highlightedTokens)) {
+        if (!props.highlightedTokens[key][token]) {
+            continue;
+        }
+        if (
+            (key.startsWith('<=') && props.lineNumber.toString() <= key.substring(2)) ||
+            (key.startsWith('>=') && props.lineNumber.toString() >= key.substring(2)) ||
+            props.lineNumber.toString() === key ||
+            key === '*'
+        ) {
+            return true;
+        }
+    }
+    return false;
 }
 
 /**
