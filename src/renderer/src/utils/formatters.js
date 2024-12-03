@@ -62,6 +62,10 @@ export function formatInstructions(value) {
     return `${formatNumber(value)} Inst.`;
 }
 
+export function formatBoolean(value) {
+    return value ? 'True' : 'False';
+}
+
 /**
  * @param {String} metricName
  * @returns {{display_name: String, format_function: Function, help_text: String, hint: String, lower_better: Boolean}}

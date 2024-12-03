@@ -1,4 +1,10 @@
-import { formatBytes, formatInstructions, formatNumber, formatPercent } from '../renderer/src/utils/formatters';
+import {
+    formatBoolean,
+    formatBytes,
+    formatInstructions,
+    formatNumber,
+    formatPercent
+} from '../renderer/src/utils/formatters';
 import { STALLS } from './stalls';
 
 /**
@@ -115,7 +121,7 @@ More information is available at <a href="https://docs.nvidia.com/nsight-compute
         lower_better: true
     },
     branch_divergence_perc: {
-        name: 'misc/branch_divergence_perc',
+        name: 'branch_divergence_perc',
         display_name: 'Branch divergence',
         hint: 'Fraction of branches that diverge',
         format_function: formatPercent,
@@ -123,10 +129,10 @@ More information is available at <a href="https://docs.nvidia.com/nsight-compute
         lower_better: true
     },
     deadlock_detected: {
-        name: 'misc/deadlock_detect_flag',
+        name: 'deadlock_detect_flag',
         display_name: 'Deadlock detected',
         hint: 'If a deadlock has been detected in the kernel',
-        format_function: formatPercent,
+        format_function: formatBoolean,
         help_text: 'This is a detailed explanation something',
         lower_better: true
     },
