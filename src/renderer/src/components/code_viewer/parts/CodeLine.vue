@@ -1,7 +1,7 @@
 <template>
     <div ref="line" class="group relative m-0 flex space-x-1" @click="selectLine">
         <p class="sticky left-0 top-0 w-16 shrink-0 select-none bg-secondary px-1 group-hover:bg-background">
-            {{ lineNumber !== -1 ? lineNumber : '' }} {{ hasStalls ? '*' : '' }}
+            {{ lineNumber !== -1 ? fileLineNumber || lineNumber : '' }} {{ hasStalls ? '*' : '' }}
         </p>
         <p class="flex min-h-6 w-full flex-grow border-collapse flex-row flex-wrap overflow-hidden" :class="getHighlight()">
             <template v-if="tokens.map((t) => getTokenHighlight(t)).filter((h) => h === true).length > 0">
@@ -35,6 +35,7 @@ import { CODE_STYLES } from '../../../../../config/colors';
 const props = defineProps({
     tokens: Array,
     lineNumber: [Number, String],
+    fileLineNumber: [Number, String],
     codeType: Number,
     highlightedLines: Object,
     highlightedTokens: Object,

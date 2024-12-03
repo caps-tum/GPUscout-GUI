@@ -9,6 +9,7 @@
                 :key="line"
                 :tokens="line.tokens"
                 :line-number="line.address"
+                :file-line-number="line.fileAddress"
                 :live-registers="line.liveRegisters"
                 :code-type="codeType"
                 :highlighted-lines="highlightedLines"

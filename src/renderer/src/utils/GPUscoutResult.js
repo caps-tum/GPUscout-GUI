@@ -444,10 +444,12 @@ export class GPUscoutResult {
                 lineNumbers = lineNumbers.map((ln) => ln['line']);
                 const minLine = 1;
                 const maxLine = sourceFileContents[sourceFile].length;
+                let fileLineNumber = 1;
 
                 // The new line numbers dont match the old ones, save the mapping
                 oldToNewLineNumbers[sourceFile] = {};
 
+                // Add line indicating the new file
                 if (Object.keys(relevantLines).length > 1) {
                     this._sourceCodeLines[kernel].push({
                         address: -1,
@@ -474,18 +476,12 @@ export class GPUscoutResult {
                     }
 
                     this._sourceCodeLines[kernel].push({
-                        address: lineNumber,
+                        address: lineNumber++,
+                        fileAddress: fileLineNumber++,
                         tokens: [sourceFileContents[sourceFile][i - 1]],
                         stalls: lineStalls
                     });
-                    lineNumber++;
                 }
-                this._sourceCodeLines[kernel].push({
-                    address: lineNumber,
-                    tokens: [],
-                    stalls: {}
-                });
-                lineNumber++;
             }
 
             // Apply the new line number mapping to all the mappings
