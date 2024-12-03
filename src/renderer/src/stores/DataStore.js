@@ -58,6 +58,8 @@ export const useDataStore = defineStore('data', () => {
             alert('No kernels found!');
         }
         currentKernel.value = gpuscoutResult.getKernels()[0];
+        comparisonResultAvailable.value =
+            comparisonResultAvailable.value && gpuscoutComparisonResult.getKernels().includes(currentKernel.value);
 
         if (gpuscoutResult.getAnalysesWithOccurrences(currentKernel.value).length === 0) {
             if (
@@ -105,6 +107,8 @@ export const useDataStore = defineStore('data', () => {
      */
     function setCurrentKernel(kernel) {
         currentKernel.value = kernel;
+        comparisonResultAvailable.value =
+            comparisonResultAvailable.value && gpuscoutComparisonResult.getKernels().includes(kernel);
         setCurrentAnalysis(currentAnalysis.value);
         codeViewerStore.updateSelectedLine();
     }
