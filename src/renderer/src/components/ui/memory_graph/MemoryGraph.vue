@@ -6,6 +6,9 @@
                 <a v-show="!expanded" class="cursor-pointer" @click="emit('expand')">
                     <IconExpand class="mr-1 mt-1 h-4 w-4" />
                 </a>
+                <a v-show="expanded && title" class="cursor-pointer" @click="emit('expand')">
+                    <ButtonHelp class="*:!fill-text" @click="showFullMemoryGraph" />
+                </a>
             </div>
             <div v-if="expanded" class="grid flex-grow grid-flow-col" :style="getGridStyle()">
                 <template v-for="column of graph.content" :key="column">
@@ -54,6 +57,8 @@ import IconExpand from '../icons/IconExpand.vue';
 import { Arrow, MemoryGraph, Node, Spacer } from '../../../utils/MemoryGraphComponents';
 import MemoryGraphNode from './MemoryGraphNode.vue';
 import MemoryGraphArrow from './MemoryGraphArrow.vue';
+import ButtonHelp from '../buttons/ButtonHelp.vue';
+import { POPUP, useContextStore } from '../../../stores/ContextStore';
 
 const props = defineProps({
     title: String,
@@ -66,8 +71,14 @@ const props = defineProps({
 
 const emit = defineEmits(['expand']);
 
+const contextStore = useContextStore();
+
 const cols = computed(() => Math.floor(props.graph.content.length / 2));
 const rows = computed(() => Math.ceil(Math.max(props.graph.rows) / 2));
+
+function showFullMemoryGraph() {
+    contextStore.togglePopup(POPUP.MEMORY_GRAPH);
+}
 
 /**
  * @returns {String[]} The names of all mentioned metrics
