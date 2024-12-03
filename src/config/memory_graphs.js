@@ -37,13 +37,13 @@ export const MEMORY_GRAPH_DEFINITION = {
             new Node(
                 new NodeMetricContent(
                     METRICS.global_loads_l1_cache_hit_perc.name,
-                    '{comp_value} hit rate',
+                    '{value} hit rate',
                     '{comp_value} vs {value} hit rate'
                 ),
                 new NodeTextContent('L1 Cache {size}'),
                 new NodeMetricContent(
                     METRICS.local_loads_l1_cache_hit_perc.name,
-                    '{comp_value} hit rate',
+                    '{value} hit rate',
                     '{comp_value} vs {value} hit rate'
                 )
             ).setRowSpan(3)
@@ -57,7 +57,7 @@ export const MEMORY_GRAPH_DEFINITION = {
                 new NodeTextContent('L2 Cache {size}'),
                 new NodeMetricContent(
                     METRICS.general_loads_l2_cache_hit_perc.name,
-                    '{comp_value} hit rate',
+                    '{value} hit rate',
                     '{comp_value} vs {value} hit rate'
                 )
             ).setRowSpan(3)
@@ -78,13 +78,13 @@ export const MEMORY_GRAPH_DEFINITION = {
             new Node(
                 new NodeMetricContent(
                     METRICS.texture_loads_l1_cache_hit_perc.name,
-                    '{comp_value} hit rate',
+                    '{value} hit rate',
                     '{comp_value} vs {value} hit rate'
                 ),
                 new NodeTextContent('L1 Cache {size}'),
                 new NodeMetricContent(
                     METRICS.global_loads_l1_cache_hit_perc.name,
-                    '{comp_value} hit rate',
+                    '{value} hit rate',
                     '{comp_value} vs {value} hit rate'
                 )
             ).setRowSpan(3)
@@ -98,7 +98,7 @@ export const MEMORY_GRAPH_DEFINITION = {
                 new NodeTextContent('L2 Cache {size}'),
                 new NodeMetricContent(
                     METRICS.general_loads_l2_cache_hit_perc.name,
-                    '{comp_value} hit rate',
+                    '{value} hit rate',
                     '{comp_value} vs {value} hit rate'
                 )
             ).setRowSpan(3)
@@ -118,7 +118,7 @@ export const MEMORY_GRAPH_DEFINITION = {
                 new NodeTextContent('L1 Cache {size}'),
                 new NodeMetricContent(
                     METRICS.global_atomic_l1_cache_hit_perc.name,
-                    '{comp_value} hit rate',
+                    '{value} hit rate',
                     '{comp_value} vs {value} hit rate'
                 )
             )
@@ -129,7 +129,7 @@ export const MEMORY_GRAPH_DEFINITION = {
                 new NodeTextContent('L2 Cache {size}'),
                 new NodeMetricContent(
                     METRICS.global_atomics_l2_cache_hit_perc.name,
-                    '{comp_value} hit rate',
+                    '{value} hit rate',
                     '{comp_value} vs {value} hit rate'
                 )
             )
@@ -148,7 +148,7 @@ export const MEMORY_GRAPH_DEFINITION = {
                 new NodeTextContent('L1 Cache {size}'),
                 new NodeMetricContent(
                     METRICS.global_loads_l1_cache_hit_perc.name,
-                    '{comp_value} hit rate',
+                    '{value} hit rate',
                     '{comp_value} vs {value} hit rate'
                 )
             )
@@ -159,7 +159,7 @@ export const MEMORY_GRAPH_DEFINITION = {
                 new NodeTextContent('L2 Cache {size}'),
                 new NodeMetricContent(
                     METRICS.general_loads_l2_cache_hit_perc.name,
-                    '{comp_value} hit rate',
+                    '{value} hit rate',
                     '{comp_value} vs {value} hit rate'
                 )
             )
@@ -210,17 +210,17 @@ export const MEMORY_GRAPH_DEFINITION = {
                 new NodeTextContent('L1 Cache {size}'),
                 new NodeMetricContent(
                     METRICS.global_loads_l1_cache_hit_perc.name,
-                    '{comp_value} hit rate',
+                    '{value} hit rate',
                     '{comp_value} vs {value} hit rate'
                 ),
                 new NodeMetricContent(
                     METRICS.local_loads_l1_cache_hit_perc.name,
-                    '{comp_value} hit rate',
+                    '{value} hit rate',
                     '{comp_value} vs {value} hit rate'
                 ),
                 new NodeMetricContent(
                     METRICS.texture_loads_l1_cache_hit_perc.name,
-                    '{comp_value} hit rate',
+                    '{value} hit rate',
                     '{comp_value} vs {value} hit rate'
                 )
                 /*new NodeMetricContent(
@@ -248,12 +248,12 @@ export const MEMORY_GRAPH_DEFINITION = {
                 new NodeTextContent('L2 Cache {size}'),
                 new NodeMetricContent(
                     METRICS.general_loads_l2_cache_hit_perc.name,
-                    '{comp_value} load hit rate',
+                    '{value} load hit rate',
                     '{comp_value} vs {value} load hit rate'
                 ),
                 new NodeMetricContent(
                     METRICS.general_stores_l2_cache_hit_perc.name,
-                    '{comp_value} store hit rate',
+                    '{value} store hit rate',
                     '{comp_value} vs {value} store hit rate'
                 )
             ).setRowSpan(7)
