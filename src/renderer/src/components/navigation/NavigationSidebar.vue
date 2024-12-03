@@ -71,13 +71,15 @@ const dataStore = useDataStore();
 const codeViewerStore = useCodeViewerStore();
 
 const currentKernel = computed(() => dataStore.getCurrentKernel);
-const analyses = dataStore.getGPUscoutResult()?.getAnalysesWithOccurrences(currentKernel.value);
-const comparisonAnalyses = dataStore.getGPUscoutComparisonResult()?.getAnalysesWithOccurrences(currentKernel.value);
+const analyses = computed(() => dataStore.getGPUscoutResult()?.getAnalysesWithOccurrences(currentKernel.value));
+const comparisonAnalyses = computed(() =>
+    dataStore.getGPUscoutComparisonResult()?.getAnalysesWithOccurrences(currentKernel.value)
+);
 
 const isComparison = computed(() => dataStore.hasComparisonResult);
-const analysesOnlyOriginal = computed(() => comparisonAnalyses.filter((a) => !analyses.includes(a)));
-const analysesOnlyCurrent = computed(() => analyses.filter((a) => !comparisonAnalyses.includes(a)));
-const analysesBoth = computed(() => analyses.filter((a) => comparisonAnalyses.includes(a)));
+const analysesOnlyOriginal = computed(() => comparisonAnalyses.value.filter((a) => !analyses.value.includes(a)));
+const analysesOnlyCurrent = computed(() => analyses.value.filter((a) => !comparisonAnalyses.value.includes(a)));
+const analysesBoth = computed(() => analyses.value.filter((a) => comparisonAnalyses.value.includes(a)));
 
 const kernels = dataStore.getKernels();
 const kernelSelector = ref(null);

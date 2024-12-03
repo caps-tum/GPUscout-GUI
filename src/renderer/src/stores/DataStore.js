@@ -57,23 +57,7 @@ export const useDataStore = defineStore('data', () => {
         if (gpuscoutResult.getKernels().length === 0) {
             alert('No kernels found!');
         }
-        currentKernel.value = gpuscoutResult.getKernels()[0];
-        comparisonResultAvailable.value =
-            comparisonResultAvailable.value && gpuscoutComparisonResult.getKernels().includes(currentKernel.value);
-
-        if (gpuscoutResult.getAnalysesWithOccurrences(currentKernel.value).length === 0) {
-            if (
-                comparisonResultAvailable.value &&
-                gpuscoutComparisonResult.getAnalysesWithOccurrences(currentKernel.value).length > 0
-            ) {
-                setCurrentAnalysis(gpuscoutComparisonResult.getAnalysesWithOccurrences(currentKernel.value)[0]);
-            } else {
-                contextStore.setCurrentContext(CONTEXT.SUMMARY);
-            }
-        } else {
-            setCurrentAnalysis(gpuscoutResult.getAnalysesWithOccurrences(currentKernel.value)[0]);
-            contextStore.setCurrentContext(CONTEXT.ANALYSIS);
-        }
+        setCurrentKernel(gpuscoutResult.getKernels()[0]);
 
         console.log(gpuscoutResult);
         console.log(gpuscoutComparisonResult);
@@ -107,10 +91,24 @@ export const useDataStore = defineStore('data', () => {
      */
     function setCurrentKernel(kernel) {
         currentKernel.value = kernel;
-        comparisonResultAvailable.value =
-            comparisonResultAvailable.value && gpuscoutComparisonResult.getKernels().includes(kernel);
-        setCurrentAnalysis(currentAnalysis.value);
-        codeViewerStore.updateSelectedLine();
+        comparisonResultAvailable.value = gpuscoutComparisonResult && gpuscoutComparisonResult.getKernels().includes(kernel);
+
+        if (gpuscoutResult.getAnalysesWithOccurrences(currentKernel.value).length === 0) {
+            if (
+                comparisonResultAvailable.value &&
+                gpuscoutComparisonResult.getAnalysesWithOccurrences(currentKernel.value).length > 0
+            ) {
+                contextStore.setCurrentContext(CONTEXT.ANALYSIS);
+                setCurrentAnalysis(gpuscoutComparisonResult.getAnalysesWithOccurrences(currentKernel.value)[0]);
+            } else {
+                contextStore.setCurrentContext(CONTEXT.SUMMARY);
+                setCurrentAnalysis('');
+            }
+        } else {
+            setCurrentAnalysis(gpuscoutResult.getAnalysesWithOccurrences(currentKernel.value)[0]);
+            contextStore.setCurrentContext(CONTEXT.ANALYSIS);
+            codeViewerStore.updateSelectedLine();
+        }
     }
 
     /**
