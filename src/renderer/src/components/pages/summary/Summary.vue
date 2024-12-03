@@ -28,10 +28,15 @@
         <div class="flex flex-col">
             <div class="flex flex-row">
                 <p class="mr-4 text-xl text-text">{{ TEXT.code_view.title }}</p>
-                <div v-if="hasComparisonResult" class="flex flex-row items-end space-x-1">
+                <div v-if="hasComparisonResult" class="mr-4 flex flex-row items-end space-x-1">
                     <p class="text-text">{{ TEXT.code_view.toggle.old }}</p>
                     <ToggleSwitch class="mb-1" :checked="!useComparisonCode" @changed="toggleCodeVersions" />
                     <p class="text-text">{{ TEXT.code_view.toggle.new }}</p>
+                </div>
+                <div class="flex flex-row items-end space-x-1">
+                    <p class="text-text">{{ TEXT.summary.toggle.ptx }}</p>
+                    <ToggleSwitch class="mb-1" :checked="currentBinary === CODE_TYPE.SASS_CODE" @changed="toggleCodeTypes" />
+                    <p class="text-text">{{ TEXT.summary.toggle.sass }}</p>
                 </div>
             </div>
             <p class="!-mb-1 !-mt-1 text-sm text-text/50">{{ TEXT.code_view.hint }}</p>
@@ -48,7 +53,7 @@
 </template>
 <script setup>
 import { computed, ref } from 'vue';
-import { useCodeViewerStore } from '../../../stores/CodeViewerStore';
+import { CODE_TYPE, useCodeViewerStore } from '../../../stores/CodeViewerStore';
 import { useContextStore, POPUP } from '../../../stores/ContextStore';
 import { useDataStore } from '../../../stores/DataStore';
 import ToggleSwitch from '../../ui/input/ToggleSwitch.vue';
@@ -57,7 +62,7 @@ import CodeViewer from '../../code_viewer/CodeViewer.vue';
 import { TEXT } from '../../../../../config/text';
 import TopSectionSummary from './TopSectionSummary.vue';
 import { ANALYSIS } from '../../../../../config/analyses';
-import ButtonPrimary from "../../ui/buttons/ButtonPrimary.vue"
+import ButtonPrimary from '../../ui/buttons/ButtonPrimary.vue';
 
 const dataStore = useDataStore();
 const codeViewerStore = useCodeViewerStore();
@@ -69,10 +74,11 @@ const currentAnalysis = computed(() =>
 );
 const selectedLine = computed(() => codeViewerStore.getSelectedLine);
 const currentView = computed(() => codeViewerStore.getCurrentView);
+const currentBinary = computed(() => codeViewerStore.getCurrentBinary);
 
 const showMetrics = ref(true);
-const hasComparisonResult = computed(() => dataStore.hasComparisonResult);
 const useComparisonCode = computed(() => codeViewerStore.displayComparisonCode);
+const hasComparisonResult = computed(() => dataStore.hasComparisonResult);
 const selectedOccurrences = computed(() => dataStore.getCurrentOccurrences);
 const lineStalls = computed(() =>
     useComparisonCode.value
@@ -86,5 +92,9 @@ function openLargeMemoryGraph() {
 
 function toggleCodeVersions() {
     codeViewerStore.setUseComparisonCode(!useComparisonCode.value);
+}
+
+function toggleCodeTypes() {
+    codeViewerStore.setCurrentBinary(currentBinary.value === CODE_TYPE.SASS_CODE ? CODE_TYPE.PTX_CODE : CODE_TYPE.SASS_CODE);
 }
 </script>

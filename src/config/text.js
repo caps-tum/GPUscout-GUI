@@ -41,6 +41,12 @@ export const TEXT = {
             recommendations_title: 'Recommendations'
         }
     },
+    summary: {
+        toggle: {
+            sass: 'Sass Code',
+            ptx: 'PTX Code'
+        }
+    },
     top_section: {
         title: 'Relevant Kernel Metrics',
         title_comparison: 'Relevant Kernel Metrics (Old vs New Kernel)',
