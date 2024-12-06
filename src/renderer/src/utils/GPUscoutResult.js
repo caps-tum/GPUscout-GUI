@@ -33,11 +33,21 @@ export class GPUscoutResult {
             resultJSON['stalls'],
             resultJSON['kernels']
         );
+
         this._parsePtxCode(resultJSON['binary_files']['ptx'], resultJSON['kernels']);
+
+        for (const k of this._kernels) {
+            if (!this._ptxCodeLines[k]) this._ptxCodeLines[k] = [];
+            if (!this._ptxToSourceLines[k]) this._ptxToSourceLines[k] = [];
+        }
 
         this._aggregateKernelSourceCode(sourceFileContents, resultJSON['stalls'], resultJSON['kernels']);
 
         this._parseMetrics(resultJSON, topologyData);
+
+        for (const k of this._kernels) {
+            if (!this._metrics[k]) this._metrics[k] = {};
+        }
 
         // Add analyses
         for (const [analysisName, analysisDefinition] of Object.entries(ANALYSIS)) {
@@ -62,8 +72,8 @@ export class GPUscoutResult {
         }
     }
 
-    getMetric(metric) {
-        return this._metrics[metric] || 0;
+    getMetric(kernel, metric) {
+        return this._metrics[kernel][metric] || 0;
     }
 
     /**
@@ -333,14 +343,15 @@ export class GPUscoutResult {
                 // .text.KERNEL_NAME:
                 currentSourceLine = 0;
                 currentSassLine = '';
-                currentKernel = kernels[line.replace('.text.', '').replace(':', '')];
+                currentKernel =
+                    kernels[line.replace('.text.', '').replace(':', '')] || line.replace('.text.', '').replace(':', '');
                 lastLineBranch = '';
                 relevantStalls = stalls[line.replace('.text.', '').replace(':', '')] || [];
                 totalStalls = relevantStalls.flatMap((s) => s['stalls'].map((st) => st[1])).reduce((a, b) => a + b, 0);
 
                 this._sassToSourceLines[currentKernel] = {};
                 this._sassCodeLines[currentKernel] = [];
-                this._kernels.push(currentKernel);
+                if (currentKernel !== line.replace('.text.', '').replace(':', '')) this._kernels.push(currentKernel);
 
                 this._sassCodeLines[currentKernel].push({
                     address: '0000',
@@ -450,13 +461,11 @@ export class GPUscoutResult {
                 oldToNewLineNumbers[sourceFile] = {};
 
                 // Add line indicating the new file
-                if (Object.keys(relevantLines).length > 1) {
-                    this._sourceCodeLines[kernel].push({
-                        address: -1,
-                        tokens: ['File: ' + sourceFile],
-                        stalls: {}
-                    });
-                }
+                this._sourceCodeLines[kernel].push({
+                    address: -1,
+                    tokens: ['File: ' + sourceFile],
+                    stalls: {}
+                });
 
                 // Add lines
                 for (let i = minLine; i <= maxLine; i++) {
