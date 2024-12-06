@@ -23,7 +23,7 @@
             <ButtonPrimary class="!px-4 !py-0" @click="openLargeMemoryGraph">View Complete Memory Graph</ButtonPrimary>
         </div>
         <div v-show="showMetrics" class="max-h-[calc(min(18rem,30vh))] flex-shrink-0 overflow-x-auto">
-            <TopSectionSummary :analysis-data="currentAnalysis" />
+            <TopSectionSummary :analysis-data="currentAnalysis" :comparison-analysis-data="comparisonAnalysis" />
         </div>
         <div class="flex flex-col">
             <div class="flex flex-row">
@@ -71,6 +71,9 @@ const contextStore = useContextStore();
 const currentKernel = computed(() => dataStore.getCurrentKernel);
 const currentAnalysis = computed(() =>
     dataStore.getGPUscoutResult().getAnalysis(ANALYSIS.vectorization.name, currentKernel.value)
+);
+const comparisonAnalysis = computed(() =>
+    dataStore.getGPUscoutComparisonResult()?.getAnalysis(ANALYSIS.vectorization.name, currentKernel.value)
 );
 const selectedLine = computed(() => codeViewerStore.getSelectedLine);
 const currentView = computed(() => codeViewerStore.getCurrentView);
