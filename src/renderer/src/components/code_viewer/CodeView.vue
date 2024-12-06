@@ -22,6 +22,9 @@
                 :selected-occurrences="selectedOccurrences"
                 :show-live-registers="displayLiveRegisters && codeType === CODE_TYPE.SASS_CODE"
             />
+            <div class="relative m-0 flex min-h-0 grow space-x-1">
+                <p class="sticky left-0 top-0 w-16 shrink-0 select-none bg-secondary px-1"></p>
+            </div>
         </div>
     </div>
 </template>
