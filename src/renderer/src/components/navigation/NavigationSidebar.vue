@@ -7,10 +7,10 @@
                 <select
                     ref="kernelSelector"
                     :value="currentKernel"
-                    class="bg-transparent outline-none"
+                    class="max-w-full bg-primary outline-none"
                     @change="changeKernel"
                 >
-                    <option v-for="kernel in kernels" :key="kernel" :value="kernel">{{ kernel }}</option>
+                    <option v-for="kernel in kernels.toSorted()" :key="kernel" :value="kernel">{{ kernel }}</option>
                 </select>
             </div>
             <div v-if="isComparison" class="flex flex-col">
