@@ -23,7 +23,11 @@
             <ButtonPrimary class="!px-4 !py-0" @click="openLargeMemoryGraph">View Complete Memory Graph</ButtonPrimary>
         </div>
         <div v-show="showMetrics" class="max-h-[calc(min(18rem,30vh))] flex-shrink-0 overflow-x-auto">
-            <TopSectionSummary :analysis-data="currentAnalysis" :comparison-analysis-data="comparisonAnalysis" />
+            <TopSectionSummary
+                :analysis-data="currentResult"
+                :comparison-analysis-data="comparisonResult"
+                :kernel="currentKernel"
+            />
         </div>
         <div class="flex flex-col">
             <div class="flex flex-row">
@@ -61,7 +65,6 @@ import CodeInfo from '../analysis/code_info/CodeInfo.vue';
 import CodeViewer from '../../code_viewer/CodeViewer.vue';
 import { TEXT } from '../../../../../config/text';
 import TopSectionSummary from './TopSectionSummary.vue';
-import { ANALYSIS } from '../../../../../config/analyses';
 import ButtonPrimary from '../../ui/buttons/ButtonPrimary.vue';
 
 const dataStore = useDataStore();
@@ -69,12 +72,9 @@ const codeViewerStore = useCodeViewerStore();
 const contextStore = useContextStore();
 
 const currentKernel = computed(() => dataStore.getCurrentKernel);
-const currentAnalysis = computed(() =>
-    dataStore.getGPUscoutResult().getAnalysis(ANALYSIS.vectorization.name, currentKernel.value)
-);
-const comparisonAnalysis = computed(() =>
-    dataStore.getGPUscoutComparisonResult()?.getAnalysis(ANALYSIS.vectorization.name, currentKernel.value)
-);
+const currentResult = computed(() => dataStore.getGPUscoutResult());
+
+const comparisonResult = computed(() => dataStore.getGPUscoutComparisonResult());
 const selectedLine = computed(() => codeViewerStore.getSelectedLine);
 const currentView = computed(() => codeViewerStore.getCurrentView);
 const currentBinary = computed(() => codeViewerStore.getCurrentBinary);

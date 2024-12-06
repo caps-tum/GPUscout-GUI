@@ -5,20 +5,21 @@
                 v-for="metric in metrics"
                 :key="metric"
                 :metric="metric"
-                :value="analysisData.getMetric(metric)"
-                :comparison-value="comparisonAnalysisData ? comparisonAnalysisData.getMetric(metric) : undefined"
+                :value="result.getMetric(kernel, metric)"
+                :comparison-value="comparisonResult ? comparisonResult.getMetric(kernel, metric) : undefined"
             />
         </div>
     </div>
 </template>
 <script setup>
 import { METRICS } from '../../../../../config/metrics';
-import { Analysis } from '../../../utils/Analysis';
+import { GPUscoutResult } from '../../../utils/GPUscoutResult';
 import ButtonMetricList from '../../ui/buttons/ButtonMetricList.vue';
 
 defineProps({
-    analysisData: Analysis,
-    comparisonAnalysisData: Analysis
+    kernel: String,
+    result: GPUscoutResult,
+    comparisonResult: GPUscoutResult
 });
 
 const metrics = [
