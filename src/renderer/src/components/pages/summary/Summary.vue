@@ -23,11 +23,7 @@
             <ButtonPrimary class="!px-4 !py-0" @click="openLargeMemoryGraph">View Complete Memory Graph</ButtonPrimary>
         </div>
         <div v-show="showMetrics" class="max-h-[calc(min(18rem,30vh))] flex-shrink-0 overflow-x-auto">
-            <TopSectionSummary
-                :analysis-data="currentResult"
-                :comparison-analysis-data="comparisonResult"
-                :kernel="currentKernel"
-            />
+            <TopSectionSummary :result="currentResult" :comparison-result="comparisonResult" :kernel="currentKernel" />
         </div>
         <div class="flex flex-col">
             <div class="flex flex-row">
