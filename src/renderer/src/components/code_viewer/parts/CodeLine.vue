@@ -1,5 +1,10 @@
 <template>
-    <div ref="line" class="group relative m-0 flex space-x-1" @click="selectLine">
+    <div
+        ref="line"
+        class="group relative m-0 flex space-x-1"
+        :class="lineNumber === -1 ? 'sticky top-0 z-10' : ''"
+        @click="selectLine"
+    >
         <p class="sticky left-0 top-0 w-16 shrink-0 select-none bg-secondary px-1 group-hover:bg-background">
             {{ lineNumber !== -1 ? fileLineNumber || lineNumber : '' }} {{ hasStalls ? '*' : '' }}
         </p>

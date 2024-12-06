@@ -3,7 +3,7 @@
         <p v-if="codeType === CODE_TYPE.SOURCE_CODE">Source Code</p>
         <p v-else-if="codeType === CODE_TYPE.SASS_CODE">SASS Code</p>
         <p v-if="codeType === CODE_TYPE.PTX_CODE">PTX Code</p>
-        <div class="flex h-full w-full flex-col overflow-x-auto">
+        <div class="relative flex h-full w-full flex-col overflow-x-auto">
             <CodeLine
                 v-for="line in codeLines"
                 :key="line"
