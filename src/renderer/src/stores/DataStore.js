@@ -82,7 +82,10 @@ export const useDataStore = defineStore('data', () => {
      */
     function setCurrentAnalysis(analysis) {
         currentAnalysis.value = analysis;
-        if (!currentAnalysis.value) return;
+        if (!currentAnalysis.value) {
+            codeViewerStore.setOccurrenceLines([], [], [], []);
+            return;
+        }
         const occurrences = (useComparisonCode.value ? gpuscoutComparisonResult : gpuscoutResult)
             .getAnalysis(analysis, currentKernel.value)
             .getOccurrences();
