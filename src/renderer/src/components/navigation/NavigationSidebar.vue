@@ -10,14 +10,31 @@
                     class="max-w-full bg-primary outline-none"
                     @change="changeKernel"
                 >
-                    <option
-                        v-for="kernel in kernels.toSorted()"
-                        :key="kernel"
-                        :class="getOptionStyle(kernel)"
-                        :value="kernel"
+                    <optgroup
+                        v-if="kernels.filter((k) => getAnalysesPerKernel(k) > 0).length > 0"
+                        label="Kernels with at least one analysis"
                     >
-                        {{ kernel }} - {{ getAnalysesPerKernel(kernel) }} Analyses
-                    </option>
+                        <option
+                            v-for="kernel in kernels.filter((k) => getAnalysesPerKernel(k) > 0).toSorted()"
+                            :key="kernel"
+                            :value="kernel"
+                        >
+                            {{ kernel }}
+                        </option>
+                    </optgroup>
+                    <optgroup
+                        v-if="kernels.filter((k) => getAnalysesPerKernel(k) === 0).length > 0"
+                        label="Kernels with no analyses"
+                    >
+                        <option
+                            v-for="kernel in kernels.filter((k) => getAnalysesPerKernel(k) === 0).toSorted()"
+                            :key="kernel"
+                            :value="kernel"
+                            class="bg-gray-400"
+                        >
+                            {{ kernel }}
+                        </option>
+                    </optgroup>
                 </select>
             </div>
             <div v-if="isComparison" class="flex flex-col">
@@ -110,23 +127,16 @@ function setAnalysis(analysis, useComparisonCode = false) {
 
 /**
  * @param {String} kernel
+ * @returns {Number}
  */
-function getOptionStyle(kernel) {
-    return getAnalysesPerKernel(kernel) > 0 ? 'bg-primary text-background' : 'bg-gray-300';
-}
-
 function getAnalysesPerKernel(kernel) {
     if (!isComparison.value) {
         return dataStore.getGPUscoutResult().getAnalysesWithOccurrences(kernel).length;
     } else {
-        return [
-            ...new Set(
-                dataStore
-                    .getGPUscoutResult()
-                    .getAnalysesWithOccurrences(kernel)
-                    .concat(dataStore.getGPUscoutComparisonResult().getAnalysesWithOccurrences(kernel))
-            )
-        ];
+        return dataStore
+            .getGPUscoutResult()
+            .getAnalysesWithOccurrences(kernel)
+            .concat(dataStore.getGPUscoutComparisonResult().getAnalysesWithOccurrences(kernel)).length;
     }
 }
 
