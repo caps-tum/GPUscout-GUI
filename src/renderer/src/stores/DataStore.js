@@ -56,7 +56,20 @@ export const useDataStore = defineStore('data', () => {
 
         if (gpuscoutResult.getKernels().length === 0) {
             alert('No kernels found!');
+            window.location.reload();
+            return;
         }
+        if (
+            gpuscoutComparisonResult &&
+            gpuscoutResult.getKernels().filter((k) => gpuscoutComparisonResult.getKernels().includes(k)).length === 0
+        ) {
+            alert(
+                'The two analyses share no kernel and thus cannnot be compared. Please select a different analysis to compare to.'
+            );
+            window.location.reload();
+            return;
+        }
+
         setCurrentKernel(gpuscoutResult.getKernels()[0]);
 
         console.log(gpuscoutResult);
