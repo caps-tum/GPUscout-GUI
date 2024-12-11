@@ -6,10 +6,11 @@
         @click="selectLine"
     >
         <p
-            class="sticky left-0 top-0 w-16 shrink-0 select-none bg-secondary px-1"
+            class="sticky left-0 top-0 flex w-16 shrink-0 select-none flex-row items-center justify-between bg-secondary px-1"
             :class="lineNumber !== -1 ? 'group-hover:bg-background' : ''"
         >
-            {{ lineNumber !== -1 ? fileLineNumber || lineNumber : '' }} {{ hasStalls ? '*' : '' }}
+            {{ lineNumber !== -1 ? fileLineNumber || lineNumber : '' }}
+            <IconWarning v-if="hasStalls" class="h-4 w-4" />
         </p>
         <p class="flex min-h-6 w-full flex-grow border-collapse flex-row flex-wrap overflow-hidden" :class="getHighlight()">
             <template v-if="tokens.map((t) => getTokenHighlight(t)).filter((h) => h === true).length > 0">
@@ -36,6 +37,7 @@ import { ref, watch } from 'vue';
 import { useCodeViewerStore } from '../../../stores/CodeViewerStore';
 import CodeLineToken from './CodeLineToken.vue';
 import { CODE_STYLES } from '../../../../../config/colors';
+import IconWarning from '../../ui/icons/IconWarning.vue';
 
 const props = defineProps({
     tokens: Array,
