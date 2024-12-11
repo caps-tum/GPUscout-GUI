@@ -1,7 +1,7 @@
 <template>
     <div v-if="arrow.spaceAbove"></div>
     <div class="relative grid grid-cols-1 grid-rows-[50%_50%] flex-col" :class="large ? 'min-w-20' : 'min-w-12'">
-        <template v-if="!arrow.metricBottom">
+        <template v-if="!arrow.metricBottom && !large">
             <div
                 class="flex flex-col justify-end border-b border-black px-2 pb-1 text-center text-sm text-text"
                 :class="getArrowClass()"
@@ -20,10 +20,12 @@
                 v-html="getTitle(false) + (comparisonAnalysisData !== undefined ? ' vs ' + getTitle(true) : '')"
             ></div>
             <div
+                v-if="arrow.metricBottom"
                 class="whitespace-nowrap border-t border-black px-2 pt-1 text-center text-sm text-text"
                 :class="getArrowClass(true)"
                 v-html="getTitle(false, true) + (comparisonAnalysisData !== undefined ? ' vs ' + getTitle(true, true) : '')"
             ></div>
+            <div v-else class="border-t border-black px-2 pt-1"></div>
         </template>
     </div>
     <div v-if="arrow.spaceBelow"></div>
@@ -42,21 +44,23 @@ const props = defineProps({
 
 function getTitle(comparison = false, useBottomMetric = false) {
     if (comparison && !props.comparisonAnalysisData) return '';
+    if (useBottomMetric && !props.arrow.metricBottom) return '';
     const metric = useBottomMetric ? props.arrow.metricBottom : props.arrow.metric;
     const metricsData = getMetricsData(metric);
     if (comparison) {
-        const isPositiveChange =
-            (props.analysisData.getMetric(metric) <= props.comparisonAnalysisData.getMetric(metric) &&
-                metricsData.lower_better) ||
-            (props.analysisData.getMetric(metric) >= props.comparisonAnalysisData.getMetric(metric) &&
-                !metricsData.lower_better);
-        const changeColor = isPositiveChange ? 'text-green-500' : 'text-red-500';
-        return (
-            `<a class="${changeColor}"> ` +
-            metricsData.format_function(props.comparisonAnalysisData.getMetric(metric)) +
-            '</a>'
-        );
+        return metricsData.format_function(props.comparisonAnalysisData.getMetric(metric));
     } else {
+        if (props.comparisonAnalysisData) {
+            const isPositiveChange =
+                (props.analysisData.getMetric(metric) <= props.comparisonAnalysisData.getMetric(metric) &&
+                    metricsData.lower_better) ||
+                (props.analysisData.getMetric(metric) >= props.comparisonAnalysisData.getMetric(metric) &&
+                    !metricsData.lower_better);
+            const changeColor = isPositiveChange ? 'text-green-500' : 'text-red-500';
+            return (
+                `<a class="${changeColor}"> ` + metricsData.format_function(props.analysisData.getMetric(metric)) + '</a>'
+            );
+        }
         return metricsData.format_function(props.analysisData.getMetric(metric));
     }
 }
