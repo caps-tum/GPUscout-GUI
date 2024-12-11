@@ -10,7 +10,14 @@
                     class="max-w-full bg-primary outline-none"
                     @change="changeKernel"
                 >
-                    <option v-for="kernel in kernels.toSorted()" :key="kernel" :value="kernel">{{ kernel }}</option>
+                    <option
+                        v-for="kernel in kernels.toSorted()"
+                        :key="kernel"
+                        :class="getOptionStyle(kernel)"
+                        :value="kernel"
+                    >
+                        {{ kernel }} - {{ getAnalysesPerKernel(kernel) }} Analyses
+                    </option>
                 </select>
             </div>
             <div v-if="isComparison" class="flex flex-col">
@@ -99,6 +106,28 @@ function changeKernel() {
 function setAnalysis(analysis, useComparisonCode = false) {
     codeViewerStore.setUseComparisonCode(useComparisonCode);
     dataStore.setCurrentAnalysis(analysis);
+}
+
+/**
+ * @param {String} kernel
+ */
+function getOptionStyle(kernel) {
+    return getAnalysesPerKernel(kernel) > 0 ? 'bg-primary text-background' : 'bg-gray-300';
+}
+
+function getAnalysesPerKernel(kernel) {
+    if (!isComparison.value) {
+        return dataStore.getGPUscoutResult().getAnalysesWithOccurrences(kernel).length;
+    } else {
+        return [
+            ...new Set(
+                dataStore
+                    .getGPUscoutResult()
+                    .getAnalysesWithOccurrences(kernel)
+                    .concat(dataStore.getGPUscoutComparisonResult().getAnalysesWithOccurrences(kernel))
+            )
+        ];
+    }
 }
 
 // Quit the App
