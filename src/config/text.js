@@ -39,6 +39,12 @@ export const TEXT = {
             default_occurrence_title: 'Occurrence found',
             stalls_title: 'PC Sampling Stalls',
             recommendations_title: 'Recommendations'
+        },
+        help_texts: {
+            live_registers: {
+                title: 'Live Registers',
+                help_text: 'bla bla'
+            }
         }
     },
     summary: {

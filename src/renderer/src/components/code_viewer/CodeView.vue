@@ -3,6 +3,13 @@
         <p v-if="codeType === CODE_TYPE.SOURCE_CODE">Source Code</p>
         <p v-else-if="codeType === CODE_TYPE.SASS_CODE">SASS Code</p>
         <p v-if="codeType === CODE_TYPE.PTX_CODE">PTX Code</p>
+        <div
+            v-if="codeType === CODE_TYPE.SASS_CODE && displayLiveRegisters"
+            class="absolute right-2 top-0 z-50 flex flex-row items-center space-x-1"
+        >
+            <p>Live Reg.</p>
+            <ButtonHelp class="fill-text *:h-4 *:w-4" @click="showLiveRegisterHelp" />
+        </div>
         <div class="relative flex h-full w-full flex-col overflow-x-auto">
             <CodeLine
                 v-for="line in codeLines"
@@ -29,8 +36,11 @@
     </div>
 </template>
 <script setup>
+import { TEXT } from '../../../../config/text';
 import { CODE_TYPE, useCodeViewerStore } from '../../stores/CodeViewerStore';
+import { POPUP, useContextStore } from '../../stores/ContextStore';
 import { useDataStore } from '../../stores/DataStore';
+import ButtonHelp from '../ui/buttons/ButtonHelp.vue';
 import CodeLine from './parts/CodeLine.vue';
 import { computed } from 'vue';
 
@@ -47,9 +57,17 @@ defineProps({
 
 const dataStore = useDataStore();
 const codeViewerStore = useCodeViewerStore();
+const contextStore = useContextStore();
 
 const selectedOccurrences = computed(() => dataStore.getCurrentOccurrences);
 const displayLiveRegisters = computed(() => codeViewerStore.getSassRegistersVisible);
+
+function showLiveRegisterHelp() {
+    contextStore.togglePopup(POPUP.METRIC_HELP, true, {
+        metricName: TEXT.code_view.help_texts.live_registers.title,
+        helpText: TEXT.code_view.help_texts.live_registers.help_text
+    });
+}
 </script>
 <style scoped>
 p {

@@ -5,7 +5,10 @@
         :class="lineNumber === -1 ? 'sticky top-0 z-10' : ''"
         @click="selectLine"
     >
-        <p class="sticky left-0 top-0 w-16 shrink-0 select-none bg-secondary px-1 group-hover:bg-background">
+        <p
+            class="sticky left-0 top-0 w-16 shrink-0 select-none bg-secondary px-1"
+            :class="lineNumber !== -1 ? 'group-hover:bg-background' : ''"
+        >
             {{ lineNumber !== -1 ? fileLineNumber || lineNumber : '' }} {{ hasStalls ? '*' : '' }}
         </p>
         <p class="flex min-h-6 w-full flex-grow border-collapse flex-row flex-wrap overflow-hidden" :class="getHighlight()">
@@ -23,10 +26,7 @@
                 {{ tokens.join('') }}
             </template>
         </p>
-        <p
-            v-if="showLiveRegisters"
-            class="sticky right-0 top-0 w-16 shrink-0 select-none bg-secondary px-1 text-center group-hover:bg-background"
-        >
+        <p v-if="showLiveRegisters" class="sticky right-0 top-0 w-16 shrink-0 select-none bg-secondary px-1 text-center">
             {{ liveRegisters[0] || '0' }} | {{ liveRegisters[1] || '0' }}
         </p>
     </div>
