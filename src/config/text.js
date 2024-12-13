@@ -64,7 +64,8 @@ export const TEXT = {
     analyses: {
         general: {
             code_info: {
-                no_line_selected: 'No line selected',
+                no_line_selected:
+                    'No line selected. Select a line with red or blue markings to get information about findings in that line. Blue marked lines correcpond to lines with general infoamrtion, while red marked lines contain optimizations for potential performance bottlenecks.',
                 source_occurrence_selected:
                     'One or more occurrences found for the currently selected source code line. Select one of the highlighted code lines in the binary code to get further information.',
                 no_info:

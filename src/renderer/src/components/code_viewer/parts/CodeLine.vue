@@ -93,7 +93,7 @@ function getTokenHighlight(token) {
 function getHighlight() {
     let style = '';
     if (!props.hasMapping) {
-        style += 'text-text/50 ';
+        style += CODE_STYLES.SOURCE_LINE_WITHOUT_MAPPING + ' ';
     }
     if (props.isOccurrence) {
         // Mark occurrences
