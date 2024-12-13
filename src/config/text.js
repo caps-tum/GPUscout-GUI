@@ -38,7 +38,9 @@ export const TEXT = {
         code_info: {
             default_occurrence_title: 'Occurrence found',
             stalls_title: 'PC Sampling Stalls',
-            recommendations_title: 'Recommendations'
+            recommendations_title: 'Recommendations',
+            multiple_selected_info:
+                'You have currently selected multiple occurrences. To get further insights into one of them, click on one of the highlighted lines in the binary code.'
         },
         help_texts: {
             live_registers: {
@@ -69,7 +71,7 @@ export const TEXT = {
                 source_occurrence_selected:
                     'One or more occurrences found for the currently selected source code line. Select one of the highlighted code lines in the binary code to get further information.',
                 no_info:
-                    'No information available for the selected line(s). Select a highlighted line in the code to get further information'
+                    'No information available for the selected line(s). Select a highlighted line in the code to get further information. Blue marked lines correcpond to lines with general infoamrtion, while red marked lines contain optimizations for potential performance bottlenecks.'
             },
             warp_stall_analysis: {
                 title: 'Warp stall analysis',

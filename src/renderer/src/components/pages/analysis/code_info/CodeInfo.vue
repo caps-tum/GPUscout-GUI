@@ -1,8 +1,10 @@
 <template>
     <div class="flex flex-col">
         <template v-for="occurrence of occurrences" :key="occurrence">
-            <p class="sticky top-0 rounded-t bg-secondary p-1 text-center text-text">
+            <p class="sticky top-0 rounded-t bg-secondary p-1 text-center text-sm text-text first-line:text-base">
                 {{ occurrence?.title() || 'No title' }}
+                <br />
+                in line {{ selectedLine }} (source) / {{ occurrence?.binaryLineNumber }} (binary)
             </p>
             <p class="whitespace-pre-line p-1" v-html="occurrence.description()"></p>
         </template>
@@ -27,6 +29,9 @@
             class="whitespace-pre-line p-1"
             v-html="occurrences[0]?.recommendations()"
         ></p>
+        <p v-show="occurrences.length > 1" class="mt-4 bg-secondary p-1 text-text">
+            {{ TEXT.code_view.code_info.multiple_selected_info }}
+        </p>
     </div>
 </template>
 <script setup>

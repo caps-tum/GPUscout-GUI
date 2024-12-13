@@ -31,7 +31,11 @@
                     </template>
                 </template>
             </div>
-            <div v-else class="flex max-h-60 flex-grow flex-col gap-y-1 overflow-y-auto">
+            <div
+                v-else
+                class="max-h-60 overflow-y-auto"
+                :class="getMetrics().length >= 8 ? 'grid grid-cols-2 gap-1' : 'flex flex-grow flex-col gap-y-1'"
+            >
                 <ButtonMetricList
                     v-for="metric in getMetrics()"
                     :key="metric"

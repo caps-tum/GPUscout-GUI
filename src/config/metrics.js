@@ -170,7 +170,7 @@ More information is available at <a href="https://docs.nvidia.com/nsight-compute
     },
     general_loads_l2_to_dram_bytes: {
         name: 'general/loads_l2_to_dram_bytes',
-        display_name: 'L2 loads to DRAM',
+        display_name: 'L2 to DRAM',
         hint: '',
         format_function: formatBytes,
         help_text: 'This is a detailed explanation something',
@@ -258,7 +258,7 @@ More information is available at <a href="https://docs.nvidia.com/nsight-compute
     },
     global_loads_l1_cache_hit_perc: {
         name: 'global/loads_l1_cache_hit_perc',
-        display_name: 'Global load L1 cache hits',
+        display_name: 'GMEM L1 cache hits',
         hint: '',
         format_function: formatPercent,
         help_text: 'This is a detailed explanation something',
@@ -266,7 +266,7 @@ More information is available at <a href="https://docs.nvidia.com/nsight-compute
     },
     global_loads_l1_to_l2_bytes: {
         name: 'global/loads_l1_to_l2_bytes',
-        display_name: 'Global load L1 to L2',
+        display_name: 'GMEM L1 to L2',
         hint: '',
         format_function: formatBytes,
         help_text: 'This is a detailed explanation something',
@@ -274,7 +274,7 @@ More information is available at <a href="https://docs.nvidia.com/nsight-compute
     },
     global_loads_to_l1_bytes: {
         name: 'global/loads_to_l1_bytes',
-        display_name: 'Global load to L1',
+        display_name: 'GMEM to L1',
         hint: '',
         format_function: formatBytes,
         help_text: 'This is a detailed explanation something',
@@ -522,7 +522,7 @@ More information is available at <a href="https://docs.nvidia.com/nsight-compute
     },
     texture_loads_l1_cache_hit_perc: {
         name: 'texture/loads_l1_cache_hit_perc',
-        display_name: 'Texture L1 cache hits',
+        display_name: 'TEX L1 cache hits',
         hint: '',
         format_function: formatPercent,
         help_text: 'This is a detailed explanation something',
@@ -530,7 +530,7 @@ More information is available at <a href="https://docs.nvidia.com/nsight-compute
     },
     texture_loads_l1_to_l2_bytes: {
         name: 'texture/loads_l1_to_l2_bytes',
-        display_name: 'Texture L1 to L2',
+        display_name: 'TEX L1 to L2',
         hint: '',
         format_function: formatBytes,
         help_text: 'This is a detailed explanation something',
@@ -538,7 +538,7 @@ More information is available at <a href="https://docs.nvidia.com/nsight-compute
     },
     texture_loads_l2_to_dram_bytes: {
         name: 'texture/loads_l2_to_dram_bytes',
-        display_name: 'Texture L2 to DRAM',
+        display_name: 'TEX L2 to DRAM',
         hint: '',
         format_function: formatBytes,
         help_text: 'This is a detailed explanation something',
@@ -546,7 +546,7 @@ More information is available at <a href="https://docs.nvidia.com/nsight-compute
     },
     texture_loads_to_l1_bytes: {
         name: 'texture/loads_to_l1_bytes',
-        display_name: 'Texture to L1',
+        display_name: 'TEX to L1',
         hint: '',
         format_function: formatBytes,
         help_text: 'This is a detailed explanation something',

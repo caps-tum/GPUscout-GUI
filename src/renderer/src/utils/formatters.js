@@ -84,8 +84,8 @@ export function getMetricsData(metricName) {
         return {
             display_name: metricName,
             format_function: (value, secondary_value) => {
-                if (secondary_value === undefined)
-                    return Number.isInteger(value) ? formatNumber(value) : formatPercent(value);
+                // Dont format if only one value as we could destroy some custom formatting with it
+                if (secondary_value === undefined) return value;
                 let absolute,
                     relative = 0;
                 if (Number.isInteger(value)) {
