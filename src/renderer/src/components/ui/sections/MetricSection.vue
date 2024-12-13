@@ -31,7 +31,7 @@
                     "
                 />
             </div>
-            <div v-else class="flex max-h-60 flex-grow flex-col flex-wrap gap-y-1 overflow-y-auto">
+            <div v-else class="flex max-h-60 shrink-0 flex-grow flex-col flex-wrap gap-y-1 overflow-y-auto">
                 <ButtonMetricList
                     v-for="(metric, index) in metrics"
                     :key="metric"
