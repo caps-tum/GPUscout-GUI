@@ -5,7 +5,7 @@
             <p class="line-clamp-2 text-sm text-background/50">{{ hint || data.hint || '' }}</p>
             <div class="flex justify-between" :class="getFlexDirection()">
                 <p>
-                    {{ data.format_function(value, absoluteValue) }}
+                    {{ data.format_function(value, secondaryValue) }}
                 </p>
                 <div
                     class="flex px-2"
@@ -22,7 +22,7 @@
                     <p v-else-if="comparisonValue !== undefined" class="-mt-1 text-2xl">&#x2B07;</p>
                 </div>
                 <p v-if="comparisonValue !== undefined">
-                    {{ data.format_function(comparisonValue, comparisonAbsoluteValue) }}
+                    {{ data.format_function(comparisonValue, comparisonSecondaryValue) }}
                 </p>
             </div>
         </a>
@@ -39,8 +39,8 @@ const props = defineProps({
     value: [Number, String],
     comparisonValue: [Number, String],
     hint: String,
-    absoluteValue: Number,
-    comparisonAbsoluteValue: Number,
+    secondaryValue: Number,
+    comparisonSecondaryValue: Number,
     valueSmall: Boolean
 });
 

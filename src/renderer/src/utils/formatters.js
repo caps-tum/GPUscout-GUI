@@ -3,18 +3,19 @@ import { STALLS } from '../../../config/stalls';
 
 /**
  * @param {Number} value
+ * @param {Number} total_value
  * @returns {String} The value formatted as a percent value
  */
-export function formatPercent(value, stalls) {
+export function formatPercent(value, total_value) {
     const format = new Intl.NumberFormat('de-DE', {
         style: 'decimal',
         minimumFractionDigits: 0,
         maximumFractionDigits: 1
     });
     let percent_rounded = Math.round(value * 100) / 100;
-    if (stalls) {
-        stalls = Math.round((stalls * value) / 100);
-        return `${format.format(Math.round(stalls))} (${format.format(percent_rounded)}%)`;
+    if (total_value) {
+        total_value = Math.round((total_value * value) / 100);
+        return `${format.format(Math.round(total_value))} (${format.format(percent_rounded)}%)`;
     }
     return `${format.format(percent_rounded)}%`;
 }
@@ -78,13 +79,19 @@ export function getMetricsData(metricName) {
     } else {
         return {
             display_name: metricName,
-            format_function: (v, a) => {
-                if (!a) return v;
-                let vString = formatNumber(v),
-                    aString = formatNumber(a);
-                if (!Number.isInteger(v)) vString = formatPercent(v);
-                if (!Number.isInteger(a)) aString = formatPercent(a);
-                return `${vString} (${aString})`;
+            format_function: (value, secondary_value) => {
+                if (secondary_value === undefined)
+                    return Number.isInteger(value) ? formatNumber(value) : formatPercent(value);
+                let absolute,
+                    relative = 0;
+                if (Number.isInteger(value)) {
+                    absolute = formatNumber(value);
+                    relative = formatPercent(secondary_value);
+                } else {
+                    absolute = formatNumber(secondary_value);
+                    relative = formatPercent(value);
+                }
+                return `${absolute} (${relative})`;
             },
             lower_better: true
         };

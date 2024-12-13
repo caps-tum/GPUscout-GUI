@@ -19,12 +19,14 @@
                     :hint="metric.hint"
                     :value="values[index](analysisData, metric)"
                     :comparison-value="comparisonAnalysisData ? values[index](comparisonAnalysisData, metric) : undefined"
-                    :absolute-value="
-                        absoluteValues ? absoluteValues[Math.min(absoluteValues.length - 1, index)](analysisData) : undefined
+                    :secondary-value="
+                        secondaryValues
+                            ? secondaryValues[Math.min(secondaryValues.length - 1, index)](analysisData)
+                            : undefined
                     "
-                    :comparison-absolute-value="
-                        absoluteValues && comparisonAnalysisData
-                            ? absoluteValues[Math.min(absoluteValues.length - 1, index)](comparisonAnalysisData)
+                    :comparison-secondary-value="
+                        secondaryValues && comparisonAnalysisData
+                            ? secondaryValues[Math.min(secondaryValues.length - 1, index)](comparisonAnalysisData)
                             : undefined
                     "
                 />
@@ -57,7 +59,7 @@ const props = defineProps({
     comparisonAnalysisData: Analysis,
     metrics: Array,
     values: Array,
-    absoluteValues: Array,
+    secondaryValues: Array,
     expanded: Boolean
 });
 

@@ -11,7 +11,7 @@
                 class="*:!bg-secondary *:text-text"
                 :metric="stall"
                 :value="stalls[stall]"
-                :absolute-value="(stalls[stall] / totalLineStalls) * 100"
+                :secondary-value="(stalls[stall] / totalLineStalls) * 100"
                 :value-small="true"
             />
         </template>

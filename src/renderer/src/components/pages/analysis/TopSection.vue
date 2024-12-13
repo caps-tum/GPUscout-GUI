@@ -16,7 +16,7 @@
                 :hint="section.hint"
                 :metrics="section.metrics.map((m) => m.name)"
                 :values="section.metrics.map((m) => m.value || ((analysis, metric) => analysis.getMetric(metric)))"
-                :absolute-values="section.metrics.map((m) => m.absolute_value || (() => 0))"
+                :secondary-values="section.metrics.map((m) => m.secondary_value || (() => 0))"
                 :analysis-data="analysisData"
                 :comparison-analysis-data="comparisonAnalysisData"
                 :expanded="expandedSection === index"
