@@ -71,9 +71,6 @@ export const useDataStore = defineStore('data', () => {
         }
 
         setCurrentKernel(gpuscoutResult.getKernels()[0]);
-
-        console.log(gpuscoutResult);
-        console.log(gpuscoutComparisonResult);
     }
 
     /**
@@ -117,7 +114,6 @@ export const useDataStore = defineStore('data', () => {
                 contextStore.setCurrentContext(CONTEXT.ANALYSIS);
                 setCurrentAnalysis(gpuscoutComparisonResult.getAnalysesWithOccurrences(currentKernel.value)[0]);
             } else {
-                console.log(gpuscoutResult.getAnalysesWithOccurrences(currentKernel.value));
                 contextStore.setCurrentContext(CONTEXT.SUMMARY);
                 setCurrentAnalysis('');
             }

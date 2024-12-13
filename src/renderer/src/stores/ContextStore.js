@@ -31,6 +31,11 @@ export const useContextStore = defineStore('context', () => {
         currentContext.value = context;
     }
 
+    /**
+     * @param {Number} popup The popup to toggle
+     * @param {boolean} [show=true] If the popup should be shown or hidden
+     * @param {{}} [parameters={}] Optional parameters to pass to the popup
+     */
     function togglePopup(popup, show = true, parameters = {}) {
         if (show && !activePopups.value.includes(popup)) {
             popupParameters.value = parameters;
