@@ -6,7 +6,7 @@
         @click="selectLine"
     >
         <p
-            class="sticky left-0 top-0 flex w-16 shrink-0 select-none flex-row items-center justify-between bg-secondary px-1"
+            class="sticky left-0 top-0 flex w-16 shrink-0 select-none flex-row items-center justify-between bg-secondary px-1 !text-text"
             :class="lineNumber !== -1 ? 'group-hover:bg-background' : ''"
         >
             {{ lineNumber !== -1 ? fileLineNumber || lineNumber : '' }}
@@ -53,7 +53,8 @@ const props = defineProps({
     currentView: Number,
     selectedOccurrences: Array,
     liveRegisters: Array,
-    showLiveRegisters: Boolean
+    showLiveRegisters: Boolean,
+    hasMapping: Boolean
 });
 
 const codeViewerStore = useCodeViewerStore();
@@ -91,6 +92,9 @@ function getTokenHighlight(token) {
  */
 function getHighlight() {
     let style = '';
+    if (!props.hasMapping) {
+        style += 'text-text/50 ';
+    }
     if (props.isOccurrence) {
         // Mark occurrences
         style += CODE_STYLES.OCCURRENCE + ' ';

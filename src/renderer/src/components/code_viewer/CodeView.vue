@@ -18,6 +18,13 @@
                 :line-number="line.address"
                 :file-line-number="line.fileAddress"
                 :live-registers="line.liveRegisters"
+                :has-mapping="
+                    codeType === CODE_TYPE.SOURCE_CODE
+                        ? binaryCodeType === CODE_TYPE.SASS_CODE
+                            ? line.hasSassMapping
+                            : line.hasPtxMapping
+                        : true
+                "
                 :code-type="codeType"
                 :highlighted-lines="highlightedLines"
                 :highlighted-tokens="highlightedTokens"
@@ -61,6 +68,7 @@ const contextStore = useContextStore();
 
 const selectedOccurrences = computed(() => dataStore.getCurrentOccurrences);
 const displayLiveRegisters = computed(() => codeViewerStore.getSassRegistersVisible);
+const binaryCodeType = computed(() => codeViewerStore.getCurrentBinary);
 
 function showLiveRegisterHelp() {
     contextStore.togglePopup(POPUP.METRIC_HELP, true, {

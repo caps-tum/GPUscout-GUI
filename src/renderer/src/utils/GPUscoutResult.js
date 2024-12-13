@@ -464,7 +464,9 @@ export class GPUscoutResult {
                 this._sourceCodeLines[kernel].push({
                     address: -1,
                     tokens: ['File: ' + sourceFile],
-                    stalls: {}
+                    stalls: {},
+                    hasSassMapping: true,
+                    hasPtxMapping: true
                 });
 
                 // Add lines
@@ -488,7 +490,9 @@ export class GPUscoutResult {
                         address: lineNumber++,
                         fileAddress: fileLineNumber++,
                         tokens: [sourceFileContents[sourceFile][i - 1]],
-                        stalls: lineStalls
+                        stalls: lineStalls,
+                        hasSassMapping: false,
+                        hasPtxMapping: false
                     });
                 }
             }
@@ -511,12 +515,14 @@ export class GPUscoutResult {
                 this._sourceToSassLines[kernel][key] = Object.entries(this._sassToSourceLines[kernel])
                     .filter(([, v]) => v === parseInt(key))
                     .map(([k]) => k);
+                this._sourceCodeLines[kernel].find((l) => l.address === key).hasSassMapping = true;
             }
             this._sourceToPtxLines[kernel] = {};
             for (const key of [...new Set(Object.values(this._ptxToSourceLines[kernel]))]) {
                 this._sourceToPtxLines[kernel][key] = Object.entries(this._ptxToSourceLines[kernel])
                     .filter(([, v]) => v === parseInt(key))
                     .map(([k]) => parseInt(k));
+                this._sourceCodeLines[kernel].find((l) => l.address === key).hasPtxMapping = true;
             }
         }
     }
