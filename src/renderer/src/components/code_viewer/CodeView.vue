@@ -8,7 +8,7 @@
             class="absolute right-2 top-0 z-50 flex flex-row items-center space-x-1"
         >
             <p>Live Reg.</p>
-            <ButtonHelp class="fill-text *:h-4 *:w-4" @click="showLiveRegisterHelp" />
+            <ButtonHelp class="*:h-4 *:w-4 *:fill-text" @click="showLiveRegisterHelp" />
         </div>
         <div class="relative flex h-full w-full flex-col overflow-x-auto">
             <CodeLine

@@ -3,25 +3,25 @@ import { CODE_TYPE } from '../stores/CodeViewerStore';
 
 export class Analysis {
     /**
-     * @param {Object} analysisData The data of the analysis
+     * @param {{metrics: Object[], occurrences: Object[]}} analysisData The data of the analysis
      * @param {Object} metrics All general metrics of the result
      * @param {Object} topologyMetrics The relevant metrics of the GPU topology
      * @param {String} kernel The name of the kernel
      * @param {Function} occurrenceConstructor A function returning a new instance of an occurrence element
      */
     constructor(analysisData, metrics, topologyMetrics, kernel, occurrenceConstructor = (o) => new Occurrence(o)) {
-        this._kernel = kernel;
-        this._metrics = metrics || {};
-        this._ownMetrics = {};
-        this._topologyMetrics = topologyMetrics;
+        /** @type {String} */ this._kernel = kernel;
+        /** @type {Object.<String, String>} */ this._metrics = metrics || {};
+        /** @type {Object.<String, String>} */ this._ownMetrics = {};
+        /** @type {Object.<String, String>} */ this._topologyMetrics = topologyMetrics;
         /** @type {Occurrence[]} */ this._occurrences = [];
-        this.codeType = CODE_TYPE.NONE;
+        /** @type {Number} */ this.codeType = CODE_TYPE.NONE;
 
-        // Add metrics
-        if (analysisData['metrics']) {
-            for (const [jsonMetricName, metricValue] of Object.entries(analysisData['metrics'])) {
+        // Add analysis specific metrics
+        if (analysisData.metrics) {
+            for (const [jsonMetricName, metricValue] of Object.entries(analysisData.metrics)) {
                 if (metricValue === null) {
-                    // Metric not found
+                    // Invalid metric value
                     this._metrics[jsonMetricName] = 0;
                     this._ownMetrics[jsonMetricName] = 0;
                 } else if (typeof metricValue === 'object') {
@@ -38,18 +38,11 @@ export class Analysis {
         }
 
         // Add occurrences
-        if (analysisData['occurrences']) {
-            for (const occurrence of analysisData['occurrences']) {
+        if (analysisData.occurrences) {
+            for (const occurrence of analysisData.occurrences) {
                 this._occurrences.push(occurrenceConstructor(occurrence));
             }
         }
-    }
-
-    /**
-     * @returns {Object.<String, Number>} All metrics of this analysis
-     */
-    getMetrics() {
-        return this._metrics;
     }
 
     /**
@@ -100,7 +93,7 @@ export class Analysis {
     }
 
     /**
-     * @returns {String} The name of the current kernel
+     * @returns {String} The name of the kernel this analysis is associated with
      */
     getKernel() {
         return this._kernel;
@@ -117,12 +110,11 @@ export class Occurrence {
             occurrenceData['pc_offset'] || parseInt(occurrenceData['line_number_raw']);
         /** @type {Boolean} */ this.isWarning = occurrenceData['severity'] === 'WARNING';
 
-        this.data = occurrenceData;
+        /** @type {Object.<String, String|Number>} */ this.data = occurrenceData;
     }
 
     /**
-     * The code lines to highlight when this occurrence is selected
-     * @returns {String[]|Number[]}
+     * @returns {String[]|Number[]} The code lines to highlight when this occurrence is selected
      */
     linesToHighlight() {
         return [];
@@ -131,7 +123,7 @@ export class Occurrence {
     /**
      * The tokens to highlight on the highlighted code lines
      * Format:
-     * Key: The line(s) to highlight these tokens on (for example '5', '<5', '<=5', '>5', '>=5') (use numbers for source os ptx code ex. 5 and hex for sass code ex. 0005)
+     * Key: The line(s) to highlight these tokens on (for example '5', '<5', '>5') (use numbers for source or ptx code ex. 5 and hex for sass code ex. 0005)
      * Value: A object with the token to highlight as the key and the color of the highlight as the value
      * Example: {'<5': { 'R1': CODE_BINARY_TOKEN_COLORS.REGISTER_1 }} to highlight all occurrences of the string 'R1' in the first 4 lines
      * @returns {Object}
@@ -141,16 +133,14 @@ export class Occurrence {
     }
 
     /**
-     * The title to display in the code view
-     * @returns {String}
+     * @returns {String} The title to display in the code view
      */
     title() {
         return TEXT.code_view.code_info.default_occurrence_title;
     }
 
     /**
-     * The description to display in the code view
-     * @returns {String}
+     * @returns {String} The description to display in the code view
      */
     description() {
         let resultString = 'Problem found:';
@@ -161,8 +151,7 @@ export class Occurrence {
     }
 
     /**
-     * The recommendations to display in the code view
-     * @returns {String}
+     * @returns {String} The recommendations to display in the code view
      */
     recommendations() {
         return '';

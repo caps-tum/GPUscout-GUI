@@ -63,6 +63,10 @@ export function formatInstructions(value) {
     return `${formatNumber(value)} Inst.`;
 }
 
+/**
+ * @param {Number} value
+ * @returns {String} The value formatted
+ */
 export function formatBoolean(value) {
     return value ? 'True' : 'False';
 }
