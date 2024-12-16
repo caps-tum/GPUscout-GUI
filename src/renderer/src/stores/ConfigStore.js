@@ -1,6 +1,14 @@
+/**
+ * @module
+ * @author Tobias Stuckenberger
+ * @description This module defines the configStore
+ */
 import { defineStore } from 'pinia';
 import { computed, ref } from 'vue';
 
+/**
+ * The config store handles reading and writing to and from the config file
+ */
 export const useConfigStore = defineStore('config', () => {
     const config = ref({});
 

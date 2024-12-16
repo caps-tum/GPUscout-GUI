@@ -1,8 +1,17 @@
+/**
+ * @module
+ * @author Tobias Stuckenberger
+ * @description This module defines the codeViewerStore
+ */
 import { defineStore } from 'pinia';
 import { computed, ref } from 'vue';
 import { useDataStore } from './DataStore';
 import { CODE_BINARY_TOKEN_COLORS, CODE_STYLES } from '../../../config/colors.js';
 
+/**
+ * An enum of all available code types
+ * @type {Object.<String, Number>}
+ */
 export const CODE_TYPE = {
     NONE: 0,
     SOURCE_CODE: 1,
@@ -10,6 +19,10 @@ export const CODE_TYPE = {
     PTX_CODE: 3
 };
 
+/**
+ * The code viewer store handles all component-spanning responsibilities that are part of the code viewer component.
+ * This includes highlighting and scrolling of code lines, as well as switching between code versions, among other things.
+ */
 export const useCodeViewerStore = defineStore('codeViewer', () => {
     const dataStore = useDataStore();
 

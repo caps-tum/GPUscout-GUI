@@ -1,3 +1,8 @@
+/**
+ * @module
+ * @author Tobias Stuckenberger
+ * @description This module defines all available formatters for different metric or stall values
+ */
 import { METRICS } from '../../../config/metrics';
 import { STALLS } from '../../../config/stalls';
 

@@ -1,3 +1,8 @@
+/**
+ * @module
+ * @author Tobias Stuckenberger
+ * @description This module contains the definitions for all predefined metrics that are included in the GPUscout result file and are used in the UI
+ */
 import {
     formatBoolean,
     formatBytes,
@@ -8,14 +13,21 @@ import {
 import { STALLS } from './stalls';
 
 /**
- * This list contains the definition of all metrics and their related information
- * - display_name: The title of the metric in the GUI
- * - format_function: The function used to format values of this metric
- * - hint: The hint displayed in the metric buttons
- * - help_text: The help text displayed in the help popup
- * - lower_better: If lower values are considered better (for comparisons)
+ * Contains the definition of a single metric
+ * @typedef {Object} MetricDefinition
+ * @property {String} name The name of the metric in the GPUscout result file
+ * @property {String} display_name The name of the metric as is should be displayed in the UI
+ * @property {String} [hint] A hint to display under the display name of the metric
+ * @property {Function} format_function A function that takes the value of the metric and returns a formatted string
+ * @property {String} help_text A detailed description of the metric that is displayed in a popup when users wlick the help icon of the metric. Allows for html formatting
+ * @property {Boolean} lower_better If a lower value should be considered better when comparing two GPUscout results
+ */
+
+/**
+ * This list contains the definition of all metrics and their related information.
  * Sources for help texts:
  * - https://docs.nvidia.com/nsight-compute/ProfilingGuide/index.html#hardware-model
+ * @type {Object.<String, MetricDefinition>}
  */
 export const METRICS = {
     stalls_total: {

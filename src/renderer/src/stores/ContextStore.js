@@ -1,6 +1,15 @@
+/**
+ * @module
+ * @author Tobias Stuckenberger
+ * @description This module defines the contextStore
+ */
 import { defineStore } from 'pinia';
 import { computed, ref } from 'vue';
 
+/**
+ * An enum of all available screens in the UI
+ * @type {Object.<String, Number>}
+ */
 export const CONTEXT = {
     NONE: 0,
     START_SCREEN: 1,
@@ -9,11 +18,18 @@ export const CONTEXT = {
     SUMMARY: 4
 };
 
+/**
+ * An enum of all available popups
+ * @type {Object.<String, Number>}
+ */
 export const POPUP = {
     METRIC_HELP: 0,
     MEMORY_GRAPH: 1
 };
 
+/**
+ * The config store mainly handles the display of popups, as well as switching between the different screens in the UI
+ */
 export const useContextStore = defineStore('context', () => {
     const currentContext = ref(CONTEXT.NONE);
     const activePopups = ref([]);

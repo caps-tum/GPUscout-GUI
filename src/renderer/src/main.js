@@ -1,3 +1,8 @@
+/**
+ * @module
+ * @author Tobias Stuckenberger
+ * @description This module defines the entry point of the vue.js frontend
+ */
 import './assets/main.css';
 
 import { createApp } from 'vue';

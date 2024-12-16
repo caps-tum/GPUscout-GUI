@@ -1,6 +1,15 @@
+/**
+ * @module
+ * @author Tobias Stuckenberger
+ * @description This module defines the structure of an Analysis
+ */
 import { TEXT } from '../../../config/text';
 import { CODE_TYPE } from '../stores/CodeViewerStore';
 
+/**
+ * This class defines which information is store inside an analysis
+ * @class
+ */
 export class Analysis {
     /**
      * @param {{metrics: Object[], occurrences: Object[]}} analysisData The data of the analysis
@@ -10,12 +19,36 @@ export class Analysis {
      * @param {Function} occurrenceConstructor A function returning a new instance of an occurrence element
      */
     constructor(analysisData, metrics, topologyMetrics, kernel, occurrenceConstructor = (o) => new Occurrence(o)) {
-        /** @type {String} */ this._kernel = kernel;
-        /** @type {Object.<String, String>} */ this._metrics = metrics || {};
-        /** @type {Object.<String, String>} */ this._ownMetrics = {};
-        /** @type {Object.<String, String>} */ this._topologyMetrics = topologyMetrics;
-        /** @type {Occurrence[]} */ this._occurrences = [];
-        /** @type {Number} */ this.codeType = CODE_TYPE.NONE;
+        /**
+         * The name of the kernel this analysis belongs to
+         * @type {String}
+         */
+        this._kernel = kernel;
+        /**
+         * A reference to all metrics
+         * @type {Object.<String, String>}
+         */
+        this._metrics = metrics || {};
+        /**
+         * Metrics only this analysis contains
+         * @type {Object.<String, String>}
+         */
+        this._ownMetrics = {};
+        /**
+         * A reference to all topoloty metrics
+         * @type {Object.<String, String>}
+         */
+        this._topologyMetrics = topologyMetrics;
+        /**
+         * All occurrences
+         * @type {Occurrence[]}
+         */
+        this._occurrences = [];
+        /**
+         * The code type (SASS or PTX)
+         * @type {Number}
+         */
+        this.codeType = CODE_TYPE.NONE;
 
         // Add analysis specific metrics
         if (analysisData.metrics) {
@@ -68,6 +101,9 @@ export class Analysis {
         return this._topologyMetrics[metric] || 0;
     }
 
+    /**
+     * @returns {Boolean} If this analysis has any topology metrics
+     */
     hasTopologyMetrics() {
         return this._topologyMetrics !== undefined && Object.keys(this._topologyMetrics).length > 0;
     }
@@ -100,17 +136,36 @@ export class Analysis {
     }
 }
 
+/**
+ * The base class for all analasis-specific occurrences
+ * @class
+ */
 export class Occurrence {
     /**
-     * @param occurrenceData The data of this occurrence
+     * @param {Object.<String, String>} occurrenceData The data of this occurrence
      */
     constructor(occurrenceData) {
-        /** @type {Number} */ this.sourceLineNumber = occurrenceData['line_number'];
-        /** @type {Number|String} */ this.binaryLineNumber =
-            occurrenceData['pc_offset'] || parseInt(occurrenceData['line_number_raw']);
-        /** @type {Boolean} */ this.isWarning = occurrenceData['severity'] === 'WARNING';
+        /**
+         * The relevant source line number
+         * @type {Number}
+         */
+        this.sourceLineNumber = occurrenceData['line_number'];
+        /**
+         * The relevant binary line number
+         * @type {Number|String}
+         */
+        this.binaryLineNumber = occurrenceData['pc_offset'] || parseInt(occurrenceData['line_number_raw']);
+        /**
+         * If this occurrence is an optimization (rather than an info)
+         * @type {Boolean}
+         */
+        this.isWarning = occurrenceData['severity'] === 'WARNING';
 
-        /** @type {Object.<String, String|Number>} */ this.data = occurrenceData;
+        /**
+         * A reference to all available data
+         * @type {Object.<String, String|Number>}
+         */
+        this.data = occurrenceData;
     }
 
     /**

@@ -1,11 +1,33 @@
+/**
+ * @module
+ * @author Tobias Stuckenberger
+ * @description This module defines all classes involved in the creation of a memory graph
+ */
+
+/**
+ * The base class of every memory graph
+ * @class
+ */
 export class MemoryGraph {
     /**
      * @param {Number} rows The amount of rows this graph should have
      * @param {...MemoryGraphElement} content The individual column definitions
      */
     constructor(rows, ...content) {
+        /**
+         * The amount of rows of this graph
+         * @type {Number}
+         */
         this.rows = rows;
+        /**
+         * The individual column definitions
+         * @type {MemoryGraphElement[]}
+         */
         this.content = content;
+        /**
+         * Used for special formatting when graphs are displayed in popups
+         * @type {Boolean}
+         */
         this.large = false;
     }
 
@@ -19,15 +41,35 @@ export class MemoryGraph {
     }
 }
 
+/**
+ * A base class for the different kinds of graph node contents
+ * @class
+ */
 class NodeContent {
     constructor() {
+        /**
+         * If the text on this node should be bold
+         * @type {Boolean}
+         */
         this.bold = false;
     }
 }
 
+/**
+ * Base class for any gaph elements
+ * @class
+ */
 class MemoryGraphElement {
     constructor() {
+        /**
+         * If a spacer should be inserted above the node
+         * @type {Boolean}
+         */
         this.spaceAbove = false;
+        /**
+         * If a spacer should be inserted below the node
+         * @type {Boolean}
+         */
         this.spaceBelow = false;
     }
 
@@ -50,13 +92,25 @@ class MemoryGraphElement {
     }
 }
 
+/**
+ * Defines a graph node
+ * @class
+ */
 export class Node extends MemoryGraphElement {
     /**
      * @param {...NodeContent} content 1 or more node content instances
      */
     constructor(...content) {
         super();
+        /**
+         * The content of the node
+         * @type {Boolean}
+         */
         this.content = content;
+        /**
+         * How many rows the node should span
+         * @type {Number}
+         */
         this.rowSpan = 1;
     }
 
@@ -70,6 +124,10 @@ export class Node extends MemoryGraphElement {
     }
 }
 
+/**
+ * Defines a textual node content
+ * @class
+ */
 export class NodeTextContent extends NodeContent {
     /**
      * @param {String} title The title of the element
@@ -82,6 +140,9 @@ export class NodeTextContent extends NodeContent {
     }
 }
 
+/**
+ * @class
+ */
 export class NodeMetricContent extends NodeContent {
     /**
      * @param {String} metric The name of the metric to display
@@ -97,6 +158,10 @@ export class NodeMetricContent extends NodeContent {
     }
 }
 
+/**
+ * An enum defining the directions an arrow can take
+ * @type {Object.<String, Number>}
+ */
 export const DIRECTION = {
     RIGHT: 1,
     LEFT: 2,
@@ -104,6 +169,10 @@ export const DIRECTION = {
     BOTH: 4
 };
 
+/**
+ * Defines an arrow in the graph
+ * @class
+ */
 export class Arrow extends MemoryGraphElement {
     /**
      * @param {String} metric The name of the metric to display
@@ -111,8 +180,20 @@ export class Arrow extends MemoryGraphElement {
      */
     constructor(metric, metricBottom = undefined) {
         super();
+        /**
+         * The metric to display on the arrow
+         * @type {String}
+         */
         this.metric = metric;
+        /**
+         * A second metric to display on the arrow
+         * @type {?String}
+         */
         this.metricBottom = metricBottom;
+        /**
+         * The direction the arrow should point in
+         * @type {Number}
+         */
         this.direction = DIRECTION.RIGHT;
     }
 
@@ -126,4 +207,8 @@ export class Arrow extends MemoryGraphElement {
     }
 }
 
+/**
+ * Defines a spacer in the graph (en empty node)
+ * @class
+ */
 export class Spacer extends MemoryGraphElement {}

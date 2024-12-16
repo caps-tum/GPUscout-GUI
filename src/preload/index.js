@@ -1,3 +1,8 @@
+/**
+ * @module
+ * @author Tobias Stuckenberger
+ * @description This module contains the bridging mechanism between the vue/js frontend and the electron backend
+ */
 import { contextBridge, ipcRenderer } from 'electron';
 import { electronAPI } from '@electron-toolkit/preload';
 
@@ -18,9 +23,6 @@ if (process.contextIsolated) {
             selectDirectory: (defaultPath) => ipcRenderer.invoke('directory:select', defaultPath),
             readDirectory: (folderPath) => ipcRenderer.invoke('directory:read', folderPath),
             getAnalysesInDirectory: (folderPath) => ipcRenderer.invoke('directory:getAnalyses', folderPath),
-            getRecentAnalyses: () => ipcRenderer.invoke('recentAnalyses:get'),
-            addRecentAnalysis: (analysis) => ipcRenderer.invoke('recentAnalyses:add', analysis),
-            removeRecentAnalysis: (analysisID) => ipcRenderer.invoke('recentAnalyses:remove', analysisID),
             loadFile: (filePath) => ipcRenderer.invoke('file:load', filePath)
         });
     } catch (error) {

@@ -1,11 +1,24 @@
+/**
+ * @module
+ * @author Tobias Stuckenberger
+ * @description This module contains the definitions for Analysis-specifiy occurrences
+ */
 import { Occurrence } from '../renderer/src/utils/Analysis';
 import { CODE_BINARY_TOKEN_COLORS } from './colors';
 
+/**
+ * Defines a occurrence in the datatype conversion analysis
+ * @class
+ */
 export class DatatypeConversionOccurrence extends Occurrence {
     constructor(occurrenceData) {
         super(occurrenceData);
 
-        /** @type {String} */ this.type = occurrenceData['type'];
+        /**
+         * The type of the conversion
+         * @type {String}
+         */
+        this.type = occurrenceData['type'];
     }
 
     title() {
@@ -27,12 +40,24 @@ After modifying the code, improvements in the mentioned warp stalls should be se
     }
 }
 
+/**
+ * Defines a occurrence in the global atomics analysis
+ * @class
+ */
 export class GlobalAtomicsOccurrence extends Occurrence {
     constructor(occurrenceData) {
         super(occurrenceData);
 
-        /** @type {Boolean} */ this.isInForLoop = occurrenceData['in_for_loop'];
-        /** @type {Boolean} */ this.isGlobalAtomic = occurrenceData['is_global'];
+        /**
+         * If the instruction is in a for loop
+         * @type {Boolean}
+         */
+        this.isInForLoop = occurrenceData['in_for_loop'];
+        /**
+         * If global atomics are used here
+         * @type {Boolean}
+         */
+        this.isGlobalAtomic = occurrenceData['is_global'];
     }
 
     title() {
@@ -53,26 +78,58 @@ After modifying the code, improvements or only slight increases should be seen i
     }
 }
 
+/**
+ * Defines a occurrence in the register spilling analysis
+ * @class
+ */
 export class RegisterSpillingOccurrence extends Occurrence {
     constructor(occurrenceData) {
         super(occurrenceData);
 
-        /** @type {String} */ this.register = occurrenceData['register'];
-        /** @type {String} */ this.operation = occurrenceData['operation'];
-        /** @type {Boolean} */ this.hasPreviousComputeInstruction =
-            occurrenceData['previous_compute_instruction'] !== undefined;
+        /**
+         * The relevant register
+         * @type {String}
+         */
+        this.register = occurrenceData['register'];
+        /**
+         * The operation executed
+         * @type {String}
+         */
+        this.operation = occurrenceData['operation'];
+        /**
+         * If a previous compute instruction has been found
+         * @type {Boolean}
+         */
+        this.hasPreviousComputeInstruction = occurrenceData['previous_compute_instruction'] !== undefined;
 
         if (occurrenceData['previous_compute_instruction']) {
-            /** @type {String} */ this.previousComputeInstruction =
-                occurrenceData['previous_compute_instruction']['instruction'];
-            /** @type {Number} */ this.previousComputeSourceLineNumber =
-                occurrenceData['previous_compute_instruction']['line_number'];
-            /** @type {String} */ this.previousComputeBinaryLineNumber =
-                occurrenceData['previous_compute_instruction']['pc_offset'];
+            /**
+             * The previous compute instruction
+             * @type {?String}
+             */
+            this.previousComputeInstruction = occurrenceData['previous_compute_instruction']['instruction'];
+            /**
+             * The source line number of the previous compute instruction
+             * @type {?Number}
+             */
+            this.previousComputeSourceLineNumber = occurrenceData['previous_compute_instruction']['line_number'];
+            /**
+             * The binary line number of the previous compute instruction
+             * @type {?String}
+             */
+            this.previousComputeBinaryLineNumber = occurrenceData['previous_compute_instruction']['pc_offset'];
         }
 
-        /** @type {Number} */ this.usedRegisters = occurrenceData['used_register_count'] || 0;
-        /** @type {Number} */ this.registerPressureIncrease = occurrenceData['register_pressure_increase'] || 0;
+        /**
+         * The amount of registers currently in use
+         * @type {Number}
+         */
+        this.usedRegisters = occurrenceData['used_register_count'] || 0;
+        /**
+         * The register pressure increase due to the last SASS instruction
+         * @type {Number}
+         */
+        this.registerPressureIncrease = occurrenceData['register_pressure_increase'] || 0;
     }
 
     title() {
@@ -122,14 +179,34 @@ When making changes to the code, L1 cache utilization, used and available regist
     }
 }
 
+/**
+ * Defines a occurrence in the restrict analysis
+ * @class
+ */
 export class UseRestrictOccurrence extends Occurrence {
     constructor(occurrenceData) {
         super(occurrenceData);
 
-        /** @type {String} */ this.register = occurrenceData['register'];
-        /** @type {Boolean} */ this.isReadOnlyMemoryUsed = occurrenceData['read_only_memory_used'];
-        /** @type {Number} */ this.usedRegisters = occurrenceData['used_register_count'] || 0;
-        /** @type {Number} */ this.registerPressureIncrease = occurrenceData['register_pressure_increase'] || 0;
+        /**
+         * The relevant register
+         * @type {String}
+         */
+        this.register = occurrenceData['register'];
+        /**
+         * If read-only memory is already used
+         * @type {Boolean}
+         */
+        this.isReadOnlyMemoryUsed = occurrenceData['read_only_memory_used'];
+        /**
+         * The amount of currently used registers
+         * @type {Number}
+         */
+        this.usedRegisters = occurrenceData['used_register_count'] || 0;
+        /**
+         * The register pressure increase from the last SASS instruction
+         * @type {Number}
+         */
+        this.registerPressureIncrease = occurrenceData['register_pressure_increase'] || 0;
     }
 
     title() {
@@ -169,22 +246,59 @@ After modyfing the code, the total number of stalls should decrease, with increa
     }
 }
 
+/**
+ * Defines a occurrence in the use shared analysis
+ * @class
+ */
 export class UseSharedOccurrence extends Occurrence {
     constructor(occurrenceData) {
         super(occurrenceData);
 
-        /** @type {String} */ this.register = occurrenceData['register'];
-        /** @type {Boolean} */ this.isSharedMemory = occurrenceData['uses_shared_memory'];
-        /** @type {Boolean} */ this.isAsyncGlobalToSharedMemoryCopy =
-            occurrenceData['uses_async_global_to_shared_memory_copy'] || false;
-        /** @type {Number} */ this.instructionsToSharedMemoryStore =
-            occurrenceData['instruction_count_to_shared_memory_store'] || 0;
-        /** @type {Number} */ this.globalLoads = occurrenceData['global_load_count'] || 0;
-        /** @type {String[]} */ this.globalLoadBinaryLineNumbers = occurrenceData['global_load_pc_offsets'] || [];
-        /** @type {Number} */ this.computationInstructions = occurrenceData['computation_instruction_count'] || 0;
-        /** @type {String[]} */ this.computationInstructionBinaryLineNumbers =
-            occurrenceData['computation_instruction_pc_offsets'] || [];
-        /** @type {Boolean} */ this.isInForLoop = occurrenceData['in_for_loop'];
+        /**
+         * The name of the relevant register
+         * @type {String}
+         */
+        this.register = occurrenceData['register'];
+        /**
+         * If shared memory is already used here
+         * @type {Boolean}
+         */
+        this.isSharedMemory = occurrenceData['uses_shared_memory'];
+        /**
+         * If an async global to shared memory copy is already used here
+         * @type {Boolean}
+         */
+        this.isAsyncGlobalToSharedMemoryCopy = occurrenceData['uses_async_global_to_shared_memory_copy'] || false;
+        /**
+         * The amount of instructions to a shared memory store
+         * @type {Number}
+         */
+        this.instructionsToSharedMemoryStore = occurrenceData['instruction_count_to_shared_memory_store'] || 0;
+        /**
+         * The number of globa loads
+         * @type {Number}
+         */
+        this.globalLoads = occurrenceData['global_load_count'] || 0;
+        /**
+         * The binary line numbers where the global loads occur
+         * @type {String[]}
+         */
+        this.globalLoadBinaryLineNumbers = occurrenceData['global_load_pc_offsets'] || [];
+        /**
+         * The number of computation instructions the register is involved in
+         * @type {Number}
+         */
+        this.computationInstructions = occurrenceData['computation_instruction_count'] || 0;
+        /**
+         * The binary line numbers of those computation instructions
+         * @type {String[]}
+         */
+        this.computationInstructionBinaryLineNumbers = occurrenceData['computation_instruction_pc_offsets'] || [];
+        /**
+         * If the instruction is in a for loop
+         * @type {Boolean}
+         */
+        this.isInForLoop = occurrenceData['in_for_loop'];
     }
 
     title() {
@@ -249,14 +363,34 @@ After modifying the code, total stalls should decrease. After switching to using
     }
 }
 
+/**
+ * Defines a occurrence in the use texture analysis
+ * @class
+ */
 export class UseTextureOccurrence extends Occurrence {
     constructor(occurrenceData) {
         super(occurrenceData);
 
-        /** @type {String} */ this.writtenRegister = occurrenceData['written_register'];
-        /** @type {String} */ this.readRegister = occurrenceData['read_register'];
-        /** @type {Boolean} */ this.isSpatialLocality = occurrenceData['spatial_locality'];
-        /** @type {String[]} */ this.unrollBinaryLineNumbers = occurrenceData['unroll_pc_offsets'] || [];
+        /**
+         * The name of the register that is written to
+         * @type {String}
+         */
+        this.writtenRegister = occurrenceData['written_register'];
+        /**
+         * The name of the register that is read from
+         * @type {String}
+         */
+        this.readRegister = occurrenceData['read_register'];
+        /**
+         * If spatial locality has been found
+         * @type {Boolean}
+         */
+        this.isSpatialLocality = occurrenceData['spatial_locality'];
+        /**
+         * The binary line numbers of all unrolls of the read register
+         * @type {String[]}
+         */
+        this.unrollBinaryLineNumbers = occurrenceData['unroll_pc_offsets'] || [];
     }
 
     title() {
@@ -296,16 +430,44 @@ export class UseTextureOccurrence extends Occurrence {
     }
 }
 
+/**
+ * Defines a occurrence in the vectorization analysis
+ * @class
+ */
 export class VectorizationOccurrence extends Occurrence {
     constructor(occurrenceData) {
         super(occurrenceData);
 
-        /** @type {String} */ this.register = occurrenceData['register'];
-        /** @type {String[]} */ this.unrollBinaryLineNumbers = occurrenceData['unroll_pc_offsets'] || [];
-        /** @type {Number} */ this.adjacentMemoryAccesses = occurrenceData['adjacent_memory_accesses'] || 0;
-        /** @type {String} */ this.registerLoadType = occurrenceData['register_load_type'] || 0;
-        /** @type {Number} */ this.usedRegisters = occurrenceData['used_register_count'] || 0;
-        /** @type {Number} */ this.registerPressureIncrease = occurrenceData['register_pressure_increase'] || 0;
+        /**
+         * The name of the relevant register
+         * @type {String}
+         */
+        this.register = occurrenceData['register'];
+        /**
+         * The binary line numbers of all lines containing unrolls of the mentioned register
+         * @type {String[]}
+         */
+        this.unrollBinaryLineNumbers = occurrenceData['unroll_pc_offsets'] || [];
+        /**
+         * The number of adjacent memory accesses
+         * @type {Number}
+         */
+        this.adjacentMemoryAccesses = occurrenceData['adjacent_memory_accesses'] || 0;
+        /**
+         * If the register already uses vectorized load, contains the load type
+         * @type {String}
+         */
+        this.registerLoadType = occurrenceData['register_load_type'] || 0;
+        /**
+         * The number of currently used registers
+         * @type {Number}
+         */
+        this.usedRegisters = occurrenceData['used_register_count'] || 0;
+        /**
+         * The register pressure increase due to the last SASS instruction
+         * @type {Number}
+         */
+        this.registerPressureIncrease = occurrenceData['register_pressure_increase'] || 0;
     }
 
     title() {
@@ -347,12 +509,24 @@ export class VectorizationOccurrence extends Occurrence {
     }
 }
 
+/**
+ * Defines a occurrence in the warp divergence analysis
+ * @class
+ */
 export class WarpDivergenceOccurrence extends Occurrence {
     constructor(occurrenceData) {
         super(occurrenceData);
 
-        /** @type {String} */ this.targetBranch = occurrenceData['target_branch'];
-        /** @type {String} */ this.targetBranchStartSourceLineNumber = occurrenceData['target_branch_start_line_number'];
+        /**
+         * The target branch
+         * @type {String}
+         */
+        this.targetBranch = occurrenceData['target_branch'];
+        /**
+         * The first source line number of the target branch
+         * @type {String}
+         */
+        this.targetBranchStartSourceLineNumber = occurrenceData['target_branch_start_line_number'];
     }
 
     title() {

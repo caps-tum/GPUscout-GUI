@@ -1,3 +1,13 @@
+/**
+ * @module
+ * @author Tobias Stuckenberger
+ * @description This module contains the all of the texts displayed in the UI allowing for easy modification without having to search the entire codebase.
+ */
+
+/**
+ * An object containing all texts displayed in the ui
+ * @type {Object.<String, Object>}
+ */
 export const TEXT = {
     landing_page: {
         select_result_title: '1. Select GPUscout result to analyze:',

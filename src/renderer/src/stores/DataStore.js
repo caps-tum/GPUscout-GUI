@@ -1,3 +1,8 @@
+/**
+ * @module
+ * @author Tobias Stuckenberger
+ * @description This module defines the dataStore
+ */
 import { defineStore } from 'pinia';
 import { GPUscoutResult } from '../utils/GPUscoutResult';
 import { computed, ref } from 'vue';
@@ -5,6 +10,9 @@ import { CODE_TYPE, useCodeViewerStore } from './CodeViewerStore';
 import { ANALYSIS } from '../../../config/analyses';
 import { CONTEXT, useContextStore } from './ContextStore';
 
+/**
+ * The data store handles loading and switching between the GPUscout results, as well switching between kernels and analyses.
+ */
 export const useDataStore = defineStore('data', () => {
     const codeViewerStore = useCodeViewerStore();
     const contextStore = useContextStore();

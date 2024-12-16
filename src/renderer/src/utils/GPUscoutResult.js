@@ -1,30 +1,82 @@
+/**
+ * @module
+ * @author Tobias Stuckenberger
+ * @description This module defines the GPUscout result
+ */
 import { ANALYSIS } from '../../../config/analyses';
 import { CODE_TYPE } from '../stores/CodeViewerStore';
 import { Analysis } from './Analysis';
 
+/**
+ * Defines the internal representation of a GPUscout result file
+ * @class
+ */
 export class GPUscoutResult {
     /**
      * @param {String} resultData The content of the result.json file coming from GPUscout
-     * @param {String} topologyData The content of the topology.csv file coming from mt4g
+     * @param {String} [topologyData] The content of the topology.csv file coming from mt4g
      */
     constructor(resultData, topologyData) {
         const resultJSON = JSON.parse(resultData);
 
-        /** @type {Object.<String, Object.<String, Analysis>>} */ this._analyses = {};
-        /** @type {String[]} */ this._kernels = [];
+        /**
+         * An object containing all analyses by kernel and analysis name
+         * @type {Object.<String, Object.<String, Analysis>>}
+         */
+        this._analyses = {};
+        /**
+         * All kernels mentioned in the GPUscout result
+         * @type {String[]}
+         */
+        this._kernels = [];
 
-        /** @type {Object.<String, Object.<String, Number>>} */ this._metrics = {};
-        /** @type {Object.<String, Object.<String, Number>>} */ this._topology = {};
+        /**
+         * All metrics contained in the GPUscout result
+         * @type {Object.<String, Object.<String, Number>>}
+         */
+        this._metrics = {};
+        /**
+         * All topology metrics contained in the topology result file
+         * @type {Object.<String, Object.<String, Number>>}
+         */
+        this._topology = {};
 
-        /** @type {Object.<String, {address: String, tokens: String[]}[]>} */ this._sassCodeLines = {};
-        /** @type {Object.<String, Object.<String, Object[]>>} */ this._sassToSourceLines = {};
+        /**
+         * All SASS code lines
+         * @type {Object.<String, Array.<{address: String, tokens: String[]}>>} */
+        this._sassCodeLines = {};
+        /**
+         * The mapping of SASS to source code lines
+         * @type {Object.<String, Object.<String, Object[]>>}
+         */
+        this._sassToSourceLines = {};
 
-        /** @type {Object.<String, {address: Number, tokens: String[]}[]>} */ this._ptxCodeLines = {};
-        /** @type {Object.<String, Object.<String, Object[]>>} */ this._ptxToSourceLines = {};
+        /**
+         *>>} All PTX code lines
+         * @type {Object.<String, Array.<{address: Number, tokens: String[]}>>}
+         */
+        this._ptxCodeLines = {};
+        /**
+         * The mapping of PTX to source code lines
+         * @type {Object.<String, Object.<String, Object[]>>}
+         */
+        this._ptxToSourceLines = {};
 
-        /** @type {Object.<String, Object[]>} */ this._sourceCodeLines = {};
-        /** @type {Object.<String, Object.<String, String[]>>} */ this._sourceToSassLines = {};
-        /** @type {Object.<String, Object.<String, Number[]>>} */ this._sourceToPtxLines = {};
+        /**
+         * All source code lines
+         * @type {Object.<String, Object[]>}
+         */
+        this._sourceCodeLines = {};
+        /**
+         * The mapping of source to SASS code lines
+         * @type {Object.<String, Object.<String, String[]>>}
+         */
+        this._sourceToSassLines = {};
+        /**
+         * The mapping of source to PTX code lines
+         * @type {Object.<String, Object.<String, Number[]>>}
+         */
+        this._sourceToPtxLines = {};
 
         // Save contents of passed source files with their paths
         const sourceFileContents = {};
@@ -152,7 +204,7 @@ export class GPUscoutResult {
      * @param {String} kernel The name of the kernel
      * @param {String|Number} line The line number
      * @param {String} codeType The code type
-     * @returns {Object.<String, Number>[]} All PCSampling stalls occurring at this line
+     * @returns {Array.<Object.<String, Number>>} All PCSampling stalls occurring at this line
      */
     getLineStalls(kernel, line, codeType) {
         if (codeType === CODE_TYPE.SASS_CODE) {
@@ -183,7 +235,7 @@ export class GPUscoutResult {
 
     /**
      * @param {String} kernel The name of the kernel
-     * @returns {{address: String, tokens: String[]}[]} All SASS lines of this kernel
+     * @returns {Array.<{address: String, tokens: String[]}>} All SASS lines of this kernel
      */
     getSassCodeLines(kernel) {
         return this._sassCodeLines[kernel];
@@ -191,7 +243,7 @@ export class GPUscoutResult {
 
     /**
      * @param {String} kernel The name of the kernel
-     * @returns {{address: Number, tokens: String[]}[]} All PTX lines of this kernel
+     * @returns {Array.<{address: Number, tokens: String[]}>} All PTX lines of this kernel
      */
     getPtxCodeLines(kernel) {
         return this._ptxCodeLines[kernel];
@@ -199,7 +251,7 @@ export class GPUscoutResult {
 
     /**
      * @param {String} kernel The name of the kernel
-     * @returns {{address: Number, tokens: String[]}[]} All source lines of this kernel
+     * @returns {Array.<{address: Number, tokens: String[]}>} All source lines of this kernel
      */
     getSourceCodeLines(kernel) {
         return this._sourceCodeLines[kernel];
@@ -340,7 +392,7 @@ export class GPUscoutResult {
      * Parse the sass code and extract the mapping to the source code
      * @param {String} sassCode The generated sass source code
      * @param {String} sassRegisters The sass code with register information
-     * @param {Object.<String, {line_number: Number, pc_offset: String, stalls: {Number|String}[][]}[]>} stalls An object containing all recorded pc sampling stalls
+     * @param {Object.<String, Array<{line_number: Number, pc_offset: String, stalls: Array.<Array.<Number, String>>}>>} stalls An object containing all recorded pc sampling stalls
      * @param {Object.<String, String>} kernels The mapping of kernel names to their demangled names
      */
     _parseSassCode(sassCode, sassRegisters, stalls, kernels) {
@@ -466,7 +518,7 @@ export class GPUscoutResult {
     /**
      * Uses the SASS and PTX line mappings to extract the source code per kernel
      * @param {{String, String}} sourceFileContents The contents of the cuda source files
-     * @param {Object.<String, {line_number: Number, pc_offset: String, stalls: {Number|String}[][]}[]>} stalls An object containing all recorded pc sampling stalls
+     * @param {Object.<String, Array.<{line_number: Number, pc_offset: String, stalls: Array.<Array.<Number, String>>}>>} stalls An object containing all recorded pc sampling stalls
      */
     _aggregateKernelSourceCode(sourceFileContents, stalls) {
         for (const kernel of this._kernels) {

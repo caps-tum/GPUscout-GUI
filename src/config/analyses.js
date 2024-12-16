@@ -1,3 +1,9 @@
+/**
+ * @module
+ * @author Tobias Stuckenberger
+ * @description This module contains the definitions for all available analyses that should be expected from a GPUscout result.
+ * In order for an analysis to be displayed in the UI, it needs to be present in both the GPUscout result and this module.
+ */
 import {
     DatatypeConversionOccurrence,
     GlobalAtomicsOccurrence,
@@ -11,21 +17,53 @@ import {
 import { MEMORY_GRAPH_DEFINITION } from './memory_graphs';
 import { METRICS } from './metrics';
 import { TEXT } from './text';
+import { Occurrence } from '../renderer/src/utils/Analysis';
+import { MemoryGraph } from '../renderer/src/utils/MemoryGraphComponents';
 
+/**
+ * An enum of available metric section types
+ * @type {Object.<String, String>}
+ */
 export const METRIC_SECTION_TYPE = {
     GRAPH: 'Graph',
     LIST: 'List'
 };
 
 /**
+ * @typedef {Object} AnalysisDefinition Contains the definition of a single analysis
+ * @property {String} name The name of the key of the analysis in the GPUscout result JSON file
+ * @property {String} [display_name] The display name of the analysis in the interface
+ * @property {Boolean} use_sass If the analysis uses SASS code (rather than PTX)
+ * @property {Boolean} display_live_registers If live register information should be displayed (only on SASS code)
+ * @property {Occurrence} [occurrence_constructor] A constructor for a subclass of occurrence, which parses the data of each occurrence in the json. If omitted, the default constructor will be used ({@link renderer/src/utils/Analysis.js})
+ * @property {Array.<(AnalysisMetricSectionDefinition|AnalysisMetricGraphDefinition)>} [metrics] The definition of the metrics for this analysis, with each list item being either a graph of a metric section
+ */
+
+/**
+ * @typedef {Object} AnalysisMetricGraphDefinition Defines a memory graph for the metrics of an analysis
+ * @property {String} type The type of component in which the metrics are displayed. Is an option of {@link METRIC_SECTION_TYPE}
+ * @property {String} title The title of the graph
+ * @property {MemoryGraph} The memory graph definition
+ */
+
+/**
+ * @typedef {Object} AnalysisMetricSectionDefinition Defines a metrics section for the metrics of an analysis
+ * @property {String} type The type of component in which the metrics are displayed. Is an option of {@link METRIC_SECTION_TYPE}
+ * @property {String} title The title of the metric section
+ * @property {String} [hint] A secondary hint to display under the title
+ * @property {AnalysisMetricDefinition[]} metrics The metrics to display in this section
+ */
+
+/**
+ * @typedef {Object} AnalysisMetricDefinition Defines a metric for a metrics section
+ * @property {String} name If the desired metric is defined in {@link ./metrics.js}, this should correspond to the key in the {@link METRICS} Object, if not, this defined the displayed name of the metric
+ * @property {Number|String} [value] The value of the metric. Only necessary if the metric is not defined in {@link ./metrics.js}
+ * @property {Number|String} [secondary_value] A secondary value of the metric. Should be absolute if value is relative and vice versa
+ */
+
+/**
  * Main definition for all available analyses
- * If an analysis is not mentioned in here, it will not be recognized!
- * Object keys:
- * - name: (required) The name of the key of the analysis in the JSON file from GPUscout
- * - display_name: (optional) The display name of the analysis in the user interface
- * - use_sass: (required) If the analysis uses sass code (rather than PTX)
- * - display_live_registers: (required) If live register information should be displayed (only on SASS code)
- * - occurrence_constructor: (optional) A constructor for a subclass of occurrence, which parses the data of each occurrence in the json. If omitted, the default constructor will be used (renderer/src/utils/Analysis.js)
+ * @type {AnalysisDefinition}
  */
 export const ANALYSIS = {
     datatype_conversion: {

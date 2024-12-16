@@ -1,8 +1,14 @@
+/**
+ * @module
+ * @author Tobias Stuckenberger
+ * @description This module contains all functions related to os dialogs
+ */
 import { dialog } from 'electron';
 
 /**
- * @param event
- * @param defaultPath The default path to open the folder picker on
+ * Opens a dialog to select a directory
+ * @param {Event} event
+ * @param {String} defaultPath The default path to open the folder picker on
  * @returns {Promise<string|string>} The path to the selected folder
  */
 export async function selectDirectory(event, defaultPath) {
@@ -14,8 +20,9 @@ export async function selectDirectory(event, defaultPath) {
 }
 
 /**
- * @param event
- * @param filters Filters to apply to the file picker
+ * Opens a dialog to select a file
+ * @param {Event} event
+ * @param {Object} filters Filters to apply to the file picker
  * @returns {Promise<string|string>} The path to the selected file
  */
 export async function selectFile(event, filters) {

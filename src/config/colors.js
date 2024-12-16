@@ -1,9 +1,23 @@
+/**
+ * @module
+ * @author Tobias Stuckenberger
+ * @description This module contains the definitions for all colors used in the UI, but mostly colors used in syntax highlighting
+ */
+
+/**
+ * An enum of colors used to highlight individual tokens in the code
+ * @type {Object.<String, String>}
+ */
 export const CODE_BINARY_TOKEN_COLORS = {
     INSTRUCTION: 'bg-white', // The color of instruction tokens of a selected line
     REGISTER_1: 'bg-green-600', // The color of the first highlighted register of an occurrence
     REGISTER_2: 'bg-blue-600' // The color of the seconds highlighted register of an occurrence
 };
 
+/**
+ * An enum of colors used to styl individual lines of code
+ * @type {Object.<String, String>}
+ */
 export const CODE_STYLES = {
     OCCURRENCE: 'border-2 border-red-400', // The border around occurrence lines
     INFO_OCCURRENCE: 'border-2 border-blue-400', // The border around occurrence lines

@@ -1,20 +1,25 @@
+/**
+ * @module
+ * @author Tobias Stuckenberger
+ * @description This module contains the boilerplate for the electron application the run
+ */
 import { app, shell, BrowserWindow, ipcMain } from 'electron';
 import { join } from 'path';
 import { electronApp, optimizer, is } from '@electron-toolkit/utils';
 import icon from '../../resources/icon.png?asset';
 import {
-    addRecentAnalysis,
     getConfig,
     getFolderContent,
-    getRecentAnalyses,
     getAnalysesInFolder,
-    removeRecentAnalysis,
     setConfig,
     checkFileStructure,
     getFileContent
 } from './fileManagement';
 import { selectDirectory, selectFile } from './dialog';
 
+/**
+ * Creates the window for the user to see
+ */
 function createWindow() {
     // Create the browser window.
     const mainWindow = new BrowserWindow({
@@ -70,9 +75,6 @@ app.whenReady().then(async () => {
     ipcMain.handle('directory:select', selectDirectory);
     ipcMain.handle('directory:read', getFolderContent);
     ipcMain.handle('directory:getAnalyses', getAnalysesInFolder);
-    ipcMain.handle('recentAnalyses:get', getRecentAnalyses);
-    ipcMain.handle('recentAnalyses:add', addRecentAnalysis);
-    ipcMain.handle('recentAnalyses:remove', removeRecentAnalysis);
     ipcMain.handle('file:load', getFileContent);
 
     await checkFileStructure();

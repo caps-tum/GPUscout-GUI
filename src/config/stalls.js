@@ -1,3 +1,8 @@
+/**
+ * @module
+ * @author Tobias Stuckenberger
+ * @description This module contains the definitions for all stalls, which are a result of the PC sampling
+ */
 import { formatStall } from '../renderer/src/utils/formatters';
 
 const MORE_INFO = `
@@ -5,12 +10,19 @@ const MORE_INFO = `
 For more information visit <a target="_blank" href="https://docs.nvidia.com/nsight-compute/ProfilingGuide/index.html#metrics-reference">https://docs.nvidia.com/nsight-compute/ProfilingGuide/index.html#metrics-reference</a>`;
 
 /**
- * This list contains the definition of all stalls and their related information
- * - display_name: The title of the stall in the GUI
- * - format_function: The function used to format values of this stall
- * - help_text: The help text displayed in the help popup
- * - lower_better: If lower values are considered better (for comparisons)
+ * Contains the definition of a single stall
+ * @typedef {Object} StallDefinition
+ * @property {String} display_name The name of the stall as is should be displayed in the UI
+ * @property {Function} format_function A function that takes the value of the stall, as well as the percentage of the total stalls as inputs and returns a formatted string
+ * @property {String} help_text A detailed description of the stall that is displayed in a popup when users wlick the help icon of the stall. Allows for html formatting
+ * @property {Boolean} lower_better If a lower value should be considered better when comparing two GPUscout results
+ */
+
+/**
+ * This list contains the definition of all stalls and their related information.
+ * The key of this object has to correspond to the exact name of the stall as it is called in the GPUscout result.
  * Help texts are (with modifications) taken from https://docs.nvidia.com/nsight-compute/ProfilingGuide/index.html
+ * @type {Object.<String, StallDefinition>}
  */
 export const STALLS = {
     smsp__pcsamp_warps_issue_stalled_imc_miss: {
