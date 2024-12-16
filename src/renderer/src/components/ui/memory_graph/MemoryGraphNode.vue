@@ -1,3 +1,8 @@
+<!--
+Component for a node in a memory graph
+
+Author: Tobias Stuckenberger
+-->
 <template>
     <div v-if="node.spaceAbove"></div>
     <div
@@ -22,6 +27,9 @@ const props = defineProps({
     large: Boolean
 });
 
+/**
+ * @returns {String} The style classes of the node
+ */
 function getDynStyle() {
     const large = props.large ? 'min-w-28 !p-2' : 'min-w-20';
     return `grid-rows-${props.node.content.length} ${large}`;
@@ -79,6 +87,11 @@ function getTitle(entry) {
     }
 }
 
+/**
+ * @param {String} title The title of the metric
+ * @param {Object} analysisData The analysis data
+ * @returns {String} The relevant topology information for the metric
+ */
 function getTopologyString(title, analysisData) {
     if (title.includes('L1')) {
         return `${Math.ceil(analysisData.getTopologyMetric('l1_data_cache/size'))}${analysisData.getTopologyMetric('l1_data_cache/size_unit')}`;

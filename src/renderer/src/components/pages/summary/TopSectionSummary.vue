@@ -1,3 +1,9 @@
+<!--
+Component for the top metric section of the summary page, which contains a list
+of predefined metrics.
+
+Author: Tobias Stuckenberger
+-->
 <template>
     <div class="flex h-full flex-row gap-2">
         <div class="grid max-h-60 flex-grow grid-cols-3 gap-1 overflow-y-auto">

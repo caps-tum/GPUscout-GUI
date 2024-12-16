@@ -1,3 +1,9 @@
+<!--
+Component for the code info located to the right of the code view. Displays information about stalls in the current line,
+information about eventually selected occurrences, as well as guidence as to what to do when nothing is selected.
+
+Author: Tobias Stuckenberger
+-->
 <template>
     <div class="flex flex-col">
         <template v-for="occurrence of occurrences" :key="occurrence">

@@ -1,3 +1,9 @@
+<!--
+Component for the list of analyses found in a folder.
+Allows searching for analyses, as well as changing the folder.
+
+Author: Tobias Stuckenberger
+-->
 <template>
     <div class="rounded bg-secondary/50 p-4 text-text">
         <p class="-mb-2 text-lg">{{ TEXT.landing_page.select_folder.title }}</p>

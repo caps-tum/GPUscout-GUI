@@ -1,3 +1,8 @@
+<!--
+Component for the navigation that is always shown (Sidebar and Header)
+
+Author: Tobias Stuckenberger
+-->
 <template>
     <div class="flex h-full w-full flex-row space-x-2 p-2">
         <NavigationSidebar />

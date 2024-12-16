@@ -1,3 +1,8 @@
+<!--
+Component for a single code view. Displays the title, current file and file contents.
+
+Author: Tobias Stuckenberger
+-->
 <template>
     <div class="relative flex h-full w-full flex-col bg-secondary/50">
         <p v-if="codeType === CODE_TYPE.SOURCE_CODE">Source Code</p>
@@ -70,6 +75,9 @@ const selectedOccurrences = computed(() => dataStore.getCurrentOccurrences);
 const displayLiveRegisters = computed(() => codeViewerStore.getSassRegistersVisible);
 const binaryCodeType = computed(() => codeViewerStore.getCurrentBinary);
 
+/**
+ * Show the help popup for the live registers
+ */
 function showLiveRegisterHelp() {
     contextStore.togglePopup(POPUP.METRIC_HELP, true, {
         metricName: TEXT.code_view.help_texts.live_registers.title,

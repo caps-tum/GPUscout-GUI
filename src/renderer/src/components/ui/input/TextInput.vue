@@ -1,3 +1,8 @@
+<!--
+Component for a text input
+
+Author: Tobias Stuckenberger
+-->
 <template>
     <input
         ref="input"

@@ -1,3 +1,8 @@
+<!--
+Component for a primary button.
+
+Author: Tobias Stuckenberger
+-->
 <template>
     <a
         v-if="!disabled"

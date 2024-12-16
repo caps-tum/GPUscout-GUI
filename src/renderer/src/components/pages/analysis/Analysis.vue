@@ -1,3 +1,9 @@
+<!--
+Component for the main analysis view, which contains the metrics at the top, and the code view and info in the lower half of the screen.
+Also handles buttons like selecting prev/next occurrences or switching code versions.
+
+Author: Tobias Stuckenberger
+-->
 <template>
     <div class="flex h-full w-full flex-col space-y-1">
         <div class="flex flex-row justify-between">
@@ -101,14 +107,23 @@ const lineStalls = computed(() =>
         : dataStore.getGPUscoutResult().getLineStalls(currentKernel.value, selectedLine.value, currentView.value)
 );
 
+/**
+ * Opens the large memory graph available from every analysis
+ */
 function openLargeMemoryGraph() {
     contextStore.togglePopup(POPUP.MEMORY_GRAPH, true);
 }
 
+/**
+ * Toggles between the two GPUscout results, if available
+ */
 function toggleCodeVersions() {
     codeViewerStore.setUseComparisonCode(!useComparisonCode.value);
 }
 
+/**
+ * Selects the previous occurrence, if any exists
+ */
 function selectPreviousOccurrence() {
     let currentIndex = -1;
     const occs = occurrences.value.toSorted((a, b) => a.binaryLineNumber - b.binaryLineNumber);
@@ -133,6 +148,9 @@ function selectPreviousOccurrence() {
     }
 }
 
+/**
+ * Selects the next occurrence, if any exists
+ */
 function selectNextOccurrence() {
     let currentIndex = -1;
     const occs = occurrences.value.toSorted((a, b) => a.binaryLineNumber - b.binaryLineNumber);

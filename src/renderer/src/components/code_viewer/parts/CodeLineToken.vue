@@ -1,3 +1,8 @@
+<!--
+Component for a single token of a code line. Can be highlighted depending on currently selected analysis and occurrence.
+
+Author: Tobias Stuckenberger
+-->
 <template>
     <p v-if="token !== ' '" :class="getHighlight()">{{ token }}</p>
     <p v-else>&nbsp;</p>

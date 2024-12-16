@@ -1,3 +1,8 @@
+<!--
+Component for a toggle switch
+
+Author: Tobias Stuckenberger
+-->
 <template>
     <label class="relative inline-block h-4 w-7">
         <input type="checkbox" class="h-0 w-0 opacity-0" :checked="checked" @change="emit('changed')" />

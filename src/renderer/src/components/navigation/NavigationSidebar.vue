@@ -1,3 +1,9 @@
+<!--
+Component for the navigation sidebar, which allows changing the current kernel and analysis.
+Also displays the availability of analyses in both results if in comparison mode.
+
+Author: Tobias Stuckenberger
+-->
 <template>
     <div class="flex h-full w-52 flex-col justify-between rounded bg-primary px-1 pb-2 pt-1 text-background">
         <div class="flex flex-col">
@@ -140,12 +146,16 @@ function getAnalysesPerKernel(kernel) {
     }
 }
 
-// Quit the App
+/**
+ * Quit the App
+ */
 function quitApp() {
     window.close();
 }
 
-// Go back to the landing page
+/**
+ * Go back to the landing page
+ */
 function toLanding() {
     window.location.reload();
 }

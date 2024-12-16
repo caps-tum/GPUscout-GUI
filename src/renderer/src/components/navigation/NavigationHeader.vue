@@ -1,3 +1,8 @@
+<!--
+Component for navigation header, that displays current analysis and kernel.
+
+Author: Tobias Stuckenberger
+-->
 <template>
     <div class="flex h-full w-full items-center justify-center rounded bg-primary text-background">
         <p v-if="currentAnalysis" class="text-lg font-bold">

@@ -1,3 +1,8 @@
+<!--
+Component base for any popup
+
+Author: Tobias Stuckenberger
+-->
 <template>
     <div
         v-if="activePopups.includes(type)"

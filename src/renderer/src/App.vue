@@ -1,3 +1,8 @@
+<!--
+Entry component of the vue frontend
+
+Author: Tobias Stuckenberger
+-->
 <template>
     <LandingPage v-if="currentContext === CONTEXT.START_SCREEN" />
     <NavigationBase v-else />

@@ -1,3 +1,9 @@
+<!--
+Component for the summary page, which opens when no analyses are found to be displayed.
+Contains a few select metrics, as well as the code viewer and code info components.
+
+Author: Tobias Stuckenberger
+-->
 <template>
     <div class="flex h-full w-full flex-col space-y-1">
         <div class="flex flex-row justify-between">
@@ -85,14 +91,23 @@ const lineStalls = computed(() =>
         : dataStore.getGPUscoutResult().getLineStalls(currentKernel.value, selectedLine.value, currentView.value)
 );
 
+/**
+ * Opens the large memory graph
+ */
 function openLargeMemoryGraph() {
     contextStore.togglePopup(POPUP.MEMORY_GRAPH, true);
 }
 
+/**
+ * Toggles between the two GPUscout results, if in comparison mode
+ */
 function toggleCodeVersions() {
     codeViewerStore.setUseComparisonCode(!useComparisonCode.value);
 }
 
+/**
+ * Toggles between SASS and PTX code
+ */
 function toggleCodeTypes() {
     codeViewerStore.setCurrentBinary(currentBinary.value === CODE_TYPE.SASS_CODE ? CODE_TYPE.PTX_CODE : CODE_TYPE.SASS_CODE);
 }

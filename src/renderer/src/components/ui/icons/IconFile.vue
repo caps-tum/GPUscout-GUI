@@ -1,3 +1,6 @@
+<!--
+Author: Tobias Stuckenberger
+-->
 <template>
     <!--!Font Awesome Free 6.6.0 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free Copyright 2024 Fonticons, Inc.-->
     <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 384 512">

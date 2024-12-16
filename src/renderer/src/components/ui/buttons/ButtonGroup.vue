@@ -1,3 +1,8 @@
+<!--
+Component for a button group (currently unused)
+
+Author: Tobias Stuckenberger
+-->
 <template>
     <div
         class="grid grid-rows-1 gap-x-[1px] rounded"

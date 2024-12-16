@@ -1,3 +1,9 @@
+<!--
+Component for The PC Sampling results section in the code info.
+Displays the total number of stalls, as well as the individual stalls.
+
+Author: Tobias Stuckenberger
+-->
 <template>
     <div class="flex flex-col space-y-1 p-1">
         <ButtonMetric

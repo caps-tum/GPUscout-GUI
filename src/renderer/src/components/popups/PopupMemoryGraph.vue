@@ -1,3 +1,8 @@
+<!--
+Component for the popup of the main memory graph.
+
+Author: Tobias Stuckenberger
+-->
 <template>
     <Popup distance-x="10vw" distance-y="10vh" :type="POPUP.MEMORY_GRAPH" title="Complete Memory graph">
         <div class="space-2 flex w-full flex-col justify-center p-2">

@@ -1,3 +1,8 @@
+<!--
+Component for a metric section in a analysis
+
+Author: Tobias Stuckenberger
+-->
 <template>
     <div class="flex min-w-72 flex-col" :class="getOrderClass()">
         <div class="flex flex-col rounded bg-secondary/50 p-2 pt-1">

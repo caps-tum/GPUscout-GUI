@@ -1,3 +1,8 @@
+<!--
+Component for the laning page, which allows selecting up to 2 analysis and topology result files.
+
+Author: Tobias Stuckenberger
+-->
 <template>
     <div class="flex h-full w-full flex-col items-center">
         <p class="mb-10 text-9xl font-bold">GPUscout-GUI</p>
@@ -48,7 +53,7 @@
 <script setup>
 import { computed } from 'vue';
 import { useConfigStore } from '../../../stores/ConfigStore';
-import AnalysesFromFolder from './analyses_from_folder/AnalysesFromFolder.vue';
+import AnalysesFromFolder from './AnalysesFromFolder.vue';
 import { ref } from 'vue';
 import SelectAnalysis from './SelectAnalysis.vue';
 import { useDataStore } from '../../../stores/DataStore';

@@ -1,3 +1,8 @@
+<!--
+Component for the help button opening the help popup.
+
+Author: Tobias Stuckenberger
+-->
 <template>
     <a class="fill-white text-background hover:cursor-pointer" @click="emit('click')">
         <IconHelp class="h-5 w-5" />

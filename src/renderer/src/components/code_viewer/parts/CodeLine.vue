@@ -1,3 +1,9 @@
+<!--
+Component for a single line in the code view.
+Displays the line number, the line itself, as well as additional information like if the line has stalls, or live register information
+
+Author: Tobias Stuckenberger
+-->
 <template>
     <div
         ref="line"
@@ -69,6 +75,11 @@ function selectLine() {
     codeViewerStore.setSelectedLine(props.lineNumber);
 }
 
+/**
+ * Checks if a certain token should be highlighted in this line
+ * @param {String} token The token to check
+ * @returns {Boolean} If the token should be highlighted
+ */
 function getTokenHighlight(token) {
     for (const key of Object.keys(props.highlightedTokens)) {
         if (!props.highlightedTokens[key][token]) {

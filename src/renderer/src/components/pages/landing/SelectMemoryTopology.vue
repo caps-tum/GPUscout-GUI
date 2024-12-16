@@ -1,3 +1,8 @@
+<!--
+Component for the topology select button which opens a file picker when clicked.
+
+Author: Tobias Stuckenberger
+-->
 <template>
     <ButtonSecondary
         class="flex flex-row items-center space-x-2 pl-4"

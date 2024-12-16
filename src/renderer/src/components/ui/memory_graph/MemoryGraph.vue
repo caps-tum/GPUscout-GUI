@@ -1,3 +1,8 @@
+<!--
+Component for a memory graph
+
+Author: Tobias Stuckenberger
+-->
 <template>
     <div class="flex min-w-72 flex-col" :class="getOrderClass()">
         <div class="flex flex-col overflow-auto rounded p-2 pt-1" :class="noBackground ? '' : 'bg-secondary/50'">

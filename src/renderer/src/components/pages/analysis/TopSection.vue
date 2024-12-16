@@ -1,3 +1,9 @@
+<!--
+Component for the top metric section of an analysis.
+Displays what is configured in the analysis configuration or a default metric section.
+
+Author: Tobias Stuckenberger
+-->
 <template>
     <div v-if="ANALYSIS[analysis]?.metrics" class="flex h-full flex-row gap-2">
         <template v-for="(section, index) of ANALYSIS[analysis].metrics" :key="section">

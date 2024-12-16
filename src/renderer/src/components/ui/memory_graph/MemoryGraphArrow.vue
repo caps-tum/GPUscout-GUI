@@ -1,3 +1,8 @@
+<!--
+Component for the arrow in a memory graph
+
+Author: Tobias Stuckenberger
+-->
 <template>
     <div v-if="arrow.spaceAbove"></div>
     <div class="relative grid grid-cols-1 grid-rows-[50%_50%] flex-col" :class="large ? 'min-w-20' : 'min-w-12'">
@@ -42,6 +47,12 @@ const props = defineProps({
     large: Boolean
 });
 
+/**
+ * Generates the text of the arrow
+ * @param {boolean} [comparison=false] If the comparison GPUscout result should be used
+ * @param {boolean} [useBottomMetric=false] If the bottom metric should be used
+ * @returns {String}
+ */
 function getTitle(comparison = false, useBottomMetric = false) {
     if (comparison && !props.comparisonAnalysisData) return '';
     if (useBottomMetric && !props.arrow.metricBottom) return '';
@@ -65,6 +76,11 @@ function getTitle(comparison = false, useBottomMetric = false) {
     }
 }
 
+/**
+ * Generates the styling of the arrow
+ * @param {boolean} [second=false] If the function is called from the bottom part of the arrow
+ * @returns {String}
+ */
 function getArrowClass(second = false) {
     if (second) return props.arrow.direction === DIRECTION.BOTH ? 'mt-[3px] arrow-left arrow-left-both border-t-2' : '';
     if (props.arrow.direction === DIRECTION.RIGHT) return 'arrow-right';

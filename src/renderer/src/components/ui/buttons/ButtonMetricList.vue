@@ -1,3 +1,8 @@
+<!--
+Component for a metric list button. This button is used in the collapsed metric list of a memory graph or metric section.
+
+Author: Tobias Stuckenberger
+-->
 <template>
     <div class="shrink-0">
         <a class="flex h-full flex-row justify-between space-x-2 rounded bg-primary p-2 py-1 text-background">

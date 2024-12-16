@@ -1,3 +1,9 @@
+<!--
+Component for a metric button. This is mainly used in the metric sections and PC Sampling of code infos. Can be used as a button,
+but currently is not.
+
+Author: Tobias Stuckenberger
+-->
 <template>
     <div class="relative min-w-16 flex-shrink flex-grow">
         <a class="flex h-full flex-col -space-y-1 rounded bg-primary py-1 pl-2 pr-3 text-background">
