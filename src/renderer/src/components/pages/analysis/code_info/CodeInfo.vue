@@ -4,7 +4,7 @@
             <p class="sticky top-0 rounded-t bg-secondary p-1 text-center text-sm text-text first-line:text-base">
                 {{ occurrence?.title() || 'No title' }}
                 <br />
-                in line {{ selectedLine }} (source) / {{ occurrence?.binaryLineNumber }} (binary)
+                in line {{ Object.keys(highlightedSourceLines)[0] }} (source) / {{ occurrence?.binaryLineNumber }} (binary)
             </p>
             <p class="whitespace-pre-line p-1" v-html="occurrence.description()"></p>
         </template>
@@ -49,6 +49,7 @@ defineProps({
 const codeViewerStore = useCodeViewerStore();
 
 const selectedLine = computed(() => codeViewerStore.getSelectedLine);
+const highlightedSourceLines = computed(() => codeViewerStore.getHighlightedSourceLines);
 
 /**
  * @returns {String} The string to display when no occurrence is selected
