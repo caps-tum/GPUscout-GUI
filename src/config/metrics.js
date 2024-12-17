@@ -162,7 +162,7 @@ More information is available at <a href="https://docs.nvidia.com/nsight-compute
         hint: '',
         format_function: formatPercent,
         help_text: 'This is a detailed explanation something',
-        lower_better: true
+        lower_better: false
     },
     general_l2_queries: {
         name: 'general/l2_queries',
@@ -178,7 +178,7 @@ More information is available at <a href="https://docs.nvidia.com/nsight-compute
         hint: '',
         format_function: formatPercent,
         help_text: 'This is a detailed explanation something',
-        lower_better: true
+        lower_better: false
     },
     general_loads_l2_to_dram_bytes: {
         name: 'general/loads_l2_to_dram_bytes',
@@ -194,7 +194,7 @@ More information is available at <a href="https://docs.nvidia.com/nsight-compute
         hint: '',
         format_function: formatPercent,
         help_text: 'This is a detailed explanation something',
-        lower_better: true
+        lower_better: false
     },
     general_stores_l2_to_dram_bytes: {
         name: 'general/stores_l2_to_dram_bytes',
@@ -210,7 +210,7 @@ More information is available at <a href="https://docs.nvidia.com/nsight-compute
         hint: '',
         format_function: formatPercent,
         help_text: 'This is a detailed explanation something',
-        lower_better: true
+        lower_better: false
     },
     global_atomic_to_l1_bytes: {
         name: 'global/atomic_to_l1_bytes',
@@ -234,7 +234,7 @@ More information is available at <a href="https://docs.nvidia.com/nsight-compute
         hint: '',
         format_function: formatPercent,
         help_text: 'This is a detailed explanation something',
-        lower_better: true
+        lower_better: false
     },
     global_atomics_l2_to_dram_bytes: {
         name: 'global/atomics_l2_to_dram_bytes',
@@ -274,7 +274,7 @@ More information is available at <a href="https://docs.nvidia.com/nsight-compute
         hint: '',
         format_function: formatPercent,
         help_text: 'This is a detailed explanation something',
-        lower_better: true
+        lower_better: false
     },
     global_loads_l1_to_l2_bytes: {
         name: 'global/loads_l1_to_l2_bytes',
@@ -306,7 +306,7 @@ More information is available at <a href="https://docs.nvidia.com/nsight-compute
         hint: '',
         format_function: formatPercent,
         help_text: 'This is a detailed explanation something',
-        lower_better: true
+        lower_better: false
     },
     global_stores_l1_to_l2_bytes: {
         name: 'global/stores_l1_to_l2_bytes',
@@ -354,7 +354,7 @@ More information is available at <a href="https://docs.nvidia.com/nsight-compute
         hint: '',
         format_function: formatPercent,
         help_text: 'This is a detailed explanation something',
-        lower_better: true
+        lower_better: false
     },
     local_loads_l1_to_l2_bytes: {
         name: 'local/loads_l1_to_l2_bytes',
@@ -386,7 +386,7 @@ More information is available at <a href="https://docs.nvidia.com/nsight-compute
         hint: '',
         format_function: formatPercent,
         help_text: 'This is a detailed explanation something',
-        lower_better: true
+        lower_better: false
     },
     local_stores_l1_to_l2_bytes: {
         name: 'local/stores_l1_to_l2_bytes',
@@ -474,7 +474,7 @@ More information is available at <a href="https://docs.nvidia.com/nsight-compute
         hint: '',
         format_function: formatPercent,
         help_text: 'This is a detailed explanation something',
-        lower_better: true
+        lower_better: false
     },
     surface_loads_l1_to_l2_bytes: {
         name: 'surface/loads_l1_to_l2_bytes',
@@ -538,7 +538,7 @@ More information is available at <a href="https://docs.nvidia.com/nsight-compute
         hint: '',
         format_function: formatPercent,
         help_text: 'This is a detailed explanation something',
-        lower_better: true
+        lower_better: false
     },
     texture_loads_l1_to_l2_bytes: {
         name: 'texture/loads_l1_to_l2_bytes',

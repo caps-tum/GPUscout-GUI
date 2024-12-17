@@ -1,6 +1,4 @@
 <!--
-Component for the arrow in a memory graph
-
 Author: Tobias Stuckenberger
 -->
 <template>
@@ -22,13 +20,13 @@ Author: Tobias Stuckenberger
             <div
                 class="whitespace-nowrap border-b border-black px-2 pb-1 text-center text-sm text-text"
                 :class="getArrowClass()"
-                v-html="getTitle(false) + (comparisonAnalysisData !== undefined ? ' vs ' + getTitle(true) : '')"
+                v-html="(comparisonAnalysisData !== undefined ? getTitle(true) + ' vs ' : '') + getTitle(false)"
             ></div>
             <div
                 v-if="arrow.metricBottom"
                 class="whitespace-nowrap border-t border-black px-2 pt-1 text-center text-sm text-text"
                 :class="getArrowClass(true)"
-                v-html="getTitle(false, true) + (comparisonAnalysisData !== undefined ? ' vs ' + getTitle(true, true) : '')"
+                v-html="(comparisonAnalysisData !== undefined ? getTitle(true, true) + ' vs ' : '') + getTitle(false, true)"
             ></div>
             <div v-else class="border-t border-black px-2 pt-1"></div>
         </template>
