@@ -56,10 +56,19 @@ export const useDataStore = defineStore('data', () => {
      * @param {String} comparisonTopologyData The memory topology data of the comarison result
      */
     async function initialize(resultData, comparisonData, topologyData, comparisonTopologyData) {
-        gpuscoutResult = new GPUscoutResult(resultData, topologyData);
-        if (comparisonData) {
-            gpuscoutComparisonResult = new GPUscoutResult(comparisonData, comparisonTopologyData);
-            comparisonResultAvailable.value = true;
+        try {
+            gpuscoutResult = new GPUscoutResult(resultData, topologyData);
+            if (comparisonData) {
+                gpuscoutComparisonResult = new GPUscoutResult(comparisonData, comparisonTopologyData);
+                comparisonResultAvailable.value = true;
+            }
+        } catch (e) {
+            console.log(e);
+            alert(
+                'An error occurred while parsing the input files. Please make sure no errors occurred during their generation.'
+            );
+            window.location.reload();
+            return;
         }
 
         if (gpuscoutResult.getKernels().length === 0) {
