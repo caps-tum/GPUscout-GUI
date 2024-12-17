@@ -51,6 +51,7 @@ Author: Tobias Stuckenberger
                     v-for="analysis in analysesOnlyCurrent"
                     :key="analysis"
                     class="cursor-pointer pl-3"
+                    :class="getAnalysisStyle(analysis)"
                     @click="() => setAnalysis(analysis)"
                     >{{ ANALYSIS[analysis].display_name || analysis }}</a
                 >
@@ -59,6 +60,7 @@ Author: Tobias Stuckenberger
                     v-for="analysis in analysesBoth"
                     :key="analysis"
                     class="cursor-pointer pl-3"
+                    :class="getAnalysisStyle(analysis)"
                     @click="() => setAnalysis(analysis)"
                     >{{ ANALYSIS[analysis].display_name || analysis }}</a
                 >
@@ -69,6 +71,7 @@ Author: Tobias Stuckenberger
                     v-for="analysis in analysesOnlyOriginal"
                     :key="analysis"
                     class="cursor-pointer pl-3"
+                    :class="getAnalysisStyle(analysis)"
                     @click="() => setAnalysis(analysis, true)"
                     >{{ ANALYSIS[analysis].display_name || analysis }}</a
                 >
@@ -79,6 +82,7 @@ Author: Tobias Stuckenberger
                     v-for="analysis in analyses"
                     :key="analysis"
                     class="cursor-pointer pl-3"
+                    :class="getAnalysisStyle(analysis)"
                     @click="() => setAnalysis(analysis)"
                     >{{ ANALYSIS[analysis].display_name || analysis }}</a
                 >
@@ -101,6 +105,7 @@ const dataStore = useDataStore();
 const codeViewerStore = useCodeViewerStore();
 
 const currentKernel = computed(() => dataStore.getCurrentKernel);
+const currentAnalysis = computed(() => dataStore.getCurrentAnalysis);
 const analyses = computed(() => dataStore.getGPUscoutResult()?.getAnalysesWithOccurrences(currentKernel.value));
 const comparisonAnalyses = computed(() =>
     dataStore.getGPUscoutComparisonResult()?.getAnalysesWithOccurrences(currentKernel.value)
@@ -144,6 +149,14 @@ function getAnalysesPerKernel(kernel) {
             .getAnalysesWithOccurrences(kernel)
             .concat(dataStore.getGPUscoutComparisonResult().getAnalysesWithOccurrences(kernel)).length;
     }
+}
+
+/**
+ * @param {String} analysis
+ * @returns {String} A special style if this analysis entry is currently selected
+ */
+function getAnalysisStyle(analysis) {
+    return analysis === currentAnalysis.value ? 'font-bold' : '';
 }
 
 /**
