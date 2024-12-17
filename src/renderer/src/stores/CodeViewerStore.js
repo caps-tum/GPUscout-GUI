@@ -221,6 +221,10 @@ export const useCodeViewerStore = defineStore('codeViewer', () => {
             } else {
                 highlightedSourceLines.value[gpuscoutResult.getPtxToSourceLine(currentKernel.value, secondaryLine)] = color;
             }
+            highlightedSourceLines.value[currentOccurrences.value[0].sourceLineNumber] = currentOccurrences.value[0]
+                .isWarning
+                ? CODE_STYLES.HIGHLIGHTED_LINE_OCCURRENCE
+                : CODE_STYLES.HIGHLIGHTED_LINE_INFO;
 
             highlightedBinaryTokens.value[secondaryLine] = {};
             for (const token of gpuscoutResult.getInstructionTokens(
