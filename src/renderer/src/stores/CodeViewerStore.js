@@ -169,7 +169,7 @@ export const useCodeViewerStore = defineStore('codeViewer', () => {
                 highlightedBinaryLines.value[line] = CODE_STYLES.SELECTED_LINE_SECONDARY;
             }
 
-            scrollToBinaryLines.value.push(lines[0]);
+            // scrollToBinaryLines.value.push(lines[0]);
             if (scrollToCurrentView) {
                 scrollToSourceLines.value.push(line);
             }
@@ -195,8 +195,20 @@ export const useCodeViewerStore = defineStore('codeViewer', () => {
 
         // Only highlight binary stuff if only one occurrence is selected
         // (a line with an occurrence in the binary view is selected and not in the source code)
+        // Also scroll to the occurrence in the sass code if we are in source code view
         if (currentOccurrences.value.length !== 1) {
+            if (currentView.value === CODE_TYPE.SOURCE_CODE) {
+                const lines =
+                    currentBinary.value === CODE_TYPE.SASS_CODE
+                        ? gpuscoutResult.getSourceToSassLines(currentKernel.value, line)
+                        : gpuscoutResult.getSourceToPtxLines(currentKernel.value, line);
+                scrollToBinaryLines.value.push(lines[0]);
+            }
             return;
+        } else {
+            if (currentView.value === CODE_TYPE.SOURCE_CODE) {
+                scrollToBinaryLines.value.push(currentOccurrences.value[0].binaryLineNumber);
+            }
         }
 
         // Highlight all relevant tokens for this occurrence
