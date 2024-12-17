@@ -63,7 +63,7 @@ export const useDataStore = defineStore('data', () => {
                 comparisonResultAvailable.value = true;
             }
         } catch (e) {
-            console.err(e);
+            console.error(e);
             alert(
                 'An error occurred while parsing the input files. Please make sure no errors occurred during their generation.'
             );
