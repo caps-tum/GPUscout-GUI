@@ -314,6 +314,11 @@ export class GPUscoutResult {
                 currentPtxLine = 1;
                 currentKernel = kernels[line.split(' ').at(-1).replace('(', '')];
 
+                if (Object.keys(this._ptxCodeLines).includes(currentKernel)) {
+                    // Kernel already represented -> Skip
+                    currentSourceLine = -1;
+                    continue;
+                }
                 this._ptxToSourceLines[currentKernel] = {};
                 this._ptxCodeLines[currentKernel] = [
                     {

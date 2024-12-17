@@ -9,7 +9,7 @@ Author: Tobias Stuckenberger
         <p class="-mb-2 text-lg">{{ TEXT.landing_page.select_folder.title }}</p>
         <p class="text-sm">{{ TEXT.landing_page.select_folder.hint }}</p>
         <div class="my-1 flex flex-row justify-between">
-            <TextInput v-model="searchString" placeholder="Search..." />
+            <TextInput :value="searchString" placeholder="Search..." @changed="(e) => (searchString = e)" />
             <div class="flex flex-row space-x-1">
                 <TextInput
                     ref="outputDirFolder"
@@ -49,6 +49,7 @@ const outputDirFolder = ref(null);
 const files = ref([]);
 
 onMounted(async () => {
+    searchString.value = '';
     await getFilesInFolder();
 });
 
