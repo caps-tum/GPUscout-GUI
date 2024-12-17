@@ -32,10 +32,10 @@ Author: Tobias Stuckenberger
     </div>
 </template>
 <script setup>
-import TextInput from '../../../ui/input/TextInput.vue';
+import TextInput from '../../ui/input/TextInput.vue';
 import { onMounted, ref } from 'vue';
-import ButtonSecondary from '../../../ui/buttons/ButtonSecondary.vue';
-import { TEXT } from '../../../../../../config/text';
+import ButtonSecondary from '../../ui/buttons/ButtonSecondary.vue';
+import { TEXT } from '../../../../../config/text';
 
 const props = defineProps({
     gpuscoutOutputFolder: String
