@@ -9,7 +9,7 @@ Author: Tobias Stuckenberger
         ref="line"
         class="group relative m-0 flex space-x-1"
         :class="lineNumber === -1 ? 'sticky top-0 z-10' : ''"
-        @click="selectLine"
+        @click="lineNumber !== -1 ? selectLine() : undefined"
     >
         <p
             class="sticky left-0 top-0 flex w-16 shrink-0 select-none flex-row items-center justify-between bg-secondary px-1 !text-text"
