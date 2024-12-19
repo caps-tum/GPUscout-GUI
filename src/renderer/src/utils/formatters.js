@@ -8,20 +8,15 @@ import { STALLS } from '../../../config/stalls';
 
 /**
  * @param {Number} value
- * @param {Number} total_value
  * @returns {String} The value formatted as a percent value
  */
-export function formatPercent(value, total_value) {
+export function formatPercent(value) {
     const format = new Intl.NumberFormat('de-DE', {
         style: 'decimal',
         minimumFractionDigits: 0,
         maximumFractionDigits: 1
     });
     let percent_rounded = Math.round(value * 100) / 100;
-    if (total_value) {
-        total_value = Math.round((total_value * value) / 100);
-        return `${format.format(Math.round(total_value))} (${format.format(percent_rounded)}%)`;
-    }
     return `${format.format(percent_rounded)}%`;
 }
 
@@ -110,6 +105,13 @@ export function getMetricsData(metricName) {
 /**
  * @param {String} stall
  */
-export function formatStall(absolute, relative) {
-    return `${formatNumber(absolute)} (${formatPercent(relative)})`;
+export function formatStall(value1, value2) {
+    if (value2 === undefined) {
+        return formatPercent(value1);
+    }
+    if (Number.isInteger(value1)) {
+        return `${formatNumber(value1)} (${formatPercent(value2)})`;
+    } else {
+        return `${formatNumber(value2)} (${formatPercent(value1)})`;
+    }
 }

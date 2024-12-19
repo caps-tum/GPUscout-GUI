@@ -46,7 +46,7 @@ Author: Tobias Stuckenberger
 import { ANALYSIS, METRIC_SECTION_TYPE } from '../../../../../config/analyses';
 import { TEXT } from '../../../../../config/text';
 import { useDataStore } from '../../../stores/DataStore';
-import { computed, ref } from 'vue';
+import { computed, ref, watch } from 'vue';
 import MetricSection from '../../ui/sections/MetricSection.vue';
 import MemoryGraph from '../../ui/memory_graph/MemoryGraph.vue';
 
@@ -63,4 +63,11 @@ const comparisonAnalysisData = computed(() =>
 );
 
 const expandedSection = ref(1);
+
+watch(
+    () => props.analysis,
+    () => {
+        expandedSection.value = 1;
+    }
+);
 </script>

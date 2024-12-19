@@ -8,7 +8,8 @@ import {
     formatBytes,
     formatInstructions,
     formatNumber,
-    formatPercent
+    formatPercent,
+    formatStall
 } from '../renderer/src/utils/formatters';
 import { STALLS } from './stalls';
 
@@ -56,7 +57,7 @@ More information is available at <a href="https://docs.nvidia.com/nsight-compute
         name: 'misc/smsp__warp_issue_stalled_tex_throttle_per_warp_active',
         display_name: 'Tex Throttle Stalls',
         hint: 'Warp stalled due to full TEX pipeline',
-        format_function: formatPercent,
+        format_function: formatStall,
         help_text: STALLS.smsp__pcsamp_warps_issue_stalled_tex_throttle.help_text,
         lower_better: true
     },
@@ -64,7 +65,7 @@ More information is available at <a href="https://docs.nvidia.com/nsight-compute
         name: 'misc/smsp__warp_issue_stalled_mio_throttle_per_warp_active',
         display_name: 'MIO Throttle Stalls',
         hint: 'Warp stalled due to full memory I/O pipeline',
-        format_function: formatPercent,
+        format_function: formatStall,
         help_text: STALLS.smsp__pcsamp_warps_issue_stalled_mio_throttle.help_text,
         lower_better: true
     },
@@ -72,7 +73,7 @@ More information is available at <a href="https://docs.nvidia.com/nsight-compute
         name: 'misc/smsp__warp_issue_stalled_short_scoreboard_per_warp_active',
         display_name: 'Short Scoreboard Stalls',
         hint: 'Warp stalled due short scoreboard dependency',
-        format_function: formatPercent,
+        format_function: formatStall,
         help_text: STALLS.smsp__pcsamp_warps_issue_stalled_short_scoreboard.help_text,
         lower_better: true
     },
@@ -80,7 +81,7 @@ More information is available at <a href="https://docs.nvidia.com/nsight-compute
         name: 'misc/smsp__warp_issue_stalled_long_scoreboard_per_warp_active',
         display_name: 'Long Scoreboard Stalls',
         hint: 'Warp stalled due long scoreboard dependency',
-        format_function: formatPercent,
+        format_function: formatStall,
         help_text: STALLS.smsp__pcsamp_warps_issue_stalled_long_scoreboard.help_text,
         lower_better: true
     },
@@ -88,7 +89,7 @@ More information is available at <a href="https://docs.nvidia.com/nsight-compute
         name: 'misc/smsp__warp_issue_stalled_lg_throttle_per_warp_active',
         display_name: 'LG Throttle Stalls',
         hint: 'Warp stalled due full L1 instruction queue for global memory operations',
-        format_function: formatPercent,
+        format_function: formatStall,
         help_text: STALLS.smsp__pcsamp_warps_issue_stalled_lg_throttle.help_text,
         lower_better: true
     },
@@ -96,7 +97,7 @@ More information is available at <a href="https://docs.nvidia.com/nsight-compute
         name: 'misc/smsp__warp_issue_stalled_imc_miss_per_warp_active',
         display_name: 'IMC Miss Stalls',
         hint: 'Warp stalled waiting for immediate constant cache miss',
-        format_function: formatPercent,
+        format_function: formatStall,
         help_text: STALLS.smsp__pcsamp_warps_issue_stalled_imc_miss.help_text,
         lower_better: true
     },

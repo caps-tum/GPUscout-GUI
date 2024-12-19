@@ -111,15 +111,30 @@ export const ANALYSIS = {
                     },
                     {
                         name: METRICS.stalls_short_scoreboard_perc.name,
-                        secondary_value: (analysis) => analysis.getMetric(METRICS.stalls_total.name)
+                        secondary_value: (analysis) =>
+                            Math.round(
+                                (analysis.getMetric(METRICS.stalls_total.name) *
+                                    analysis.getMetric(METRICS.stalls_short_scoreboard_perc.name)) /
+                                    100
+                            )
                     },
                     {
                         name: METRICS.stalls_mio_throttle_perc.name,
-                        secondary_value: (analysis) => analysis.getMetric(METRICS.stalls_total.name)
+                        secondary_value: (analysis) =>
+                            Math.round(
+                                (analysis.getMetric(METRICS.stalls_total.name) *
+                                    analysis.getMetric(METRICS.stalls_mio_throttle_perc.name)) /
+                                    100
+                            )
                     },
                     {
                         name: METRICS.stalls_tex_throttle_perc.name,
-                        secondary_value: (analysis) => analysis.getMetric(METRICS.stalls_total.name)
+                        secondary_value: (analysis) =>
+                            Math.round(
+                                (analysis.getMetric(METRICS.stalls_total.name) *
+                                    analysis.getMetric(METRICS.stalls_tex_throttle_perc.name)) /
+                                    100
+                            )
                     }
                 ]
             }
@@ -166,15 +181,30 @@ export const ANALYSIS = {
                     },
                     {
                         name: METRICS.stalls_mio_throttle_perc.name,
-                        secondary_value: (analysis) => analysis.getMetric(METRICS.stalls_total.name)
+                        secondary_value: (analysis) =>
+                            Math.round(
+                                (analysis.getMetric(METRICS.stalls_total.name) *
+                                    analysis.getMetric(METRICS.stalls_mio_throttle_perc.name)) /
+                                    100
+                            )
                     },
                     {
                         name: METRICS.stalls_long_scoreboard_perc.name,
-                        secondary_value: (analysis) => analysis.getMetric(METRICS.stalls_total.name)
+                        secondary_value: (analysis) =>
+                            Math.round(
+                                (analysis.getMetric(METRICS.stalls_total.name) *
+                                    analysis.getMetric(METRICS.stalls_long_scoreboard_perc.name)) /
+                                    100
+                            )
                     },
                     {
                         name: METRICS.stalls_lg_throttle_perc.name,
-                        secondary_value: (analysis) => analysis.getMetric(METRICS.stalls_total.name)
+                        secondary_value: (analysis) =>
+                            Math.round(
+                                (analysis.getMetric(METRICS.stalls_total.name) *
+                                    analysis.getMetric(METRICS.stalls_lg_throttle_perc.name)) /
+                                    100
+                            )
                     }
                 ]
             }
@@ -232,11 +262,21 @@ export const ANALYSIS = {
                     },
                     {
                         name: METRICS.stalls_long_scoreboard_perc.name,
-                        secondary_value: (analysis) => analysis.getMetric(METRICS.stalls_total.name)
+                        secondary_value: (analysis) =>
+                            Math.round(
+                                (analysis.getMetric(METRICS.stalls_total.name) *
+                                    analysis.getMetric(METRICS.stalls_long_scoreboard_perc.name)) /
+                                    100
+                            )
                     },
                     {
                         name: METRICS.stalls_lg_throttle_perc.name,
-                        secondary_value: (analysis) => analysis.getMetric(METRICS.stalls_total.name)
+                        secondary_value: (analysis) =>
+                            Math.round(
+                                (analysis.getMetric(METRICS.stalls_total.name) *
+                                    analysis.getMetric(METRICS.stalls_lg_throttle_perc.name)) /
+                                    100
+                            )
                     }
                 ]
             }
@@ -315,11 +355,21 @@ export const ANALYSIS = {
                     },
                     {
                         name: METRICS.stalls_long_scoreboard_perc.name,
-                        secondary_value: (analysis) => analysis.getMetric(METRICS.stalls_total.name)
+                        secondary_value: (analysis) =>
+                            Math.round(
+                                (analysis.getMetric(METRICS.stalls_total.name) *
+                                    analysis.getMetric(METRICS.stalls_long_scoreboard_perc.name)) /
+                                    100
+                            )
                     },
                     {
                         name: METRICS.stalls_mio_throttle_perc.name,
-                        secondary_value: (analysis) => analysis.getMetric(METRICS.stalls_total.name)
+                        secondary_value: (analysis) =>
+                            Math.round(
+                                (analysis.getMetric(METRICS.stalls_total.name) *
+                                    analysis.getMetric(METRICS.stalls_mio_throttle_perc.name)) /
+                                    100
+                            )
                     }
                 ]
             }
@@ -347,11 +397,21 @@ export const ANALYSIS = {
                     },
                     {
                         name: METRICS.stalls_long_scoreboard_perc.name,
-                        secondary_value: (analysis) => analysis.getMetric(METRICS.stalls_total.name)
+                        secondary_value: (analysis) =>
+                            Math.round(
+                                (analysis.getMetric(METRICS.stalls_total.name) *
+                                    analysis.getMetric(METRICS.stalls_long_scoreboard_perc.name)) /
+                                    100
+                            )
                     },
                     {
                         name: METRICS.stalls_tex_throttle_perc.name,
-                        secondary_value: (analysis) => analysis.getMetric(METRICS.stalls_total.name)
+                        secondary_value: (analysis) =>
+                            Math.round(
+                                (analysis.getMetric(METRICS.stalls_total.name) *
+                                    analysis.getMetric(METRICS.stalls_tex_throttle_perc.name)) /
+                                    100
+                            )
                     }
                 ]
             }
@@ -393,7 +453,12 @@ export const ANALYSIS = {
                     },
                     {
                         name: METRICS.stalls_long_scoreboard_perc.name,
-                        secondary_value: (analysis) => analysis.getMetric(METRICS.stalls_total.name)
+                        secondary_value: (analysis) =>
+                            Math.round(
+                                (analysis.getMetric(METRICS.stalls_total.name) *
+                                    analysis.getMetric(METRICS.stalls_long_scoreboard_perc.name)) /
+                                    100
+                            )
                     }
                 ]
             }

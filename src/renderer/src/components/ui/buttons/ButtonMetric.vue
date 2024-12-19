@@ -23,7 +23,16 @@ Author: Tobias Stuckenberger
                             : 'text-red-300 ' + getFlexDirection()
                     "
                 >
-                    <p v-if="comparisonValue !== undefined">
+                    <p
+                        v-if="
+                            comparisonValue !== undefined &&
+                            comparisonSecondaryValue !== undefined &&
+                            Number.isInteger(comparisonSecondaryValue)
+                        "
+                    >
+                        {{ formatNumber(secondaryValue - comparisonSecondaryValue) }}
+                    </p>
+                    <p v-else-if="comparisonValue !== undefined">
                         {{ data.format_function(value - comparisonValue) }}
                     </p>
                     <p v-if="value > comparisonValue && comparisonValue !== undefined" class="-mt-1 text-2xl">&#x2B06;</p>
@@ -39,7 +48,7 @@ Author: Tobias Stuckenberger
 </template>
 <script setup>
 import { POPUP, useContextStore } from '../../../stores/ContextStore';
-import { getMetricsData } from '../../../utils/formatters';
+import { formatNumber, getMetricsData } from '../../../utils/formatters';
 import ButtonHelp from './ButtonHelp.vue';
 
 const props = defineProps({
