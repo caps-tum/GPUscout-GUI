@@ -22,7 +22,7 @@ Author: Tobias Stuckenberger
                 :hint="section.hint"
                 :metrics="section.metrics.map((m) => m.name)"
                 :values="section.metrics.map((m) => m.value || ((analysis, metric) => analysis.getMetric(metric)))"
-                :secondary-values="section.metrics.map((m) => m.secondary_value || (() => 0))"
+                :secondary-values="section.metrics.map((m) => m.secondary_value || (() => undefined))"
                 :analysis-data="analysisData"
                 :comparison-analysis-data="comparisonAnalysisData"
                 :expanded="expandedSection === index"
