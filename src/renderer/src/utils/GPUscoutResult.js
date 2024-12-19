@@ -78,6 +78,14 @@ export class GPUscoutResult {
          */
         this._sourceToPtxLines = {};
 
+        // Remove parameters from kernels where possible
+        for (const kernel of Object.keys(resultJSON.kernels)) {
+            const name = resultJSON.kernels[kernel].substring(0, resultJSON.kernels[kernel].indexOf('('));
+            if (Object.values(resultJSON.kernels).filter((k) => k.startsWith(name + '(')).length === 1) {
+                resultJSON.kernels[kernel] = name;
+            }
+        }
+
         // Save contents of passed source files with their paths
         const sourceFileContents = {};
         for (const [filePath, content] of Object.entries(resultJSON.source_files)) {
