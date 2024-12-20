@@ -80,8 +80,8 @@ export const ANALYSIS = {
             },
             {
                 type: METRIC_SECTION_TYPE.LIST,
-                title: TEXT.analyses.general.metrics.title,
-                hint: TEXT.analyses.general.metrics.hint,
+                title: TEXT.analyses.datatype_conversion.top_section.conversion_numbers.title,
+                hint: TEXT.analyses.datatype_conversion.top_section.conversion_numbers.hint,
                 metrics: [
                     {
                         name: TEXT.analyses.datatype_conversion.top_section.conversion_numbers.type.total,
@@ -224,8 +224,8 @@ export const ANALYSIS = {
             },
             {
                 type: METRIC_SECTION_TYPE.LIST,
-                title: TEXT.analyses.general.metrics.title,
-                hint: TEXT.analyses.general.metrics.hint,
+                title: TEXT.analyses.register_spilling.top_section.lmem_impact.title,
+                hint: TEXT.analyses.register_spilling.top_section.lmem_impact.hint,
                 metrics: [
                     {
                         name: METRICS.occupancy.name

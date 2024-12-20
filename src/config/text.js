@@ -6,7 +6,6 @@
 
 /**
  * An object containing all texts displayed in the ui
- * @type {Object.<String, Object>}
  */
 export const TEXT = {
     landing_page: {
@@ -39,8 +38,8 @@ export const TEXT = {
         analyses_title: 'Relevant analyses:'
     },
     code_view: {
-        title: 'Code View',
-        hint: 'Here you can see the source and binary code of the selected kernel',
+        title: 'Code Comparison',
+        hint: 'Compare the source code with PTX assembly or binary SASS code.',
         toggle: {
             old: 'Old Kernel',
             new: 'New Kernel'
@@ -50,7 +49,7 @@ export const TEXT = {
             stalls_title: 'PC Sampling Stalls',
             recommendations_title: 'Recommendations',
             multiple_selected_info:
-                'You have currently selected multiple occurrences. To get further insights into one of them, click on one of the highlighted lines in the binary code.'
+                'You have currently selected multiple occurrences. To get further insights into one of them, click on one of the highlighted lines in the assembly/binary code.'
         },
         help_texts: {
             live_registers: {
@@ -68,7 +67,7 @@ export const TEXT = {
     top_section: {
         title: 'Relevant Kernel Metrics',
         title_comparison: 'Relevant Kernel Metrics (Old vs New Kernel)',
-        hint: 'Here you can see all relevant kernel metrics for the selected analysis in the selected kernel'
+        hint: 'The following metrics are relevant for the current analysis.'
     },
     complete_memory_graph: {
         help_text: 'This is a very long help text'
@@ -78,23 +77,22 @@ export const TEXT = {
             code_info: {
                 no_line_selected: `No line selected.
 Select a line with red or blue markings to get information about findings in that line.
-Blue marked lines correcpond to lines with general infoamrtion, while red marked lines contain optimizations for potential performance bottlenecks.`,
+Lines marked in blue correspond to lines with general information, while lines marked in red contain optimizations for potential performance bottlenecks.`,
                 source_occurrence_selected:
                     'One or more occurrences found for the currently selected source code line. Select one of the highlighted code lines in the binary code to get further information.',
                 no_info: `No information available for the selected line(s).
 Select a highlighted line in the code to get further information.
-Blue marked lines correcpond to lines with general infoamrtion, while red marked lines contain optimizations for potential performance bottlenecks.`
+Lines marked in blue correspond to lines with general information, while lines marked in red contain optimizations for potential performance bottlenecks.`
             },
             warp_stall_analysis: {
                 title: 'Warp stall analysis',
-                hint: 'Warp stall analysis hint',
+                hint: 'Occurrence of relevant warp stalls in the kernel',
                 help_strings: {
                     total_stalls: 'The total number of stalls should be kept as low as possible'
                 }
             },
             metrics: {
-                title: 'Metrics',
-                hint: 'Important metrics'
+                title: 'Metrics'
             }
         },
         datatype_conversion: {
@@ -104,7 +102,7 @@ Blue marked lines correcpond to lines with general infoamrtion, while red marked
                 },
                 conversion_numbers: {
                     title: 'Datytype conversions found:',
-                    hint: 'These values represent the total amount of datatype conversations found in the current kernel. Generally, these values should be kept as low as possible.',
+                    hint: 'These values represent the total amount of datatype conversations found in the current kernel and should be kept as low as possible.',
                     type: {
                         total: {
                             title: 'Total',
@@ -123,13 +121,6 @@ Blue marked lines correcpond to lines with general infoamrtion, while red marked
                             hint: 'Float-to-Integer conversions'
                         }
                     }
-                },
-                warp_stall_analysis: {
-                    help_strings: {
-                        short_scoreboard: 'Short scoreboard stalls should be kept as low as possible',
-                        mio_throttle: 'Mio throttle stalls should be kept as low as possible',
-                        tex_throttle: 'Tex throttle stalls should be kept as low as possible'
-                    }
                 }
             }
         },
@@ -141,19 +132,6 @@ Blue marked lines correcpond to lines with general infoamrtion, while red marked
                 atomics_usage: {
                     title: 'Current usage of atomics in the kernel',
                     hint: 'Some hint'
-                },
-                help_strings: {
-                    long_scoreboard: 'Long scoreboard stalls should be kept as low as possible',
-                    mio_throttle: 'Mio throttle stalls should be kept as low as possible',
-                    lg_throttle: 'LG throttle stalls should be kept as low as possible'
-                }
-            }
-        },
-        use_restrict: {
-            top_section: {
-                help_strings: {
-                    long_scoreboard: 'Long scoreboard stalls should be kept as low as possible',
-                    imc_miss: 'IMC missshould be kept as low as possible'
                 }
             }
         },
@@ -165,10 +143,6 @@ Blue marked lines correcpond to lines with general infoamrtion, while red marked
                 },
                 memory_graph: {
                     title: 'Texture Loads'
-                },
-                help_strings: {
-                    long_scoreboard: 'Long scoreboard stalls should be kept as low as possible',
-                    tex_throttle: 'TEX throttle be kept as low as possible'
                 }
             }
         },
@@ -177,9 +151,6 @@ Blue marked lines correcpond to lines with general infoamrtion, while red marked
                 load_analysis: {
                     title: 'Load analysis',
                     hint: 'Load analysis hint'
-                },
-                help_strings: {
-                    long_scoreboard: 'Long scoreboard stalls should be kept as low as possible'
                 }
             }
         },
