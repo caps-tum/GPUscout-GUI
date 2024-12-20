@@ -30,7 +30,7 @@ Author: Tobias Stuckenberger
                 />
             </template>
             <template v-else>
-                {{ tokens.join('') }}
+                <p class="whitespace-pre text-wrap">{{ tokens.join('') }}</p>
             </template>
         </p>
         <p v-if="showLiveRegisters" class="sticky right-0 top-0 w-16 shrink-0 select-none bg-secondary px-1 text-center">
