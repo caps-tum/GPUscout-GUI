@@ -8,7 +8,7 @@ Author: Tobias Stuckenberger
     <div
         ref="line"
         class="group relative m-0 flex space-x-1"
-        :class="lineNumber === -1 ? 'sticky top-0 z-10' : ''"
+        :class="lineNumber === -1 ? 'sticky top-0 z-10 h-12 max-h-12 min-h-12 *:items-center' : ''"
         @click="lineNumber !== -1 ? selectLine() : undefined"
     >
         <p
