@@ -210,15 +210,15 @@ export class GPUscoutResult {
 
     /**
      * @param {String} kernel The name of the kernel
-     * @param {String|Number} line The line number
+     * @param {String|Number} lineNumber The line number
      * @param {String} codeType The code type
      * @returns {Array.<Object.<String, Number>>} All PCSampling stalls occurring at this line
      */
-    getLineStalls(kernel, line, codeType) {
+    getLineStalls(kernel, lineNumber, codeType) {
         if (codeType === CODE_TYPE.SASS_CODE) {
-            return this._sassCodeLines[kernel].findLast((l) => l.address === line)?.stalls || [];
+            return this._sassCodeLines[kernel].findLast((l) => l.address === lineNumber)?.stalls || [];
         } else if (codeType === CODE_TYPE.SOURCE_CODE) {
-            return this._sourceCodeLines[kernel].findLast((l) => l.address === line)?.stalls || [];
+            return this._sourceCodeLines[kernel].findLast((l) => l.address === lineNumber)?.stalls || [];
         }
         return [];
     }

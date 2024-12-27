@@ -59,10 +59,10 @@ function getTitle(entry) {
         ) {
             const topString = getTopologyString(entry.title, props.analysisData);
             const compTopString = getTopologyString(entry.title, props.analysisData);
-            return entry.title.replace('{size}', `${topString} vs ${compTopString}`);
+            return entry.title.replace('{size}', `(${topString} vs ${compTopString})`);
         } else if (props.analysisData.hasTopologyMetrics()) {
             const topString = getTopologyString(entry.title, props.analysisData);
-            return entry.title.replace('{size}', topString);
+            return entry.title.replace('{size}', '(' + topString + ')');
         }
         return entry.title.replace('{size}', '');
     } else if (entry instanceof NodeMetricContent) {
