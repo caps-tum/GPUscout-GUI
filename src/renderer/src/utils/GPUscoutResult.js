@@ -576,6 +576,13 @@ export class GPUscoutResult {
                 // Get relevant line section in source file
                 lineNumbers = lineNumbers.map((ln) => ln['line']);
                 let fileLineNumber = 1;
+                //let min = Math.max(0, Math.min(...lineNumbers) - 100);
+                //let max = Math.min(sourceFileContents[sourceFile].length, Math.max(...lineNumbers) + 100);
+
+                let fileIsRelevantForSASS =
+                    Object.values(this._sassToSourceLines[kernel]).filter((l) => l.file === sourceFile).length > 0;
+                let fileIsRelevantForPTX =
+                    Object.values(this._ptxToSourceLines[kernel]).filter((l) => l.file === sourceFile).length > 0;
 
                 // The new line numbers dont match the old ones, save the mapping
                 oldToNewLineNumbers[sourceFile] = {};
@@ -586,11 +593,18 @@ export class GPUscoutResult {
                     tokens: ['File: ' + sourceFile],
                     stalls: {},
                     hasSassMapping: true,
-                    hasPtxMapping: true
+                    hasPtxMapping: true,
+                    hasSassRelevance: fileIsRelevantForSASS,
+                    hasPtxRelevance: fileIsRelevantForPTX
                 });
 
                 // Add lines
                 for (let i = 1; i <= sourceFileContents[sourceFile].length; i++) {
+                    //if (i < min || i > max) {
+                    //lineNumber++;
+                    //fileLineNumber++;
+                    //continue;
+                    //}
                     oldToNewLineNumbers[sourceFile][i] = lineNumber;
                     // Aggregate the stalls for this line
                     const lineStalls = Object.fromEntries(
@@ -613,7 +627,9 @@ export class GPUscoutResult {
                         tokens: [sourceFileContents[sourceFile][i - 1]], // The tokens of this line
                         stalls: lineStalls,
                         hasSassMapping: false,
-                        hasPtxMapping: false
+                        hasPtxMapping: false,
+                        hasSassRelevance: fileIsRelevantForSASS,
+                        hasPtxRelevance: fileIsRelevantForPTX
                     });
                 }
             }

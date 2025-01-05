@@ -97,6 +97,7 @@ export const useCodeViewerStore = defineStore('codeViewer', () => {
      * @param {String} view The currently selected code view
      */
     function setCurrentView(view) {
+        if (currentView.value === view) return;
         currentView.value = view;
     }
 

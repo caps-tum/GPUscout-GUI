@@ -17,7 +17,13 @@ Author: Tobias Stuckenberger
         </div>
         <div class="relative flex h-full w-full flex-col overflow-x-auto">
             <CodeLine
-                v-for="line in codeLines"
+                v-for="line in codeLines.filter(
+                    (l) =>
+                        (codeType === CODE_TYPE.SOURCE_CODE &&
+                            ((binaryCodeType === CODE_TYPE.SASS_CODE && l.hasSassRelevance) ||
+                                (binaryCodeType === CODE_TYPE.PTX_CODE && l.hasPtxRelevance))) ||
+                        codeType !== CODE_TYPE.SOURCE_CODE
+                )"
                 :key="line"
                 :tokens="line.tokens"
                 :line-number="line.address"
