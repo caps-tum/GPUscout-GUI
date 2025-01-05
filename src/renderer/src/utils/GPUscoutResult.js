@@ -109,6 +109,11 @@ export class GPUscoutResult {
 
         this._aggregateKernelSourceCode(sourceFileContents, resultJSON.stalls, resultJSON.kernels);
 
+        if (!resultJSON.metrics) {
+            // Prevent crash on no metrics
+            resultJSON.metrics = {};
+        }
+
         this._parseMetrics(resultJSON, topologyData);
 
         // Not all kernels have metrics, we still need the keys in the object
