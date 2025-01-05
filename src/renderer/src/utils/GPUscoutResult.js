@@ -155,6 +155,21 @@ export class GPUscoutResult {
     }
 
     /**
+     * @param {String} kernel The name of the kernel
+     * @returns {Number} The number of analyses, infos and warnings per kernel
+     */
+    getKernelInfo(kernel) {
+        let analyses = this.getAnalysesWithOccurrences(kernel);
+        let infos = analyses
+            .map((analysis) => this._analyses[analysis][kernel].getOccurrences().filter((occ) => !occ.isWarning).length)
+            .reduce((a, b) => a + b, 0);
+        let warnings = analyses
+            .map((analysis) => this._analyses[analysis][kernel].getOccurrences().filter((occ) => occ.isWarning).length)
+            .reduce((a, b) => a + b, 0);
+        return [analyses.length, infos, warnings];
+    }
+
+    /**
      * @param analysis The name of the analysis
      * @param kernel The name of the kernel
      * @returns {Analysis} The analysis with the specified name in the specified kernel
