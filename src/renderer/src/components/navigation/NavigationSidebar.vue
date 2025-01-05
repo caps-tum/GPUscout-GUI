@@ -11,37 +11,22 @@ Author: Tobias Stuckenberger
             <div class="p-2">
                 <p class="font-bold">Current kernel:</p>
                 <select
-                    ref="kernelSelector"
                     :value="currentKernel"
                     class="max-w-full bg-primary outline-none"
                     @change="changeKernel"
+                    @mousedown="openKernelSelection"
                 >
-                    <optgroup
-                        v-if="kernels.filter((k) => getAnalysesPerKernel(k) > 0).length > 0"
-                        label="Kernels with at least one analysis"
-                    >
-                        <option
-                            v-for="kernel in kernels.filter((k) => getAnalysesPerKernel(k) > 0).toSorted()"
-                            :key="kernel"
-                            :value="kernel"
-                        >
-                            {{ kernel }}
-                        </option>
-                    </optgroup>
-                    <optgroup
-                        v-if="kernels.filter((k) => getAnalysesPerKernel(k) === 0).length > 0"
-                        label="Kernels with no analyses"
-                    >
-                        <option
-                            v-for="kernel in kernels.filter((k) => getAnalysesPerKernel(k) === 0).toSorted()"
-                            :key="kernel"
-                            :value="kernel"
-                            class="bg-gray-400"
-                        >
-                            {{ kernel }}
-                        </option>
-                    </optgroup>
+                    <option v-for="kernel in kernels" :key="kernel" :value="kernel">
+                        {{ kernel }}
+                    </option>
                 </select>
+                <div ref="kernelList" class="absolute hidden">
+                    <KernelList
+                        ref="kernelList"
+                        :kernels="kernels.toSorted((a, b) => getAnalysesPerKernel(b) - getAnalysesPerKernel(a))"
+                        @select="changeKernel"
+                    />
+                </div>
             </div>
             <div v-if="isComparison" class="flex flex-col">
                 <p v-if="analysesOnlyCurrent.length > 0" class="p-2 font-bold">
@@ -98,6 +83,7 @@ Author: Tobias Stuckenberger
 import { computed, ref } from 'vue';
 import { ANALYSIS } from '../../../../config/analyses';
 import { useDataStore } from '../../stores/DataStore';
+import KernelList from './KernelList.vue';
 import { useCodeViewerStore } from '../../stores/CodeViewerStore';
 import { TEXT } from '../../../../config/text';
 
@@ -117,13 +103,20 @@ const analysesOnlyCurrent = computed(() => analyses.value.filter((a) => !compari
 const analysesBoth = computed(() => analyses.value.filter((a) => comparisonAnalyses.value.includes(a)));
 
 const kernels = dataStore.getKernels();
-const kernelSelector = ref(null);
+
+const kernelList = ref(null);
 
 /**
  * Change the currently selected kernel
  */
-function changeKernel() {
-    dataStore.setCurrentKernel(kernelSelector.value.value);
+function changeKernel(kernel) {
+    dataStore.setCurrentKernel(kernel);
+    kernelList.value.classList.add('hidden');
+}
+
+function openKernelSelection(event) {
+    event.preventDefault();
+    kernelList.value.classList.toggle('hidden');
 }
 
 /**
@@ -141,14 +134,7 @@ function setAnalysis(analysis, useComparisonCode = false) {
  * @returns {Number}
  */
 function getAnalysesPerKernel(kernel) {
-    if (!isComparison.value) {
-        return dataStore.getGPUscoutResult().getAnalysesWithOccurrences(kernel).length;
-    } else {
-        return dataStore
-            .getGPUscoutResult()
-            .getAnalysesWithOccurrences(kernel)
-            .concat(dataStore.getGPUscoutComparisonResult().getAnalysesWithOccurrences(kernel)).length;
-    }
+    return dataStore.getGPUscoutResult().getKernelInfo(kernel)[0];
 }
 
 /**
