@@ -19,7 +19,7 @@ Author: Tobias Stuckenberger
             <IconWarning v-if="hasStalls" class="h-4 w-4" />
         </p>
         <p class="flex min-h-6 w-full flex-grow border-collapse flex-row flex-wrap overflow-hidden" :class="getHighlight()">
-            <template v-if="tokens.map((t) => getTokenHighlight(t)).filter((h) => h === true).length > 0">
+            <template v-if="codeType !== CODE_TYPE.SOURCE_CODE && tokensHighlighted">
                 <CodeLineToken
                     v-for="token in tokens"
                     :key="token"
@@ -39,8 +39,8 @@ Author: Tobias Stuckenberger
     </div>
 </template>
 <script setup>
-import { ref, watch } from 'vue';
-import { useCodeViewerStore } from '../../../stores/CodeViewerStore';
+import { computed, onUpdated, ref, watch } from 'vue';
+import { CODE_TYPE, useCodeViewerStore } from '../../../stores/CodeViewerStore';
 import CodeLineToken from './CodeLineToken.vue';
 import { CODE_STYLES } from '../../../../../config/colors';
 import IconWarning from '../../ui/icons/IconWarning.vue';
@@ -67,34 +67,35 @@ const codeViewerStore = useCodeViewerStore();
 
 const line = ref(null);
 
+const tokensHighlighted = computed(() => {
+    for (const token of props.tokens) {
+        for (const key of Object.keys(props.highlightedTokens)) {
+            if (!props.highlightedTokens[key][token]) {
+                continue;
+            }
+            if (
+                (key.startsWith('<=') && props.lineNumber.toString() <= key.substring(2)) ||
+                (key.startsWith('>=') && props.lineNumber.toString() >= key.substring(2)) ||
+                props.lineNumber.toString() === key ||
+                key === '*'
+            ) {
+                return true;
+            }
+        }
+    }
+    return false;
+});
+
+onUpdated(() => {
+    //console.log(props.lineNumber);
+});
+
 /**
  * Select the current line and code view when clicked on it
  */
 function selectLine() {
     codeViewerStore.setCurrentView(props.codeType);
     codeViewerStore.setSelectedLine(props.lineNumber);
-}
-
-/**
- * Checks if a certain token should be highlighted in this line
- * @param {String} token The token to check
- * @returns {Boolean} If the token should be highlighted
- */
-function getTokenHighlight(token) {
-    for (const key of Object.keys(props.highlightedTokens)) {
-        if (!props.highlightedTokens[key][token]) {
-            continue;
-        }
-        if (
-            (key.startsWith('<=') && props.lineNumber.toString() <= key.substring(2)) ||
-            (key.startsWith('>=') && props.lineNumber.toString() >= key.substring(2)) ||
-            props.lineNumber.toString() === key ||
-            key === '*'
-        ) {
-            return true;
-        }
-    }
-    return false;
 }
 
 /**
