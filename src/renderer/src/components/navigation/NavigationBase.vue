@@ -4,12 +4,12 @@ Component for the navigation that is always shown (Sidebar and Header)
 Author: Tobias Stuckenberger
 -->
 <template>
-    <div class="flex h-full w-full flex-row space-x-2 p-2">
-        <NavigationSidebar />
-        <div class="grid h-full w-full grid-rows-[3rem_calc(100vh-4.5rem)] space-y-2">
+    <div class="flex h-full w-full flex-row p-2">
+        <NavigationSidebar class="mr-2" />
+        <div class="grid h-full w-full grid-rows-[3rem_calc(100vh-4.5rem)]">
             <NavigationHeader />
-            <Analysis v-if="currentContext === CONTEXT.ANALYSIS" />
-            <Summary v-if="currentContext === CONTEXT.SUMMARY" />
+            <Analysis v-if="currentContext === CONTEXT.ANALYSIS" class="mt-2" />
+            <Summary v-if="currentContext === CONTEXT.SUMMARY" class="mt-2" />
         </div>
     </div>
 </template>

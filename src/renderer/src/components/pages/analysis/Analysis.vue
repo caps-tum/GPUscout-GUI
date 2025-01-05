@@ -5,8 +5,8 @@ Also handles buttons like selecting prev/next occurrences or switching code vers
 Author: Tobias Stuckenberger
 -->
 <template>
-    <div class="flex h-full w-full flex-col space-y-1">
-        <div class="flex flex-row justify-between">
+    <div class="flex h-full w-full flex-col">
+        <div class="mb-1 flex flex-row justify-between">
             <div class="-mt-2 flex flex-col">
                 <div class="flex flex-row">
                     <p v-if="!hasComparisonResult" class="text-xl text-text">{{ TEXT.top_section.title }}</p>
@@ -31,7 +31,7 @@ Author: Tobias Stuckenberger
         <div v-show="showMetrics" class="max-h-[calc(min(18rem,30vh))]">
             <TopSection :analysis="currentAnalysis" :kernel="currentKernel" />
         </div>
-        <div class="flex flex-col">
+        <div class="mb-1 flex flex-col">
             <div class="flex flex-row">
                 <p class="mr-4 text-xl text-text">{{ TEXT.code_view.title }}</p>
                 <div v-if="hasComparisonResult" class="flex flex-row items-end space-x-1">
