@@ -31,7 +31,7 @@ const selectedFile = ref('');
  * Open the file picker to choose the analysis file
  */
 async function chooseAnalysis() {
-    const result = await window.electronAPI.selectFile([
+    let result = await window.electronAPI.selectFile([
         {
             name: 'GPUscout result file',
             extensions: ['json']
@@ -40,6 +40,7 @@ async function chooseAnalysis() {
     if (!result) {
         return;
     }
+    result = result.replace('.json', '');
     selectedFile.value = result.substring(result.lastIndexOf('/') + 1);
     emit('analysisSelected', result, true);
 }
