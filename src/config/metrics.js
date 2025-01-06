@@ -106,7 +106,11 @@ More information is available at <a href="https://docs.nvidia.com/nsight-compute
         display_name: 'Occupancy',
         hint: 'Occupancy achieved',
         format_function: formatPercent,
-        help_text: 'This is a detailed explanation of occupancy',
+        help_text: `Occupancy defines the ratio of active warps on a Streaming Multiprocessor (SM) to the maximum number of warps that the SM could support. It can also be interpreted as the percentage of the hardware's ability to proccess the warps that are actively in use.
+<b>Performance Considerations</b>
+While high occupancy is generally beneficial, it should not be used solely to determine the performance of a kernel. In can however be used as an indicator to the ability to hide memory latencies. Especially in memory-bound kernels, the ability to switch between warps while waiting for memory operations to complete is crucial for performance and reflected by occupancy.
+
+More information is available at <a href="https://docs.nvidia.com/cuda/cuda-c-programming-guide/index.html#maximize-utilization">https://docs.nvidia.com/cuda/cuda-c-programming-guide/index.html#maximize-utilization</a>`,
         lower_better: false
     },
     global_atomics_count: {
@@ -114,7 +118,15 @@ More information is available at <a href="https://docs.nvidia.com/nsight-compute
         display_name: 'Global atomics',
         hint: 'The total number of global atomics used',
         format_function: formatNumber,
-        help_text: 'This is a detailed explanation of global atomics',
+        help_text: `Global atomics are atomic operations that operate on data in global memory, while ensuring that multiple threads can safely update data without introducing race conditions and thus are essential when working with shared data among parallel threads.
+<b>Atomic Operations</b>
+Global atomic operations perform a read-modify-write on a 32-, 64, or 128-bit word in global memory as a single, invdivisible operation. Common atomic operations are available for arithmetic operations (atomicAdd, atomicSub, atomicExch), bitwise operations (atomicAnd, atomicOr, atomicXor) and comparison operations (atomicMin, atomicMax, atomicCAS).
+<b>Performance Considerations</b>
+Due to their nature, atomics can serialize thread execution, as only a single thread can update a variable at a time. As global memory is visible to all threads in the kernel, global atomics should only be used when strictly necessary to avoid performance bottlenecks.
+<b>Atomic operations in SASS/PTX</b>
+In SASS code, atomic operations can be identified by either the ATOM(atomic) or RED(reduction) operation, while it corresponds to atom.global.* operations.
+
+More information is available at <a href="https://docs.nvidia.com/cuda/cuda-c-programming-guide/index.html#atomic-functions">https://docs.nvidia.com/cuda/cuda-c-programming-guide/index.html#atomic-functions</a>`,
         lower_better: true
     },
     shared_atomics_count: {
@@ -122,7 +134,15 @@ More information is available at <a href="https://docs.nvidia.com/nsight-compute
         display_name: 'Shared atomics',
         hint: 'The total number of shared atomics used',
         format_function: formatNumber,
-        help_text: 'This is a detailed explanation of shared atomics',
+        help_text: `Shared atomics are atomic operations that operate on data in shared memory, while ensuring that multiple threads can safely update data without introducing race conditions and thus are essential when working with shared data among parallel threads.
+<b>Atomic Operations</b>
+Shared atomic operations perform a read-modify-write on a 32-, 64, or 128-bit word in shared memory as a single, invdivisible operation. Common atomic operations are available for arithmetic operations (atomicAdd, atomicSub, atomicExch), bitwise operations (atomicAnd, atomicOr, atomicXor) and comparison operations (atomicMin, atomicMax, atomicCAS).
+<b>Performance Considerations</b>
+Due to their nature, atomics can serialize thread execution, as only a single thread can update a variable at a time. While global memory is visible to all threads in a kernel, shared memory is only visible to the threads in a block, making shared atomics a generally better choice tnah global atomics if possible.
+<b>Atomic operations in SASS/PTX</b>
+In SASS code, atomic operations can be identified by either the ATOM(atomic) or RED(reduction) operation, while it corresponds to atom.global.* operations.
+
+More information is available at <a href="https://docs.nvidia.com/cuda/cuda-c-programming-guide/index.html#atomic-functions">https://docs.nvidia.com/cuda/cuda-c-programming-guide/index.html#atomic-functions</a>`,
         lower_better: true
     },
     instructions_global_loads_non_vectorized: {
@@ -130,7 +150,7 @@ More information is available at <a href="https://docs.nvidia.com/nsight-compute
         display_name: 'Non-vectorized Loads',
         hint: 'Total number of Non-vectorized load inst.',
         format_function: formatNumber,
-        help_text: 'This is a detailed explanation something',
+        help_text: '',
         lower_better: true
     },
     branch_divergence_perc: {
@@ -138,7 +158,7 @@ More information is available at <a href="https://docs.nvidia.com/nsight-compute
         display_name: 'Branch divergence',
         hint: 'Fraction of branches that diverge',
         format_function: formatPercent,
-        help_text: 'This is a detailed explanation something',
+        help_text: '',
         lower_better: true
     },
     deadlock_detected: {
@@ -146,7 +166,7 @@ More information is available at <a href="https://docs.nvidia.com/nsight-compute
         display_name: 'Deadlock detected',
         hint: 'If a deadlock has been detected in the kernel',
         format_function: formatBoolean,
-        help_text: 'This is a detailed explanation something',
+        help_text: '',
         lower_better: true
     },
     general_total_instructions: {
@@ -154,7 +174,7 @@ More information is available at <a href="https://docs.nvidia.com/nsight-compute
         display_name: 'Total instructions',
         hint: 'Total number of instructions executed',
         format_function: formatInstructions,
-        help_text: 'This is a detailed explanation something',
+        help_text: '',
         lower_better: true
     },
     general_l2_cache_hit_perc: {
@@ -162,7 +182,7 @@ More information is available at <a href="https://docs.nvidia.com/nsight-compute
         display_name: 'L2 Cache hits',
         hint: '',
         format_function: formatPercent,
-        help_text: 'This is a detailed explanation something',
+        help_text: '',
         lower_better: false
     },
     general_l2_queries: {
@@ -170,7 +190,7 @@ More information is available at <a href="https://docs.nvidia.com/nsight-compute
         display_name: 'L2 queries',
         hint: '',
         format_function: formatInstructions,
-        help_text: 'This is a detailed explanation something',
+        help_text: '',
         lower_better: true
     },
     general_loads_l2_cache_hit_perc: {
@@ -178,7 +198,7 @@ More information is available at <a href="https://docs.nvidia.com/nsight-compute
         display_name: 'L2 loads cache hits',
         hint: '',
         format_function: formatPercent,
-        help_text: 'This is a detailed explanation something',
+        help_text: '',
         lower_better: false
     },
     general_loads_l2_to_dram_bytes: {
@@ -186,7 +206,7 @@ More information is available at <a href="https://docs.nvidia.com/nsight-compute
         display_name: 'L2 to DRAM',
         hint: '',
         format_function: formatBytes,
-        help_text: 'This is a detailed explanation something',
+        help_text: '',
         lower_better: true
     },
     general_stores_l2_cache_hit_perc: {
@@ -194,7 +214,7 @@ More information is available at <a href="https://docs.nvidia.com/nsight-compute
         display_name: 'L2 stores cache hits',
         hint: '',
         format_function: formatPercent,
-        help_text: 'This is a detailed explanation something',
+        help_text: '',
         lower_better: false
     },
     general_stores_l2_to_dram_bytes: {
@@ -202,7 +222,7 @@ More information is available at <a href="https://docs.nvidia.com/nsight-compute
         display_name: 'L2 stores to DRAM',
         hint: '',
         format_function: formatBytes,
-        help_text: 'This is a detailed explanation something',
+        help_text: '',
         lower_better: true
     },
     global_atomic_l1_cache_hit_perc: {
@@ -210,7 +230,7 @@ More information is available at <a href="https://docs.nvidia.com/nsight-compute
         display_name: 'GA L1 cache hits',
         hint: '',
         format_function: formatPercent,
-        help_text: 'This is a detailed explanation something',
+        help_text: '',
         lower_better: false
     },
     global_atomic_to_l1_bytes: {
@@ -218,7 +238,7 @@ More information is available at <a href="https://docs.nvidia.com/nsight-compute
         display_name: 'GA to L1',
         hint: '',
         format_function: formatBytes,
-        help_text: 'This is a detailed explanation something',
+        help_text: '',
         lower_better: true
     },
     global_atomics_l1_to_l2_bytes: {
@@ -226,7 +246,7 @@ More information is available at <a href="https://docs.nvidia.com/nsight-compute
         display_name: 'GA L1 to L2',
         hint: '',
         format_function: formatBytes,
-        help_text: 'This is a detailed explanation something',
+        help_text: '',
         lower_better: true
     },
     global_atomics_l2_cache_hit_perc: {
@@ -234,7 +254,7 @@ More information is available at <a href="https://docs.nvidia.com/nsight-compute
         display_name: 'GA L2 cache hits',
         hint: '',
         format_function: formatPercent,
-        help_text: 'This is a detailed explanation something',
+        help_text: '',
         lower_better: false
     },
     global_atomics_l2_to_dram_bytes: {
@@ -242,7 +262,7 @@ More information is available at <a href="https://docs.nvidia.com/nsight-compute
         display_name: 'GA L2 to DRAM',
         hint: '',
         format_function: formatBytes,
-        help_text: 'This is a detailed explanation something',
+        help_text: '',
         lower_better: true
     },
     global_bytes_per_instruction: {
@@ -250,7 +270,7 @@ More information is available at <a href="https://docs.nvidia.com/nsight-compute
         display_name: 'GMEM Bytes per Instr.',
         hint: '',
         format_function: formatBytes,
-        help_text: 'This is a detailed explanation something',
+        help_text: '',
         lower_better: true
     },
     global_instructions: {
@@ -258,7 +278,7 @@ More information is available at <a href="https://docs.nvidia.com/nsight-compute
         display_name: 'Global Instructions',
         hint: 'Total number of global load/store instructions',
         format_function: formatInstructions,
-        help_text: 'This is a detailed explanation something',
+        help_text: '',
         lower_better: true
     },
     global_loads_instructions: {
@@ -266,7 +286,7 @@ More information is available at <a href="https://docs.nvidia.com/nsight-compute
         display_name: 'Global Loads',
         hint: 'Total number of global load instructions',
         format_function: formatInstructions,
-        help_text: 'This is a detailed explanation something',
+        help_text: '',
         lower_better: true
     },
     global_loads_l1_cache_hit_perc: {
@@ -274,7 +294,7 @@ More information is available at <a href="https://docs.nvidia.com/nsight-compute
         display_name: 'GMEM L1 cache hits',
         hint: '',
         format_function: formatPercent,
-        help_text: 'This is a detailed explanation something',
+        help_text: '',
         lower_better: false
     },
     global_loads_l1_to_l2_bytes: {
@@ -282,7 +302,7 @@ More information is available at <a href="https://docs.nvidia.com/nsight-compute
         display_name: 'GMEM L1 to L2',
         hint: '',
         format_function: formatBytes,
-        help_text: 'This is a detailed explanation something',
+        help_text: '',
         lower_better: true
     },
     global_loads_to_l1_bytes: {
@@ -290,7 +310,7 @@ More information is available at <a href="https://docs.nvidia.com/nsight-compute
         display_name: 'GMEM to L1',
         hint: '',
         format_function: formatBytes,
-        help_text: 'This is a detailed explanation something',
+        help_text: '',
         lower_better: true
     },
     global_stores_instructions: {
@@ -298,7 +318,7 @@ More information is available at <a href="https://docs.nvidia.com/nsight-compute
         display_name: 'Global Stores',
         hint: '',
         format_function: formatInstructions,
-        help_text: 'This is a detailed explanation something',
+        help_text: '',
         lower_better: true
     },
     global_stores_l1_cache_hit_perc: {
@@ -306,7 +326,7 @@ More information is available at <a href="https://docs.nvidia.com/nsight-compute
         display_name: 'Global store L1 cache hits',
         hint: '',
         format_function: formatPercent,
-        help_text: 'This is a detailed explanation something',
+        help_text: '',
         lower_better: false
     },
     global_stores_l1_to_l2_bytes: {
@@ -314,7 +334,7 @@ More information is available at <a href="https://docs.nvidia.com/nsight-compute
         display_name: 'Global store L1 to L2',
         hint: '',
         format_function: formatBytes,
-        help_text: 'This is a detailed explanation something',
+        help_text: '',
         lower_better: true
     },
     global_stores_to_l1_bytes: {
@@ -322,7 +342,7 @@ More information is available at <a href="https://docs.nvidia.com/nsight-compute
         display_name: 'Global store to L1',
         hint: '',
         format_function: formatBytes,
-        help_text: 'This is a detailed explanation something',
+        help_text: '',
         lower_better: true
     },
     local_instructions: {
@@ -330,7 +350,7 @@ More information is available at <a href="https://docs.nvidia.com/nsight-compute
         display_name: 'LMEM instructions',
         hint: '',
         format_function: formatInstructions,
-        help_text: 'This is a detailed explanation something',
+        help_text: '',
         lower_better: true
     },
     local_l2_queries_perc: {
@@ -338,7 +358,7 @@ More information is available at <a href="https://docs.nvidia.com/nsight-compute
         display_name: 'L2 Queries due to LMEM',
         hint: '',
         format_function: formatPercent,
-        help_text: 'This is a detailed explanation something',
+        help_text: '',
         lower_better: true
     },
     local_loads_instructions: {
@@ -346,7 +366,7 @@ More information is available at <a href="https://docs.nvidia.com/nsight-compute
         display_name: 'Local Loads',
         hint: '',
         format_function: formatInstructions,
-        help_text: 'This is a detailed explanation something',
+        help_text: '',
         lower_better: true
     },
     local_loads_l1_cache_hit_perc: {
@@ -354,7 +374,7 @@ More information is available at <a href="https://docs.nvidia.com/nsight-compute
         display_name: 'Local load L1 cache hits',
         hint: '',
         format_function: formatPercent,
-        help_text: 'This is a detailed explanation something',
+        help_text: '',
         lower_better: false
     },
     local_loads_l1_to_l2_bytes: {
@@ -362,7 +382,7 @@ More information is available at <a href="https://docs.nvidia.com/nsight-compute
         display_name: 'Local load L1 to L2',
         hint: '',
         format_function: formatBytes,
-        help_text: 'This is a detailed explanation something',
+        help_text: '',
         lower_better: true
     },
     local_loads_to_l1_bytes: {
@@ -370,7 +390,7 @@ More information is available at <a href="https://docs.nvidia.com/nsight-compute
         display_name: 'Local load to L1',
         hint: '',
         format_function: formatBytes,
-        help_text: 'This is a detailed explanation something',
+        help_text: '',
         lower_better: true
     },
     local_stores_instructions: {
@@ -378,7 +398,7 @@ More information is available at <a href="https://docs.nvidia.com/nsight-compute
         display_name: 'Local Stores',
         hint: '',
         format_function: formatInstructions,
-        help_text: 'This is a detailed explanation something',
+        help_text: '',
         lower_better: true
     },
     local_stores_l1_cache_hit_perc: {
@@ -386,7 +406,7 @@ More information is available at <a href="https://docs.nvidia.com/nsight-compute
         display_name: 'Local store L1 cache hits',
         hint: '',
         format_function: formatPercent,
-        help_text: 'This is a detailed explanation something',
+        help_text: '',
         lower_better: false
     },
     local_stores_l1_to_l2_bytes: {
@@ -394,7 +414,7 @@ More information is available at <a href="https://docs.nvidia.com/nsight-compute
         display_name: 'Local store L1 to L2',
         hint: '',
         format_function: formatBytes,
-        help_text: 'This is a detailed explanation something',
+        help_text: '',
         lower_better: true
     },
     local_stores_to_l1_bytes: {
@@ -402,7 +422,7 @@ More information is available at <a href="https://docs.nvidia.com/nsight-compute
         display_name: 'Local store to L1',
         hint: '',
         format_function: formatBytes,
-        help_text: 'This is a detailed explanation something',
+        help_text: '',
         lower_better: true
     },
     shared_instructions: {
@@ -410,7 +430,7 @@ More information is available at <a href="https://docs.nvidia.com/nsight-compute
         display_name: 'Shared instructions',
         hint: '',
         format_function: formatInstructions,
-        help_text: 'This is a detailed explanation something',
+        help_text: '',
         lower_better: true
     },
     shared_ldgsts_instructions: {
@@ -418,7 +438,7 @@ More information is available at <a href="https://docs.nvidia.com/nsight-compute
         display_name: 'shared ldgsts_instructions',
         hint: '',
         format_function: formatInstructions,
-        help_text: 'This is a detailed explanation something',
+        help_text: '',
         lower_better: true
     },
     shared_loads_bank_conflict: {
@@ -426,7 +446,7 @@ More information is available at <a href="https://docs.nvidia.com/nsight-compute
         display_name: 'Bank conflict',
         hint: 'If a bank conflict is present',
         format_function: formatInstructions,
-        help_text: 'This is a detailed explanation something',
+        help_text: '',
         lower_better: true
     },
     shared_loads_efficiency_perc: {
@@ -434,7 +454,7 @@ More information is available at <a href="https://docs.nvidia.com/nsight-compute
         display_name: 'Shared Loads efficiency',
         hint: 'Hint please',
         format_function: formatPercent,
-        help_text: 'This is a detailed explanation something',
+        help_text: '',
         lower_better: true
     },
     shared_loads_instructions: {
@@ -442,7 +462,7 @@ More information is available at <a href="https://docs.nvidia.com/nsight-compute
         display_name: 'Shared Loads',
         hint: 'Number of shared load instructions',
         format_function: formatInstructions,
-        help_text: 'This is a detailed explanation something',
+        help_text: '',
         lower_better: true
     },
     shared_stores_instructions: {
@@ -450,7 +470,7 @@ More information is available at <a href="https://docs.nvidia.com/nsight-compute
         display_name: 'shared stores_instructions',
         hint: '',
         format_function: formatInstructions,
-        help_text: 'This is a detailed explanation something',
+        help_text: '',
         lower_better: true
     },
     surface_instructions: {
@@ -458,7 +478,7 @@ More information is available at <a href="https://docs.nvidia.com/nsight-compute
         display_name: 'surface instructions',
         hint: '',
         format_function: formatInstructions,
-        help_text: 'This is a detailed explanation something',
+        help_text: '',
         lower_better: true
     },
     surface_loads_instructions: {
@@ -466,7 +486,7 @@ More information is available at <a href="https://docs.nvidia.com/nsight-compute
         display_name: 'surface loads_instructions',
         hint: '',
         format_function: formatInstructions,
-        help_text: 'This is a detailed explanation something',
+        help_text: '',
         lower_better: true
     },
     surface_loads_l1_cache_hit_perc: {
@@ -474,7 +494,7 @@ More information is available at <a href="https://docs.nvidia.com/nsight-compute
         display_name: 'surface loads_l1_cache_hit_perc',
         hint: '',
         format_function: formatPercent,
-        help_text: 'This is a detailed explanation something',
+        help_text: '',
         lower_better: false
     },
     surface_loads_l1_to_l2_bytes: {
@@ -482,7 +502,7 @@ More information is available at <a href="https://docs.nvidia.com/nsight-compute
         display_name: 'surface loads_l1_to_l2_bytes',
         hint: '',
         format_function: formatBytes,
-        help_text: 'This is a detailed explanation something',
+        help_text: '',
         lower_better: true
     },
     surface_loads_to_l1_bytes: {
@@ -490,7 +510,7 @@ More information is available at <a href="https://docs.nvidia.com/nsight-compute
         display_name: 'surface loads_to_l1_bytes',
         hint: '',
         format_function: formatBytes,
-        help_text: 'This is a detailed explanation something',
+        help_text: '',
         lower_better: true
     },
     surface_stores_instructions: {
@@ -498,7 +518,7 @@ More information is available at <a href="https://docs.nvidia.com/nsight-compute
         display_name: 'surface stores_instructions',
         hint: '',
         format_function: formatInstructions,
-        help_text: 'This is a detailed explanation something',
+        help_text: '',
         lower_better: true
     },
     surface_stores_l1_cache_hit_perc: {
@@ -506,7 +526,7 @@ More information is available at <a href="https://docs.nvidia.com/nsight-compute
         display_name: 'surface stores_l1_cache_hit_perc',
         hint: '',
         format_function: formatPercent,
-        help_text: 'This is a detailed explanation something',
+        help_text: '',
         lower_better: true
     },
     surface_stores_l1_to_l2_bytes: {
@@ -514,7 +534,7 @@ More information is available at <a href="https://docs.nvidia.com/nsight-compute
         display_name: 'surface stores_l1_to_l2_bytes',
         hint: '',
         format_function: formatBytes,
-        help_text: 'This is a detailed explanation something',
+        help_text: '',
         lower_better: true
     },
     surface_stores_to_l1_bytes: {
@@ -522,7 +542,7 @@ More information is available at <a href="https://docs.nvidia.com/nsight-compute
         display_name: 'surface stores_to_l1_bytes',
         hint: '',
         format_function: formatBytes,
-        help_text: 'This is a detailed explanation something',
+        help_text: '',
         lower_better: true
     },
     texture_instructions: {
@@ -530,7 +550,7 @@ More information is available at <a href="https://docs.nvidia.com/nsight-compute
         display_name: 'Texture instructions',
         hint: '',
         format_function: formatInstructions,
-        help_text: 'This is a detailed explanation something',
+        help_text: '',
         lower_better: true
     },
     texture_loads_l1_cache_hit_perc: {
@@ -538,7 +558,7 @@ More information is available at <a href="https://docs.nvidia.com/nsight-compute
         display_name: 'TEX L1 cache hits',
         hint: '',
         format_function: formatPercent,
-        help_text: 'This is a detailed explanation something',
+        help_text: '',
         lower_better: false
     },
     texture_loads_l1_to_l2_bytes: {
@@ -546,7 +566,7 @@ More information is available at <a href="https://docs.nvidia.com/nsight-compute
         display_name: 'TEX L1 to L2',
         hint: '',
         format_function: formatBytes,
-        help_text: 'This is a detailed explanation something',
+        help_text: '',
         lower_better: true
     },
     texture_loads_l2_to_dram_bytes: {
@@ -554,7 +574,7 @@ More information is available at <a href="https://docs.nvidia.com/nsight-compute
         display_name: 'TEX L2 to DRAM',
         hint: '',
         format_function: formatBytes,
-        help_text: 'This is a detailed explanation something',
+        help_text: '',
         lower_better: true
     },
     texture_loads_to_l1_bytes: {
@@ -562,7 +582,7 @@ More information is available at <a href="https://docs.nvidia.com/nsight-compute
         display_name: 'TEX to L1',
         hint: '',
         format_function: formatBytes,
-        help_text: 'This is a detailed explanation something',
+        help_text: '',
         lower_better: true
     }
 };
