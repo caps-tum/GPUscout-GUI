@@ -12,7 +12,7 @@ Author: Tobias Stuckenberger
                 <p class="font-bold">Current kernel:</p>
                 <select
                     :value="currentKernel"
-                    class="max-w-full bg-primary outline-none"
+                    class="max-w-44 overflow-hidden text-ellipsis bg-primary outline-none"
                     @change="changeKernel"
                     @mousedown="openKernelSelection"
                 >
