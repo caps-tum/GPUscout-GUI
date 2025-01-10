@@ -381,6 +381,9 @@ export class UseTextureOccurrence extends Occurrence {
          * @type {String}
          */
         this.readRegister = occurrenceData['read_register'];
+        if (this.readRegister.includes('.')) {
+            this.readRegister = this.readRegister.substring(0, this.readRegister.indexOf('.'));
+        }
         /**
          * If spatial locality has been found
          * @type {Boolean}
@@ -443,6 +446,9 @@ export class VectorizationOccurrence extends Occurrence {
          * @type {String}
          */
         this.register = occurrenceData['register'];
+        if (this.register.includes('.')) {
+            this.register = this.register.substring(0, this.register.indexOf('.'));
+        }
         /**
          * The binary line numbers of all lines containing unrolls of the mentioned register
          * @type {String[]}
