@@ -13,6 +13,7 @@ Author: Tobias Stuckenberger
                 <p class="w-full py-1 text-center text-xl font-bold">OR</p>
                 <AnalysesFromFolder
                     :gpuscout-output-folder="config['gpuscoutOutputFolder']"
+                    :selected-path="selectedAnalysisPath"
                     @analysis-selected="onAnalysisSelected"
                     @folder-changed="folderChanged"
                 />
@@ -25,6 +26,7 @@ Author: Tobias Stuckenberger
                 <p class="w-full py-1 text-center text-xl font-bold">OR</p>
                 <AnalysesFromFolder
                     :gpuscout-output-folder="config['gpuscoutOutputFolder']"
+                    :selected-path="selectedComparisonAnalysisPath"
                     @analysis-selected="onComparisonAnalysisSelected"
                     @folder-changed="folderChanged"
                 />
@@ -73,8 +75,10 @@ const comparisonAnalysisSelector = ref(null);
 
 const selectedAnalysisPath = ref('');
 const selectedComparisonAnalysisPath = ref('');
+
 const selectedMT4GPath = ref('');
 const selectedComparisonMT4GPath = ref('');
+
 const comparisonMode = ref(false);
 
 /**

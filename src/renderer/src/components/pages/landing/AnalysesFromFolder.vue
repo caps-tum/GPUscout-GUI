@@ -38,7 +38,8 @@ import ButtonSecondary from '../../ui/buttons/ButtonSecondary.vue';
 import { TEXT } from '../../../../../config/text';
 
 const props = defineProps({
-    gpuscoutOutputFolder: String
+    gpuscoutOutputFolder: String,
+    selectedPath: String
 });
 
 const emit = defineEmits(['analysisSelected', 'folderChanged']);
@@ -74,7 +75,9 @@ function onAnalysisSelected(analysisTitle) {
  * @returns {String} The button style depending on if this analysis has been selected
  */
 function getSelectedStyle(title) {
-    return selectedAnalysis.value === title ? '!bg-primary !text-background' : '';
+    return selectedAnalysis.value === title && props.selectedPath === props.gpuscoutOutputFolder + '/' + title
+        ? '!bg-primary !text-background'
+        : '';
 }
 
 /**
