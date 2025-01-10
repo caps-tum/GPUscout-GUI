@@ -231,7 +231,7 @@ export class GPUscoutResult {
                 tokens = tokens.filter((_, i) => i > 1);
             }
 
-            let index = tokens.findIndex((t) => t === ' ');
+            let index = tokens.findIndex((t) => t === ' ' || t === '.');
             return tokens.filter((t, i) => t !== '.' && i < (index > 0 ? index : tokens.length));
         } else {
             let tokens = this._ptxCodeLines[kernel]
@@ -243,7 +243,7 @@ export class GPUscoutResult {
                 tokens = tokens.filter((_, i) => i > 1);
             }
 
-            let index = tokens.findIndex((t) => t === ' ');
+            let index = tokens.findIndex((t) => t === ' ' || t === '.');
             return tokens.filter((t, i) => t !== '.' && i < (index > 0 ? index : tokens.length));
         }
     }
