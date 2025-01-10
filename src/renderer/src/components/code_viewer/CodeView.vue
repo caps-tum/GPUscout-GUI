@@ -19,7 +19,8 @@ Author: Tobias Stuckenberger
             <div v-if="codeType === CODE_TYPE.SOURCE_CODE" class="sticky top-0 z-10 m-0 w-full bg-secondary">
                 <select
                     ref="sourceFileSelector"
-                    class="bg-secondary"
+                    class="mx-1 max-w-full overflow-hidden text-ellipsis bg-secondary px-2 text-left"
+                    style="direction: rtl"
                     :value="currentSourceFile"
                     @change="onChangeSourceFile"
                 >

@@ -273,8 +273,6 @@ export const useCodeViewerStore = defineStore('codeViewer', () => {
                 highlightedBinaryTokens.value[secondaryLine][token] = CODE_BINARY_TOKEN_COLORS.INSTRUCTION;
             }
         }
-
-        console.log(highlightedSourceLines.value);
     }
 
     /**
