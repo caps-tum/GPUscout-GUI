@@ -96,7 +96,11 @@ export const useDataStore = defineStore('data', () => {
      * @param {String} analysis The analysis to switch to
      */
     function setCurrentAnalysis(analysis) {
-        codeViewerStore.setCurrentSourceFile(gpuscoutResult.getMainFileName(currentKernel.value));
+        if (useComparisonCode.value) {
+            codeViewerStore.setCurrentSourceFile(gpuscoutComparisonResult.getMainFileName(currentKernel.value));
+        } else {
+            codeViewerStore.setCurrentSourceFile(gpuscoutResult.getMainFileName(currentKernel.value));
+        }
         currentAnalysis.value = analysis;
         if (!currentAnalysis.value) {
             codeViewerStore.setOccurrenceLines([], [], [], []);

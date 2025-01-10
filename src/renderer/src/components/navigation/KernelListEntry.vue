@@ -18,7 +18,7 @@ const emit = defineEmits(['select']);
 
 function getBackground() {
     if (props.currentKernel === props.kernel) {
-        return 'bg-primary text-background';
+        return 'bg-primary border border-background !text-background';
     }
     return props.infos[0] > 0 ? 'bg-background' : 'bg-gray-500';
 }
