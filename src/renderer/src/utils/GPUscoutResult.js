@@ -18,7 +18,6 @@ export class GPUscoutResult {
      */
     constructor(resultData, topologyData) {
         const resultJSON = JSON.parse(resultData);
-        console.log(resultJSON.analyses);
 
         /**
          * An object containing all analyses by kernel and analysis name
@@ -366,6 +365,7 @@ export class GPUscoutResult {
                 if (Object.keys(this._ptxCodeLines).includes(currentKernel)) {
                     // Kernel already represented -> Skip
                     currentSourceLine = -1;
+                    continue;
                     alert(
                         'Multiple definitions for the same kernel found in the PTX Code. Please make sure the program is compiled for a single target architecture.'
                     );
@@ -544,6 +544,8 @@ export class GPUscoutResult {
                     // This line is a label
                     address = line.substring(0, line.length - 1);
                     lastLineBranch = line.substring(0, line.length - 1);
+                } else {
+                    continue;
                 }
 
                 // Get stalls for this line
@@ -605,8 +607,6 @@ export class GPUscoutResult {
                 // Get relevant line section in source file
                 lineNumbers = lineNumbers.map((ln) => ln['line']);
                 let fileLineNumber = 1;
-                //let min = Math.max(0, Math.min(...lineNumbers) - 100);
-                //let max = Math.min(sourceFileContents[sourceFile].length, Math.max(...lineNumbers) + 100);
 
                 let fileIsRelevantForSASS =
                     Object.values(this._sassToSourceLines[kernel]).filter((l) => l.file === sourceFile).length > 0;
@@ -618,11 +618,6 @@ export class GPUscoutResult {
 
                 // Add lines
                 for (let i = 1; i <= sourceFileContents[sourceFile].length; i++) {
-                    //if (i < min || i > max) {
-                    //lineNumber++;
-                    //fileLineNumber++;
-                    //continue;
-                    //}
                     oldToNewLineNumbers[sourceFile][i] = fileLineNumber;
                     // Aggregate the stalls for this line
                     const lineStalls = Object.fromEntries(
@@ -640,8 +635,7 @@ export class GPUscoutResult {
                     }
 
                     this._sourceCodeLines[kernel].push({
-                        address: fileLineNumber, // The internal address starting from 1 and going up
-                        fileAddress: fileLineNumber++,
+                        address: fileLineNumber++,
                         tokens: [sourceFileContents[sourceFile][i - 1]], // The tokens of this line
                         stalls: lineStalls,
                         hasSassMapping: false,
@@ -672,21 +666,20 @@ export class GPUscoutResult {
                 ];
             }
             this._sourceToSassLines[kernel] = {};
-            for (const key of [...new Set(Object.values(this._sassToSourceLines[kernel]))]) {
-                if (!this._sourceToSassLines[kernel][key[0]]) [(this._sourceToSassLines[kernel][key[0]] = {})];
+            for (const [sassLine, key] of Object.entries(this._sassToSourceLines[kernel])) {
+                if (!this._sourceToSassLines[kernel][key[0]]) this._sourceToSassLines[kernel][key[0]] = {};
+                if (!this._sourceToSassLines[kernel][key[0]][key[1]]) this._sourceToSassLines[kernel][key[0]][key[1]] = [];
 
-                this._sourceToSassLines[kernel][key[0]][key[1]] = Object.entries(this._sassToSourceLines[kernel])
-                    .filter(([, v]) => v[1] === parseInt(key[1]))
-                    .map(([k]) => k);
+                this._sourceToSassLines[kernel][key[0]][key[1]].push(sassLine);
                 this._sourceCodeLines[kernel].find((l) => l.fileName === key[0] && l.address === key[1]).hasSassMapping =
                     true;
             }
             this._sourceToPtxLines[kernel] = {};
-            for (const key of [...new Set(Object.values(this._ptxToSourceLines[kernel]))]) {
+            for (const [ptxLine, key] of Object.entries(this._ptxToSourceLines[kernel])) {
                 if (!this._sourceToPtxLines[kernel][key[0]]) [(this._sourceToPtxLines[kernel][key[0]] = {})];
-                this._sourceToPtxLines[kernel][key[0]][key[1]] = Object.entries(this._ptxToSourceLines[kernel])
-                    .filter(([, v]) => v[1] === parseInt(key[1]))
-                    .map(([k]) => parseInt(k));
+                if (!this._sourceToPtxLines[kernel][key[0]][key[1]]) this._sourceToPtxLines[kernel][key[0]][key[1]] = [];
+
+                this._sourceToPtxLines[kernel][key[0]][key[1]].push(ptxLine);
                 this._sourceCodeLines[kernel].find((l) => l.fileName === key[0] && l.address === key[1]).hasPtxMapping =
                     true;
             }

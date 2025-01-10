@@ -149,15 +149,12 @@ export const useCodeViewerStore = defineStore('codeViewer', () => {
             : dataStore.getGPUscoutResult();
         selectedLine.value = line;
 
-        if (
-            currentView.value === CODE_TYPE.SASS_CODE &&
-            gpuscoutResult.getSassToSourceLine(currentKernel.value, line)[0] !== currentSourceFile.value
-        ) {
+        if (currentView.value === CODE_TYPE.SASS_CODE && gpuscoutResult.getSassToSourceLine(currentKernel.value, line)) {
             currentSourceFile.value = gpuscoutResult.getSassToSourceLine(currentKernel.value, line)[0];
             await nextTick();
         } else if (
             currentView.value === CODE_TYPE.PTX_CODE &&
-            gpuscoutResult.getPtxToSourceLine(currentKernel.value, line)[0] !== currentSourceFile.value
+            gpuscoutResult.getPtxToSourceLine(currentKernel.value, line)
         ) {
             currentSourceFile.value = gpuscoutResult.getPtxToSourceLine(currentKernel.value, line)[0];
             await nextTick();
@@ -166,19 +163,23 @@ export const useCodeViewerStore = defineStore('codeViewer', () => {
         // Highlight the current line in the current code view and the corresponding lines in the other code view
         if (currentView.value === CODE_TYPE.SASS_CODE) {
             highlightedBinaryLines.value[line] = CODE_STYLES.SELECTED_LINE;
-            highlightedSourceLines.value[gpuscoutResult.getSassToSourceLine(currentKernel.value, line)[1]] =
-                CODE_STYLES.SELECTED_LINE_SECONDARY;
+            if (gpuscoutResult.getSassToSourceLine(currentKernel.value, line)) {
+                highlightedSourceLines.value[gpuscoutResult.getSassToSourceLine(currentKernel.value, line)[1]] =
+                    CODE_STYLES.SELECTED_LINE_SECONDARY;
 
-            scrollToSourceLines.value.push(gpuscoutResult.getSassToSourceLine(currentKernel.value, line)[1]);
+                scrollToSourceLines.value.push(gpuscoutResult.getSassToSourceLine(currentKernel.value, line)[1]);
+            }
             if (scrollToCurrentView) {
                 scrollToBinaryLines.value.push(line);
             }
         } else if (currentView.value === CODE_TYPE.PTX_CODE) {
             highlightedBinaryLines.value[line] = CODE_STYLES.SELECTED_LINE;
-            highlightedSourceLines.value[gpuscoutResult.getPtxToSourceLine(currentKernel.value, line)[1]] =
-                CODE_STYLES.SELECTED_LINE_SECONDARY;
+            if (gpuscoutResult.getPtxToSourceLine(currentKernel.value, line)) {
+                highlightedSourceLines.value[gpuscoutResult.getPtxToSourceLine(currentKernel.value, line)[1]] =
+                    CODE_STYLES.SELECTED_LINE_SECONDARY;
 
-            scrollToSourceLines.value.push(gpuscoutResult.getPtxToSourceLine(currentKernel.value, line)[1]);
+                scrollToSourceLines.value.push(gpuscoutResult.getPtxToSourceLine(currentKernel.value, line)[1]);
+            }
             if (scrollToCurrentView) {
                 scrollToBinaryLines.value.push(line);
             }
