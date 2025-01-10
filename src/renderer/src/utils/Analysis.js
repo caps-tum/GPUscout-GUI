@@ -18,7 +18,14 @@ export class Analysis {
      * @param {String} kernel The name of the kernel
      * @param {Function} occurrenceConstructor A function returning a new instance of an occurrence element
      */
-    constructor(analysisData, metrics, topologyMetrics, kernel, occurrenceConstructor = (o) => new Occurrence(o)) {
+    constructor(
+        analysisData,
+        metrics,
+        topologyMetrics,
+        kernel,
+        occurrenceConstructor = (o) => new Occurrence(o),
+        binaryMapping
+    ) {
         /**
          * The name of the kernel this analysis belongs to
          * @type {String}
@@ -73,6 +80,8 @@ export class Analysis {
         // Add occurrences
         if (analysisData.occurrences) {
             for (const occurrence of analysisData.occurrences) {
+                let binaryLineNumber = occurrence['pc_offset'] || parseInt(occurrence['line_number_raw']);
+                occurrence.sourceFile = binaryMapping[binaryLineNumber][0];
                 this._occurrences.push(occurrenceConstructor(occurrence));
             }
         }
@@ -118,11 +127,12 @@ export class Analysis {
     /**
      * @param {String} codeType The code type the line number belongs to
      * @param {String|Number} lineNumber The line number of the occurrence
+     * @param {String} sourceFile a specific source file to filter by
      * @returns {Occurrence} The occurrence at the specified line number
      */
-    getOccurrencesAt(codeType, lineNumber) {
+    getOccurrencesAt(codeType, lineNumber, sourceFile = '') {
         if (codeType === CODE_TYPE.SOURCE_CODE) {
-            return this._occurrences.filter((o) => o.sourceLineNumber === lineNumber);
+            return this._occurrences.filter((o) => o.sourceLineNumber === lineNumber && o.sourceFileName === sourceFile);
         } else {
             return this._occurrences.filter((o) => o.binaryLineNumber === lineNumber);
         }
@@ -155,6 +165,11 @@ export class Occurrence {
          * @type {Number|String}
          */
         this.binaryLineNumber = occurrenceData['pc_offset'] || parseInt(occurrenceData['line_number_raw']);
+        /**
+         * The source file the relevant line number points to
+         * @type {String}
+         */
+        this.sourceFileName = occurrenceData['sourceFile'];
         /**
          * If this occurrence is an optimization (rather than an info)
          * @type {Boolean}

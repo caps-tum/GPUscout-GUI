@@ -18,6 +18,7 @@ export const useDataStore = defineStore('data', () => {
     const contextStore = useContextStore();
 
     const useComparisonCode = computed(() => codeViewerStore.displayComparisonCode);
+    const currentSourceFile = computed(() => codeViewerStore.getCurrentSourceFile);
 
     /** @type {GPUscoutResult} */
     let gpuscoutResult;
@@ -109,9 +110,9 @@ export const useDataStore = defineStore('data', () => {
         codeViewerStore.setSassRegisterVisibility(ANALYSIS[analysis].display_live_registers);
         codeViewerStore.updateSelectedLine();
         codeViewerStore.setOccurrenceLines(
-            occurrences.filter((o) => o.isWarning).map((o) => o.sourceLineNumber),
+            occurrences.filter((o) => o.isWarning).map((o) => [o.sourceFileName, o.sourceLineNumber]),
             occurrences.filter((o) => o.isWarning).map((o) => o.binaryLineNumber),
-            occurrences.filter((o) => !o.isWarning).map((o) => o.sourceLineNumber),
+            occurrences.filter((o) => !o.isWarning).map((o) => [o.sourceFileName, o.sourceLineNumber]),
             occurrences.filter((o) => !o.isWarning).map((o) => o.binaryLineNumber)
         );
     }
@@ -147,12 +148,12 @@ export const useDataStore = defineStore('data', () => {
      * @param {String} codeType The code type of the currently selected code view
      * @param {String|Number} lineNumber
      */
-    function setCurrentOccurrences(codeType, lineNumber) {
+    function setCurrentOccurrences(codeType, lineNumber, sourceFile) {
         currentOccurrences.value = currentOccurrences.value.filter(() => false);
         if (currentAnalysis.value) {
             currentOccurrences.value = (useComparisonCode.value ? gpuscoutComparisonResult : gpuscoutResult)
                 .getAnalysis(currentAnalysis.value, currentKernel.value)
-                .getOccurrencesAt(codeType, lineNumber);
+                .getOccurrencesAt(codeType, lineNumber, sourceFile);
         }
     }
 

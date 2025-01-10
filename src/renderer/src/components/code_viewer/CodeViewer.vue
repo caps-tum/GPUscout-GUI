@@ -53,10 +53,14 @@ const codeViewStore = useCodeViewerStore();
 const currentSourceFile = computed(() => codeViewStore.getCurrentSourceFile);
 
 const occurrenceBinaryLines = computed(() => codeViewStore.getOccurrenceBinaryLines);
-const occurrenceSourceLines = computed(() => codeViewStore.getOccurrenceSourceLines);
+const occurrenceSourceLines = computed(() =>
+    codeViewStore.getOccurrenceSourceLines.filter((l) => l[0] === currentSourceFile.value).map((l) => l[1])
+);
 
 const infoOccurrenceBinaryLines = computed(() => codeViewStore.getInfoOccurrenceBinaryLines);
-const infoOccurrenceSourceLines = computed(() => codeViewStore.getInfoOccurrenceSourceLines);
+const infoOccurrenceSourceLines = computed(() =>
+    codeViewStore.getInfoOccurrenceSourceLines.filter((l) => l[0] === currentSourceFile.value).map((l) => l[1])
+);
 
 const scrollToSourceLines = computed(() => codeViewStore.getScrollToSourceLines);
 const scrollToBinaryLines = computed(() => codeViewStore.getScrollToBinaryLines);

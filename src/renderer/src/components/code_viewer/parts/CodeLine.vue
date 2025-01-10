@@ -116,11 +116,6 @@ function getHighlight() {
         style += props.highlightedLines[props.lineNumber];
     }
 
-    if (props.lineNumber === -1) {
-        // Style for special lines in the source code that display the file name
-        style += 'bg-secondary !ml-0';
-    }
-
     if (!style.includes('bg-')) {
         // If no background style, apply hover style
         style += ' group-hover:bg-secondary/25';

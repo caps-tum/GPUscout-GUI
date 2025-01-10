@@ -10,12 +10,16 @@
 <script setup>
 const props = defineProps({
     kernel: String,
+    currentKernel: String,
     infos: Array
 });
 
 const emit = defineEmits(['select']);
 
 function getBackground() {
+    if (props.currentKernel === props.kernel) {
+        return 'bg-primary text-background';
+    }
     return props.infos[0] > 0 ? 'bg-background' : 'bg-gray-500';
 }
 </script>

@@ -122,8 +122,8 @@ export const useCodeViewerStore = defineStore('codeViewer', () => {
     }
 
     /**
-     * @param {String[]} sourceLines The source lines associated with the current occurrence
-     * @param {String[]|Number[]} binaryLines The binary lines associated with the current occurrence
+     * @param {Array[]} sourceLines The source lines associated with the current occurrence
+     * @param {Array[]|Number[]} binaryLines The binary lines associated with the current occurrence
      */
     function setOccurrenceLines(sourceLines, binaryLines, infoSourceLines, infoBinaryLines) {
         resetOccurrenceLines();
@@ -198,7 +198,7 @@ export const useCodeViewerStore = defineStore('codeViewer', () => {
             }
         }
 
-        dataStore.setCurrentOccurrences(currentView.value, line);
+        dataStore.setCurrentOccurrences(currentView.value, line, currentSourceFile.value);
 
         // Highlight the base lines of all selected occurrences
         for (const occurrence of currentOccurrences.value) {
@@ -272,6 +272,8 @@ export const useCodeViewerStore = defineStore('codeViewer', () => {
                 highlightedBinaryTokens.value[secondaryLine][token] = CODE_BINARY_TOKEN_COLORS.INSTRUCTION;
             }
         }
+
+        console.log(highlightedSourceLines.value);
     }
 
     /**
