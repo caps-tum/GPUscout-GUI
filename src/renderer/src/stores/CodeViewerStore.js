@@ -4,7 +4,7 @@
  * @description This module defines the codeViewerStore
  */
 import { defineStore } from 'pinia';
-import { computed, ref } from 'vue';
+import { computed, nextTick, ref } from 'vue';
 import { useDataStore } from './DataStore';
 import { CODE_BINARY_TOKEN_COLORS, CODE_STYLES } from '../../../config/colors.js';
 
@@ -36,6 +36,8 @@ export const useCodeViewerStore = defineStore('codeViewer', () => {
     const selectedLine = ref('');
     const useComparisonCode = ref(false);
 
+    const currentSourceFile = ref('');
+
     const occurrenceSourceLines = ref([]);
     const occurrenceBinaryLines = ref([]);
 
@@ -54,6 +56,8 @@ export const useCodeViewerStore = defineStore('codeViewer', () => {
     const getSelectedLine = computed(() => selectedLine.value);
     const getSassRegistersVisible = computed(() => sassRegistersVisible.value);
     const displayComparisonCode = computed(() => useComparisonCode.value);
+
+    const getCurrentSourceFile = computed(() => currentSourceFile.value);
 
     const getOccurrenceSourceLines = computed(() => occurrenceSourceLines.value);
     const getOccurrenceBinaryLines = computed(() => occurrenceBinaryLines.value);
@@ -84,6 +88,10 @@ export const useCodeViewerStore = defineStore('codeViewer', () => {
         selectedLine.value = '';
         dataStore.setCurrentOccurrences(currentView.value, '');
         dataStore.setCurrentAnalysis(currentAnalysis.value);
+    }
+
+    function setCurrentSourceFile(fileName) {
+        currentSourceFile.value = fileName;
     }
 
     /**
@@ -129,7 +137,7 @@ export const useCodeViewerStore = defineStore('codeViewer', () => {
      * @param {String|Number} line The line number to select
      * @param {Boolean} scrollToCurrentView If the line should be scrolled to in the current view
      */
-    function setSelectedLine(line, scrollToCurrentView = false) {
+    async function setSelectedLine(line, scrollToCurrentView = false) {
         resetHighlights();
         if (selectedLine.value === line) {
             selectedLine.value = '';
@@ -141,22 +149,30 @@ export const useCodeViewerStore = defineStore('codeViewer', () => {
             : dataStore.getGPUscoutResult();
         selectedLine.value = line;
 
+        if (
+            currentView.value !== CODE_TYPE.SOURCE_CODE &&
+            gpuscoutResult.getSassToSourceLine(currentKernel.value, line)[0] !== currentSourceFile.value
+        ) {
+            currentSourceFile.value = gpuscoutResult.getSassToSourceLine(currentKernel.value, line)[0];
+            await nextTick();
+        }
+
         // Highlight the current line in the current code view and the corresponding lines in the other code view
         if (currentView.value === CODE_TYPE.SASS_CODE) {
             highlightedBinaryLines.value[line] = CODE_STYLES.SELECTED_LINE;
-            highlightedSourceLines.value[gpuscoutResult.getSassToSourceLine(currentKernel.value, line)] =
+            highlightedSourceLines.value[gpuscoutResult.getSassToSourceLine(currentKernel.value, line)[1]] =
                 CODE_STYLES.SELECTED_LINE_SECONDARY;
 
-            scrollToSourceLines.value.push(gpuscoutResult.getSassToSourceLine(currentKernel.value, line));
+            scrollToSourceLines.value.push(gpuscoutResult.getSassToSourceLine(currentKernel.value, line)[1]);
             if (scrollToCurrentView) {
                 scrollToBinaryLines.value.push(line);
             }
         } else if (currentView.value === CODE_TYPE.PTX_CODE) {
             highlightedBinaryLines.value[line] = CODE_STYLES.SELECTED_LINE;
-            highlightedSourceLines.value[gpuscoutResult.getPtxToSourceLine(currentKernel.value, line)] =
+            highlightedSourceLines.value[gpuscoutResult.getPtxToSourceLine(currentKernel.value, line)[1]] =
                 CODE_STYLES.SELECTED_LINE_SECONDARY;
 
-            scrollToSourceLines.value.push(gpuscoutResult.getPtxToSourceLine(currentKernel.value, line));
+            scrollToSourceLines.value.push(gpuscoutResult.getPtxToSourceLine(currentKernel.value, line)[1]);
             if (scrollToCurrentView) {
                 scrollToBinaryLines.value.push(line);
             }
@@ -164,8 +180,8 @@ export const useCodeViewerStore = defineStore('codeViewer', () => {
             highlightedSourceLines.value[line] = CODE_STYLES.SELECTED_LINE;
             const lines =
                 currentBinary.value === CODE_TYPE.SASS_CODE
-                    ? gpuscoutResult.getSourceToSassLines(currentKernel.value, line)
-                    : gpuscoutResult.getSourceToPtxLines(currentKernel.value, line);
+                    ? gpuscoutResult.getSourceToSassLines(currentKernel.value, line, currentSourceFile.value)
+                    : gpuscoutResult.getSourceToPtxLines(currentKernel.value, line, currentSourceFile.value);
             for (const line of lines) {
                 highlightedBinaryLines.value[line] = CODE_STYLES.SELECTED_LINE_SECONDARY;
             }
@@ -201,9 +217,9 @@ export const useCodeViewerStore = defineStore('codeViewer', () => {
             if (currentView.value === CODE_TYPE.SOURCE_CODE) {
                 const lines =
                     currentBinary.value === CODE_TYPE.SASS_CODE
-                        ? gpuscoutResult.getSourceToSassLines(currentKernel.value, line)
-                        : gpuscoutResult.getSourceToPtxLines(currentKernel.value, line);
-                scrollToBinaryLines.value.push(lines[0]);
+                        ? gpuscoutResult.getSourceToSassLines(currentKernel.value, line, currentSourceFile.value)
+                        : gpuscoutResult.getSourceToPtxLines(currentKernel.value, line, currentSourceFile.value);
+                scrollToBinaryLines.value.push(lines.toSorted()[0]);
             }
             return;
         } else {
@@ -230,9 +246,11 @@ export const useCodeViewerStore = defineStore('codeViewer', () => {
             highlightedBinaryLines.value[secondaryLine] = color;
 
             if (currentBinary.value === CODE_TYPE.SASS_CODE) {
-                highlightedSourceLines.value[gpuscoutResult.getSassToSourceLine(currentKernel.value, secondaryLine)] = color;
+                highlightedSourceLines.value[gpuscoutResult.getSassToSourceLine(currentKernel.value, secondaryLine)[1]] =
+                    color;
             } else {
-                highlightedSourceLines.value[gpuscoutResult.getPtxToSourceLine(currentKernel.value, secondaryLine)] = color;
+                highlightedSourceLines.value[gpuscoutResult.getPtxToSourceLine(currentKernel.value, secondaryLine)[1]] =
+                    color;
             }
             highlightedSourceLines.value[currentOccurrences.value[0].sourceLineNumber] = currentOccurrences.value[0]
                 .isWarning
@@ -303,6 +321,8 @@ export const useCodeViewerStore = defineStore('codeViewer', () => {
         getSassRegistersVisible,
         setSassRegisterVisibility,
         getInfoOccurrenceBinaryLines,
-        getInfoOccurrenceSourceLines
+        getInfoOccurrenceSourceLines,
+        getCurrentSourceFile,
+        setCurrentSourceFile
     };
 });

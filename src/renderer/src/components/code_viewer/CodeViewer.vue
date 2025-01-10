@@ -6,7 +6,11 @@ Author: Tobias Stuckenberger
 <template>
     <div class="grid h-full w-full grid-cols-[50%_50%] grid-rows-1 overflow-y-auto overflow-x-hidden rounded">
         <CodeView
-            :code-lines="useComparisonCode ? comparisonSourceLines : sourceLines"
+            :code-lines="
+                useComparisonCode
+                    ? comparisonSourceLines.filter((l) => l.fileName === currentSourceFile)
+                    : sourceLines.filter((l) => l.fileName === currentSourceFile)
+            "
             :code-type="CODE_TYPE.SOURCE_CODE"
             :highlighted-lines="highlightedSourceLines"
             :highlighted-tokens="highlightedSourceTokens"
@@ -14,6 +18,7 @@ Author: Tobias Stuckenberger
             :occurrence-lines="occurrenceSourceLines"
             :info-lines="infoOccurrenceSourceLines"
             :current-view="currentView"
+            :is-comparison-code="useComparisonCode"
         />
         <CodeView
             :code-lines="
@@ -32,6 +37,7 @@ Author: Tobias Stuckenberger
             :occurrence-lines="occurrenceBinaryLines"
             :info-lines="infoOccurrenceBinaryLines"
             :current-view="currentView"
+            :is-comparison-code="useComparisonCode"
         />
     </div>
 </template>
@@ -43,6 +49,8 @@ import { computed } from 'vue';
 
 const dataStore = useDataStore();
 const codeViewStore = useCodeViewerStore();
+
+const currentSourceFile = computed(() => codeViewStore.getCurrentSourceFile);
 
 const occurrenceBinaryLines = computed(() => codeViewStore.getOccurrenceBinaryLines);
 const occurrenceSourceLines = computed(() => codeViewStore.getOccurrenceSourceLines);

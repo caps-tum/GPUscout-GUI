@@ -16,6 +16,18 @@ Author: Tobias Stuckenberger
             <ButtonHelp class="*:h-4 *:w-4 *:fill-text" @click="showLiveRegisterHelp" />
         </div>
         <div class="relative flex h-full w-full flex-col overflow-x-auto">
+            <div v-if="codeType === CODE_TYPE.SOURCE_CODE" class="sticky top-0 z-10 m-0 w-full bg-secondary">
+                <select
+                    ref="sourceFileSelector"
+                    class="bg-secondary"
+                    :value="currentSourceFile"
+                    @change="onChangeSourceFile"
+                >
+                    <option v-for="file in sourceFiles" :key="file" :value="file">
+                        {{ file }}
+                    </option>
+                </select>
+            </div>
             <CodeLine
                 v-for="line in codeLines.filter(
                     (l) =>
@@ -60,9 +72,9 @@ import { POPUP, useContextStore } from '../../stores/ContextStore';
 import { useDataStore } from '../../stores/DataStore';
 import ButtonHelp from '../ui/buttons/ButtonHelp.vue';
 import CodeLine from './parts/CodeLine.vue';
-import { computed } from 'vue';
+import { computed, ref } from 'vue';
 
-defineProps({
+const props = defineProps({
     codeType: Number,
     codeLines: Array,
     highlightedLines: Object,
@@ -70,7 +82,8 @@ defineProps({
     scrollToLines: Array,
     occurrenceLines: Array,
     infoLines: Array,
-    currentView: Number
+    currentView: Number,
+    isComparisonCode: Boolean
 });
 
 const dataStore = useDataStore();
@@ -80,6 +93,20 @@ const contextStore = useContextStore();
 const selectedOccurrences = computed(() => dataStore.getCurrentOccurrences);
 const displayLiveRegisters = computed(() => codeViewerStore.getSassRegistersVisible);
 const binaryCodeType = computed(() => codeViewerStore.getCurrentBinary);
+const currentKernel = computed(() => dataStore.getCurrentKernel);
+
+const sourceFileSelector = ref(null);
+
+const currentSourceFile = computed(() => codeViewerStore.getCurrentSourceFile);
+const sourceFiles = computed(() =>
+    props.isComparisonCode
+        ? dataStore.getGPUscoutComparisonResult().getSourceFileNames(currentKernel.value)
+        : dataStore.getGPUscoutResult().getSourceFileNames(currentKernel.value)
+);
+
+function onChangeSourceFile() {
+    codeViewerStore.setCurrentSourceFile(sourceFileSelector.value.value);
+}
 
 /**
  * Show the help popup for the live registers

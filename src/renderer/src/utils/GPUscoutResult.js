@@ -78,6 +78,9 @@ export class GPUscoutResult {
          */
         this._sourceToPtxLines = {};
 
+        this._mainSourceFileName = {};
+        this._sourceFileNames = {};
+
         // Remove parameters from kernels where possible
         for (const kernel of Object.keys(resultJSON.kernels)) {
             const name = resultJSON.kernels[kernel].substring(0, resultJSON.kernels[kernel].indexOf('('));
@@ -152,6 +155,22 @@ export class GPUscoutResult {
      */
     getMetric(kernel, metric) {
         return this._metrics[kernel][metric] || 0;
+    }
+
+    /**
+     * @param {String} kernel The name of the kernel
+     * @returns {String} The name of the main CUDA source file
+     */
+    getMainFileName(kernel) {
+        return this._mainSourceFileName[kernel] || '';
+    }
+
+    /**
+     * @param {String} kernel The name of the kernel
+     * @returns {Array} The names of all source files
+     */
+    getSourceFileNames(kernel) {
+        return this._sourceFileNames[kernel] || [];
     }
 
     /**
@@ -246,7 +265,7 @@ export class GPUscoutResult {
     /**
      * @param {String} kernel The name of the kernel
      * @param {String} line The SASS line to get source lines for
-     * @returns {Number} The line number of the source line corresponding to this SASS line
+     * @returns {Array} The file name and line number of the source line corresponding to this SASS line
      */
     getSassToSourceLine(kernel, line) {
         return this._sassToSourceLines[kernel][line];
@@ -255,7 +274,7 @@ export class GPUscoutResult {
     /**
      * @param {String} kernel The name of the kernel
      * @param {String} line The PTX line to get source lines for
-     * @returns {Number} The line number of the source line corresponding to this PTX line
+     * @returns {Array} The file name and line number of the source line corresponding to this SASS line
      */
     getPtxToSourceLine(kernel, line) {
         return this._ptxToSourceLines[kernel][line];
@@ -290,8 +309,8 @@ export class GPUscoutResult {
      * @param {String} line The source line to get sass lines for
      * @returns {String[]} All SASS lines corresponding to this source line
      */
-    getSourceToSassLines(kernel, line) {
-        return this._sourceToSassLines[kernel][line] || [];
+    getSourceToSassLines(kernel, line, file) {
+        return this._sourceToSassLines[kernel][file][line] || [];
     }
 
     /**
@@ -299,8 +318,8 @@ export class GPUscoutResult {
      * @param {String} line The source line to get ptx lines for
      * @returns {Number[]} All PTX lines corresponding to this source line
      */
-    getSourceToPtxLines(kernel, line) {
-        return this._sourceToPtxLines[kernel][line] || [];
+    getSourceToPtxLines(kernel, line, file) {
+        return this._sourceToPtxLines[kernel][file][line] || [];
     }
 
     /**
@@ -331,11 +350,11 @@ export class GPUscoutResult {
         let lastLineBranch = '';
 
         for (const line of ptxCode.split('\n')) {
-            if (currentSourceLine === -1 && !line.startsWith('.loc') && !line.includes('.visible')) {
+            if (currentSourceLine === -1 && !line.startsWith('.loc') && !line.includes('.entry')) {
                 // Skip to first kernel
                 continue;
             }
-            if (line.includes('.visible')) {
+            if (line.includes('.entry')) {
                 // .visible .entry KERNEL_NAME(
                 // We are at the beginning of a new kernel -> Reset source and PTX lines, set new currentKernel
                 currentSourceLine = 0;
@@ -571,8 +590,16 @@ export class GPUscoutResult {
             const oldToNewLineNumbers = {};
 
             this._sourceCodeLines[kernel] = [];
+            this._sourceFileNames[kernel] = [];
 
             for (let [sourceFile, lineNumbers] of Object.entries(relevantLines)) {
+                if (!this._mainSourceFileName[kernel]) {
+                    this._mainSourceFileName[kernel] = sourceFile;
+                }
+                if (!this._sourceFileNames[kernel].includes(sourceFile)) {
+                    this._sourceFileNames[kernel].push(sourceFile);
+                }
+
                 // Get relevant line section in source file
                 lineNumbers = lineNumbers.map((ln) => ln['line']);
                 let fileLineNumber = 1;
@@ -586,17 +613,6 @@ export class GPUscoutResult {
 
                 // The new line numbers dont match the old ones, save the mapping
                 oldToNewLineNumbers[sourceFile] = {};
-
-                // Add line indicating the new file
-                this._sourceCodeLines[kernel].push({
-                    address: -1,
-                    tokens: ['File: ' + sourceFile],
-                    stalls: {},
-                    hasSassMapping: true,
-                    hasPtxMapping: true,
-                    hasSassRelevance: fileIsRelevantForSASS,
-                    hasPtxRelevance: fileIsRelevantForPTX
-                });
 
                 // Add lines
                 for (let i = 1; i <= sourceFileContents[sourceFile].length; i++) {
@@ -623,13 +639,14 @@ export class GPUscoutResult {
 
                     this._sourceCodeLines[kernel].push({
                         address: lineNumber++, // The internal address starting from 1 and going up
-                        fileAddress: fileLineNumber++, // The internal address starting from 1 and going up, but being reset to 1 at each new file
+                        fileAddress: fileLineNumber++,
                         tokens: [sourceFileContents[sourceFile][i - 1]], // The tokens of this line
                         stalls: lineStalls,
                         hasSassMapping: false,
                         hasPtxMapping: false,
                         hasSassRelevance: fileIsRelevantForSASS,
-                        hasPtxRelevance: fileIsRelevantForPTX
+                        hasPtxRelevance: fileIsRelevantForPTX,
+                        fileName: sourceFile
                     });
                 }
             }
@@ -637,30 +654,37 @@ export class GPUscoutResult {
             // Apply the new line number mapping to all the objects
 
             for (const key of Object.keys(this._sassToSourceLines[kernel])) {
-                this._sassToSourceLines[kernel][key] =
+                this._sassToSourceLines[kernel][key] = [
+                    this._sassToSourceLines[kernel][key]['file'],
                     oldToNewLineNumbers[this._sassToSourceLines[kernel][key]['file']][
                         this._sassToSourceLines[kernel][key]['line']
-                    ];
+                    ]
+                ];
             }
             for (const key of Object.keys(this._ptxToSourceLines[kernel])) {
-                this._ptxToSourceLines[kernel][key] =
+                this._ptxToSourceLines[kernel][key] = [
+                    this._ptxToSourceLines[kernel][key]['file'],
                     oldToNewLineNumbers[this._ptxToSourceLines[kernel][key]['file']][
                         this._ptxToSourceLines[kernel][key]['line']
-                    ];
+                    ]
+                ];
             }
             this._sourceToSassLines[kernel] = {};
             for (const key of [...new Set(Object.values(this._sassToSourceLines[kernel]))]) {
-                this._sourceToSassLines[kernel][key] = Object.entries(this._sassToSourceLines[kernel])
-                    .filter(([, v]) => v === parseInt(key))
+                if (!this._sourceToSassLines[kernel][key[0]]) [(this._sourceToSassLines[kernel][key[0]] = {})];
+
+                this._sourceToSassLines[kernel][key[0]][key[1]] = Object.entries(this._sassToSourceLines[kernel])
+                    .filter(([, v]) => v[1] === parseInt(key[1]))
                     .map(([k]) => k);
-                this._sourceCodeLines[kernel].find((l) => l.address === key).hasSassMapping = true;
+                this._sourceCodeLines[kernel].find((l) => l.address === key[1]).hasSassMapping = true;
             }
             this._sourceToPtxLines[kernel] = {};
             for (const key of [...new Set(Object.values(this._ptxToSourceLines[kernel]))]) {
-                this._sourceToPtxLines[kernel][key] = Object.entries(this._ptxToSourceLines[kernel])
-                    .filter(([, v]) => v === parseInt(key))
+                if (!this._sourceToPtxLines[kernel][key[0]]) [(this._sourceToPtxLines[kernel][key[0]] = {})];
+                this._sourceToPtxLines[kernel][key[0]][key[1]] = Object.entries(this._ptxToSourceLines[kernel])
+                    .filter(([, v]) => v[1] === parseInt(key[1]))
                     .map(([k]) => parseInt(k));
-                this._sourceCodeLines[kernel].find((l) => l.address === key).hasPtxMapping = true;
+                this._sourceCodeLines[kernel].find((l) => l.address === key[1]).hasPtxMapping = true;
             }
         }
     }
