@@ -68,10 +68,14 @@ const data = getMetricsData(props.metric);
  * Open the help popup with the relevant information
  */
 function showHelpPopup() {
-    contextStore.togglePopup(POPUP.METRIC_HELP, true, {
-        metricName: data.display_name,
-        helpText: data.help_text
-    });
+    if (data.help_text === 'memory_graph') {
+        contextStore.togglePopup(POPUP.MEMORY_GRAPH, true);
+    } else {
+        contextStore.togglePopup(POPUP.METRIC_HELP, true, {
+            metricName: data.display_name,
+            helpText: data.help_text
+        });
+    }
 }
 
 /**

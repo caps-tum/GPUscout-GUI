@@ -143,7 +143,7 @@ Due to their nature, atomics can serialize thread execution, as only a single th
 In SASS code, atomic operations can be identified by either the ATOM(atomic) or RED(reduction) operation, while it corresponds to atom.global.* operations.
 
 More information is available at <a href="https://docs.nvidia.com/cuda/cuda-c-programming-guide/index.html#atomic-functions">https://docs.nvidia.com/cuda/cuda-c-programming-guide/index.html#atomic-functions</a>`,
-        lower_better: true
+        lower_better: false
     },
     instructions_global_loads_non_vectorized: {
         name: 'misc/global_load_count',
@@ -174,7 +174,7 @@ More information is available at <a href="https://docs.nvidia.com/cuda/cuda-c-pr
         display_name: 'Total instructions',
         hint: 'Total number of instructions executed',
         format_function: formatInstructions,
-        help_text: '',
+        help_text: 'memory_graph',
         lower_better: true
     },
     general_l2_cache_hit_perc: {
@@ -182,7 +182,7 @@ More information is available at <a href="https://docs.nvidia.com/cuda/cuda-c-pr
         display_name: 'L2 Cache hits',
         hint: '',
         format_function: formatPercent,
-        help_text: '',
+        help_text: 'memory_graph',
         lower_better: false
     },
     general_l2_queries: {
@@ -190,7 +190,7 @@ More information is available at <a href="https://docs.nvidia.com/cuda/cuda-c-pr
         display_name: 'L2 queries',
         hint: '',
         format_function: formatInstructions,
-        help_text: '',
+        help_text: 'memory_graph',
         lower_better: true
     },
     general_loads_l2_cache_hit_perc: {
@@ -198,7 +198,7 @@ More information is available at <a href="https://docs.nvidia.com/cuda/cuda-c-pr
         display_name: 'L2 loads cache hits',
         hint: '',
         format_function: formatPercent,
-        help_text: '',
+        help_text: 'memory_graph',
         lower_better: false
     },
     general_loads_l2_to_dram_bytes: {
@@ -206,7 +206,7 @@ More information is available at <a href="https://docs.nvidia.com/cuda/cuda-c-pr
         display_name: 'L2 to DRAM',
         hint: '',
         format_function: formatBytes,
-        help_text: '',
+        help_text: 'memory_graph',
         lower_better: true
     },
     general_stores_l2_cache_hit_perc: {
@@ -214,7 +214,7 @@ More information is available at <a href="https://docs.nvidia.com/cuda/cuda-c-pr
         display_name: 'L2 stores cache hits',
         hint: '',
         format_function: formatPercent,
-        help_text: '',
+        help_text: 'memory_graph',
         lower_better: false
     },
     general_stores_l2_to_dram_bytes: {
@@ -222,7 +222,7 @@ More information is available at <a href="https://docs.nvidia.com/cuda/cuda-c-pr
         display_name: 'L2 stores to DRAM',
         hint: '',
         format_function: formatBytes,
-        help_text: '',
+        help_text: 'memory_graph',
         lower_better: true
     },
     global_atomic_l1_cache_hit_perc: {
@@ -270,15 +270,15 @@ More information is available at <a href="https://docs.nvidia.com/cuda/cuda-c-pr
         display_name: 'GMEM Bytes per Instr.',
         hint: '',
         format_function: formatBytes,
-        help_text: '',
-        lower_better: true
+        help_text: 'memory_graph',
+        lower_better: false
     },
     global_instructions: {
         name: 'global/instructions',
         display_name: 'Global Instructions',
         hint: 'Total number of global load/store instructions',
         format_function: formatInstructions,
-        help_text: '',
+        help_text: 'memory_graph',
         lower_better: true
     },
     global_loads_instructions: {
@@ -286,7 +286,7 @@ More information is available at <a href="https://docs.nvidia.com/cuda/cuda-c-pr
         display_name: 'Global Loads',
         hint: 'Total number of global load instructions',
         format_function: formatInstructions,
-        help_text: '',
+        help_text: 'memory_graph',
         lower_better: true
     },
     global_loads_l1_cache_hit_perc: {
@@ -294,7 +294,7 @@ More information is available at <a href="https://docs.nvidia.com/cuda/cuda-c-pr
         display_name: 'GMEM L1 cache hits',
         hint: '',
         format_function: formatPercent,
-        help_text: '',
+        help_text: 'memory_graph',
         lower_better: false
     },
     global_loads_l1_to_l2_bytes: {
@@ -302,7 +302,7 @@ More information is available at <a href="https://docs.nvidia.com/cuda/cuda-c-pr
         display_name: 'GMEM L1 to L2',
         hint: '',
         format_function: formatBytes,
-        help_text: '',
+        help_text: 'memory_graph',
         lower_better: true
     },
     global_loads_to_l1_bytes: {
@@ -310,7 +310,7 @@ More information is available at <a href="https://docs.nvidia.com/cuda/cuda-c-pr
         display_name: 'GMEM to L1',
         hint: '',
         format_function: formatBytes,
-        help_text: '',
+        help_text: 'memory_graph',
         lower_better: true
     },
     global_stores_instructions: {
@@ -318,7 +318,7 @@ More information is available at <a href="https://docs.nvidia.com/cuda/cuda-c-pr
         display_name: 'Global Stores',
         hint: '',
         format_function: formatInstructions,
-        help_text: '',
+        help_text: 'memory_graph',
         lower_better: true
     },
     global_stores_l1_cache_hit_perc: {
@@ -326,7 +326,7 @@ More information is available at <a href="https://docs.nvidia.com/cuda/cuda-c-pr
         display_name: 'Global store L1 cache hits',
         hint: '',
         format_function: formatPercent,
-        help_text: '',
+        help_text: 'memory_graph',
         lower_better: false
     },
     global_stores_l1_to_l2_bytes: {
@@ -334,7 +334,7 @@ More information is available at <a href="https://docs.nvidia.com/cuda/cuda-c-pr
         display_name: 'Global store L1 to L2',
         hint: '',
         format_function: formatBytes,
-        help_text: '',
+        help_text: 'memory_graph',
         lower_better: true
     },
     global_stores_to_l1_bytes: {
@@ -342,7 +342,7 @@ More information is available at <a href="https://docs.nvidia.com/cuda/cuda-c-pr
         display_name: 'Global store to L1',
         hint: '',
         format_function: formatBytes,
-        help_text: '',
+        help_text: 'memory_graph',
         lower_better: true
     },
     local_instructions: {
@@ -350,7 +350,7 @@ More information is available at <a href="https://docs.nvidia.com/cuda/cuda-c-pr
         display_name: 'LMEM instructions',
         hint: '',
         format_function: formatInstructions,
-        help_text: '',
+        help_text: 'memory_graph',
         lower_better: true
     },
     local_l2_queries_perc: {
@@ -358,7 +358,7 @@ More information is available at <a href="https://docs.nvidia.com/cuda/cuda-c-pr
         display_name: 'L2 Queries due to LMEM',
         hint: '',
         format_function: formatPercent,
-        help_text: '',
+        help_text: 'memory_graph',
         lower_better: true
     },
     local_loads_instructions: {
@@ -366,7 +366,7 @@ More information is available at <a href="https://docs.nvidia.com/cuda/cuda-c-pr
         display_name: 'Local Loads',
         hint: '',
         format_function: formatInstructions,
-        help_text: '',
+        help_text: 'memory_graph',
         lower_better: true
     },
     local_loads_l1_cache_hit_perc: {
@@ -374,7 +374,7 @@ More information is available at <a href="https://docs.nvidia.com/cuda/cuda-c-pr
         display_name: 'Local load L1 cache hits',
         hint: '',
         format_function: formatPercent,
-        help_text: '',
+        help_text: 'memory_graph',
         lower_better: false
     },
     local_loads_l1_to_l2_bytes: {
@@ -382,7 +382,7 @@ More information is available at <a href="https://docs.nvidia.com/cuda/cuda-c-pr
         display_name: 'Local load L1 to L2',
         hint: '',
         format_function: formatBytes,
-        help_text: '',
+        help_text: 'memory_graph',
         lower_better: true
     },
     local_loads_to_l1_bytes: {
@@ -390,7 +390,7 @@ More information is available at <a href="https://docs.nvidia.com/cuda/cuda-c-pr
         display_name: 'Local load to L1',
         hint: '',
         format_function: formatBytes,
-        help_text: '',
+        help_text: 'memory_graph',
         lower_better: true
     },
     local_stores_instructions: {
@@ -398,7 +398,7 @@ More information is available at <a href="https://docs.nvidia.com/cuda/cuda-c-pr
         display_name: 'Local Stores',
         hint: '',
         format_function: formatInstructions,
-        help_text: '',
+        help_text: 'memory_graph',
         lower_better: true
     },
     local_stores_l1_cache_hit_perc: {
@@ -406,7 +406,7 @@ More information is available at <a href="https://docs.nvidia.com/cuda/cuda-c-pr
         display_name: 'Local store L1 cache hits',
         hint: '',
         format_function: formatPercent,
-        help_text: '',
+        help_text: 'memory_graph',
         lower_better: false
     },
     local_stores_l1_to_l2_bytes: {
@@ -414,7 +414,7 @@ More information is available at <a href="https://docs.nvidia.com/cuda/cuda-c-pr
         display_name: 'Local store L1 to L2',
         hint: '',
         format_function: formatBytes,
-        help_text: '',
+        help_text: 'memory_graph',
         lower_better: true
     },
     local_stores_to_l1_bytes: {
@@ -422,7 +422,7 @@ More information is available at <a href="https://docs.nvidia.com/cuda/cuda-c-pr
         display_name: 'Local store to L1',
         hint: '',
         format_function: formatBytes,
-        help_text: '',
+        help_text: 'memory_graph',
         lower_better: true
     },
     shared_instructions: {
@@ -430,7 +430,7 @@ More information is available at <a href="https://docs.nvidia.com/cuda/cuda-c-pr
         display_name: 'Shared instructions',
         hint: '',
         format_function: formatInstructions,
-        help_text: '',
+        help_text: 'memory_graph',
         lower_better: true
     },
     shared_ldgsts_instructions: {
@@ -438,7 +438,7 @@ More information is available at <a href="https://docs.nvidia.com/cuda/cuda-c-pr
         display_name: 'shared ldgsts_instructions',
         hint: '',
         format_function: formatInstructions,
-        help_text: '',
+        help_text: 'memory_graph',
         lower_better: true
     },
     shared_loads_bank_conflict: {
@@ -455,14 +455,14 @@ More information is available at <a href="https://docs.nvidia.com/cuda/cuda-c-pr
         hint: 'Hint please',
         format_function: formatPercent,
         help_text: '',
-        lower_better: true
+        lower_better: false
     },
     shared_loads_instructions: {
         name: 'shared/loads_instructions',
         display_name: 'Shared Loads',
         hint: 'Number of shared load instructions',
         format_function: formatInstructions,
-        help_text: '',
+        help_text: 'memory_graph',
         lower_better: true
     },
     shared_stores_instructions: {
@@ -470,7 +470,7 @@ More information is available at <a href="https://docs.nvidia.com/cuda/cuda-c-pr
         display_name: 'shared stores_instructions',
         hint: '',
         format_function: formatInstructions,
-        help_text: '',
+        help_text: 'memory_graph',
         lower_better: true
     },
     surface_instructions: {
@@ -478,7 +478,7 @@ More information is available at <a href="https://docs.nvidia.com/cuda/cuda-c-pr
         display_name: 'surface instructions',
         hint: '',
         format_function: formatInstructions,
-        help_text: '',
+        help_text: 'memory_graph',
         lower_better: true
     },
     surface_loads_instructions: {
@@ -486,7 +486,7 @@ More information is available at <a href="https://docs.nvidia.com/cuda/cuda-c-pr
         display_name: 'surface loads_instructions',
         hint: '',
         format_function: formatInstructions,
-        help_text: '',
+        help_text: 'memory_graph',
         lower_better: true
     },
     surface_loads_l1_cache_hit_perc: {
@@ -494,7 +494,7 @@ More information is available at <a href="https://docs.nvidia.com/cuda/cuda-c-pr
         display_name: 'surface loads_l1_cache_hit_perc',
         hint: '',
         format_function: formatPercent,
-        help_text: '',
+        help_text: 'memory_graph',
         lower_better: false
     },
     surface_loads_l1_to_l2_bytes: {
@@ -502,7 +502,7 @@ More information is available at <a href="https://docs.nvidia.com/cuda/cuda-c-pr
         display_name: 'surface loads_l1_to_l2_bytes',
         hint: '',
         format_function: formatBytes,
-        help_text: '',
+        help_text: 'memory_graph',
         lower_better: true
     },
     surface_loads_to_l1_bytes: {
@@ -510,7 +510,7 @@ More information is available at <a href="https://docs.nvidia.com/cuda/cuda-c-pr
         display_name: 'surface loads_to_l1_bytes',
         hint: '',
         format_function: formatBytes,
-        help_text: '',
+        help_text: 'memory_graph',
         lower_better: true
     },
     surface_stores_instructions: {
@@ -518,7 +518,7 @@ More information is available at <a href="https://docs.nvidia.com/cuda/cuda-c-pr
         display_name: 'surface stores_instructions',
         hint: '',
         format_function: formatInstructions,
-        help_text: '',
+        help_text: 'memory_graph',
         lower_better: true
     },
     surface_stores_l1_cache_hit_perc: {
@@ -526,15 +526,15 @@ More information is available at <a href="https://docs.nvidia.com/cuda/cuda-c-pr
         display_name: 'surface stores_l1_cache_hit_perc',
         hint: '',
         format_function: formatPercent,
-        help_text: '',
-        lower_better: true
+        help_text: 'memory_graph',
+        lower_better: false
     },
     surface_stores_l1_to_l2_bytes: {
         name: 'surface/stores_l1_to_l2_bytes',
         display_name: 'surface stores_l1_to_l2_bytes',
         hint: '',
         format_function: formatBytes,
-        help_text: '',
+        help_text: 'memory_graph',
         lower_better: true
     },
     surface_stores_to_l1_bytes: {
@@ -542,7 +542,7 @@ More information is available at <a href="https://docs.nvidia.com/cuda/cuda-c-pr
         display_name: 'surface stores_to_l1_bytes',
         hint: '',
         format_function: formatBytes,
-        help_text: '',
+        help_text: 'memory_graph',
         lower_better: true
     },
     texture_instructions: {
@@ -550,7 +550,7 @@ More information is available at <a href="https://docs.nvidia.com/cuda/cuda-c-pr
         display_name: 'Texture instructions',
         hint: '',
         format_function: formatInstructions,
-        help_text: '',
+        help_text: 'memory_graph',
         lower_better: true
     },
     texture_loads_l1_cache_hit_perc: {
@@ -558,7 +558,7 @@ More information is available at <a href="https://docs.nvidia.com/cuda/cuda-c-pr
         display_name: 'TEX L1 cache hits',
         hint: '',
         format_function: formatPercent,
-        help_text: '',
+        help_text: 'memory_graph',
         lower_better: false
     },
     texture_loads_l1_to_l2_bytes: {
@@ -566,7 +566,7 @@ More information is available at <a href="https://docs.nvidia.com/cuda/cuda-c-pr
         display_name: 'TEX L1 to L2',
         hint: '',
         format_function: formatBytes,
-        help_text: '',
+        help_text: 'memory_graph',
         lower_better: true
     },
     texture_loads_l2_to_dram_bytes: {
@@ -574,7 +574,7 @@ More information is available at <a href="https://docs.nvidia.com/cuda/cuda-c-pr
         display_name: 'TEX L2 to DRAM',
         hint: '',
         format_function: formatBytes,
-        help_text: '',
+        help_text: 'memory_graph',
         lower_better: true
     },
     texture_loads_to_l1_bytes: {
@@ -582,7 +582,7 @@ More information is available at <a href="https://docs.nvidia.com/cuda/cuda-c-pr
         display_name: 'TEX to L1',
         hint: '',
         format_function: formatBytes,
-        help_text: '',
+        help_text: 'memory_graph',
         lower_better: true
     }
 };
