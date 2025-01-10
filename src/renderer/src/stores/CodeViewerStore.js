@@ -150,10 +150,16 @@ export const useCodeViewerStore = defineStore('codeViewer', () => {
         selectedLine.value = line;
 
         if (
-            currentView.value !== CODE_TYPE.SOURCE_CODE &&
+            currentView.value === CODE_TYPE.SASS_CODE &&
             gpuscoutResult.getSassToSourceLine(currentKernel.value, line)[0] !== currentSourceFile.value
         ) {
             currentSourceFile.value = gpuscoutResult.getSassToSourceLine(currentKernel.value, line)[0];
+            await nextTick();
+        } else if (
+            currentView.value === CODE_TYPE.PTX_CODE &&
+            gpuscoutResult.getPtxToSourceLine(currentKernel.value, line)[0] !== currentSourceFile.value
+        ) {
+            currentSourceFile.value = gpuscoutResult.getPtxToSourceLine(currentKernel.value, line)[0];
             await nextTick();
         }
 
