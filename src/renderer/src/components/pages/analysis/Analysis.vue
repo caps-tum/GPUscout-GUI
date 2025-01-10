@@ -13,14 +13,14 @@ Author: Tobias Stuckenberger
                     <p v-else class="text-xl text-text">{{ TEXT.top_section.title_comparison }}</p>
                     <ToggleSwitch
                         class="ml-2 mr-1 mt-2"
-                        :checked="!showMetrics"
+                        :checked="showMetrics"
                         @changed="
                             () => {
                                 showMetrics = !showMetrics;
                             }
                         "
                     />
-                    <p class="mt-1 text-text">Hide</p>
+                    <p class="mt-1 text-text">Show</p>
                 </div>
                 <p class="!-mb-1 !-mt-1 text-sm text-text/50">
                     {{ TEXT.top_section.hint }}

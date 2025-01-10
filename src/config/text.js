@@ -33,7 +33,7 @@ export const TEXT = {
         comparison_titles: {
             only_current: 'Analyses only in current result:',
             only_original: 'Analyses only in original result:',
-            both: 'Analyses only both results:'
+            both: 'Analyses in both results:'
         },
         analyses_title: 'Relevant analyses:'
     },
