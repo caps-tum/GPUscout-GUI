@@ -366,12 +366,11 @@ export class GPUscoutResult {
                 if (Object.keys(this._ptxCodeLines).includes(currentKernel)) {
                     // Kernel already represented -> Skip
                     currentSourceLine = -1;
-                    continue;
                     alert(
                         'Multiple definitions for the same kernel found in the PTX Code. Please make sure the program is compiled for a single target architecture.'
                     );
                     window.location.reload();
-                    continue;
+                    return;
                 }
                 this._ptxToSourceLines[currentKernel] = {};
                 this._ptxCodeLines[currentKernel] = [
