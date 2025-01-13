@@ -7,13 +7,15 @@ Author: Tobias Stuckenberger
 <template>
     <div ref="line" class="group relative m-0 flex space-x-1" @click="selectLine()">
         <p
-            class="sticky left-0 top-0 flex w-16 shrink-0 select-none flex-row items-center justify-between bg-secondary px-1 !text-text"
-            :class="lineNumber !== -1 ? 'group-hover:bg-background' : ''"
+            class="sticky left-0 top-0 flex w-16 shrink-0 select-none flex-row items-center justify-between bg-secondary px-1 !text-text group-hover:bg-background"
         >
             {{ lineNumber || '' }}
             <IconWarning v-if="hasStalls" class="h-4 w-4" />
         </p>
-        <p class="flex min-h-6 w-full flex-grow border-collapse flex-row flex-wrap overflow-hidden" :class="getHighlight()">
+        <p
+            class="flex max-h-6 min-h-6 w-full flex-grow border-collapse flex-row flex-wrap overflow-hidden whitespace-pre text-wrap"
+            :class="getHighlight()"
+        >
             <template v-if="codeType !== CODE_TYPE.SOURCE_CODE && tokensHighlighted">
                 <CodeLineToken
                     v-for="token in tokens"
@@ -25,7 +27,7 @@ Author: Tobias Stuckenberger
                 />
             </template>
             <template v-else>
-                <p class="whitespace-pre text-wrap">{{ tokens.join('') }}</p>
+                {{ tokens.join('') }}
             </template>
         </p>
         <p v-if="showLiveRegisters" class="sticky right-0 top-0 w-16 shrink-0 select-none bg-secondary px-1 text-center">
@@ -34,7 +36,7 @@ Author: Tobias Stuckenberger
     </div>
 </template>
 <script setup>
-import { computed, onUpdated, ref, watch } from 'vue';
+import { computed, ref } from 'vue';
 import { CODE_TYPE, useCodeViewerStore } from '../../../stores/CodeViewerStore';
 import CodeLineToken from './CodeLineToken.vue';
 import { CODE_STYLES } from '../../../../../config/colors';
@@ -46,7 +48,6 @@ const props = defineProps({
     codeType: Number,
     highlightedLines: Object,
     highlightedTokens: Object,
-    scrollToLines: Array,
     isOccurrence: Boolean,
     isInfo: Boolean,
     hasStalls: Boolean,
@@ -80,10 +81,6 @@ const tokensHighlighted = computed(() => {
     return false;
 });
 
-onUpdated(() => {
-    //console.log(props.lineNumber);
-});
-
 /**
  * Select the current line and code view when clicked on it
  */
@@ -113,13 +110,6 @@ function getHighlight() {
     if (props.highlightedLines[props.lineNumber] !== undefined) {
         // Highlight line if needed
         style += props.highlightedLines[props.lineNumber];
-        if (props.scrollToLines.includes(props.lineNumber)) {
-            // Works only if behavior is auto for source code
-            line.value.parentNode.scrollTo({
-                top: line.value.offsetTop - line.value.parentNode.getBoundingClientRect().height / 2,
-                behavior: 'smooth'
-            });
-        }
     }
 
     if (!style.includes('bg-')) {

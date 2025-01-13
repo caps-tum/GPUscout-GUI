@@ -15,7 +15,7 @@ Author: Tobias Stuckenberger
             <p>Live Reg.</p>
             <ButtonHelp class="*:h-4 *:w-4 *:fill-text" @click="showLiveRegisterHelp" />
         </div>
-        <div class="relative flex h-full w-full flex-col overflow-x-auto">
+        <div ref="lineContainer" class="h-full w-full overflow-y-auto" @scroll="onScroll">
             <div v-if="codeType === CODE_TYPE.SOURCE_CODE" class="sticky top-0 z-10 m-0 w-full bg-secondary">
                 <select
                     ref="sourceFileSelector"
@@ -29,38 +29,38 @@ Author: Tobias Stuckenberger
                     </option>
                 </select>
             </div>
-            <CodeLine
-                v-for="line in codeLines.filter(
-                    (l) =>
-                        (codeType === CODE_TYPE.SOURCE_CODE &&
-                            ((binaryCodeType === CODE_TYPE.SASS_CODE && l.hasSassRelevance) ||
-                                (binaryCodeType === CODE_TYPE.PTX_CODE && l.hasPtxRelevance))) ||
-                        codeType !== CODE_TYPE.SOURCE_CODE
-                )"
-                :key="line"
-                :tokens="line.tokens"
-                :line-number="line.address"
-                :live-registers="line.liveRegisters"
-                :has-mapping="
-                    codeType === CODE_TYPE.SOURCE_CODE
-                        ? binaryCodeType === CODE_TYPE.SASS_CODE
-                            ? line.hasSassMapping
-                            : line.hasPtxMapping
-                        : true
-                "
-                :code-type="codeType"
-                :highlighted-lines="highlightedLines"
-                :highlighted-tokens="highlightedTokens"
-                :scroll-to-lines="scrollToLines"
-                :has-stalls="codeType !== CODE_TYPE.PTX_CODE && Object.keys(line.stalls).length > 0"
-                :is-occurrence="occurrenceLines.includes(line.address)"
-                :is-info="infoLines.includes(line.address)"
-                :current-view="currentView"
-                :selected-occurrences="selectedOccurrences"
-                :show-live-registers="displayLiveRegisters && codeType === CODE_TYPE.SASS_CODE"
-            />
-            <div class="relative m-0 flex min-h-0 grow space-x-1">
-                <p class="sticky left-0 top-0 w-16 shrink-0 select-none bg-secondary px-1"></p>
+            <div class="relative" :style="{ height: relevantLines.length * 1.5 + 'rem' }">
+                <div
+                    v-for="index in Math.min(250, relevantLines.length - firstVisibleLine)"
+                    :key="relevantLines[index + firstVisibleLine - 1]"
+                    class="absolute w-full"
+                    :style="{ top: (index - 1 + firstVisibleLine) * 1.5 + 'rem' }"
+                >
+                    <CodeLine
+                        :tokens="relevantLines[index + firstVisibleLine - 1].tokens"
+                        :line-number="relevantLines[index + firstVisibleLine - 1].address"
+                        :live-registers="relevantLines[index + firstVisibleLine - 1].liveRegisters"
+                        :has-mapping="
+                            codeType === CODE_TYPE.SOURCE_CODE
+                                ? binaryCodeType === CODE_TYPE.SASS_CODE
+                                    ? relevantLines[index + firstVisibleLine - 1].hasSassMapping
+                                    : relevantLines[index + firstVisibleLine - 1].hasPtxMapping
+                                : true
+                        "
+                        :code-type="codeType"
+                        :highlighted-lines="highlightedLines"
+                        :highlighted-tokens="highlightedTokens"
+                        :has-stalls="
+                            codeType !== CODE_TYPE.PTX_CODE &&
+                            Object.keys(relevantLines[index + firstVisibleLine - 1].stalls).length > 0
+                        "
+                        :is-occurrence="occurrenceLines.includes(relevantLines[index + firstVisibleLine - 1].address)"
+                        :is-info="infoLines.includes(relevantLines[index + firstVisibleLine - 1].address)"
+                        :current-view="currentView"
+                        :selected-occurrences="selectedOccurrences"
+                        :show-live-registers="displayLiveRegisters && codeType === CODE_TYPE.SASS_CODE"
+                    />
+                </div>
             </div>
         </div>
     </div>
@@ -72,7 +72,7 @@ import { POPUP, useContextStore } from '../../stores/ContextStore';
 import { useDataStore } from '../../stores/DataStore';
 import ButtonHelp from '../ui/buttons/ButtonHelp.vue';
 import CodeLine from './parts/CodeLine.vue';
-import { computed, ref } from 'vue';
+import { computed, ref, watch } from 'vue';
 
 const props = defineProps({
     codeType: Number,
@@ -96,6 +96,7 @@ const binaryCodeType = computed(() => codeViewerStore.getCurrentBinary);
 const currentKernel = computed(() => dataStore.getCurrentKernel);
 
 const sourceFileSelector = ref(null);
+const lineContainer = ref(null);
 
 const currentSourceFile = computed(() => codeViewerStore.getCurrentSourceFile);
 const sourceFiles = computed(() =>
@@ -103,6 +104,16 @@ const sourceFiles = computed(() =>
         ? dataStore.getGPUscoutComparisonResult().getSourceFileNames(currentKernel.value)
         : dataStore.getGPUscoutResult().getSourceFileNames(currentKernel.value)
 );
+const relevantLines = computed(() =>
+    props.codeLines.filter(
+        (l) =>
+            (props.codeType === CODE_TYPE.SOURCE_CODE &&
+                ((binaryCodeType.value === CODE_TYPE.SASS_CODE && l.hasSassRelevance) ||
+                    (binaryCodeType.value === CODE_TYPE.PTX_CODE && l.hasPtxRelevance))) ||
+            props.codeType !== CODE_TYPE.SOURCE_CODE
+    )
+);
+const firstVisibleLine = ref(0);
 
 function onChangeSourceFile() {
     codeViewerStore.setCurrentSourceFile(sourceFileSelector.value.value);
@@ -117,6 +128,26 @@ function showLiveRegisterHelp() {
         helpText: TEXT.code_view.help_texts.live_registers.help_text
     });
 }
+
+async function onScroll(event) {
+    firstVisibleLine.value = Math.max(Math.floor(event.target.scrollTop / 24) - 100, 0);
+}
+
+watch(
+    () => props.scrollToLines,
+    (newValue) => {
+        for (const address of newValue) {
+            if (address < 0) continue;
+            const index = relevantLines.value.findIndex((l) => l.address === address);
+            const scrollTo = index * 24 - lineContainer.value.getBoundingClientRect().height / 2;
+            lineContainer.value.scrollTo({
+                top: scrollTo,
+                behavior: Math.abs(lineContainer.value.scrollTop - scrollTo) < 24 * 50 ? 'smooth' : 'instant'
+            });
+        }
+    },
+    { deep: true }
+);
 </script>
 <style scoped>
 p {
