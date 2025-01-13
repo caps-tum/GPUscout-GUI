@@ -113,6 +113,13 @@ function getHighlight() {
     if (props.highlightedLines[props.lineNumber] !== undefined) {
         // Highlight line if needed
         style += props.highlightedLines[props.lineNumber];
+        if (props.scrollToLines.includes(props.lineNumber)) {
+            // Works only if behavior is auto for source code
+            line.value.parentNode.scrollTo({
+                top: line.value.offsetTop - line.value.parentNode.getBoundingClientRect().height / 2,
+                behavior: 'smooth'
+            });
+        }
     }
 
     if (!style.includes('bg-')) {
@@ -121,21 +128,6 @@ function getHighlight() {
     }
     return style;
 }
-
-// Watch for changes to the scrollToLines array, and scroll to the current line if it was added to it
-watch(
-    () => props.scrollToLines,
-    (newValue) => {
-        if (newValue.includes(props.lineNumber)) {
-            // Works only if behavior is auto for source code
-            line.value.parentNode.scrollTo({
-                top: line.value.offsetTop - line.value.parentNode.getBoundingClientRect().height / 2,
-                behavior: 'smooth'
-            });
-        }
-    },
-    { deep: true }
-);
 </script>
 <style scoped>
 div:has(+ .group > .border-2) > .border-2 {
