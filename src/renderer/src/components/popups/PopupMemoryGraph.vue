@@ -16,7 +16,7 @@ Author: Tobias Stuckenberger
                     :no-background="true"
                 />
             </div>
-            <div>{{ TEXT.complete_memory_graph.help_text }}</div>
+            <div class="whitespace-pre-line" v-html="HELP_TEXTS.memory_graph"></div>
         </div>
     </Popup>
 </template>
@@ -27,7 +27,7 @@ import Popup from '../ui/Popup.vue';
 import MemoryGraph from '../ui/memory_graph/MemoryGraph.vue';
 import { useDataStore } from '../../stores/DataStore';
 import { MEMORY_GRAPH_DEFINITION } from '../../../../config/memory_graphs';
-import { TEXT } from '../../../../config/text';
+import { HELP_TEXTS } from '../../../../config/help_texts';
 
 const dataStore = useDataStore();
 

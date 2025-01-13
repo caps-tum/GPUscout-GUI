@@ -78,12 +78,12 @@ Warps can be in several different states, for example in the eligible state, if 
 - A synchronization barrier
 When stalls occur, they are recorded and classified into one of several warp stall reasons, allowing fine-grained analysis and insight into the kernel execution. Although impossible to avoid completely, warp stalls should be held as low as possible.
 
-More information is available at <a href="https://docs.nvidia.com/nsight-compute/ProfilingGuide/index.html#hardware-model">https://docs.nvidia.com/nsight-compute/ProfilingGuide/index.html#hardware-model</a>`,
+More information is available at <a target="_blank" href="https://docs.nvidia.com/nsight-compute/ProfilingGuide/index.html#hardware-model">https://docs.nvidia.com/nsight-compute/ProfilingGuide/index.html#hardware-model</a>`,
     occupancy: `Occupancy defines the ratio of active warps on a Streaming Multiprocessor (SM) to the maximum number of warps that the SM could support. It can also be interpreted as the percentage of the hardware's ability to proccess the warps that are actively in use.
 <b>Performance Considerations</b>
 While high occupancy is generally beneficial, it should not be used solely to determine the performance of a kernel. In can however be used as an indicator to the ability to hide memory latencies. Especially in memory-bound kernels, the ability to switch between warps while waiting for memory operations to complete is crucial for performance and reflected by occupancy.
 
-More information is available at <a href="https://docs.nvidia.com/cuda/cuda-c-programming-guide/index.html#maximize-utilization">https://docs.nvidia.com/cuda/cuda-c-programming-guide/index.html#maximize-utilization</a>`,
+More information is available at <a target="_blank" href="https://docs.nvidia.com/cuda/cuda-c-programming-guide/index.html#maximize-utilization">https://docs.nvidia.com/cuda/cuda-c-programming-guide/index.html#maximize-utilization</a>`,
     global_atomics: `Global atomics are atomic operations that operate on data in global memory, while ensuring that multiple threads can safely update data without introducing race conditions and thus are essential when working with shared data among parallel threads.
 <b>Atomic Operations</b>
 Global atomic operations perform a read-modify-write on a 32-, 64, or 128-bit word in global memory as a single, invdivisible operation. Common atomic operations are available for arithmetic operations (atomicAdd, atomicSub, atomicExch), bitwise operations (atomicAnd, atomicOr, atomicXor) and comparison operations (atomicMin, atomicMax, atomicCAS).
@@ -92,7 +92,7 @@ Due to their nature, atomics can serialize thread execution, as only a single th
 <b>Atomic operations in SASS/PTX</b>
 In SASS code, atomic operations can be identified by either the ATOM(atomic) or RED(reduction) operation, while it corresponds to atom.global.* operations.
 
-More information is available at <a href="https://docs.nvidia.com/cuda/cuda-c-programming-guide/index.html#atomic-functions">https://docs.nvidia.com/cuda/cuda-c-programming-guide/index.html#atomic-functions</a>`,
+More information is available at <a target="_blank" href="https://docs.nvidia.com/cuda/cuda-c-programming-guide/index.html#atomic-functions">https://docs.nvidia.com/cuda/cuda-c-programming-guide/index.html#atomic-functions</a>`,
     shared_atomics: `Shared atomics are atomic operations that operate on data in shared memory, while ensuring that multiple threads can safely update data without introducing race conditions and thus are essential when working with shared data among parallel threads.
 <b>Atomic Operations</b>
 Shared atomic operations perform a read-modify-write on a 32-, 64, or 128-bit word in shared memory as a single, invdivisible operation. Common atomic operations are available for arithmetic operations (atomicAdd, atomicSub, atomicExch), bitwise operations (atomicAnd, atomicOr, atomicXor) and comparison operations (atomicMin, atomicMax, atomicCAS).
@@ -101,7 +101,7 @@ Due to their nature, atomics can serialize thread execution, as only a single th
 <b>Atomic operations in SASS/PTX</b>
 In SASS code, atomic operations can be identified by either the ATOM(atomic) or RED(reduction) operation, while it corresponds to atom.global.* operations.
 
-More information is available at <a href="https://docs.nvidia.com/cuda/cuda-c-programming-guide/index.html#atomic-functions">https://docs.nvidia.com/cuda/cuda-c-programming-guide/index.html#atomic-functions</a>`,
+More information is available at <a target="_blank" href="https://docs.nvidia.com/cuda/cuda-c-programming-guide/index.html#atomic-functions">https://docs.nvidia.com/cuda/cuda-c-programming-guide/index.html#atomic-functions</a>`,
     load_store_vec_non_vec: `Load and store operations are responsible for data transfers between registers and memory and as such commonly used in any kind of kernel. Different kinds of load and store operations are available, as efficient memory access is crucial for achieving high performance and avoid bandwidth bottlenecks.
 <b>Non-Vectorized Load and Store Operations</b>
 Non-Vectorized operations (ex. LD.E/ST.E) transfer individual data chunks one at a time. They are should be used in cases where only small amounts of data needs to be loaded/stored, as their overhead will lead to inefficiencies otherwise.
@@ -110,7 +110,7 @@ If multiple contiguous elements need to be loaded or stored at once (for example
 <b>Performance Considerations</b>
 Generally, vectorized load operations should always be preferred in applicable situations. As using vectorized loads increases register pressure, the amount of used registers should be kept in mind in order to avoid causing register spills.
 
-More information is available at <a href="https://developer.nvidia.com/blog/cuda-pro-tip-increase-performance-with-vectorized-memory-access/">https://developer.nvidia.com/blog/cuda-pro-tip-increase-performance-with-vectorized-memory-access</a>`,
+More information is available at <a target="_blank" href="https://developer.nvidia.com/blog/cuda-pro-tip-increase-performance-with-vectorized-memory-access/">https://developer.nvidia.com/blog/cuda-pro-tip-increase-performance-with-vectorized-memory-access</a>`,
     branching: `Using branching statements like if-else or switch constructs can result in thread divergence and sequential execution of otherwise parallel threads.
 To some extent, this is resolved by the compiler using predicate instructions, but in more complex kernels, this will result in conditional branches.
 <b>Recommendations</b>
@@ -122,5 +122,30 @@ Even though atomic operations themselves do not inherently cause deadlocks in CU
 <b>Bank conflicts</b>
 Shared memory is divided into banks, which can be accesses independently allowing for better parallelization of accesses to different banks. If multiple threads in a warp access memory locations in the same bank, a bank conflict occurrs, leading to serialization of those accesses, degrading performance.
 
-More information is available at <a href="https://docs.nvidia.com/cuda/cuda-c-best-practices-guide/#shared-memory">https://docs.nvidia.com/cuda/cuda-c-best-practices-guide/#shared-memory</a>`
+More information is available at <a target="_blank" href="https://docs.nvidia.com/cuda/cuda-c-best-practices-guide/#shared-memory">https://docs.nvidia.com/cuda/cuda-c-best-practices-guide/#shared-memory</a>`,
+    registers: `Registers are local to each CUDA thread and can be used with the lowest amount of latency. There exist two different types of registers, namely normal and predicate registers.
+<b>Register Types</b>
+Normal (general-purpose) registers are used to store integers, floating-point or other types of data during execution, while predicate registers are special single-bit registers used in conditionals and for example store the result of branching decisions.
+<b>Performance Considerations</b>
+As registers cannot be explicitly managed programmatically and are limited in number, the amount of currently used registers is an important metric when optimizing kernels. In cases where more registers are needed than available, data is spilled to slower local memory, resulting in so-called register pressure and degrading performance.
+
+In GPUscout-GUI, the amount of currently used registers is displayed next to SASS code in relevant analyses in the format <used general purpose registers>|<used predicate registers>.
+
+More information is available at <a target="_blank" href="https://docs.nvidia.com/cuda/cuda-c-best-practices-guide/#registers">https://docs.nvidia.com/cuda/cuda-c-best-practices-guide/#registers</a>`,
+    memory_graph: `The above graph gives an overview of the memory system of a GPU, as well as relevant data transfers between them. A node in the graph represents a single memory unit, with arrows between them representing the direction and amount of data transferred during kernel execution. Arrows pointing from left to right represent store operations, while arrows from right to left represent load operations, respectively.
+
+<b>Shared Memory</b>
+Shared memory is a faster than global memory and shared among all threads in the same block. It should however only be used for heavily used data, as a shared memory access required both a shared and global memory read, compared to global memory only requiring a global memory read.
+Shared memory is divided into banks, which can be accesses independently allowing for better parallelization of accesses to different banks. If multiple threads in a warp access memory locations in the same bank, a bank conflict occurrs, leading to serialization of those accesses, degrading performance.
+<b>Global Memory</b>
+Global memory is the largest type of memory, but also introduces the most amount of latency when accessed. It can be explicitly managed by the programmer with the __global__ keyword and is accessible by all threads. A separate read-only data path can be used when data is not modified after writing, and can be used by marking pointers with the __restrict__ keyword.
+<b>Local Memory</b>
+Even though local memory is thread-local, accessing it is as expensive as global memory. It is also solely used to b< the compiler to store variables in case of register spilling, when there are not enough registers available to hold all data.
+<b>Texture Memory</b>
+Texture memory is read-only and specifically optimized to accessing data in spatially local patterns. This means, optimal performance is achieved if read addresses are near each other in a 2D or 3D locality. Texture memory is also cached, resulting in cheap reads if the access was cached.
+<b>L1 and L2 Cache</b>
+When handling data in global, local, shared or texture memory, requests first pass through the L1 cache providing faster access to frequently used data. Requests to main memory are also passed to a second layer L2 cache.
+The hit rates of L1 and L1 caches should always be kept in mind, as low cache hit rates can be an indicator of performance bottlenecks.
+
+More information is available at <a target="_blank" href="https://docs.nvidia.com/nsight-compute/ProfilingGuide/index.html#hardware-model">https://docs.nvidia.com/nsight-compute/ProfilingGuide/index.html#hardware-model</a> and <a target="_blank" href="https://docs.nvidia.com/cuda/cuda-c-best-practices-guide/#device-memory-spaces">https://docs.nvidia.com/cuda/cuda-c-best-practices-guide/#device-memory-spaces</a>`
 };

@@ -4,6 +4,8 @@
  * @description This module contains the all of the texts displayed in the UI allowing for easy modification without having to search the entire codebase.
  */
 
+import { HELP_TEXTS } from './help_texts';
+
 /**
  * An object containing all texts displayed in the ui
  */
@@ -39,54 +41,51 @@ export const TEXT = {
     },
     code_view: {
         title: 'Code Comparison',
-        hint: 'Compare the source code with PTX assembly or binary SASS code.',
+        hint: 'Compare the source code with intermediary PTX or SASS representations.',
         toggle: {
-            old: 'Old Kernel',
-            new: 'New Kernel'
+            old: 'Original kernel',
+            new: 'Current kernel'
         },
         code_info: {
             default_occurrence_title: 'Occurrence found',
             stalls_title: 'PC Sampling Stalls',
             recommendations_title: 'Recommendations',
             multiple_selected_info:
-                'You have currently selected multiple occurrences. To get further insights into one of them, click on one of the highlighted lines in the assembly/binary code.'
+                'You have currently selected multiple occurrences. To get further insights into one of them, click on one of the highlighted lines in the intermediary representation.'
         },
         help_texts: {
             live_registers: {
                 title: 'Live Registers',
-                help_text: 'bla bla'
+                help_text: HELP_TEXTS.registers
             }
         }
     },
     summary: {
         toggle: {
-            sass: 'Sass Code',
+            sass: 'SASS Code',
             ptx: 'PTX Code'
         }
     },
     top_section: {
         title: 'Relevant Kernel Metrics',
-        title_comparison: 'Relevant Kernel Metrics (Old vs New Kernel)',
+        title_comparison: 'Relevant Kernel Metrics (Original vs current kernel)',
         hint: 'The following metrics are relevant for the current analysis.'
-    },
-    complete_memory_graph: {
-        help_text: 'This is a very long help text'
     },
     analyses: {
         general: {
             code_info: {
                 no_line_selected: `No line selected.
-Select a line with red or blue markings to get information about findings in that line.
-Lines marked in blue correspond to lines with general information, while lines marked in red contain optimizations for potential performance bottlenecks.`,
+Select a line highlighted in red or blue to get information about findings in that line.
+Lines highlighted in blue correspond to general information, while lines marked in red contain optimizations for potential performance bottlenecks.`,
                 source_occurrence_selected:
-                    'One or more occurrences found for the currently selected source code line. Select one of the highlighted code lines in the binary code to get further information.',
+                    'One or more occurrences found for the currently selected source code line. Select one of the highlighted code lines in the intermediary representation to get further information.',
                 no_info: `No information available for the selected line(s).
 Select a highlighted line in the code to get further information.
-Lines marked in blue correspond to lines with general information, while lines marked in red contain optimizations for potential performance bottlenecks.`
+Lines highlighted in blue correspond to general information, while lines marked in red contain optimizations for potential performance bottlenecks.`
             },
             warp_stall_analysis: {
                 title: 'Warp stall analysis',
-                hint: 'Occurrence of relevant warp stalls in the kernel',
+                hint: 'Occurrences of relevant warp stalls in the kernel',
                 help_strings: {
                     total_stalls: 'The total number of stalls should be kept as low as possible'
                 }
@@ -130,8 +129,8 @@ Lines marked in blue correspond to lines with general information, while lines m
                     title: 'Memory graph'
                 },
                 atomics_usage: {
-                    title: 'Current usage of atomics in the kernel',
-                    hint: 'Some hint'
+                    title: 'Atomics usage',
+                    hint: 'Current usage of global and shared atomics in the kernel'
                 }
             }
         },
@@ -150,7 +149,7 @@ Lines marked in blue correspond to lines with general information, while lines m
             top_section: {
                 load_analysis: {
                     title: 'Load analysis',
-                    hint: 'Load analysis hint'
+                    hint: 'Usage of (load) instructions in the kernel.'
                 }
             }
         },
@@ -165,11 +164,11 @@ Lines marked in blue correspond to lines with general information, while lines m
                     type: {
                         bandwidth: {
                             title: 'LMEM Bandwidth impact',
-                            hint: 'Percentage of queries that are issued due to local memory accesses'
+                            hint: 'Percentage of queries issued due to LMEM'
                         },
                         instruction: {
                             title: 'LMEM Instruction impact',
-                            hint: 'Perccentage of instructions that are issued due to local memory accesses'
+                            hint: 'Perccentage of instructions issued due to LMEM'
                         }
                     }
                 }

@@ -7,7 +7,7 @@ import { Occurrence } from '../renderer/src/utils/Analysis';
 import { CODE_BINARY_TOKEN_COLORS } from './colors';
 
 /**
- * Defines a occurrence in the datatype conversion analysis
+ * Defines an occurrence in the datatype conversion analysis
  * @class
  */
 export class DatatypeConversionOccurrence extends Occurrence {
@@ -35,13 +35,13 @@ export class DatatypeConversionOccurrence extends Occurrence {
             stalls = '- Short scoreboard stalls\n- Mio Throttle stalls\n- Tex Throttle stalls';
         }
         return `Datatype conversions should be avoided whenever possible due to their performance impact.
-In the case of a <b>${this.type}</b> coversion, high values in any of the following stalls in the current line indicate a potential performance bottleneck:\n${stalls}
+In the case of a <b>${this.type}</b> conversion, high values in any of the following stalls in the current line indicate a potential performance bottleneck:\n${stalls}
 After modifying the code, improvements in the mentioned warp stalls should be seen.`;
     }
 }
 
 /**
- * Defines a occurrence in the global atomics analysis
+ * Defines an occurrence in the global atomics analysis
  * @class
  */
 export class GlobalAtomicsOccurrence extends Occurrence {
@@ -73,13 +73,13 @@ export class GlobalAtomicsOccurrence extends Occurrence {
         return `The use of global or shared atomics can lead to increases in LG Throttle, MIO Throttle, as well as long scoreboard stalls. In the case of high LG Throttle, but low MIO Throttle stalls, shared atomics should be used, with global atomics being recommended in cases of high MIO Throttle stalls, but low LG Throttle and long scoreboard stalls.
 If high values are seen in all three stall reasons, try to switch between global and shared atomics and compare the results.
 
-Additionally, global atomics should never be used in the instruction executed is inside a for loop.
+Additionally, global atomics should never be used if the instruction executed is inside a for loop.
 After modifying the code, improvements or only slight increases should be seen in the mentioned warp stalls, with the total number of stalls decreasing.`;
     }
 }
 
 /**
- * Defines a occurrence in the register spilling analysis
+ * Defines an occurrence in the register spilling analysis
  * @class
  */
 export class RegisterSpillingOccurrence extends Occurrence {
@@ -146,7 +146,7 @@ export class RegisterSpillingOccurrence extends Occurrence {
         result += `\nAt the moment of spilling, <b>${this.usedRegisters}</b> registers were in use. `;
 
         if (this.registerPressureIncrease > 0) {
-            result += `The previous SASS instruction increased the register pressure with <b>${this.registerPressureIncrease}</b> more registers.\n`;
+            result += `The previous SASS instruction increased the register pressure by <b>${this.registerPressureIncrease}</b> additional registers.\n`;
         } else {
             result += `The previous SASS instruction did not increase the register pressure.\n`;
         }
@@ -155,9 +155,9 @@ export class RegisterSpillingOccurrence extends Occurrence {
     }
 
     recommendations() {
-        return `Register spilling happens in cases, where more registers are needed than are available, so register data gets "spilled" to local memory. This can impact performance by leading to increasing memory traffic and instruction count. There are multiple cases to consider:
-- <b>Bandwith limitation</b>: Code is considered bandwidth-limited in case a high percentage of L2 queries are due to local memory. This can be resolved by increasing L1 cache size, increasing available registers by thread, decreasing register usage or using non-caching loads for global memory.
-- <b>Instruction limitation</b>: Code is considered instruction-limited in case a large fraction of instruction issued is due to local memory. This can be resolved by increasing available registers by thread, decreasing register usage or using non-caching loads for global memory.
+        return `Register spilling happens in cases where more registers are needed than are available, so register data gets "spilled" to local memory. This can impact performance by leading to increasing memory traffic and instruction count. There are multiple cases to consider:
+- <b>Bandwith limitation</b>: Code is considered bandwidth-limited in case a high percentage of L2 queries are issued due to local memory. This can be resolved by increasing L1 cache size, increasing available registers by thread, decreasing register usage or using non-caching loads for global memory.
+- <b>Instruction limitation</b>: Code is considered instruction-limited in case a large fraction of instructions issued are due to local memory. This can be resolved by increasing available registers by thread, decreasing register usage or using non-caching loads for global memory.
 
 In cases of general low local memory usage, register spills can also be contained by the L1 cache, significantly decreasing their performance impact.
 When making changes to the code, L1 cache utilization, used and available registers, as well as occupancy should be compared, with high LG Throttle stalls and long scoreboard stalls in the current line likely also being a result of the spill.`;
@@ -180,7 +180,7 @@ When making changes to the code, L1 cache utilization, used and available regist
 }
 
 /**
- * Defines a occurrence in the restrict analysis
+ * Defines an occurrence in the restrict analysis
  * @class
  */
 export class UseRestrictOccurrence extends Occurrence {
@@ -201,7 +201,7 @@ export class UseRestrictOccurrence extends Occurrence {
          * The amount of currently used registers
          * @type {Number}
          */
-        this.usedRegisters = occurrenceData['used_register_count'] || 0;
+        this.usedRegisters = occurrenceData['used_register_count'];
         /**
          * The register pressure increase from the last SASS instruction
          * @type {Number}
@@ -217,8 +217,10 @@ export class UseRestrictOccurrence extends Occurrence {
         if (this.isReadOnlyMemoryUsed) {
             return `Register <b>${this.register}</b> is already using read-only cache.`;
         } else {
-            let result = `Register <b>${this.register}</b> is not aliased anywhere in the kernel and would thus benefit from being marked with the __restrict__ keyword.
-There are currently <b>${this.usedRegisters}</b> registers used.`;
+            let result = `Register <b>${this.register}</b> is not aliased anywhere in the kernel and would thus benefit from being marked with the __restrict__ keyword.`;
+            if (this.usedRegisters) {
+                result += `\nThere are currently <b>${this.usedRegisters}</b> registers used.`;
+            }
             if (this.registerPressureIncrease > 0) {
                 result += `The previous SASS instruction increased the register pressure by <b>${this.registerPressureIncrease}</b> additional registers.`;
             }
@@ -227,7 +229,7 @@ There are currently <b>${this.usedRegisters}</b> registers used.`;
     }
 
     recommendations() {
-        return `By marking pointers with the __restrict__ property, the compiler will be informed that data written through a pointer will not be read by another pointer, which allows for more aggressive optimizations and often leads to performance gains.
+        return `By marking pointers with the __restrict__ keyword, the compiler will be informed that data written through a pointer will not be read by another pointer, which allows for more aggressive optimizations and often leads to performance gains.
 This means that restrict should be used whenever available, the only exception being in cases of already high register pressure. As using the __restrict__ keyword can further increase total used registers, it should not be used when the used register count is already near total available registers.
 
 After modyfing the code, the total number of stalls should decrease, with increases in IMC Miss stalls being the exception. Other metrics that should be followed are the number of global memory instructions, which should decrease, as well as the occupancy, which should not go down too much (due to increased register usage).`;
@@ -240,14 +242,10 @@ After modyfing the code, the total number of stalls should decrease, with increa
             }
         };
     }
-
-    linesToHighlight() {
-        return [];
-    }
 }
 
 /**
- * Defines a occurrence in the use shared analysis
+ * Defines an occurrence in the use shared analysis
  * @class
  */
 export class UseSharedOccurrence extends Occurrence {
@@ -317,23 +315,19 @@ export class UseSharedOccurrence extends Occurrence {
                 return result;
             }
         } else {
-            let result = `Register <b>${this.register}</b> in the current line has <b>${this.globalLoads}</b> global loads and <b>${this.computationInstructions}</b> computation instructions.`;
+            let result = `Register <b>${this.register}</b> in the current line is used in <b>${this.globalLoads}</b> global loads and <b>${this.computationInstructions}</b> computation instructions.`;
             if (this.isInForLoop) {
                 result += '\nAdditionally, this instruction is executed within a for loop.';
             }
 
             if (this.globalLoadBinaryLineNumbers.length > 0) {
-                result += '\nGlobal loads of this register are found at the following addresses:';
-                for (const address of this.globalLoadBinaryLineNumbers) {
-                    result += `\n- <b>${address}</b>`;
-                }
+                result += '\nGlobal loads of this register are found at the following addresses:\n';
+                result += this.globalLoadBinaryLineNumbers.map((n) => `<b>${n}</b>`).join(', ');
             }
 
             if (this.computationInstructionBinaryLineNumbers.length > 0) {
                 result += '\nComputation instructions of this register are found at the following addresses:';
-                for (const address of this.computationInstructionBinaryLineNumbers) {
-                    result += `\n- <b>${address}</b>`;
-                }
+                result += this.computationInstructionBinaryLineNumbers.map((n) => `<b>${n}</b>`).join(', ');
             }
 
             return result;
@@ -364,7 +358,7 @@ After modifying the code, total stalls should decrease. After switching to using
 }
 
 /**
- * Defines a occurrence in the use texture analysis
+ * Defines an occurrence in the use texture analysis
  * @class
  */
 export class UseTextureOccurrence extends Occurrence {
@@ -406,9 +400,10 @@ export class UseTextureOccurrence extends Occurrence {
             result += `Spatial locality has been found for the data stored in this register.`;
             if (this.unrollBinaryLineNumbers.length > 1) {
                 result += ` Namely at the following addresses (in addition to the current address):\n`;
-                for (const address of this.unrollBinaryLineNumbers.filter((n) => n !== this.binaryLineNumber)) {
-                    result += `- <b>${address}</b>\n`;
-                }
+                this.unrollBinaryLineNumbers
+                    .filter((n) => n !== this.binaryLineNumber)
+                    .map((n) => `<b>${n}</b>`)
+                    .join(', ');
             }
         } else {
             result += 'Spatial locality has not been found for the data stored in this register.';
@@ -434,7 +429,7 @@ export class UseTextureOccurrence extends Occurrence {
 }
 
 /**
- * Defines a occurrence in the vectorization analysis
+ * Defines an occurrence in the vectorization analysis
  * @class
  */
 export class VectorizationOccurrence extends Occurrence {
@@ -468,7 +463,7 @@ export class VectorizationOccurrence extends Occurrence {
          * The number of currently used registers
          * @type {Number}
          */
-        this.usedRegisters = occurrenceData['used_register_count'] || 0;
+        this.usedRegisters = occurrenceData['used_register_count'];
         /**
          * The register pressure increase due to the last SASS instruction
          * @type {Number}
@@ -485,9 +480,7 @@ export class VectorizationOccurrence extends Occurrence {
     description() {
         if (this.registerLoadType === 0 && this.adjacentMemoryAccesses > 0) {
             let result = `Register <b>${this.register}</b> has <b>${this.adjacentMemoryAccesses}</b> adjacent memory accesses and thus should use a vectorized load instead. In addition to the current line, adjacent memory accesses happen at the following addresses:\n`;
-            for (const access of this.unrollBinaryLineNumbers) {
-                result += `- <b>${access}</b>\n`;
-            }
+            result += this.unrollBinaryLineNumbers.map((n) => `<b>${n}</b>`).join(', ');
             return result;
         } else if (this.registerLoadType === 1) {
             return `Register <b>${this.register}</b> is already using 64-bit width vectorized load.`;
@@ -516,7 +509,7 @@ export class VectorizationOccurrence extends Occurrence {
 }
 
 /**
- * Defines a occurrence in the warp divergence analysis
+ * Defines an occurrence in the warp divergence analysis
  * @class
  */
 export class WarpDivergenceOccurrence extends Occurrence {

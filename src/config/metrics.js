@@ -338,7 +338,7 @@ export const METRICS = {
     local_loads_l1_cache_hit_perc: {
         name: 'local/loads_l1_cache_hit_perc',
         display_name: 'Local load L1 cache hits',
-        hint: '',
+        hint: 'Percentage of L1 cache hits of local load instructions',
         format_function: formatPercent,
         help_text: HELP_TEXTS.show_memory_graph,
         lower_better: false
