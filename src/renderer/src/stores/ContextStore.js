@@ -15,7 +15,8 @@ export const CONTEXT = {
     START_SCREEN: 1,
     ANALYSIS: 2,
     CODE_VIEW: 3,
-    SUMMARY: 4
+    SUMMARY: 4,
+    LOADING: 5
 };
 
 /**

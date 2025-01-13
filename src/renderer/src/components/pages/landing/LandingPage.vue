@@ -53,7 +53,7 @@ Author: Tobias Stuckenberger
     </div>
 </template>
 <script setup>
-import { computed } from 'vue';
+import { computed, nextTick } from 'vue';
 import { useConfigStore } from '../../../stores/ConfigStore';
 import AnalysesFromFolder from './AnalysesFromFolder.vue';
 import { ref } from 'vue';
@@ -64,9 +64,11 @@ import ButtonSecondary from '../../ui/buttons/ButtonSecondary.vue';
 import SelectMemoryTopology from './SelectMemoryTopology.vue';
 import IconAdd from '../../ui/icons/IconAdd.vue';
 import { TEXT } from '../../../../../config/text';
+import { CONTEXT, useContextStore } from '../../../stores/ContextStore';
 
 const configStore = useConfigStore();
 const dataStore = useDataStore();
+const contextStore = useContextStore();
 
 const config = computed(() => configStore.getConfig);
 
@@ -148,6 +150,9 @@ async function proceed() {
         ? await window.electronAPI.loadFile(selectedComparisonMT4GPath.value)
         : undefined;
 
-    await dataStore.initialize(analysisFileData, comparisonAnalysisFileData, topologyData, comparisonTopologyData);
+    contextStore.setCurrentContext(CONTEXT.LOADING);
+    setTimeout(async () => {
+        await dataStore.initialize(analysisFileData, comparisonAnalysisFileData, topologyData, comparisonTopologyData);
+    }, 100);
 }
 </script>
