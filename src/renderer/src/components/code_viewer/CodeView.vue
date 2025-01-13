@@ -137,8 +137,9 @@ watch(
     () => props.scrollToLines,
     (newValue) => {
         for (const address of newValue) {
-            if (address < 0) continue;
+            if (address < 0 || !address) continue;
             const index = relevantLines.value.findIndex((l) => l.address === address);
+            if (index < 0) continue;
             const scrollTo = index * 24 - lineContainer.value.getBoundingClientRect().height / 2;
             lineContainer.value.scrollTo({
                 top: scrollTo,
