@@ -15,23 +15,32 @@ Author: Tobias Stuckenberger
             <p>Live Reg.</p>
             <ButtonHelp class="*:h-4 *:w-4 *:fill-text" @click="showLiveRegisterHelp" />
         </div>
-        <div ref="lineContainer" class="h-full w-full overflow-y-auto" @scroll="onScroll">
-            <div v-if="codeType === CODE_TYPE.SOURCE_CODE" class="sticky top-0 z-10 m-0 w-full bg-secondary">
-                <select
-                    ref="sourceFileSelector"
-                    class="mx-1 max-w-full overflow-hidden text-ellipsis bg-secondary px-2 text-left"
-                    style="direction: rtl"
-                    :value="currentSourceFile"
-                    @change="onChangeSourceFile"
-                >
-                    <option v-for="file in sourceFiles" :key="file" :value="file">
-                        {{ file }}
-                    </option>
-                </select>
-            </div>
-            <div class="relative" :style="{ height: relevantLines.length * 1.5 + 'rem' }">
+        <div v-if="codeType === CODE_TYPE.SOURCE_CODE" class="sticky top-0 z-10 m-0 w-full bg-secondary">
+            <select
+                ref="sourceFileSelector"
+                class="mx-1 max-w-full overflow-hidden text-ellipsis bg-secondary px-2 text-left"
+                style="direction: rtl"
+                :value="currentSourceFile"
+                @change="onChangeSourceFile"
+            >
+                <option v-for="file in sourceFiles" :key="file" :value="file">
+                    {{ file }}
+                </option>
+            </select>
+        </div>
+        <div
+            ref="lineContainer"
+            class="h-full w-full overflow-y-auto"
+            @scroll="onScroll"
+            :class="codeType !== CODE_TYPE.SOURCE_CODE ? 'overflow-x-hidden' : 'overflow-x-auto'"
+        >
+            <div
+                v-if="relevantLines.length - firstVisibleLine > 0"
+                class="relative"
+                :style="{ height: relevantLines.length * 1.5 + 'rem' }"
+            >
                 <div
-                    v-for="index in Math.min(250, relevantLines.length - firstVisibleLine)"
+                    v-for="index in Math.min(150, relevantLines.length - firstVisibleLine)"
                     :key="relevantLines[index + firstVisibleLine - 1]"
                     class="absolute w-full"
                     :style="{ top: (index - 1 + firstVisibleLine) * 1.5 + 'rem' }"
@@ -130,7 +139,7 @@ function showLiveRegisterHelp() {
 }
 
 async function onScroll(event) {
-    firstVisibleLine.value = Math.max(Math.floor(event.target.scrollTop / 24) - 100, 0);
+    firstVisibleLine.value = Math.max(Math.floor(event.target.scrollTop / 24) - 50, 0);
 }
 
 watch(

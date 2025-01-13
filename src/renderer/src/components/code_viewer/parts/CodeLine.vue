@@ -12,10 +12,7 @@ Author: Tobias Stuckenberger
             {{ lineNumber || '' }}
             <IconWarning v-if="hasStalls" class="h-4 w-4" />
         </p>
-        <p
-            class="flex max-h-6 min-h-6 w-full flex-grow border-collapse flex-row flex-wrap overflow-hidden whitespace-pre text-wrap"
-            :class="getHighlight()"
-        >
+        <p class="flex max-h-6 min-h-6 w-full flex-grow border-collapse flex-row whitespace-pre" :class="getHighlight()">
             <template v-if="codeType !== CODE_TYPE.SOURCE_CODE && tokensHighlighted">
                 <CodeLineToken
                     v-for="token in tokens"
