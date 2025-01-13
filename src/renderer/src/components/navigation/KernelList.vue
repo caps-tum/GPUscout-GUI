@@ -1,6 +1,7 @@
 <template>
     <div
-        class="absolute z-40 flex max-h-[50vh] flex-col space-y-1 overflow-y-auto rounded border border-background bg-primary p-2"
+        class="absolute flex max-h-[50vh] flex-col space-y-1 overflow-y-auto rounded border border-background bg-primary p-2"
+        style="z-index: 51"
     >
         <TextInput placeholder="Filter kernels" @changed="onSearchInput" />
         <KernelListEntry
