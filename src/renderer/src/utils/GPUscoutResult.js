@@ -591,7 +591,6 @@ export class GPUscoutResult {
             let relevantStalls = stalls[Object.entries(kernelMapping).find(([, v]) => v === kernel)[0]] || [];
             let totalStalls = relevantStalls.flatMap((s) => s['stalls'].map((st) => st[1])).reduce((a, b) => a + b, 0);
 
-            let lineNumber = 1;
             const oldToNewLineNumbers = {};
 
             this._sourceCodeLines[kernel] = [];

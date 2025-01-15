@@ -90,6 +90,9 @@ export const useCodeViewerStore = defineStore('codeViewer', () => {
         dataStore.setCurrentAnalysis(currentAnalysis.value);
     }
 
+    /**
+     * @param {String} fileName The name of the source file that sould be displayed
+     */
     function setCurrentSourceFile(fileName) {
         currentSourceFile.value = fileName;
         setSelectedLine(selectedLine.value);

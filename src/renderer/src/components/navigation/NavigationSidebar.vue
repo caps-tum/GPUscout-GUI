@@ -108,12 +108,16 @@ const kernelList = ref(null);
 
 /**
  * Change the currently selected kernel
+ * @param {String} kernel The kernel that the user selected
  */
 function changeKernel(kernel) {
     dataStore.setCurrentKernel(kernel);
     kernelList.value.classList.add('hidden');
 }
 
+/**
+ * Open the kernel selection popup
+ */
 function openKernelSelection(event) {
     event.preventDefault();
     kernelList.value.classList.toggle('hidden');

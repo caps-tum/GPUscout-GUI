@@ -18,7 +18,6 @@ export const useDataStore = defineStore('data', () => {
     const contextStore = useContextStore();
 
     const useComparisonCode = computed(() => codeViewerStore.displayComparisonCode);
-    const currentSourceFile = computed(() => codeViewerStore.getCurrentSourceFile);
 
     /** @type {GPUscoutResult} */
     let gpuscoutResult;

@@ -31,8 +31,8 @@ Author: Tobias Stuckenberger
         <div
             ref="lineContainer"
             class="h-full w-full overflow-y-auto"
-            @scroll="onScroll"
             :class="codeType !== CODE_TYPE.SOURCE_CODE ? 'overflow-x-hidden' : 'overflow-x-auto'"
+            @scroll="onScroll"
         >
             <div
                 v-if="relevantLines.length - firstVisibleLine > 0"
@@ -124,6 +124,9 @@ const relevantLines = computed(() =>
 );
 const firstVisibleLine = ref(0);
 
+/**
+ * Changes the source file to the one the user selected
+ */
 function onChangeSourceFile() {
     codeViewerStore.setCurrentSourceFile(sourceFileSelector.value.value);
 }
@@ -138,10 +141,15 @@ function showLiveRegisterHelp() {
     });
 }
 
+/**
+ * Change the first rendered line depending on where the user has scrolled
+ * To improve performance, not every code line is rendered
+ */
 async function onScroll(event) {
     firstVisibleLine.value = Math.max(Math.floor(event.target.scrollTop / 24) - 50, 0);
 }
 
+// If the scrollToLines array changed, scroll to the contained line numbers
 watch(
     () => props.scrollToLines,
     (newValue) => {

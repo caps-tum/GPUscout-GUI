@@ -66,10 +66,10 @@ const tokensHighlighted = computed(() => {
                 continue;
             }
             if (
-                (key.startsWith('<=') && props.lineNumber.toString() <= key.substring(2)) ||
-                (key.startsWith('>=') && props.lineNumber.toString() >= key.substring(2)) ||
+                key === '*' ||
                 props.lineNumber.toString() === key ||
-                key === '*'
+                (key.startsWith('<=') && props.lineNumber.toString() <= key.substring(2)) ||
+                (key.startsWith('>=') && props.lineNumber.toString() >= key.substring(2))
             ) {
                 return true;
             }

@@ -15,6 +15,9 @@ const props = defineProps({
 
 const emit = defineEmits(['select']);
 
+/**
+ * Background of the entry depending on if the kernel is currently selected and has analyses with results
+ */
 function getBackground() {
     if (props.currentKernel === props.kernel) {
         return 'bg-primary border border-background !text-background';
