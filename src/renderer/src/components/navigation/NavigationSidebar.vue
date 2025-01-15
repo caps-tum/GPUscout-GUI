@@ -142,7 +142,14 @@ function getAnalysesPerKernel(kernel) {
  * @returns {String} A special style if this analysis entry is currently selected
  */
 function getAnalysisStyle(analysis) {
-    return analysis === currentAnalysis.value ? 'font-bold' : '';
+    const hasWarning =
+        dataStore
+            .getGPUscoutResult()
+            .getAnalysis(analysis, currentKernel.value)
+            .getOccurrences()
+            .filter((o) => o.isWarning).length > 0;
+    const noWarningStyle = hasWarning ? '' : 'text-background/50 ';
+    return noWarningStyle + (analysis === currentAnalysis.value ? 'font-bold' : '');
 }
 
 /**

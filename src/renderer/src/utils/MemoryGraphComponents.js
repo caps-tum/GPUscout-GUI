@@ -208,7 +208,7 @@ export class Arrow extends MemoryGraphElement {
 }
 
 /**
- * Defines a spacer in the graph (en empty node)
+ * Defines a spacer in the graph (an empty node)
  * @class
  */
 export class Spacer extends MemoryGraphElement {}
