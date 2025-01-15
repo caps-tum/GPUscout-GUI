@@ -165,7 +165,7 @@ When making changes to the code, L1 cache utilization, used and available regist
 
     tokensToHighlight() {
         return {
-            [`<=${this.binaryLineNumber}`]: {
+            '*': {
                 [this.register]: CODE_BINARY_TOKEN_COLORS.REGISTER_1
             }
         };
@@ -346,7 +346,7 @@ After modifying the code, total stalls should decrease. After switching to using
 
     tokensToHighlight() {
         return {
-            ['*']: {
+            '*': {
                 [this.register]: CODE_BINARY_TOKEN_COLORS.REGISTER_1
             }
         };
@@ -421,7 +421,7 @@ export class UseTextureOccurrence extends Occurrence {
 
     tokensToHighlight() {
         return {
-            [`>=${this.binaryLineNumber}`]: {
+            '*': {
                 [this.writtenRegister]: CODE_BINARY_TOKEN_COLORS.REGISTER_1
             }
         };
