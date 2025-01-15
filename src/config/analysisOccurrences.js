@@ -326,7 +326,7 @@ export class UseSharedOccurrence extends Occurrence {
             }
 
             if (this.computationInstructionBinaryLineNumbers.length > 0) {
-                result += '\nComputation instructions of this register are found at the following addresses:';
+                result += '\nComputation instructions of this register are found at the following addresses:\n';
                 result += this.computationInstructionBinaryLineNumbers.map((n) => `<b>${n}</b>`).join(', ');
             }
 

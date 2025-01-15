@@ -579,15 +579,16 @@ export class GPUscoutResult {
      * Uses the SASS and PTX line mappings to extract the source code per kernel
      * @param {{String, String}} sourceFileContents The contents of the cuda source files
      * @param {Object.<String, Array.<{line_number: Number, pc_offset: String, stalls: Array.<Array.<Number, String>>}>>} stalls An object containing all recorded pc sampling stalls
+     * @param {Object.<String, String>} kernelMapping A map mapping mangled to demangled kernel names
      */
-    _aggregateKernelSourceCode(sourceFileContents, stalls) {
+    _aggregateKernelSourceCode(sourceFileContents, stalls, kernelMapping) {
         for (const kernel of this._kernels) {
             // Get relevant lines for this kernel by source files
             let relevantLines = Object.groupBy(
                 Object.values(this._sassToSourceLines[kernel]).concat(Object.values(this._ptxToSourceLines[kernel])),
                 ({ file }) => file
             );
-            let relevantStalls = stalls[kernel] || [];
+            let relevantStalls = stalls[Object.entries(kernelMapping).find(([, v]) => v === kernel)[0]] || [];
             let totalStalls = relevantStalls.flatMap((s) => s['stalls'].map((st) => st[1])).reduce((a, b) => a + b, 0);
 
             let lineNumber = 1;
@@ -597,8 +598,10 @@ export class GPUscoutResult {
             this._sourceFileNames[kernel] = [];
 
             for (let [sourceFile, lineNumbers] of Object.entries(relevantLines)) {
+                let isMainSourceFile = false;
                 if (!this._mainSourceFileName[kernel]) {
                     this._mainSourceFileName[kernel] = sourceFile;
+                    isMainSourceFile = true;
                 }
                 if (!this._sourceFileNames[kernel].includes(sourceFile)) {
                     this._sourceFileNames[kernel].push(sourceFile);
@@ -622,12 +625,13 @@ export class GPUscoutResult {
                     // Aggregate the stalls for this line
                     const lineStalls = Object.fromEntries(
                         relevantStalls
-                            .filter((s) => s['line_number'] === lineNumber++)
+                            .filter((s) => s['line_number'] === fileLineNumber)
                             .flatMap((s) => s['stalls'])
                             .reduce((a, b) => {
                                 a.find((x) => x[0] === b[0]) ? (a.find((x) => x[0] === b[0])[1] += b[1]) : a.push(b);
                                 return a;
                             }, [])
+                            .filter(([k]) => !k.endsWith('not_issued'))
                     );
                     if (Object.keys(lineStalls).length > 0) {
                         // Save the total stalls in a separate key for convenience
@@ -637,7 +641,7 @@ export class GPUscoutResult {
                     this._sourceCodeLines[kernel].push({
                         address: fileLineNumber++,
                         tokens: [sourceFileContents[sourceFile][i - 1]], // The tokens of this line
-                        stalls: lineStalls,
+                        stalls: isMainSourceFile ? lineStalls : [],
                         hasSassMapping: false,
                         hasPtxMapping: false,
                         hasSassRelevance: fileIsRelevantForSASS,
