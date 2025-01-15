@@ -179,16 +179,12 @@ export const MEMORY_GRAPH_DEFINITION = {
                 .setDirection(DIRECTION.BOTH)
                 .addSpaceAbove(),
             new Arrow(METRICS.texture_instructions.name).setDirection(DIRECTION.RIGHT).addSpaceAbove()
-            /*new Arrow(METRICS.surface_loads_instructions.name, METRICS.surface_stores_instructions.name)
-                .setDirection(DIRECTION.BOTH)
-                .addSpaceAbove()*/
         ],
         [
             new Node(new NodeTextContent('Shared Memory')),
             new Node(new NodeTextContent('Global Memory')).addSpaceAbove(),
             new Node(new NodeTextContent('Local Memory')).addSpaceAbove(),
             new Node(new NodeTextContent('Texture Memory')).addSpaceAbove()
-            // new Node(new NodeTextContent('Surface Memory')).addSpaceAbove()
         ],
         [
             new Spacer(),
@@ -199,9 +195,6 @@ export const MEMORY_GRAPH_DEFINITION = {
                 .setDirection(DIRECTION.BOTH)
                 .addSpaceAbove(),
             new Arrow(METRICS.texture_loads_to_l1_bytes.name).setDirection(DIRECTION.LEFT).addSpaceAbove()
-            /* new Arrow(METRICS.surface_loads_to_l1_bytes.name, METRICS.surface_stores_to_l1_bytes.name)
-                .setDirection(DIRECTION.BOTH)
-                .addSpaceAbove()*/
         ],
         [
             new Node(
@@ -221,11 +214,6 @@ export const MEMORY_GRAPH_DEFINITION = {
                     '{value} hit rate',
                     '{comp_value} vs {value} hit rate'
                 )
-                /*new NodeMetricContent(
-                    METRICS.surface_loads_l1_cache_hit_perc.name,
-                    '{comp_value} hit rate',
-                    '{comp_value} vs {value} hit rate'
-                )*/
             ).setRowSpan(7)
         ],
         [
@@ -237,9 +225,6 @@ export const MEMORY_GRAPH_DEFINITION = {
                 .setDirection(DIRECTION.BOTH)
                 .addSpaceAbove(),
             new Arrow(METRICS.texture_loads_l1_to_l2_bytes.name).setDirection(DIRECTION.LEFT).addSpaceAbove()
-            /*new Arrow(METRICS.surface_loads_l1_to_l2_bytes.name, METRICS.surface_stores_l1_to_l2_bytes.name)
-                .setDirection(DIRECTION.BOTH)
-                .addSpaceAbove()*/
         ],
         [
             new Node(
@@ -259,15 +244,13 @@ export const MEMORY_GRAPH_DEFINITION = {
         [
             new Spacer(),
             new Spacer(),
-            //new Spacer(),
             new Arrow(METRICS.general_loads_l2_to_dram_bytes.name, METRICS.general_stores_l2_to_dram_bytes.name)
                 .setDirection(DIRECTION.BOTH)
                 .addSpaceBelow()
                 .addSpaceAbove(),
             new Spacer(),
-            //new Spacer(),
             new Spacer()
         ],
-        [new Spacer(), new Spacer(), /*new Spacer(),*/ new Spacer(), new Node(new NodeTextContent('DRAM {size}'))]
+        [new Spacer(), new Spacer(), new Spacer(), new Node(new NodeTextContent('DRAM {size}'))]
     ).makeLarge()
 };
