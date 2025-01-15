@@ -92,6 +92,7 @@ export const useCodeViewerStore = defineStore('codeViewer', () => {
 
     function setCurrentSourceFile(fileName) {
         currentSourceFile.value = fileName;
+        setSelectedLine(selectedLine.value);
     }
 
     /**
