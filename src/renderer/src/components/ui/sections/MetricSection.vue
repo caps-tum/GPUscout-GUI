@@ -26,12 +26,12 @@ Author: Tobias Stuckenberger
                     :comparison-value="comparisonAnalysisData ? values[index](comparisonAnalysisData, metric) : undefined"
                     :secondary-value="
                         secondaryValues
-                            ? secondaryValues[Math.min(secondaryValues.length - 1, index)](analysisData)
+                            ? secondaryValues[Math.min(secondaryValues.length - 1, index)](analysisData, metric)
                             : undefined
                     "
                     :comparison-secondary-value="
                         secondaryValues && comparisonAnalysisData
-                            ? secondaryValues[Math.min(secondaryValues.length - 1, index)](comparisonAnalysisData)
+                            ? secondaryValues[Math.min(secondaryValues.length - 1, index)](comparisonAnalysisData, metric)
                             : undefined
                     "
                 />

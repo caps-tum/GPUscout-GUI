@@ -23,18 +23,7 @@ Author: Tobias Stuckenberger
                             : 'text-red-300 ' + getFlexDirection()
                     "
                 >
-                    <p
-                        v-if="
-                            comparisonValue !== undefined &&
-                            comparisonSecondaryValue !== undefined &&
-                            Number.isInteger(comparisonSecondaryValue)
-                        "
-                    >
-                        {{ formatNumber(secondaryValue - comparisonSecondaryValue) }}
-                    </p>
-                    <p v-else-if="comparisonValue !== undefined">
-                        {{ data.format_function(value - comparisonValue) }}
-                    </p>
+                    {{ formatNumber(value - comparisonValue) }}
                     <p v-if="value > comparisonValue && comparisonValue !== undefined" class="-mt-1 text-2xl">&#x2B06;</p>
                     <p v-else-if="comparisonValue !== undefined" class="-mt-1 text-2xl">&#x2B07;</p>
                 </div>

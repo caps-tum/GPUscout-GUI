@@ -111,30 +111,21 @@ export const ANALYSIS = {
                     },
                     {
                         name: METRICS.stalls_short_scoreboard_perc.name,
-                        secondary_value: (analysis) =>
-                            Math.round(
-                                (analysis.getMetric(METRICS.stalls_total.name) *
-                                    analysis.getMetric(METRICS.stalls_short_scoreboard_perc.name)) /
-                                    100
-                            )
+                        value: (analysis, metric) =>
+                            Math.ceil((analysis.getMetric(metric) * analysis.getMetric(METRICS.stalls_total.name)) / 100),
+                        secondary_value: (analysis, metric) => analysis.getMetric(metric)
                     },
                     {
                         name: METRICS.stalls_mio_throttle_perc.name,
-                        secondary_value: (analysis) =>
-                            Math.round(
-                                (analysis.getMetric(METRICS.stalls_total.name) *
-                                    analysis.getMetric(METRICS.stalls_mio_throttle_perc.name)) /
-                                    100
-                            )
+                        value: (analysis, metric) =>
+                            Math.ceil((analysis.getMetric(metric) * analysis.getMetric(METRICS.stalls_total.name)) / 100),
+                        secondary_value: (analysis, metric) => analysis.getMetric(metric)
                     },
                     {
                         name: METRICS.stalls_tex_throttle_perc.name,
-                        secondary_value: (analysis) =>
-                            Math.round(
-                                (analysis.getMetric(METRICS.stalls_total.name) *
-                                    analysis.getMetric(METRICS.stalls_tex_throttle_perc.name)) /
-                                    100
-                            )
+                        value: (analysis, metric) =>
+                            Math.ceil((analysis.getMetric(metric) * analysis.getMetric(METRICS.stalls_total.name)) / 100),
+                        secondary_value: (analysis, metric) => analysis.getMetric(metric)
                     }
                 ]
             }
@@ -181,30 +172,21 @@ export const ANALYSIS = {
                     },
                     {
                         name: METRICS.stalls_mio_throttle_perc.name,
-                        secondary_value: (analysis) =>
-                            Math.round(
-                                (analysis.getMetric(METRICS.stalls_total.name) *
-                                    analysis.getMetric(METRICS.stalls_mio_throttle_perc.name)) /
-                                    100
-                            )
+                        value: (analysis, metric) =>
+                            Math.ceil((analysis.getMetric(metric) * analysis.getMetric(METRICS.stalls_total.name)) / 100),
+                        secondary_value: (analysis, metric) => analysis.getMetric(metric)
                     },
                     {
                         name: METRICS.stalls_long_scoreboard_perc.name,
-                        secondary_value: (analysis) =>
-                            Math.round(
-                                (analysis.getMetric(METRICS.stalls_total.name) *
-                                    analysis.getMetric(METRICS.stalls_long_scoreboard_perc.name)) /
-                                    100
-                            )
+                        value: (analysis, metric) =>
+                            Math.ceil((analysis.getMetric(metric) * analysis.getMetric(METRICS.stalls_total.name)) / 100),
+                        secondary_value: (analysis, metric) => analysis.getMetric(metric)
                     },
                     {
                         name: METRICS.stalls_lg_throttle_perc.name,
-                        secondary_value: (analysis) =>
-                            Math.round(
-                                (analysis.getMetric(METRICS.stalls_total.name) *
-                                    analysis.getMetric(METRICS.stalls_lg_throttle_perc.name)) /
-                                    100
-                            )
+                        value: (analysis, metric) =>
+                            Math.ceil((analysis.getMetric(metric) * analysis.getMetric(METRICS.stalls_total.name)) / 100),
+                        secondary_value: (analysis, metric) => analysis.getMetric(metric)
                     }
                 ]
             }
@@ -262,21 +244,15 @@ export const ANALYSIS = {
                     },
                     {
                         name: METRICS.stalls_long_scoreboard_perc.name,
-                        secondary_value: (analysis) =>
-                            Math.round(
-                                (analysis.getMetric(METRICS.stalls_total.name) *
-                                    analysis.getMetric(METRICS.stalls_long_scoreboard_perc.name)) /
-                                    100
-                            )
+                        value: (analysis, metric) =>
+                            Math.ceil((analysis.getMetric(metric) * analysis.getMetric(METRICS.stalls_total.name)) / 100),
+                        secondary_value: (analysis, metric) => analysis.getMetric(metric)
                     },
                     {
                         name: METRICS.stalls_lg_throttle_perc.name,
-                        secondary_value: (analysis) =>
-                            Math.round(
-                                (analysis.getMetric(METRICS.stalls_total.name) *
-                                    analysis.getMetric(METRICS.stalls_lg_throttle_perc.name)) /
-                                    100
-                            )
+                        value: (analysis, metric) =>
+                            Math.ceil((analysis.getMetric(metric) * analysis.getMetric(METRICS.stalls_total.name)) / 100),
+                        secondary_value: (analysis, metric) => analysis.getMetric(metric)
                     }
                 ]
             }
@@ -312,11 +288,15 @@ export const ANALYSIS = {
                     },
                     {
                         name: METRICS.stalls_long_scoreboard_perc.name,
-                        secondary_value: (analysis) => analysis.getMetric(METRICS.stalls_total.name)
+                        value: (analysis, metric) =>
+                            Math.ceil((analysis.getMetric(metric) * analysis.getMetric(METRICS.stalls_total.name)) / 100),
+                        secondary_value: (analysis, metric) => analysis.getMetric(metric)
                     },
                     {
                         name: METRICS.stalls_imc_miss_perc.name,
-                        secondary_value: (analysis) => analysis.getMetric(METRICS.stalls_total.name)
+                        value: (analysis, metric) =>
+                            Math.ceil((analysis.getMetric(metric) * analysis.getMetric(METRICS.stalls_total.name)) / 100),
+                        secondary_value: (analysis, metric) => analysis.getMetric(metric)
                     }
                 ]
             }
@@ -355,21 +335,15 @@ export const ANALYSIS = {
                     },
                     {
                         name: METRICS.stalls_long_scoreboard_perc.name,
-                        secondary_value: (analysis) =>
-                            Math.round(
-                                (analysis.getMetric(METRICS.stalls_total.name) *
-                                    analysis.getMetric(METRICS.stalls_long_scoreboard_perc.name)) /
-                                    100
-                            )
+                        value: (analysis, metric) =>
+                            Math.ceil((analysis.getMetric(metric) * analysis.getMetric(METRICS.stalls_total.name)) / 100),
+                        secondary_value: (analysis, metric) => analysis.getMetric(metric)
                     },
                     {
                         name: METRICS.stalls_mio_throttle_perc.name,
-                        secondary_value: (analysis) =>
-                            Math.round(
-                                (analysis.getMetric(METRICS.stalls_total.name) *
-                                    analysis.getMetric(METRICS.stalls_mio_throttle_perc.name)) /
-                                    100
-                            )
+                        value: (analysis, metric) =>
+                            Math.ceil((analysis.getMetric(metric) * analysis.getMetric(METRICS.stalls_total.name)) / 100),
+                        secondary_value: (analysis, metric) => analysis.getMetric(metric)
                     }
                 ]
             }
@@ -397,21 +371,15 @@ export const ANALYSIS = {
                     },
                     {
                         name: METRICS.stalls_long_scoreboard_perc.name,
-                        secondary_value: (analysis) =>
-                            Math.round(
-                                (analysis.getMetric(METRICS.stalls_total.name) *
-                                    analysis.getMetric(METRICS.stalls_long_scoreboard_perc.name)) /
-                                    100
-                            )
+                        value: (analysis, metric) =>
+                            Math.ceil((analysis.getMetric(metric) * analysis.getMetric(METRICS.stalls_total.name)) / 100),
+                        secondary_value: (analysis, metric) => analysis.getMetric(metric)
                     },
                     {
                         name: METRICS.stalls_tex_throttle_perc.name,
-                        secondary_value: (analysis) =>
-                            Math.round(
-                                (analysis.getMetric(METRICS.stalls_total.name) *
-                                    analysis.getMetric(METRICS.stalls_tex_throttle_perc.name)) /
-                                    100
-                            )
+                        value: (analysis, metric) =>
+                            Math.ceil((analysis.getMetric(metric) * analysis.getMetric(METRICS.stalls_total.name)) / 100),
+                        secondary_value: (analysis, metric) => analysis.getMetric(metric)
                     }
                 ]
             }
@@ -453,12 +421,9 @@ export const ANALYSIS = {
                     },
                     {
                         name: METRICS.stalls_long_scoreboard_perc.name,
-                        secondary_value: (analysis) =>
-                            Math.round(
-                                (analysis.getMetric(METRICS.stalls_total.name) *
-                                    analysis.getMetric(METRICS.stalls_long_scoreboard_perc.name)) /
-                                    100
-                            )
+                        value: (analysis, metric) =>
+                            Math.ceil((analysis.getMetric(metric) * analysis.getMetric(METRICS.stalls_total.name)) / 100),
+                        secondary_value: (analysis, metric) => analysis.getMetric(metric)
                     }
                 ]
             }
