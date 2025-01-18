@@ -81,6 +81,13 @@ export class Analysis {
         if (analysisData.occurrences) {
             for (const occurrence of analysisData.occurrences) {
                 let binaryLineNumber = occurrence['pc_offset'] || parseInt(occurrence['line_number_raw']);
+                if (!binaryMapping[binaryLineNumber]) {
+                    alert(
+                        'The line mapping information received does not match information from GPUscout. Make sure no errors occurred during GPUscout and the PTX file does not contain multiple definitions for one kernel.'
+                    );
+                    window.location.reload();
+                    return;
+                }
                 occurrence.sourceFile = binaryMapping[binaryLineNumber][0];
                 this._occurrences.push(occurrenceConstructor(occurrence));
             }

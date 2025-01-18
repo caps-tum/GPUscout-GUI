@@ -16,6 +16,7 @@ Author: Tobias Stuckenberger
                     {{ data.format_function(value, secondaryValue) }}
                 </p>
                 <div
+                    v-if="comparisonValue !== undefined"
                     class="flex px-2"
                     :class="
                         (value <= comparisonValue && data.lower_better) || (value >= comparisonValue && !data.lower_better)
