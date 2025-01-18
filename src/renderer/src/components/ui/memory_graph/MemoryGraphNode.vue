@@ -68,12 +68,10 @@ function getTitle(entry) {
     } else if (entry instanceof NodeMetricContent) {
         const metricData = getMetricsData(entry.metric);
         if (props.comparisonAnalysisData !== undefined) {
-            const isPositiveChange =
-                (props.analysisData.getMetric(entry.metric) <= props.comparisonAnalysisData.getMetric(entry.metric) &&
-                    metricData.lower_better) ||
-                (props.analysisData.getMetric(entry.metric) >= props.comparisonAnalysisData.getMetric(entry.metric) &&
-                    !metricData.lower_better);
-            const changeColor = isPositiveChange ? 'text-green-300' : 'text-red-300';
+            const diff = props.analysisData.getMetric(entry.metric) - props.comparisonAnalysisData.getMetric(entry.metric);
+            let changeColor = '';
+            if (diff < 0 && metricData.lower_better) changeColor = 'text-green-300';
+            else if (diff > 0 && !metricData.lower_better) changeColor = 'text-red-300';
             return entry.comparisonFormat
                 .replace(
                     '{value}',

@@ -19,9 +19,11 @@ Author: Tobias Stuckenberger
                     v-if="comparisonValue !== undefined"
                     class="flex px-2"
                     :class="
-                        (value <= comparisonValue && data.lower_better) || (value >= comparisonValue && !data.lower_better)
+                        (value < comparisonValue && data.lower_better) || (value > comparisonValue && !data.lower_better)
                             ? 'text-green-300 ' + getFlexDirection()
-                            : 'text-red-300 ' + getFlexDirection()
+                            : value !== comparisonValue
+                              ? 'text-red-300 ' + getFlexDirection()
+                              : ''
                     "
                 >
                     {{ formatNumber(value - comparisonValue) }}

@@ -60,12 +60,10 @@ function getTitle(comparison = false, useBottomMetric = false) {
         return metricsData.format_function(props.comparisonAnalysisData.getMetric(metric));
     } else {
         if (props.comparisonAnalysisData) {
-            const isPositiveChange =
-                (props.analysisData.getMetric(metric) <= props.comparisonAnalysisData.getMetric(metric) &&
-                    metricsData.lower_better) ||
-                (props.analysisData.getMetric(metric) >= props.comparisonAnalysisData.getMetric(metric) &&
-                    !metricsData.lower_better);
-            const changeColor = isPositiveChange ? 'text-green-500' : 'text-red-500';
+            const diff = props.analysisData.getMetric(metric) - props.comparisonAnalysisData.getMetric(metric);
+            let changeColor = '';
+            if (diff < 0 && metricsData.lower_better) changeColor = 'text-green-300';
+            else if (diff > 0 && !metricsData.lower_better) changeColor = 'text-red-300';
             return (
                 `<a class="${changeColor}"> ` + metricsData.format_function(props.analysisData.getMetric(metric)) + '</a>'
             );
