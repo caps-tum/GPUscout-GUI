@@ -79,7 +79,16 @@ export function getMetricsData(metricName) {
     if (Object.values(METRICS).find((m) => m.name === metricName)) {
         return Object.values(METRICS).find((m) => m.name === metricName);
     } else if (metricName.startsWith('smsp__pcsamp')) {
-        return STALLS[metricName];
+        if (Object.keys(STALLS).includes(metricName)) {
+            return STALLS[metricName];
+        } else {
+            return {
+                display_name: metricName.replace('smsp__pcsamp_warps_issue_stalled_', '') + ' Stalls (No info)',
+                format_function: formatStall,
+                help_text: '',
+                lower_better: true
+            };
+        }
     } else {
         return {
             display_name: metricName,
