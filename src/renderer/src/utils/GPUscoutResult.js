@@ -81,6 +81,24 @@ export class GPUscoutResult {
         this._mainSourceFileName = {};
         this._sourceFileNames = {};
 
+        // Add not issued stalls to issued stalls (I know this looks horrible)
+        for (const kernel of Object.keys(resultJSON.kernels)) {
+            for (let i = 0; i < resultJSON.stalls[kernel].length; i++) {
+                for (let j = 0; j < resultJSON.stalls[kernel][i].stalls.length; j++) {
+                    if (resultJSON.stalls[kernel][i].stalls[j][0].endsWith('_not_issued')) {
+                        const issued = resultJSON.stalls[kernel][i].stalls[j][0].replace('_not_issued', '');
+                        const value = resultJSON.stalls[kernel][i].stalls[j][1];
+                        if (resultJSON.stalls[kernel][i].stalls.find((s) => s[0] === issued)) {
+                            resultJSON.stalls[kernel][i].stalls.find((s) => s[0] === issued)[1] += value;
+                        }
+                    }
+                }
+                resultJSON.stalls[kernel][i].stalls = resultJSON.stalls[kernel][i].stalls.filter(
+                    (s) => !s[0].endsWith('_not_issued')
+                );
+            }
+        }
+
         // Remove parameters from kernels where possible
         for (const kernel of Object.keys(resultJSON.kernels)) {
             const name = resultJSON.kernels[kernel].substring(0, resultJSON.kernels[kernel].indexOf('('));
@@ -553,7 +571,7 @@ export class GPUscoutResult {
                     relevantStalls
                         .filter((s) => s['pc_offset'].padStart(4, '0') === address)
                         .flatMap((s) => s['stalls'])
-                        .filter((stall) => !stall[0].endsWith('not_issued'))
+                        .map((stall) => [stall[0].replace('_not_issued', ''), stall[1]])
                 );
                 if (Object.keys(lineStalls).length > 0) {
                     lineStalls['total'] = totalStalls;
@@ -630,7 +648,6 @@ export class GPUscoutResult {
                                 a.find((x) => x[0] === b[0]) ? (a.find((x) => x[0] === b[0])[1] += b[1]) : a.push(b);
                                 return a;
                             }, [])
-                            .filter(([k]) => !k.endsWith('not_issued'))
                     );
                     if (Object.keys(lineStalls).length > 0) {
                         // Save the total stalls in a separate key for convenience
