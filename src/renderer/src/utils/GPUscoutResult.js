@@ -479,13 +479,24 @@ export class GPUscoutResult {
         let lastLineBranch = '';
         let relevantStalls = [];
         let totalStalls = 0;
+
         // Map each line number with the line containing the register information
-        let sassRegisterMap = Object.fromEntries(
-            sassRegisters
-                .split('\n')
-                .filter((line) => line.includes('/*'))
-                .map((line) => [line.substring(line.indexOf('/*') + 2, line.indexOf('*/')), line])
-        );
+        let sassRegisterMap = {};
+        for (let line of sassRegisters.split('\n')) {
+            if (line.startsWith('.text')) {
+                currentKernel = kernels[line.substring(6, line.indexOf(':'))] || line.substring(6, line.indexOf(':'));
+                sassRegisterMap[currentKernel] = {};
+            } else if (line.includes('/*')) {
+                const address = line.substring(line.indexOf('/*') + 2, line.indexOf('*/'));
+                const registers = line
+                    .split('|')
+                    .filter((_, i, s) => i >= s.length - 3 && i < s.length - 1)
+                    .map((e) => parseInt(e.trim() || '0'));
+                sassRegisterMap[currentKernel][address] = registers;
+            }
+        }
+
+        currentKernel = '';
 
         for (let line of sassCode.split('\n')) {
             if (currentSourceLine === -1 && !line.startsWith('.text')) {
@@ -552,11 +563,8 @@ export class GPUscoutResult {
                     }
 
                     // Save live register info
-                    if (sassRegisterMap[address]) {
-                        liveRegisters = sassRegisterMap[address]
-                            .split('|')
-                            .filter((_, i, s) => i >= s.length - 3 && i < s.length - 1)
-                            .map((e) => parseInt(e.trim() || '0'));
+                    if (sassRegisterMap[currentKernel] && sassRegisterMap[currentKernel][address]) {
+                        liveRegisters = sassRegisterMap[currentKernel][address];
                     }
                 } else if (line.endsWith(':')) {
                     // This line is a label
