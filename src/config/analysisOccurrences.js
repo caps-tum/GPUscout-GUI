@@ -261,11 +261,11 @@ After modyfing the code, the total number of stalls should decrease, with increa
     }
 
     tokensToHighlight() {
-        const result = highlightRegisters(this.binaryLineTokens);
-        if (!result['*'][this.register]) {
-            result['*'][this.register] = CODE_BINARY_TOKEN_COLORS[`REGISTER_${Object.keys(result['*']).length}`];
-        }
-        return result;
+        return {
+            '*': {
+                [this.register]: CODE_BINARY_TOKEN_COLORS.REGISTER_1
+            }
+        };
     }
 }
 
@@ -370,11 +370,11 @@ After modifying the code, total stalls should decrease. After switching to using
     }
 
     tokensToHighlight() {
-        const result = highlightRegisters(this.binaryLineTokens);
-        if (!result['*'][this.register]) {
-            result['*'][this.register] = CODE_BINARY_TOKEN_COLORS[`REGISTER_${Object.keys(result['*']).length}`];
-        }
-        return result;
+        return {
+            '*': {
+                [this.register]: CODE_BINARY_TOKEN_COLORS.REGISTER_1
+            }
+        };
     }
 
     linesToHighlight() {
@@ -445,12 +445,24 @@ export class UseTextureOccurrence extends Occurrence {
     }
 
     tokensToHighlight() {
-        return {
+        let result = {
             '*': {
                 [this.writtenRegister]: CODE_BINARY_TOKEN_COLORS.REGISTER_1,
                 [this.readRegister]: CODE_BINARY_TOKEN_COLORS.REGISTER_2
             }
         };
+        const loadRegisterIndex = this.binaryLineTokens.indexOf(this.readRegister);
+        if (
+            loadRegisterIndex !== -1 &&
+            this.binaryLineTokens.length + 1 > loadRegisterIndex &&
+            this.binaryLineTokens[loadRegisterIndex + 1] === '+'
+        ) {
+            result[this.binaryLineNumber] = {
+                [this.binaryLineTokens[loadRegisterIndex + 2]]:
+                    CODE_BINARY_TOKEN_COLORS[`REGISTER_${Object.keys(result['*']).length}`]
+            };
+        }
+        return result;
     }
 }
 
@@ -524,7 +536,20 @@ export class VectorizationOccurrence extends Occurrence {
     tokensToHighlight() {
         const result = highlightRegisters(this.binaryLineTokens);
         if (!result['*'][this.register]) {
-            result['*'][this.register] = CODE_BINARY_TOKEN_COLORS[`REGISTER_${Object.keys(result['*']).length}`];
+            result['*'][this.register] = CODE_BINARY_TOKEN_COLORS[`REGISTER_${Object.keys(result['*']).length + 1}`];
+        }
+        const loadRegisterIndex = this.binaryLineTokens.indexOf(
+            this.binaryLineTokens.filter((t) => /^R[0-9]+$/.test(t)).at(-1)
+        );
+        if (
+            loadRegisterIndex !== -1 &&
+            this.binaryLineTokens.length + 1 > loadRegisterIndex &&
+            this.binaryLineTokens[loadRegisterIndex + 1] === '+'
+        ) {
+            result[this.binaryLineNumber] = {
+                [this.binaryLineTokens[loadRegisterIndex + 2]]:
+                    CODE_BINARY_TOKEN_COLORS[`REGISTER_${Object.keys(result['*']).length}`]
+            };
         }
         return result;
     }
