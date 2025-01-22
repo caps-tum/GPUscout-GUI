@@ -24,7 +24,8 @@ export class Analysis {
         topologyMetrics,
         kernel,
         occurrenceConstructor = (o) => new Occurrence(o),
-        binaryMapping
+        binaryMapping,
+        binaryLines
     ) {
         /**
          * The name of the kernel this analysis belongs to
@@ -89,6 +90,7 @@ export class Analysis {
                     return;
                 }
                 occurrence.sourceFile = binaryMapping[binaryLineNumber][0];
+                occurrence.binaryLine = binaryLines.find((l) => l.address === binaryLineNumber);
                 this._occurrences.push(occurrenceConstructor(occurrence));
             }
         }
@@ -178,11 +180,15 @@ export class Occurrence {
          */
         this.sourceFileName = occurrenceData['sourceFile'];
         /**
+         * A list of all tokens in the relevant binary line
+         * @type {String[]}
+         */
+        this.binaryLineTokens = occurrenceData['binaryLine']?.tokens || [];
+        /**
          * If this occurrence is an optimization (rather than an info)
          * @type {Boolean}
          */
         this.isWarning = occurrenceData['severity'] === 'WARNING';
-
         /**
          * A reference to all available data
          * @type {Object.<String, String|Number>}

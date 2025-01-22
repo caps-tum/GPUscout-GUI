@@ -161,7 +161,8 @@ export class GPUscoutResult {
                     this._topology,
                     kernel,
                     analysisDefinition.occurrence_constructor,
-                    ANALYSIS[analysisName]['use_sass'] ? this._sassToSourceLines[kernel] : this._ptxToSourceLines[kernel]
+                    ANALYSIS[analysisName]['use_sass'] ? this._sassToSourceLines[kernel] : this._ptxToSourceLines[kernel],
+                    ANALYSIS[analysisName]['use_sass'] ? this._sassCodeLines[kernel] : this._ptxCodeLines[kernel]
                 );
             }
         }
@@ -455,7 +456,7 @@ export class GPUscoutResult {
                     address: isLabel ? -1 : currentPtxLine,
                     tokens: line
                         .slice(0, -1)
-                        .split(/([+-, :;.])/)
+                        .split(/([+-, :;.[\]])/)
                         .filter((token) => token.length > 0)
                 });
 

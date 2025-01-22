@@ -7,6 +7,23 @@ import { Occurrence } from '../renderer/src/utils/Analysis';
 import { CODE_BINARY_TOKEN_COLORS } from './colors';
 
 /**
+ *  @param {String[]} tokens The tokens of a SASS/PTX line
+ *  @param {Boolean} isSass If the tokens are from a sass line
+ *  @param {number} [startColor=1] The first color to use
+ *  @returns {Object.<String, String>} A coloring mapping coloring all registers of this line
+ */
+function highlightRegisters(tokens, isSass = true, startColor = 1) {
+    const result = { '*': {} };
+    let i = startColor;
+    for (const register of tokens.filter(
+        (token) => (isSass && /^R[0-9]+$/.test(token)) || (!isSass && /^%(r|rd|p)[0-9]+$/.test(token))
+    )) {
+        result['*'][register] = CODE_BINARY_TOKEN_COLORS[`REGISTER_${i++}`];
+    }
+    return result;
+}
+
+/**
  * Defines an occurrence in the datatype conversion analysis
  * @class
  */
@@ -37,6 +54,10 @@ export class DatatypeConversionOccurrence extends Occurrence {
         return `Datatype conversions should be avoided whenever possible due to their performance impact.
 In the case of a <b>${this.type}</b> conversion, high values in any of the following stalls in the current line indicate a potential performance bottleneck:\n${stalls}
 After modifying the code, improvements in the mentioned warp stalls should be seen.`;
+    }
+
+    tokensToHighlight() {
+        return highlightRegisters(this.binaryLineTokens);
     }
 }
 
@@ -75,6 +96,10 @@ If high values are seen in all three stall reasons, try to switch between global
 
 Additionally, global atomics should never be used if the instruction executed is inside a for loop.
 After modifying the code, improvements or only slight increases should be seen in the mentioned warp stalls, with the total number of stalls decreasing.`;
+    }
+
+    tokensToHighlight() {
+        return highlightRegisters(this.binaryLineTokens, false);
     }
 }
 
@@ -236,11 +261,11 @@ After modyfing the code, the total number of stalls should decrease, with increa
     }
 
     tokensToHighlight() {
-        return {
-            '*': {
-                [this.register]: CODE_BINARY_TOKEN_COLORS.REGISTER_1
-            }
-        };
+        const result = highlightRegisters(this.binaryLineTokens);
+        if (!result['*'][this.register]) {
+            result['*'][this.register] = CODE_BINARY_TOKEN_COLORS[`REGISTER_${Object.keys(result['*']).length}`];
+        }
+        return result;
     }
 }
 
@@ -345,11 +370,11 @@ After modifying the code, total stalls should decrease. After switching to using
     }
 
     tokensToHighlight() {
-        return {
-            '*': {
-                [this.register]: CODE_BINARY_TOKEN_COLORS.REGISTER_1
-            }
-        };
+        const result = highlightRegisters(this.binaryLineTokens);
+        if (!result['*'][this.register]) {
+            result['*'][this.register] = CODE_BINARY_TOKEN_COLORS[`REGISTER_${Object.keys(result['*']).length}`];
+        }
+        return result;
     }
 
     linesToHighlight() {
@@ -422,7 +447,8 @@ export class UseTextureOccurrence extends Occurrence {
     tokensToHighlight() {
         return {
             '*': {
-                [this.writtenRegister]: CODE_BINARY_TOKEN_COLORS.REGISTER_1
+                [this.writtenRegister]: CODE_BINARY_TOKEN_COLORS.REGISTER_1,
+                [this.readRegister]: CODE_BINARY_TOKEN_COLORS.REGISTER_2
             }
         };
     }
@@ -496,11 +522,11 @@ export class VectorizationOccurrence extends Occurrence {
     }
 
     tokensToHighlight() {
-        return {
-            '*': {
-                [this.register]: CODE_BINARY_TOKEN_COLORS.REGISTER_1
-            }
-        };
+        const result = highlightRegisters(this.binaryLineTokens);
+        if (!result['*'][this.register]) {
+            result['*'][this.register] = CODE_BINARY_TOKEN_COLORS[`REGISTER_${Object.keys(result['*']).length}`];
+        }
+        return result;
     }
 
     linesToHighlight() {
