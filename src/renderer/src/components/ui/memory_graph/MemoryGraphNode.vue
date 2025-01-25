@@ -70,8 +70,9 @@ function getTitle(entry) {
         if (props.comparisonAnalysisData !== undefined) {
             const diff = props.analysisData.getMetric(entry.metric) - props.comparisonAnalysisData.getMetric(entry.metric);
             let changeColor = '';
-            if (diff < 0 && metricData.lower_better) changeColor = 'text-green-300';
-            else if (diff > 0 && !metricData.lower_better) changeColor = 'text-red-300';
+            if ((diff < 0 && metricData.lower_better) || (diff > 0 && !metricData.lower_better))
+                changeColor = 'text-green-300';
+            else if (diff !== 0) changeColor = 'text-red-300';
             return entry.comparisonFormat
                 .replace(
                     '{value}',
