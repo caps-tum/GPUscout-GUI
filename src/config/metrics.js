@@ -410,7 +410,7 @@ export const METRICS = {
     shared_loads_bank_conflict: {
         name: 'shared/loads_bank_conflict',
         display_name: 'Bank conflict',
-        hint: 'If a bank conflict is present',
+        hint: 'Number of way bank conflicts',
         format_function: formatInstructions,
         help_text: HELP_TEXTS.shared_memory,
         lower_better: true
@@ -418,7 +418,7 @@ export const METRICS = {
     shared_loads_efficiency_perc: {
         name: 'shared/loads_efficiency_perc',
         display_name: 'Shared Loads efficiency',
-        hint: 'Hint please',
+        hint: 'Ratio of shared memory in loads',
         format_function: formatPercent,
         help_text: HELP_TEXTS.show_memory_graph,
         lower_better: false
