@@ -360,7 +360,7 @@ export class UseSharedOccurrence extends Occurrence {
     }
 
     recommendations() {
-        return `Shared memory is faster than global memory and should be used when data is used frequently. This can be checked by looking at the number of computation instructions and global loads the current register is involved in. If the register is used in more computation instructions than global loads, the use of shared memory is encouraged.
+        return `Shared memory is faster than global memory and should be used when data is used frequently. This can be checked for example by looking at the number of computation instructions and global loads the current register is involved in. If the register is used in more computation instructions than global loads, the use of shared memory is encouraged. The relevant section in the source code should also be considered to confirm that the relevant data is used frequently.
 
 If the load instruction is inside a for loop, shared memory could also improve performance.
 In addition to using shared memory, anynchronous global to shared memory copy operations should be used when the store to shared memory is not performed immediately after the load from global memory.

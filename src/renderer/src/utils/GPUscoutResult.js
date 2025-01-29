@@ -242,14 +242,18 @@ export class GPUscoutResult {
                 .filter((line) => line.address === lineNumber)
                 .flatMap((line) => line.tokens);
 
+            if (tokens.length > 0 && tokens[0].startsWith('.')) {
+                // Line starts with branch .BRANCH_NAME...
+                tokens = tokens.filter((_, i) => i > 2);
+            }
             if (tokens.length > 0 && tokens[0] === '{') {
                 // Line is start of dual issue { INST ...
                 tokens = tokens.filter((_, i) => i >= tokens.findIndex((t) => t !== ' ' && t !== '{'));
-            } else if (tokens.length > 0 && tokens[0].startsWith('@')) {
+            }
+            if (tokens.length > 0 && tokens[0].startsWith('@')) {
                 // Line starts with predicate check @PX INST ...
                 tokens = tokens.filter((_, i) => i > 1);
             }
-
             let index = tokens.findIndex((t) => t === ' ' || t === '.');
             return tokens.filter((t, i) => t !== '.' && i < (index > 0 ? index : tokens.length));
         } else {
