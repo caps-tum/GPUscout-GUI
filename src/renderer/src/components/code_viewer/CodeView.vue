@@ -28,12 +28,7 @@ Author: Tobias Stuckenberger
                 </option>
             </select>
         </div>
-        <div
-            ref="lineContainer"
-            class="h-full w-full overflow-y-auto"
-            :class="codeType !== CODE_TYPE.SOURCE_CODE ? 'overflow-x-hidden' : 'overflow-x-auto'"
-            @scroll="onScroll"
-        >
+        <div ref="lineContainer" class="h-full w-full overflow-x-auto overflow-y-auto" @scroll="onScroll">
             <div
                 v-if="relevantLines.length - firstVisibleLine > 0"
                 class="relative"
