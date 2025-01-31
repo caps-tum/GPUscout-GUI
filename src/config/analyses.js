@@ -389,7 +389,7 @@ export const ANALYSIS = {
         name: 'vectorization',
         display_name: 'Vectorization',
         use_sass: true,
-        display_live_registers: false,
+        display_live_registers: true,
         occurrence_constructor: (o) => new VectorizationOccurrence(o),
         metrics: [
             {

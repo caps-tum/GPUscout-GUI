@@ -530,7 +530,7 @@ export class VectorizationOccurrence extends Occurrence {
     }
 
     recommendations() {
-        return `Using vectorized loads can both improve performance and reduce total instructions as one instruction can replace multiple individual load instructions. Additional effects of using vectorized loads include slightly increased long scoreboard stalls, as well as a decreased ocupancy, so these metrics should be kept in mind before and after making changes. The total number of instructions and number of global load instructions should go down however, and can be used as a metric for the effectiveness of a change. Additionally, the data requested from global memory per instruction should increase.`;
+        return `Using vectorized loads can both improve performance and reduce total instructions as one instruction can replace multiple individual load instructions. Additional effects of using vectorized loads include slightly increased long scoreboard stalls, as well as a decreased ocupancy, so these metrics should be kept in mind before and after making changes. The total number of instructions and number of global load instructions should go down however, and can be used as a metric for the effectiveness of a change. Additionally, the data requested from global memory per instruction should increase. Vectorized loads should only be avoided in cases of high register usage, as they can increase register pressure.`;
     }
 
     tokensToHighlight() {
