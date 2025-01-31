@@ -244,7 +244,7 @@ export const METRICS = {
         display_name: 'Global Loads',
         hint: 'Total number of global load instructions',
         format_function: formatInstructions,
-        help_text: HELP_TEXTS.show_memory_graph,
+        help_text: HELP_TEXTS.load_store_vec_non_vec,
         lower_better: true
     },
     global_loads_l1_cache_hit_perc: {
@@ -276,7 +276,7 @@ export const METRICS = {
         display_name: 'Global Stores',
         hint: '',
         format_function: formatInstructions,
-        help_text: HELP_TEXTS.show_memory_graph,
+        help_text: HELP_TEXTS.load_store_vec_non_vec,
         lower_better: true
     },
     global_stores_l1_cache_hit_perc: {
