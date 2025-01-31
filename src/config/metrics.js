@@ -226,7 +226,7 @@ export const METRICS = {
     global_bytes_per_instruction: {
         name: 'global/bytes_per_instruction',
         display_name: 'GMEM Bytes per Instr.',
-        hint: '',
+        hint: 'Bytes loaded per instruction executed',
         format_function: formatBytes,
         help_text: HELP_TEXTS.show_memory_graph,
         lower_better: false

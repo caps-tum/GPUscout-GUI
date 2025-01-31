@@ -405,6 +405,9 @@ export const ANALYSIS = {
                     },
                     {
                         name: METRICS.occupancy.name
+                    },
+                    {
+                        name: METRICS.global_bytes_per_instruction.name
                     }
                 ]
             },
