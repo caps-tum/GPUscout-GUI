@@ -96,7 +96,7 @@ export const METRICS = {
         lower_better: false
     },
     global_atomics_count: {
-        name: 'misc/atom_global_count',
+        name: 'atom_global_count',
         display_name: 'Global atomics',
         hint: 'Number of global atomics used',
         format_function: formatNumber,
@@ -104,20 +104,12 @@ export const METRICS = {
         lower_better: true
     },
     shared_atomics_count: {
-        name: 'misc/atom_shared_count',
+        name: 'atom_shared_count',
         display_name: 'Shared atomics',
         hint: 'Number of shared atomics used',
         format_function: formatNumber,
         help_text: HELP_TEXTS.shared_atomics,
         lower_better: false
-    },
-    instructions_global_loads_non_vectorized: {
-        name: 'misc/global_load_count',
-        display_name: 'Non-vectorized Loads',
-        hint: 'Number of non-vectorized load inst.',
-        format_function: formatNumber,
-        help_text: HELP_TEXTS.load_store_vec_non_vec,
-        lower_better: true
     },
     branch_divergence_perc: {
         name: 'branch_divergence_perc',

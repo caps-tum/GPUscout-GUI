@@ -101,7 +101,7 @@ export class Analysis {
      * @returns {Number} The value of the metric
      */
     getMetric(metric) {
-        return this._metrics[metric] || 0;
+        return this._metrics[metric] || this._ownMetrics[metric] || 0;
     }
 
     /**

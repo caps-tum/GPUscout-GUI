@@ -398,9 +398,6 @@ export const ANALYSIS = {
                 hint: TEXT.analyses.vectorization.top_section.load_analysis.hint,
                 metrics: [
                     {
-                        name: METRICS.instructions_global_loads_non_vectorized.name
-                    },
-                    {
                         name: METRICS.global_loads_instructions.name
                     },
                     {
