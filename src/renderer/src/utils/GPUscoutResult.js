@@ -492,11 +492,12 @@ export class GPUscoutResult {
             if (line.startsWith('.text')) {
                 currentKernel = kernels[line.substring(6, line.indexOf(':'))] || line.substring(6, line.indexOf(':'));
                 sassRegisterMap[currentKernel] = {};
-            } else if (line.includes('/*')) {
+            } else if (line.includes('/*') && line.includes('// |')) {
                 const address = line.substring(line.indexOf('/*') + 2, line.indexOf('*/'));
                 const registers = line
+                    .substring(line.indexOf('// |') + 4)
                     .split('|')
-                    .filter((_, i, s) => i >= s.length - 3 && i < s.length - 1)
+                    .filter((_, i) => i < 2)
                     .map((e) => parseInt(e.trim() || '0'));
                 sassRegisterMap[currentKernel][address] = registers;
             }
