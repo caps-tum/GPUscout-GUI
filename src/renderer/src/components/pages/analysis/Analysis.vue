@@ -63,11 +63,13 @@ Author: Tobias Stuckenberger
                     <ButtonSecondary
                         class="!w-full text-center !text-base"
                         title="Select previous occurrence"
+                        :class="!getPreviousOccurrence() ? '!cursor-default !bg-secondary/75' : ''"
                         @click="selectPreviousOccurrence"
                     />
                     <ButtonSecondary
                         class="!w-full text-center !text-base"
                         title="Select next occurrence"
+                        :class="!getNextOccurrence() ? '!cursor-default !bg-secondary/75' : ''"
                         @click="selectNextOccurrence"
                     />
                 </div>
@@ -129,12 +131,9 @@ function toggleCodeVersions() {
     codeViewerStore.setUseComparisonCode(!useComparisonCode.value);
 }
 
-/**
- * Selects the previous occurrence, if any exists
- */
-function selectPreviousOccurrence() {
+function getPreviousOccurrence() {
     let currentIndex = -1;
-    const occs = occurrences.value.toSorted((a, b) => a.binaryLineNumber - b.binaryLineNumber);
+    const occs = occurrences.value.toSorted((a, b) => a.binaryLineNumber.localeCompare(b.binaryLineNumber));
     if (currentView.value !== CODE_TYPE.SOURCE_CODE) {
         currentIndex = occs.findLastIndex((o) => o.binaryLineNumber < selectedLine.value);
     } else if (selectedOccurrences.value.length > 0) {
@@ -149,19 +148,23 @@ function selectPreviousOccurrence() {
             .reduce((min, curr) => (curr < min ? min : curr), 0);
         currentIndex = occs.findIndex((o) => o.binaryLineNumber === binaryLine);
     }
-
-    if (currentIndex >= 0) {
-        codeViewerStore.setCurrentView(binaryView.value);
-        codeViewerStore.setSelectedLine(occs[currentIndex].binaryLineNumber, true);
-    }
+    return currentIndex >= 0 ? occs[currentIndex].binaryLineNumber : undefined;
 }
 
 /**
- * Selects the next occurrence, if any exists
+ * Selects the previous occurrence, if any exists
  */
-function selectNextOccurrence() {
+function selectPreviousOccurrence() {
+    const lineNumber = getPreviousOccurrence();
+    if (lineNumber !== undefined) {
+        codeViewerStore.setCurrentView(binaryView.value);
+        codeViewerStore.setSelectedLine(lineNumber, true);
+    }
+}
+
+function getNextOccurrence() {
     let currentIndex = -1;
-    const occs = occurrences.value.toSorted((a, b) => a.binaryLineNumber - b.binaryLineNumber);
+    const occs = occurrences.value.toSorted((a, b) => a.binaryLineNumber.localeCompare(b.binaryLineNumber));
     if (currentView.value !== CODE_TYPE.SOURCE_CODE) {
         currentIndex = occs.findIndex((o) => o.binaryLineNumber > selectedLine.value);
     } else if (selectedOccurrences.value.length > 0) {
@@ -176,10 +179,17 @@ function selectNextOccurrence() {
             .reduce((max, curr) => (curr > max ? max : curr), 99999);
         currentIndex = occs.findIndex((o) => o.binaryLineNumber === binaryLine);
     }
+    return currentIndex >= 0 ? occs[currentIndex].binaryLineNumber : undefined;
+}
 
-    if (currentIndex >= 0) {
+/**
+ * Selects the next occurrence, if any exists
+ */
+function selectNextOccurrence() {
+    const lineNumber = getNextOccurrence();
+    if (lineNumber !== undefined) {
         codeViewerStore.setCurrentView(binaryView.value);
-        codeViewerStore.setSelectedLine(occs[currentIndex].binaryLineNumber, true);
+        codeViewerStore.setSelectedLine(lineNumber, true);
     }
 }
 </script>
