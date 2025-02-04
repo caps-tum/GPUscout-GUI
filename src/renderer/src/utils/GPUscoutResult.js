@@ -18,7 +18,6 @@ export class GPUscoutResult {
      */
     constructor(resultData, topologyData) {
         const resultJSON = JSON.parse(resultData);
-        console.log(resultJSON);
 
         /**
          * An object containing all analyses by kernel and analysis name
@@ -30,6 +29,11 @@ export class GPUscoutResult {
          * @type {String[]}
          */
         this._kernels = [];
+        /**
+         * The kernels which no metrics have been recorded for
+         * @type {String[]}
+         */
+        this._kernelsWithoutMetrics = [];
 
         /**
          * All metrics contained in the GPUscout result
@@ -285,6 +289,13 @@ export class GPUscoutResult {
             return this._sourceCodeLines[kernel].findLast((l) => l.address === lineNumber)?.stalls || [];
         }
         return [];
+    }
+
+    /**
+     * @returns {String[]} The names of all kernels without metrics
+     */
+    getKernelsWithoutMetrics() {
+        return this._kernelsWithoutMetrics;
     }
 
     /**
@@ -727,6 +738,11 @@ export class GPUscoutResult {
      * @param {String} topologyData The content of the topology result file
      */
     _parseMetrics(resultJSON, topologyData) {
+        for (const kernel of Object.keys(resultJSON['kernels'])) {
+            if (!Object.keys(resultJSON['metrics']).includes(kernel)) {
+                this._kernelsWithoutMetrics.push(resultJSON['kernels'][kernel]);
+            }
+        }
         for (const kernel of Object.keys(resultJSON['metrics'])) {
             // Loop through all kernels
             this._metrics[resultJSON['kernels'][kernel]] = {};

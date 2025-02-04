@@ -6,7 +6,7 @@ Author: Tobias Stuckenberger
 -->
 <template>
     <div class="flex h-full w-full flex-col">
-        <div class="mb-1 flex flex-row justify-between">
+        <div v-show="!kernelsWithoutMetrics.includes(currentKernel)" class="mb-1 flex flex-row justify-between">
             <div class="-mt-2 flex flex-col">
                 <div class="flex flex-row">
                     <p v-if="!hasComparisonResult" class="text-xl text-text">{{ TEXT.top_section.title }}</p>
@@ -28,8 +28,14 @@ Author: Tobias Stuckenberger
             </div>
             <ButtonPrimary class="!px-4 !py-0" @click="openLargeMemoryGraph">View Complete Memory Graph</ButtonPrimary>
         </div>
-        <div v-show="showMetrics" class="max-h-[calc(min(18rem,30vh))]">
+        <div v-show="showMetrics && !kernelsWithoutMetrics.includes(currentKernel)" class="max-h-[calc(min(18rem,30vh))]">
             <TopSection :analysis="currentAnalysis" :kernel="currentKernel" />
+        </div>
+        <div v-show="kernelsWithoutMetrics.includes(currentKernel)">
+            <p class="text-lg text-red-500">
+                No metrics are available for the selected kernel. This can be due to this kernel not being executed during
+                the runtime of the analyzed binary of an error during the analysis with GPUscout.
+            </p>
         </div>
         <div class="mb-1 flex flex-col">
             <div class="flex flex-row">
@@ -106,6 +112,8 @@ const lineStalls = computed(() =>
         ? dataStore.getGPUscoutComparisonResult().getLineStalls(currentKernel.value, selectedLine.value, currentView.value)
         : dataStore.getGPUscoutResult().getLineStalls(currentKernel.value, selectedLine.value, currentView.value)
 );
+
+const kernelsWithoutMetrics = computed(() => dataStore.getGPUscoutResult().getKernelsWithoutMetrics());
 
 /**
  * Opens the large memory graph available from every analysis
