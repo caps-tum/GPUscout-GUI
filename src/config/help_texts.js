@@ -64,6 +64,11 @@ To avoid drain stalls, make sure the memory access patterns of these store opera
 This stall occurs when the current warp is waiting for a branch target to be computed, and the warp program counter to be updated.
 <b>Steps to avoid</b>
 To avoid branch resolving stalls, the number of jump/branch operations, as well as general control flow divergence should be reduced, for example by reducing or coalescing conditionals in the code. ${STALLS_MORE_INFO}`,
+    stall_barrier: `<b>Description</b>
+This stall occurs when a warp encounters a CTA barrier and has to wait to sibling warps to finish.
+<b>Steps to avoid</b>
+Barrier stalls are often caused in case of diverging branches. It should also be ensured that work between warps is divided evenly. Blocks of more than 512 threads should be split with the goal of increasing eligible warps while keeping occupancy high.
+ Generally, the first step should be to optimize the code up to the synchronization barrier. ${STALLS_MORE_INFO}`,
     stall: `<b>Warps and the GPU Thread Hierarchy</b>
 In NVIDIA GPUs, threads are organized in groups of multiple levels. The main processing unit of the GPU are so-calles Streaming Multiprocessors (SMs), which are then partitioned into four processing blocks, called SM sub-partitions. These are the primary processing elements on each SM and contain (among others) the following units:
 - A warp scheduler

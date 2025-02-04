@@ -112,5 +112,11 @@ export const STALLS = {
         help_text: '',
         lower_better: true
     },
+    smsp__pcsamp_warps_issue_stalled_barrier: {
+        display_name: 'Barrier Stalls',
+        format_function: formatStall,
+        help_text: HELP_TEXTS.stall_barrier,
+        lower_better: true
+    },
     undefined: { display_name: 'Undefined', format_function: formatStall, help_text: '', lower_better: true }
 };
