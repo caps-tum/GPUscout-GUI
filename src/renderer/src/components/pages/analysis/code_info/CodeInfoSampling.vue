@@ -8,29 +8,26 @@ Author: Tobias Stuckenberger
     <div class="flex flex-col space-y-1 p-1">
         <ButtonMetric
             metric="Total Samples"
-            :value="`${formatNumber(totalLineStalls)} / ${formatNumber(stalls['total'])} (${formatPercent((totalLineStalls / stalls['total']) * 100)})`"
+            :value="`${formatNumber(stalls.totalLine)} / ${formatNumber(stalls['total'])} (${formatPercent((stalls.totalLine / stalls['total']) * 100)})`"
             :value-small="true"
         />
         <template v-for="stall of Object.keys(stalls).sort((a, b) => stalls[b] - stalls[a])" :key="stall">
             <ButtonMetric
-                v-if="stall !== 'total'"
+                v-if="stall !== 'total' && stall !== 'totalLine'"
                 class="*:!bg-secondary *:text-text"
                 :metric="stall"
                 :value="stalls[stall]"
-                :secondary-value="(stalls[stall] / totalLineStalls) * 100"
+                :secondary-value="(stalls[stall] / stalls.totalLine) * 100"
                 :value-small="true"
             />
         </template>
     </div>
 </template>
 <script setup>
-import { computed } from 'vue';
 import ButtonMetric from '../../../ui/buttons/ButtonMetric.vue';
 import { formatNumber, formatPercent } from '../../../../utils/formatters';
 
-const props = defineProps({
+defineProps({
     stalls: Object
 });
-
-const totalLineStalls = computed(() => Object.values(props.stalls).reduce((a, b) => a + b, 0) - props.stalls['total']);
 </script>

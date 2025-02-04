@@ -54,10 +54,7 @@ Author: Tobias Stuckenberger
                         :code-type="codeType"
                         :highlighted-lines="highlightedLines"
                         :highlighted-tokens="highlightedTokens"
-                        :has-stalls="
-                            codeType !== CODE_TYPE.PTX_CODE &&
-                            Object.keys(relevantLines[index + firstVisibleLine - 1].stalls).length > 0
-                        "
+                        :stalls="relevantLines[index + firstVisibleLine - 1].stalls || {}"
                         :is-occurrence="occurrenceLines.includes(relevantLines[index + firstVisibleLine - 1].address)"
                         :is-info="infoLines.includes(relevantLines[index + firstVisibleLine - 1].address)"
                         :current-view="currentView"

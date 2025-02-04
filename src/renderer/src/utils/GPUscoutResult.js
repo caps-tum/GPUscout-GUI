@@ -600,6 +600,7 @@ export class GPUscoutResult {
                         .map((stall) => [stall[0].replace('_not_issued', ''), stall[1]])
                 );
                 if (Object.keys(lineStalls).length > 0) {
+                    lineStalls['totalLine'] = Object.values(lineStalls).reduce((a, b) => a + b, 0);
                     lineStalls['total'] = totalStalls;
                 }
 
@@ -677,6 +678,7 @@ export class GPUscoutResult {
                     );
                     if (Object.keys(lineStalls).length > 0) {
                         // Save the total stalls in a separate key for convenience
+                        lineStalls['totalLine'] = Object.values(lineStalls).reduce((a, b) => a + b, 0);
                         lineStalls['total'] = totalStalls;
                     }
 

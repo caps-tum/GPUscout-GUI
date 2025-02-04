@@ -23,7 +23,7 @@ Author: Tobias Stuckenberger
         >
             {{ TEXT.code_view.code_info.stalls_title }}
         </p>
-        <CodeInfoSampling v-if="Object.keys(stalls).length > 0" :stalls="stalls" />
+        <CodeInfoSampling v-if="stalls.totalLine > 0" :stalls="stalls" />
         <p
             v-show="occurrences.length === 1 && occurrences[0].recommendations().length > 0"
             class="sticky top-0 rounded-t bg-secondary p-1 text-center text-text"

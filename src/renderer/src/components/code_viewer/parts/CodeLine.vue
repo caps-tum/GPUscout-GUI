@@ -10,7 +10,7 @@ Author: Tobias Stuckenberger
             class="sticky left-0 top-0 flex w-16 shrink-0 select-none flex-row items-center justify-between bg-secondary px-1 !text-text group-hover:bg-background"
         >
             {{ lineNumber || '' }}
-            <IconWarning v-if="hasStalls" class="h-4 w-4" />
+            <IconWarning v-if="stalls.totalLine > 0" :class="getStallColor()" class="h-4 w-4" />
         </p>
         <p class="flex max-h-6 min-h-6 flex-grow border-collapse flex-row whitespace-pre" :class="getHighlight()">
             <template v-if="codeType !== CODE_TYPE.SOURCE_CODE && tokensHighlighted">
@@ -47,7 +47,7 @@ const props = defineProps({
     highlightedTokens: Object,
     isOccurrence: Boolean,
     isInfo: Boolean,
-    hasStalls: Boolean,
+    stalls: Object,
     currentView: Number,
     selectedOccurrences: Array,
     liveRegisters: Array,
@@ -58,6 +58,15 @@ const props = defineProps({
 const codeViewerStore = useCodeViewerStore();
 
 const line = ref(null);
+
+function getStallColor() {
+    const ratio = props.stalls.totalLine / props.stalls.total;
+    if (ratio > 0.1) return 'fill-red-500';
+    if (ratio > 0.075) return 'fill-red-400';
+    if (ratio > 0.05) return 'fill-red-300';
+    if (ratio > 0.025) return 'fill-red-200';
+    return 'fill-text';
+}
 
 const tokensHighlighted = computed(() => {
     for (const token of props.tokens) {
