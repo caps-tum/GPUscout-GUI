@@ -61,10 +61,10 @@ const line = ref(null);
 
 function getStallColor() {
     const ratio = props.stalls.totalLine / props.stalls.total;
-    if (ratio > 0.1) return 'fill-red-500';
-    if (ratio > 0.075) return 'fill-red-400';
-    if (ratio > 0.05) return 'fill-red-300';
-    if (ratio > 0.025) return 'fill-red-200';
+    if (ratio > 0.1) return 'fill-red-600';
+    if (ratio > 0.075) return 'fill-red-500';
+    if (ratio > 0.05) return 'fill-red-400';
+    if (ratio > 0.025) return 'fill-red-300';
     return 'fill-text';
 }
 

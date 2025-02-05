@@ -6,6 +6,13 @@ Author: Tobias Stuckenberger
 -->
 <template>
     <div class="flex flex-col">
+        <p
+            v-show="Object.keys(stalls).length > 0"
+            class="sticky top-0 z-10 rounded-t bg-secondary p-1 text-center text-text"
+        >
+            {{ TEXT.code_view.code_info.stalls_title }}
+        </p>
+        <CodeInfoSampling v-if="stalls.totalLine > 0" :stalls="stalls" />
         <template v-for="occurrence of occurrences" :key="occurrence">
             <p class="sticky top-0 rounded-t bg-secondary p-1 text-center text-sm text-text first-line:text-base">
                 {{ occurrence?.title() || 'No title' }}
@@ -17,13 +24,6 @@ Author: Tobias Stuckenberger
         <p v-show="occurrences.length === 0 && Object.keys(stalls).length === 0" class="whitespace-pre-line p-1">
             {{ getNoOccurrenceString() }}
         </p>
-        <p
-            v-show="Object.keys(stalls).length > 0"
-            class="sticky top-0 z-10 rounded-t bg-secondary p-1 text-center text-text"
-        >
-            {{ TEXT.code_view.code_info.stalls_title }}
-        </p>
-        <CodeInfoSampling v-if="stalls.totalLine > 0" :stalls="stalls" />
         <p
             v-show="occurrences.length === 1 && occurrences[0].recommendations().length > 0"
             class="sticky top-0 rounded-t bg-secondary p-1 text-center text-text"

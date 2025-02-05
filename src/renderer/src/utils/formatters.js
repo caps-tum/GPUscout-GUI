@@ -116,7 +116,7 @@ export function getMetricsData(metricName) {
  */
 export function formatStall(value1, value2) {
     if (value2 === undefined) {
-        return formatPercent(value1);
+        return formatNumber(value1);
     }
     if (Number.isInteger(value1)) {
         return `${formatNumber(value1)} (${formatPercent(value2)})`;

@@ -99,6 +99,7 @@ const currentAnalysis = computed(() => dataStore.getCurrentAnalysis);
 const selectedLine = computed(() => codeViewerStore.getSelectedLine);
 const binaryView = computed(() => codeViewerStore.getCurrentBinary);
 const currentView = computed(() => codeViewerStore.getCurrentView);
+const currentFile = computed(() => codeViewerStore.getCurrentSourceFile);
 
 const hasComparisonResult = computed(() => dataStore.hasComparisonResult);
 const useComparisonCode = computed(() => codeViewerStore.displayComparisonCode);
@@ -111,8 +112,12 @@ const occurrences = computed(() =>
 );
 const lineStalls = computed(() =>
     useComparisonCode.value
-        ? dataStore.getGPUscoutComparisonResult().getLineStalls(currentKernel.value, selectedLine.value, currentView.value)
-        : dataStore.getGPUscoutResult().getLineStalls(currentKernel.value, selectedLine.value, currentView.value)
+        ? dataStore
+              .getGPUscoutComparisonResult()
+              .getLineStalls(currentKernel.value, selectedLine.value, currentView.value, currentFile.value)
+        : dataStore
+              .getGPUscoutResult()
+              .getLineStalls(currentKernel.value, selectedLine.value, currentView.value, currentFile.value)
 );
 
 const kernelsWithoutMetrics = computed(() => dataStore.getGPUscoutResult().getKernelsWithoutMetrics());
