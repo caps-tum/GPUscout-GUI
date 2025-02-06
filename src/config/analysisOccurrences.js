@@ -425,7 +425,7 @@ export class UseTextureOccurrence extends Occurrence {
             result += `Spatial locality has been found for the data stored in this register.`;
             if (this.unrollBinaryLineNumbers.length > 1) {
                 result += ` Namely at the following addresses (in addition to the current address):\n`;
-                this.unrollBinaryLineNumbers
+                result += this.unrollBinaryLineNumbers
                     .filter((n) => n !== this.binaryLineNumber)
                     .map((n) => `<b>${n}</b>`)
                     .join(', ');

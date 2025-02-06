@@ -13,6 +13,9 @@ Author: Tobias Stuckenberger
             {{ TEXT.code_view.code_info.stalls_title }}
         </p>
         <CodeInfoSampling v-if="stalls.totalLine > 0" :stalls="stalls" />
+        <p v-show="occurrences.length > 1" class="mb-2 mt-1 bg-secondary p-1 text-text">
+            {{ TEXT.code_view.code_info.multiple_selected_info }}
+        </p>
         <template v-for="occurrence of occurrences" :key="occurrence">
             <p class="sticky top-0 rounded-t bg-secondary p-1 text-center text-sm text-text first-line:text-base">
                 {{ occurrence?.title() || 'No title' }}
@@ -35,9 +38,6 @@ Author: Tobias Stuckenberger
             class="whitespace-pre-line p-1"
             v-html="occurrences[0]?.recommendations()"
         ></p>
-        <p v-show="occurrences.length > 1" class="mt-4 bg-secondary p-1 text-text">
-            {{ TEXT.code_view.code_info.multiple_selected_info }}
-        </p>
     </div>
 </template>
 <script setup>
