@@ -10,7 +10,7 @@ Author: Tobias Stuckenberger
         <p class="text-sm">{{ TEXT.landing_page.select_folder.hint }}</p>
         <div class="my-1 flex flex-row justify-between">
             <TextInput :value="searchString" placeholder="Search..." @changed="(e) => (searchString = e)" />
-            <div class="flex flex-row space-x-1">
+            <div v-if="showFolderSelector" class="flex flex-row space-x-1">
                 <TextInput
                     ref="outputDirFolder"
                     placeholder="GPUscout output directory"
@@ -39,7 +39,8 @@ import { TEXT } from '../../../../../config/text';
 
 const props = defineProps({
     gpuscoutOutputFolder: String,
-    selectedPath: String
+    selectedPath: String,
+    showFolderSelector: Boolean
 });
 
 const emit = defineEmits(['analysisSelected', 'folderChanged']);

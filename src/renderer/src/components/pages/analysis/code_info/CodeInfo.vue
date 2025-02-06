@@ -20,7 +20,8 @@ Author: Tobias Stuckenberger
             <p class="sticky top-0 rounded-t bg-secondary p-1 text-center text-sm text-text first-line:text-base">
                 {{ occurrence?.title() || 'No title' }}
                 <br />
-                in line {{ Object.keys(highlightedSourceLines)[0] }} (source) / {{ occurrence?.binaryLineNumber }} (binary)
+                in line {{ Object.keys(highlightedSourceLines)[0] }} (source) /
+                {{ occurrence?.binaryLineNumber }} (intermediary rep.)
             </p>
             <p class="whitespace-pre-line p-1" v-html="occurrence.description()"></p>
         </template>

@@ -5,23 +5,27 @@ Author: Tobias Stuckenberger
 -->
 <template>
     <div class="flex h-full w-full flex-col items-center">
-        <p class="mb-10 text-9xl font-bold">GPUscout-GUI</p>
+        <p class="mb-4 text-8xl font-bold">GPUscout-GUI</p>
         <div class="flex w-full flex-row justify-center space-x-4 px-12">
             <div class="flex w-full flex-col">
-                <p class="mb-2 text-2xl font-bold">{{ TEXT.landing_page.select_result_title }}</p>
+                <p class="text-2xl font-bold">{{ TEXT.landing_page.select_result.title }}</p>
+                <p class="-mt-1 text-text/50">{{ TEXT.landing_page.select_result.hint }}</p>
                 <SelectAnalysis ref="analysisSelector" @analysis-selected="onAnalysisSelected" />
                 <p class="w-full py-1 text-center text-xl font-bold">OR</p>
                 <AnalysesFromFolder
                     :gpuscout-output-folder="config['gpuscoutOutputFolder']"
                     :selected-path="selectedAnalysisPath"
+                    :show-folder-selector="true"
                     @analysis-selected="onAnalysisSelected"
                     @folder-changed="folderChanged"
                 />
-                <p class="w-full py-1 text-xl font-bold">{{ TEXT.landing_page.select_topology_title }}</p>
+                <p class="mt-2 w-full text-xl font-bold">{{ TEXT.landing_page.select_topology_result.title }}</p>
+                <p class="-mt-1 w-full text-text/50">{{ TEXT.landing_page.select_topology_result.hint }}</p>
                 <SelectMemoryTopology @topology-selected="onMT4GSelected" />
             </div>
             <div v-if="comparisonMode" class="flex max-h-full w-full flex-col">
-                <p class="mb-2 text-2xl font-bold">{{ TEXT.landing_page.select_comparison_result_title }}</p>
+                <p class="text-2xl font-bold">{{ TEXT.landing_page.select_comparison_result.title }}</p>
+                <p class="-mt-1 text-text/50">{{ TEXT.landing_page.select_comparison_result.hint }}</p>
                 <SelectAnalysis ref="comparisonAnalysisSelector" @analysis-selected="onComparisonAnalysisSelected" />
                 <p class="w-full py-1 text-center text-xl font-bold">OR</p>
                 <AnalysesFromFolder
@@ -30,7 +34,8 @@ Author: Tobias Stuckenberger
                     @analysis-selected="onComparisonAnalysisSelected"
                     @folder-changed="folderChanged"
                 />
-                <p class="w-full py-1 text-xl font-bold">{{ TEXT.landing_page.select_topology_title }}</p>
+                <p class="mt-2 w-full text-xl font-bold">{{ TEXT.landing_page.select_topology_result.title }}</p>
+                <p class="-mt-1 w-full text-text/50">{{ TEXT.landing_page.select_topology_result.hint2 }}</p>
                 <SelectMemoryTopology @topology-selected="onCompatisonMT4GSelected" />
             </div>
             <div v-else class="flex max-h-full w-full flex-col items-center justify-center">
@@ -53,7 +58,7 @@ Author: Tobias Stuckenberger
     </div>
 </template>
 <script setup>
-import { computed, nextTick } from 'vue';
+import { computed } from 'vue';
 import { useConfigStore } from '../../../stores/ConfigStore';
 import AnalysesFromFolder from './AnalysesFromFolder.vue';
 import { ref } from 'vue';

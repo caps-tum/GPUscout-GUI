@@ -11,9 +11,19 @@ import { HELP_TEXTS } from './help_texts';
  */
 export const TEXT = {
     landing_page: {
-        select_result_title: '1. Select GPUscout result to analyze:',
-        select_comparison_result_title: '2. Select an older GPUscout result to compare to (optional):',
-        select_topology_title: 'Select memory topology (optional):',
+        select_result: {
+            title: '1. Select GPUscout result to analyze:',
+            hint: 'This should correspond to the newest result available.'
+        },
+        select_comparison_result: {
+            title: '2. Select a GPUscout result to compare to (optional):',
+            hint: 'This could be an older version of the same kernel, or a version run on different hardware.'
+        },
+        select_topology_result: {
+            title: 'Select memory topology (optional):',
+            hint: 'The topology file will add GPU-specific information to graphs.',
+            hint2: 'Adding a second topology file is only necessary in case different hardware was used.'
+        },
         select_folder: {
             title: 'Select analysis in GPUscout output directory',
             hint: 'This list contains all GPUscout result files found in the selected folder'
