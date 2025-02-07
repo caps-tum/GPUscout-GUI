@@ -99,7 +99,6 @@ async function chooseFolder() {
  * Fetch all files that are inside the gpuscout output folder
  */
 async function getFilesInFolder() {
-    console.log('Getti');
     files.value = await window.electronAPI.getAnalysesInDirectory(props.gpuscoutOutputFolder);
 }
 </script>
