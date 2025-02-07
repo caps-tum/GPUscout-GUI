@@ -33,8 +33,7 @@ Author: Tobias Stuckenberger
         </div>
         <div v-show="kernelsWithoutMetrics.includes(currentKernel)">
             <p class="text-lg text-red-500">
-                No metrics are available for the selected kernel. This can be due to this kernel not being executed during
-                the runtime of the analyzed binary of an error during the analysis with GPUscout.
+                {{ TEXT.top_section.no_metrics }}
             </p>
         </div>
         <div class="mb-1 flex flex-col">

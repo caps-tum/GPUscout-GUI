@@ -53,6 +53,8 @@ const files = ref([]);
 onMounted(async () => {
     searchString.value = '';
     await getFilesInFolder();
+
+    setTimeout(getFilesInFolder, 10000);
 });
 
 /**
@@ -97,6 +99,7 @@ async function chooseFolder() {
  * Fetch all files that are inside the gpuscout output folder
  */
 async function getFilesInFolder() {
+    console.log('Getti');
     files.value = await window.electronAPI.getAnalysesInDirectory(props.gpuscoutOutputFolder);
 }
 </script>

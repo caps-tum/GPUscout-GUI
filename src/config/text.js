@@ -79,7 +79,9 @@ export const TEXT = {
     top_section: {
         title: 'Relevant Kernel Metrics',
         title_comparison: 'Relevant Kernel Metrics (Original vs current kernel)',
-        hint: 'The following metrics are relevant for the current analysis.'
+        hint: 'The following metrics are relevant for the current analysis.',
+        no_metrics:
+            'No metrics are available for the selected kernel. This can be due to this kernel not being executed during the runtime of the analyzed binary or an error during the analysis with GPUscout.'
     },
     analyses: {
         general: {

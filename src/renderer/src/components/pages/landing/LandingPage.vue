@@ -23,7 +23,7 @@ Author: Tobias Stuckenberger
                 <p class="-mt-1 w-full text-text/50">{{ TEXT.landing_page.select_topology_result.hint }}</p>
                 <SelectMemoryTopology @topology-selected="onMT4GSelected" />
             </div>
-            <div v-if="comparisonMode" class="flex max-h-full w-full flex-col">
+            <div v-show="comparisonMode" class="flex max-h-full w-full flex-col">
                 <p class="text-2xl font-bold">{{ TEXT.landing_page.select_comparison_result.title }}</p>
                 <p class="-mt-1 text-text/50">{{ TEXT.landing_page.select_comparison_result.hint }}</p>
                 <SelectAnalysis ref="comparisonAnalysisSelector" @analysis-selected="onComparisonAnalysisSelected" />
@@ -38,7 +38,7 @@ Author: Tobias Stuckenberger
                 <p class="-mt-1 w-full text-text/50">{{ TEXT.landing_page.select_topology_result.hint2 }}</p>
                 <SelectMemoryTopology @topology-selected="onCompatisonMT4GSelected" />
             </div>
-            <div v-else class="flex max-h-full w-full flex-col items-center justify-center">
+            <div v-show="!comparisonMode" class="flex max-h-full w-full flex-col items-center justify-center">
                 <ButtonSecondary title="Add second GPUscout result to compare to" @click="comparisonMode = true">
                     <IconAdd class="h-20 w-full self-center" />
                 </ButtonSecondary>
