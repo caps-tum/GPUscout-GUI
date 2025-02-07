@@ -53,7 +53,9 @@ export class DatatypeConversionOccurrence extends Occurrence {
         }
         return `Datatype conversions should be avoided whenever possible due to their performance impact.
 In the case of a <b>${this.type}</b> conversion, high values in any of the following stalls in the current line indicate a potential performance bottleneck:\n${stalls}
-After modifying the code, improvements in the mentioned warp stalls should be seen.`;
+After modifying the code, improvements in the mentioned warp stalls should be seen.
+
+In case conversions cannot be avoided, CUDA-specific type-casting intrinsics may offer performance improvements. More information is available <a target="_blank" class="underline" href="https://docs.nvidia.com/cuda/cuda-math-api/cuda_math_api/group__CUDA__MATH__INTRINSIC__CAST.html">here</a>.`;
     }
 
     tokensToHighlight() {
