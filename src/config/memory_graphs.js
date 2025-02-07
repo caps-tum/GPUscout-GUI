@@ -38,7 +38,7 @@ export const MEMORY_GRAPH_DEFINITION = {
                     '{value} hit rate',
                     '{comp_value} vs {value} hit rate'
                 ),
-                new NodeTextContent('L1 Cache {size}'),
+                new NodeTextContent('L1 Cache\n{size}'),
                 new NodeMetricContent(
                     METRICS.local_loads_l1_cache_hit_perc.name,
                     '{value} hit rate',
@@ -52,7 +52,7 @@ export const MEMORY_GRAPH_DEFINITION = {
         ],
         [
             new Node(
-                new NodeTextContent('L2 Cache {size}'),
+                new NodeTextContent('L2 Cache\n{size}'),
                 new NodeMetricContent(
                     METRICS.general_loads_l2_cache_hit_perc.name,
                     '{value} hit rate',
@@ -79,7 +79,7 @@ export const MEMORY_GRAPH_DEFINITION = {
                     '{value} hit rate',
                     '{comp_value} vs {value} hit rate'
                 ),
-                new NodeTextContent('L1 Cache {size}'),
+                new NodeTextContent('L1 Cache\n{size}'),
                 new NodeMetricContent(
                     METRICS.global_loads_l1_cache_hit_perc.name,
                     '{value} hit rate',
@@ -93,7 +93,7 @@ export const MEMORY_GRAPH_DEFINITION = {
         ],
         [
             new Node(
-                new NodeTextContent('L2 Cache {size}'),
+                new NodeTextContent('L2 Cache\n{size}'),
                 new NodeMetricContent(
                     METRICS.general_loads_l2_cache_hit_perc.name,
                     '{value} hit rate',
@@ -105,7 +105,7 @@ export const MEMORY_GRAPH_DEFINITION = {
             new Arrow(METRICS.texture_loads_l2_to_dram_bytes.name).setDirection(DIRECTION.LEFT),
             new Arrow(METRICS.general_loads_l2_to_dram_bytes.name).setDirection(DIRECTION.LEFT).addSpaceAbove()
         ],
-        [new Node(new NodeTextContent('DRAM {size}')).setRowSpan(3)]
+        [new Node(new NodeTextContent('DRAM\n{size}')).setRowSpan(3)]
     ),
     atomics: new MemoryGraph(
         1,
@@ -113,7 +113,7 @@ export const MEMORY_GRAPH_DEFINITION = {
         [new Arrow(METRICS.global_atomic_to_l1_bytes.name)],
         [
             new Node(
-                new NodeTextContent('L1 Cache {size}'),
+                new NodeTextContent('L1 Cache\n{size}'),
                 new NodeMetricContent(
                     METRICS.global_atomic_l1_cache_hit_perc.name,
                     '{value} hit rate',
@@ -124,7 +124,7 @@ export const MEMORY_GRAPH_DEFINITION = {
         [new Arrow(METRICS.global_atomics_l1_to_l2_bytes.name)],
         [
             new Node(
-                new NodeTextContent('L2 Cache {size}'),
+                new NodeTextContent('L2 Cache\n{size}'),
                 new NodeMetricContent(
                     METRICS.global_atomics_l2_cache_hit_perc.name,
                     '{value} hit rate',
@@ -133,7 +133,7 @@ export const MEMORY_GRAPH_DEFINITION = {
             )
         ],
         [new Arrow(METRICS.global_atomics_l2_to_dram_bytes.name)],
-        [new Node(new NodeTextContent('DRAM {size}'))]
+        [new Node(new NodeTextContent('DRAM\n{size}'))]
     ),
     global_caches: new MemoryGraph(
         1,
@@ -143,7 +143,7 @@ export const MEMORY_GRAPH_DEFINITION = {
         [new Arrow(METRICS.global_loads_to_l1_bytes.name).setDirection(DIRECTION.LEFT)],
         [
             new Node(
-                new NodeTextContent('L1 Cache {size}'),
+                new NodeTextContent('L1 Cache\n{size}'),
                 new NodeMetricContent(
                     METRICS.global_loads_l1_cache_hit_perc.name,
                     '{value} hit rate',
@@ -154,7 +154,7 @@ export const MEMORY_GRAPH_DEFINITION = {
         [new Arrow(METRICS.global_loads_l1_to_l2_bytes.name).setDirection(DIRECTION.LEFT)],
         [
             new Node(
-                new NodeTextContent('L2 Cache {size}'),
+                new NodeTextContent('L2 Cache\n{size}'),
                 new NodeMetricContent(
                     METRICS.general_loads_l2_cache_hit_perc.name,
                     '{value} hit rate',
@@ -163,7 +163,7 @@ export const MEMORY_GRAPH_DEFINITION = {
             )
         ],
         [new Arrow(METRICS.general_loads_l2_to_dram_bytes.name).setDirection(DIRECTION.LEFT)],
-        [new Node(new NodeTextContent('DRAM {size}'))]
+        [new Node(new NodeTextContent('DRAM\n{size}'))]
     ),
     complete: new MemoryGraph(
         7,
@@ -198,7 +198,7 @@ export const MEMORY_GRAPH_DEFINITION = {
         ],
         [
             new Node(
-                new NodeTextContent('L1 Cache {size}'),
+                new NodeTextContent('L1 Cache\n{size}'),
                 new NodeMetricContent(
                     METRICS.global_loads_l1_cache_hit_perc.name,
                     '{value} hit rate',
@@ -228,7 +228,7 @@ export const MEMORY_GRAPH_DEFINITION = {
         ],
         [
             new Node(
-                new NodeTextContent('L2 Cache {size}'),
+                new NodeTextContent('L2 Cache\n{size}'),
                 new NodeMetricContent(
                     METRICS.general_loads_l2_cache_hit_perc.name,
                     '{value} load hit rate',
@@ -251,6 +251,6 @@ export const MEMORY_GRAPH_DEFINITION = {
             new Spacer(),
             new Spacer()
         ],
-        [new Spacer(), new Spacer(), new Spacer(), new Node(new NodeTextContent('DRAM {size}'))]
+        [new Spacer(), new Spacer(), new Spacer(), new Node(new NodeTextContent('DRAM\n{size}'))]
     ).makeLarge()
 };

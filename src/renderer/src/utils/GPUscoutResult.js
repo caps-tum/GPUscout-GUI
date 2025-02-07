@@ -141,6 +141,7 @@ export class GPUscoutResult {
         }
 
         this._parseMetrics(resultJSON, topologyData);
+        console.log(this._topology);
 
         // Not all kernels have metrics, we still need the keys in the object
         for (const k of this._kernels) {
