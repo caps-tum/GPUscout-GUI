@@ -470,5 +470,19 @@ export const METRICS = {
         format_function: formatBytes,
         help_text: HELP_TEXTS.show_memory_graph,
         lower_better: true
+    },
+    custom_lmem_bandwidth: {
+        name: 'custom/lmem_bandwidth',
+        display_name: 'LMEM Bandwidth impact',
+        hint: 'Percentage of queries issued due to LMEM',
+        format_function: formatInstructions,
+        lower_better: true
+    },
+    custom_lmem_instruction: {
+        name: 'custom/lmem_instruction',
+        display_name: 'LMEM Instruction impact',
+        hint: 'Perccentage of instructions issued due to LMEM',
+        format_function: formatInstructions,
+        lower_better: true
     }
 };

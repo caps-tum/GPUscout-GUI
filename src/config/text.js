@@ -4,6 +4,7 @@
  * @description This module contains the all of the texts displayed in the UI allowing for easy modification without having to search the entire codebase.
  */
 
+import { formatNumber } from '../renderer/src/utils/formatters';
 import { HELP_TEXTS } from './help_texts';
 
 /**
@@ -172,17 +173,7 @@ Lines highlighted in blue correspond to general information, while lines marked 
                 },
                 lmem_impact: {
                     title: 'Performance impact of local memory',
-                    hint: 'Registers are spilled to local memory, which can degrade performance. High values in any of the following categories indicate optimization potential',
-                    type: {
-                        bandwidth: {
-                            title: 'LMEM Bandwidth impact',
-                            hint: 'Percentage of queries issued due to LMEM'
-                        },
-                        instruction: {
-                            title: 'LMEM Instruction impact',
-                            hint: 'Perccentage of instructions issued due to LMEM'
-                        }
-                    }
+                    hint: 'Registers are spilled to local memory, which can degrade performance. High values in any of the following categories indicate optimization potential'
                 }
             }
         },

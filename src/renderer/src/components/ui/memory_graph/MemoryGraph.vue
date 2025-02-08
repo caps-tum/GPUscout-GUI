@@ -15,7 +15,7 @@ Author: Tobias Stuckenberger
                     <ButtonHelp class="*:!fill-text" @click="showFullMemoryGraph" />
                 </a>
             </div>
-            <div v-if="expanded" class="grid flex-grow grid-flow-col" :style="getGridStyle()">
+            <div v-if="expanded" class="grid flex-grow grid-flow-col overflow-auto" :style="getGridStyle()">
                 <template v-for="column of graph.content" :key="column">
                     <template v-for="(entry, row) of column" :key="row">
                         <MemoryGraphNode

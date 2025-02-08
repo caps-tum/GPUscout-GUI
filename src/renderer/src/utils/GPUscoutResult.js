@@ -18,6 +18,7 @@ export class GPUscoutResult {
      */
     constructor(resultData, topologyData) {
         const resultJSON = JSON.parse(resultData);
+        console.log(resultJSON.stalls);
 
         /**
          * An object containing all analyses by kernel and analysis name
@@ -88,19 +89,28 @@ export class GPUscoutResult {
 
         // Add not issued stalls to issued stalls (I know this looks horrible)
         for (const kernel of Object.keys(resultJSON.kernels)) {
-            for (let i = 0; i < resultJSON.stalls[kernel].length; i++) {
-                for (let j = 0; j < resultJSON.stalls[kernel][i].stalls.length; j++) {
-                    if (resultJSON.stalls[kernel][i].stalls[j][0].endsWith('_not_issued')) {
-                        const issued = resultJSON.stalls[kernel][i].stalls[j][0].replace('_not_issued', '');
-                        const value = resultJSON.stalls[kernel][i].stalls[j][1];
-                        if (resultJSON.stalls[kernel][i].stalls.find((s) => s[0] === issued)) {
-                            resultJSON.stalls[kernel][i].stalls.find((s) => s[0] === issued)[1] += value;
-                        }
-                    }
+            for (let i = 0; i < resultJSON.stalls[kernel].length - 1; i++) {
+                if (resultJSON.stalls[kernel][i]['pc_offset'] === resultJSON.stalls[kernel][i + 1]['pc_offset']) {
+                    resultJSON.stalls[kernel].splice(i, 1);
+                    i--;
                 }
-                resultJSON.stalls[kernel][i].stalls = resultJSON.stalls[kernel][i].stalls.filter(
-                    (s) => !s[0].endsWith('_not_issued')
-                );
+            }
+        }
+        // Remove invalid entries and add duplicate keys + not_issued to their normal counterpart
+        for (const kernel of Object.keys(resultJSON.kernels)) {
+            for (let i = 0; i < resultJSON.stalls[kernel].length; i++) {
+                for (const key of [
+                    ...new Set(resultJSON.stalls[kernel][i].stalls.map((s) => s[0].replace('_not_issued', '')))
+                ]) {
+                    const sum = resultJSON.stalls[kernel][i].stalls
+                        .filter((s) => s[0].startsWith(key))
+                        .map((s) => s[1])
+                        .reduce((a, b) => a + b, 0);
+                    resultJSON.stalls[kernel][i].stalls = resultJSON.stalls[kernel][i].stalls.filter(
+                        (s) => !s[0].startsWith(key)
+                    );
+                    resultJSON.stalls[kernel][i].stalls.push([key, sum]);
+                }
             }
         }
 

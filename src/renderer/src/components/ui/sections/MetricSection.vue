@@ -12,10 +12,10 @@ Author: Tobias Stuckenberger
                     <IconExpand class="mr-1 mt-1 h-4 w-4" />
                 </a>
             </div>
-            <p v-if="hint && expanded" class="-mt-1 text-sm text-text/50">{{ hint }}</p>
+            <p v-if="hint && expanded" class="-mt-1 line-clamp-1 text-sm text-text/50">{{ hint }}</p>
             <div
                 v-if="expanded"
-                class="flex max-h-56 flex-grow flex-row flex-wrap gap-x-2 gap-y-2 overflow-y-auto overflow-x-hidden"
+                class="flex max-h-52 flex-grow flex-row flex-wrap gap-x-2 gap-y-2 overflow-y-auto overflow-x-hidden"
             >
                 <ButtonMetric
                     v-for="(metric, index) in metrics"

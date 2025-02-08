@@ -216,7 +216,7 @@ export const ANALYSIS = {
                         name: METRICS.local_loads_l1_cache_hit_perc.name
                     },
                     {
-                        name: TEXT.analyses.register_spilling.top_section.lmem_impact.type.bandwidth,
+                        name: METRICS.custom_lmem_bandwidth.name,
                         value: (analysis) =>
                             Math.round(
                                 analysis.getMetric(METRICS.general_l2_queries.name) *
@@ -225,7 +225,7 @@ export const ANALYSIS = {
                         secondary_value: (analysis) => analysis.getMetric(METRICS.local_l2_queries_perc.name)
                     },
                     {
-                        name: TEXT.analyses.register_spilling.top_section.lmem_impact.type.instruction,
+                        name: METRICS.custom_lmem_instruction.name,
                         value: (analysis) => analysis.getMetric(METRICS.local_instructions.name),
                         secondary_value: (analysis) =>
                             (analysis.getMetric(METRICS.local_instructions.name) /
