@@ -17,7 +17,7 @@ Author: Tobias Stuckenberger
             {{ TEXT.code_view.code_info.multiple_selected_info }}
         </p>
         <template v-for="occurrence of occurrences" :key="occurrence">
-            <p class="sticky top-0 rounded-t bg-secondary p-1 text-center text-sm text-text first-line:text-base">
+            <p class="sticky top-0 z-20 rounded-t bg-secondary p-1 text-center text-sm text-text first-line:text-base">
                 {{ occurrence?.title() || 'No title' }}
                 <br />
                 in line {{ Object.keys(highlightedSourceLines)[0] }} (source) /
@@ -30,7 +30,7 @@ Author: Tobias Stuckenberger
         </p>
         <p
             v-show="occurrences.length === 1 && occurrences[0].recommendations().length > 0"
-            class="sticky top-0 rounded-t bg-secondary p-1 text-center text-text"
+            class="sticky top-0 z-30 rounded-t bg-secondary p-1 text-center text-text"
         >
             {{ TEXT.code_view.code_info.recommendations_title }}
         </p>

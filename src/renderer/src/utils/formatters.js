@@ -28,7 +28,8 @@ export function formatBytes(value) {
     const format = new Intl.NumberFormat('de-DE', {
         style: 'decimal',
         minimumFractionDigits: 0,
-        maximumFractionDigits: 2
+        maximumFractionDigits: 2,
+        roundingMode: 'halfCeil'
     });
 
     if (value < 1024) {
