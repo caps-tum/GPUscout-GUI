@@ -7,6 +7,7 @@ import {
     formatBoolean,
     formatBytes,
     formatInstructions,
+    formatInstructionsPerc,
     formatNumber,
     formatPercent,
     formatStall
@@ -475,14 +476,14 @@ export const METRICS = {
         name: 'custom/lmem_bandwidth',
         display_name: 'LMEM Bandwidth impact',
         hint: 'Percentage of queries issued due to LMEM',
-        format_function: formatInstructions,
+        format_function: formatInstructionsPerc,
         lower_better: true
     },
     custom_lmem_instruction: {
         name: 'custom/lmem_instruction',
         display_name: 'LMEM Instruction impact',
         hint: 'Perccentage of instructions issued due to LMEM',
-        format_function: formatInstructions,
+        format_function: formatInstructionsPerc,
         lower_better: true
     }
 };

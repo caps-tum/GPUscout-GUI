@@ -66,6 +66,15 @@ export function formatInstructions(value) {
 
 /**
  * @param {Number} value
+ * @param {Number} percent
+ * @returns {String} The value formatted
+ */
+export function formatInstructionsPerc(value, percent) {
+    return `${formatNumber(value)} Inst. (${formatPercent(percent)})`;
+}
+
+/**
+ * @param {Number} value
  * @returns {String} The value formatted
  */
 export function formatBoolean(value) {

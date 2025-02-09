@@ -61,7 +61,7 @@ export const MEMORY_GRAPH_DEFINITION = {
             ).setRowSpan(3)
         ],
         [new Arrow(METRICS.general_loads_l2_to_dram_bytes.name).setDirection(DIRECTION.LEFT).addSpaceAbove()],
-        [new Node(new NodeTextContent('DRAM {size}')).setRowSpan(3)]
+        [new Node(new NodeTextContent('DRAM\n{size}')).setRowSpan(3)]
     ),
     texture_memory: new MemoryGraph(
         3,

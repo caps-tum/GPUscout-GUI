@@ -18,7 +18,6 @@ export class GPUscoutResult {
      */
     constructor(resultData, topologyData) {
         const resultJSON = JSON.parse(resultData);
-        console.log(resultJSON.stalls);
 
         /**
          * An object containing all analyses by kernel and analysis name
