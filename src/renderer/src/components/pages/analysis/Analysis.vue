@@ -137,7 +137,9 @@ function toggleCodeVersions() {
 
 function getPreviousOccurrence() {
     let currentIndex = -1;
-    const occs = occurrences.value.toSorted((a, b) => a.binaryLineNumber.localeCompare(b.binaryLineNumber));
+    const occs = occurrences.value.toSorted((a, b) =>
+        a.binaryLineNumber.toString().localeCompare(b.binaryLineNumber.toString())
+    );
     if (currentView.value !== CODE_TYPE.SOURCE_CODE) {
         currentIndex = occs.findLastIndex((o) => o.binaryLineNumber < selectedLine.value);
     } else if (selectedOccurrences.value.length > 0) {
@@ -168,7 +170,9 @@ function selectPreviousOccurrence() {
 
 function getNextOccurrence() {
     let currentIndex = -1;
-    const occs = occurrences.value.toSorted((a, b) => a.binaryLineNumber.localeCompare(b.binaryLineNumber));
+    const occs = occurrences.value.toSorted((a, b) =>
+        a.binaryLineNumber.toString().localeCompare(b.binaryLineNumber.toString())
+    );
     if (currentView.value !== CODE_TYPE.SOURCE_CODE) {
         currentIndex = occs.findIndex((o) => o.binaryLineNumber > selectedLine.value);
     } else if (selectedOccurrences.value.length > 0) {
