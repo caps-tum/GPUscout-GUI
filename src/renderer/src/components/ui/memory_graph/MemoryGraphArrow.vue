@@ -6,7 +6,7 @@ Author: Tobias Stuckenberger
     <div class="relative grid grid-cols-1 grid-rows-[50%_50%] flex-col" :class="large ? 'min-w-20' : 'min-w-12'">
         <template v-if="!arrow.metricBottom && !large">
             <div
-                class="flex flex-col justify-end border-b border-black px-2 pb-1 text-center text-sm text-text"
+                class="flex flex-col justify-end border-b border-black px-1 pb-1 text-center text-sm text-text"
                 :class="getArrowClass()"
                 v-html="getTitle(comparisonAnalysisData !== undefined)"
             ></div>
