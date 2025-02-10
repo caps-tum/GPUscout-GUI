@@ -70,7 +70,11 @@ export function formatInstructions(value) {
  * @returns {String} The value formatted
  */
 export function formatInstructionsPerc(value, percent) {
-    return `${formatNumber(value)} Inst. (${formatPercent(percent)})`;
+    if (percent) {
+        return `${formatNumber(value)} Inst. (${formatPercent(percent)})`;
+    } else {
+        return `${formatNumber(value)} Inst.`;
+    }
 }
 
 /**
