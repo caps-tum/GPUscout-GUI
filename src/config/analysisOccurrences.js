@@ -349,12 +349,25 @@ export class UseSharedOccurrence extends Occurrence {
 
             if (this.globalLoadBinaryLineNumbers.length > 0) {
                 result += '\nGlobal loads of this register are found at the following addresses:\n';
-                result += this.globalLoadBinaryLineNumbers.map((n) => `<b>${n}</b>`).join(', ');
+                result += this.globalLoadBinaryLineNumbers
+                    .filter((_, i) => i < 10)
+                    .map((n) => `<b>${n}</b>`)
+                    .join(', ');
+                if (this.globalLoadBinaryLineNumbers.length > 10) {
+                    result += ` + ${this.globalLoadBinaryLineNumbers.length - 10} more...`;
+                }
             }
 
             if (this.computationInstructionBinaryLineNumbers.length > 0) {
                 result += '\nComputation instructions of this register are found at the following addresses:\n';
-                result += this.computationInstructionBinaryLineNumbers.map((n) => `<b>${n}</b>`).join(', ');
+                result += this.computationInstructionBinaryLineNumbers
+                    .filter((_, i) => i < 10)
+                    .map((n) => `<b>${n}</b>`)
+                    .join(', ');
+
+                if (this.computationInstructionBinaryLineNumbers.length > 10) {
+                    result += ` + ${this.computationInstructionBinaryLineNumbers.length - 10} more...`;
+                }
             }
 
             return result;
@@ -428,9 +441,13 @@ export class UseTextureOccurrence extends Occurrence {
             if (this.unrollBinaryLineNumbers.length > 1) {
                 result += ` Namely at the following addresses (in addition to the current address):\n`;
                 result += this.unrollBinaryLineNumbers
-                    .filter((n) => n !== this.binaryLineNumber)
+                    .filter((n, i) => n !== this.binaryLineNumber && i < 10)
                     .map((n) => `<b>${n}</b>`)
                     .join(', ');
+
+                if (this.unrollBinaryLineNumbers.length > 11) {
+                    result += ` + ${this.unrollBinaryLineNumbers.length - 11} more...`;
+                }
             }
         } else {
             result += 'Spatial locality has not been found for the data stored in this register.';
@@ -520,7 +537,14 @@ export class VectorizationOccurrence extends Occurrence {
     description() {
         if (this.registerLoadType === 0 && this.adjacentMemoryAccesses > 0) {
             let result = `Register <b>${this.register}</b> has <b>${this.adjacentMemoryAccesses}</b> adjacent memory accesses and thus should use a vectorized load instead. In addition to the current line, adjacent memory accesses happen at the following addresses:\n`;
-            result += this.unrollBinaryLineNumbers.map((n) => `<b>${n}</b>`).join(', ');
+            result += this.unrollBinaryLineNumbers
+                .filter((_, i) => i < 10)
+                .map((n) => `<b>${n}</b>`)
+                .join(', ');
+
+            if (this.unrollBinaryLineNumbers.length > 10) {
+                result += ` + ${this.unrollBinaryLineNumbers.length - 10} more...`;
+            }
             return result;
         } else if (this.registerLoadType === 1) {
             return `Register <b>${this.register}</b> is already using 64-bit width vectorized load.`;
