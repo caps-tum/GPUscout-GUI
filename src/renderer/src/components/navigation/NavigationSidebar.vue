@@ -24,6 +24,7 @@ Author: Tobias Stuckenberger
                     <KernelList
                         ref="kernelList"
                         :kernels="kernels.toSorted((a, b) => getAnalysesPerKernel(b) - getAnalysesPerKernel(a))"
+                        :kernels-without-metrics="kernelsWithoutMetrics"
                         @select="changeKernel"
                     />
                 </div>
@@ -96,6 +97,7 @@ const analyses = computed(() => dataStore.getGPUscoutResult()?.getAnalysesWithOc
 const comparisonAnalyses = computed(() =>
     dataStore.getGPUscoutComparisonResult()?.getAnalysesWithOccurrences(currentKernel.value)
 );
+const kernelsWithoutMetrics = computed(() => dataStore.getGPUscoutResult()?.getKernelsWithoutMetrics() || []);
 
 const isComparison = computed(() => dataStore.hasComparisonResult);
 const analysesOnlyOriginal = computed(() => comparisonAnalyses.value.filter((a) => !analyses.value.includes(a)));

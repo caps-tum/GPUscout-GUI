@@ -5,7 +5,20 @@
     >
         <TextInput placeholder="Filter kernels" @changed="onSearchInput" />
         <KernelListEntry
-            v-for="kernel in kernels.filter((k) => k.toLowerCase().includes(searchString.toLowerCase()))"
+            v-for="kernel in kernels.filter(
+                (k) => !kernelsWithoutMetrics.includes(k) && k.toLowerCase().includes(searchString.toLowerCase())
+            )"
+            :key="kernel"
+            :kernel="kernel"
+            :current-kernel="currentKernel"
+            :infos="dataStore.getGPUscoutResult().getKernelInfo(kernel)"
+            @select="() => selectKernel(kernel)"
+        />
+        <p class="font-bold">Kernels without metrics</p>
+        <KernelListEntry
+            v-for="kernel in kernels.filter(
+                (k) => kernelsWithoutMetrics.includes(k) && k.toLowerCase().includes(searchString.toLowerCase())
+            )"
             :key="kernel"
             :kernel="kernel"
             :current-kernel="currentKernel"
@@ -21,7 +34,8 @@ import TextInput from '../ui/input/TextInput.vue';
 import KernelListEntry from './KernelListEntry.vue';
 
 defineProps({
-    kernels: Array
+    kernels: Array,
+    kernelsWithoutMetrics: Array
 });
 
 const emit = defineEmits(['select']);
