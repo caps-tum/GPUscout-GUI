@@ -28,7 +28,9 @@ Author: Tobias Stuckenberger
                 >
                     {{ formatNumber(value - comparisonValue) }}
                     <p v-if="value > comparisonValue && comparisonValue !== undefined" class="-mt-1 text-2xl">&#x2B06;</p>
-                    <p v-else-if="comparisonValue !== undefined" class="-mt-1 text-2xl">&#x2B07;</p>
+                    <p v-else-if="value < comparisonValue && comparisonValue !== undefined" class="-mt-1 text-2xl">
+                        &#x2B07;
+                    </p>
                 </div>
                 <p v-if="comparisonValue !== undefined">
                     {{ data.format_function(comparisonValue, comparisonSecondaryValue) }}
