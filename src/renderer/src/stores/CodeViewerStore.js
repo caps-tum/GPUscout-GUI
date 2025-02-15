@@ -250,33 +250,35 @@ export const useCodeViewerStore = defineStore('codeViewer', () => {
         }
 
         // Highlight all relevant secondary lines for this occurrence as well as the instruction in each line
-        for (const secondaryLine of currentOccurrences.value[0].linesToHighlight()) {
+        const tempHighlightedBinaryTokens = JSON.parse(JSON.stringify(highlightedBinaryTokens.value));
+        const tempHighlightedSourceLines = JSON.parse(JSON.stringify(highlightedSourceLines.value));
+        for (const secondaryLine of currentOccurrences.value[0].linesToHighlight().filter((_, i) => i < 50)) {
             const color = currentOccurrences.value[0].isWarning
                 ? CODE_STYLES.HIGHLIGHTED_LINE_OCCURRENCE_SECONDARY
                 : CODE_STYLES.HIGHLIGHTED_LINE_INFO_SECONDARY;
-            highlightedBinaryLines.value[secondaryLine] = color;
+            tempHighlightedBinaryTokens[secondaryLine] = color;
 
             if (currentBinary.value === CODE_TYPE.SASS_CODE) {
-                highlightedSourceLines.value[gpuscoutResult.getSassToSourceLine(currentKernel.value, secondaryLine)[1]] =
+                tempHighlightedSourceLines[gpuscoutResult.getSassToSourceLine(currentKernel.value, secondaryLine)[1]] =
                     color;
             } else {
-                highlightedSourceLines.value[gpuscoutResult.getPtxToSourceLine(currentKernel.value, secondaryLine)[1]] =
-                    color;
+                tempHighlightedSourceLines[gpuscoutResult.getPtxToSourceLine(currentKernel.value, secondaryLine)[1]] = color;
             }
-            highlightedSourceLines.value[currentOccurrences.value[0].sourceLineNumber] = currentOccurrences.value[0]
-                .isWarning
+            tempHighlightedSourceLines[currentOccurrences.value[0].sourceLineNumber] = currentOccurrences.value[0].isWarning
                 ? CODE_STYLES.HIGHLIGHTED_LINE_OCCURRENCE
                 : CODE_STYLES.HIGHLIGHTED_LINE_INFO;
 
-            highlightedBinaryTokens.value[secondaryLine] = {};
+            tempHighlightedBinaryTokens[secondaryLine] = {};
             for (const token of gpuscoutResult.getInstructionTokens(
                 currentKernel.value,
                 currentBinary.value,
                 secondaryLine
             )) {
-                highlightedBinaryTokens.value[secondaryLine][token] = CODE_BINARY_TOKEN_COLORS.INSTRUCTION;
+                tempHighlightedBinaryTokens[secondaryLine][token] = CODE_BINARY_TOKEN_COLORS.INSTRUCTION;
             }
         }
+        highlightedSourceLines.value = tempHighlightedSourceLines;
+        highlightedBinaryTokens.value = tempHighlightedBinaryTokens;
     }
 
     /**
