@@ -58,7 +58,7 @@ Author: Tobias Stuckenberger
                     :key="analysis"
                     class="cursor-pointer pl-3"
                     :class="getAnalysisStyle(analysis)"
-                    @click="() => setAnalysis(analysis, true)"
+                    @click="() => setAnalysis(analysis)"
                     >{{ ANALYSIS[analysis].display_name || analysis }}</a
                 >
             </div>
