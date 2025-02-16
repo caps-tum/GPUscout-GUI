@@ -14,7 +14,9 @@
             :infos="dataStore.getGPUscoutResult().getKernelInfo(kernel)"
             @select="() => selectKernel(kernel)"
         />
-        <p class="font-bold">Kernels without metrics</p>
+        <p v-if="kernelsWithoutMetrics.filter((k) => kernels.includes(k)).length > 0" class="font-bold">
+            Kernels without metrics
+        </p>
         <KernelListEntry
             v-for="kernel in kernels.filter(
                 (k) => kernelsWithoutMetrics.includes(k) && k.toLowerCase().includes(searchString.toLowerCase())
