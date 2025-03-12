@@ -17,7 +17,7 @@ npm run build:linux # build for linux
 npm run build:mac # build for mac
 npm run build:win # build for windows
 ```
-The reeulting executable will be located inside the generated `dist` folder
+The resulting executable will be located inside the generated `dist` folder
 
 ## Run Development Server
 ```bash
