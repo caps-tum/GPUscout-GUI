@@ -134,7 +134,7 @@ Normal (general-purpose) registers are used to store integers, floating-point or
 <b>Performance Considerations</b>
 As registers cannot be explicitly managed programmatically and are limited in number, the amount of currently used registers is an important metric when optimizing kernels. In cases where more registers are needed than available, data is spilled to slower local memory, resulting in so-called register pressure and degrading performance.
 
-In GPUscout-GUI, the amount of currently used registers is displayed next to SASS code in relevant analyses in the format <used general purpose registers>|<used predicate registers>.
+In GPUscout-GUI, the amount of currently used registers is displayed next to SASS code in relevant analyses in the format [used general purpose registers]|[used predicate registers].
 
 More information is available at <a target="_blank" href="https://docs.nvidia.com/cuda/cuda-c-best-practices-guide/#registers">https://docs.nvidia.com/cuda/cuda-c-best-practices-guide/#registers</a>`,
     memory_graph: `The above graph gives an overview of the memory system of a GPU, as well as relevant data transfers between them. A node in the graph represents a single memory unit, with arrows between them representing the direction and amount of data transferred during kernel execution. Arrows pointing from left to right represent store operations, while arrows from right to left represent load operations, respectively.

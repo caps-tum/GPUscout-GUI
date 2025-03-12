@@ -1,34 +1,40 @@
-# gpuscout-gui
+# GPUscout-GUI
 
-An Electron application with Vue
+A companion application for visualizing results of GPUscout.
 
-## Recommended IDE Setup
+GPUscout-GUI provides a graphical representation of analysis results computed by the [GPUscout](https://github.com/caps-tum/GPUscout) application. Users are able to view kernel-wide metrics, compare the kernel source and intermediate codes, and investigate findings in more detail than only using GPUscout's output.
 
-- [VSCode](https://code.visualstudio.com/) + [ESLint](https://marketplace.visualstudio.com/items?itemName=dbaeumer.vscode-eslint) + [Prettier](https://marketplace.visualstudio.com/items?itemName=esbenp.prettier-vscode) + [Volar](https://marketplace.visualstudio.com/items?itemName=Vue.volar)
+## Requirements
+- [NodeJS](https://nodejs.org/en) (23.9.0+)
+- NPM (11.1.0+)
 
-## Project Setup
-
-### Install
-
+## Installation
 ```bash
-$ npm install
+npm install
+
+# run one of the following commands to build the executable and installer. Building can only be done for the os currently in use.
+npm run build:linux # build for linux
+npm run build:mac # build for mac
+npm run build:win # build for windows
+```
+The reeulting executable will be located inside the generated `dist` folder
+
+## Run Development Server
+```bash
+npm run dev
 ```
 
-### Development
+# Project structure
 
-```bash
-$ npm run dev
-```
+GPUscout-GUI uses both the [electron](https://www.electronjs.org/) and [vueJS](https://vuejs.org/) frameworks to create the user interface as a standalone application.
+The only relevant folders in the root directory are:
+- dist: Generated executables are located here
+- src: Contains the source code of the application.
 
-### Build
+## Source Code Directories
 
-```bash
-# For windows
-$ npm run build:win
-
-# For macOS
-$ npm run build:mac
-
-# For Linux
-$ npm run build:linux
-```
+The `src` directory is split into four modules:
+- config: Contains configuration files for all aspects of the UI. Used to add/remove/modify metrics, analyses, texts, colors, ...
+- main: Contains code related to the electron framework. Does not need to be modified further
+- preload: Contains code connecting the electron backend to the frontend. Does not need to be modified further.
+- renderer: Contains the definition and source code of the user interface. New features need to be implemented here. `src/components` Defines all components visible in the user interface, organized by page. `src/stores` defines Vue stores, which handle reactive data accessible from all components (Modifications here should be made carefully). `src/utils` defines all JS classes used in the code.

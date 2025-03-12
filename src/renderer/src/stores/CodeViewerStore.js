@@ -252,11 +252,12 @@ export const useCodeViewerStore = defineStore('codeViewer', () => {
         // Highlight all relevant secondary lines for this occurrence as well as the instruction in each line
         const tempHighlightedBinaryTokens = JSON.parse(JSON.stringify(highlightedBinaryTokens.value));
         const tempHighlightedSourceLines = JSON.parse(JSON.stringify(highlightedSourceLines.value));
+        const tempHighlightedBinaryLines = JSON.parse(JSON.stringify(highlightedBinaryLines.value));
         for (const secondaryLine of currentOccurrences.value[0].linesToHighlight().filter((_, i) => i < 50)) {
             const color = currentOccurrences.value[0].isWarning
                 ? CODE_STYLES.HIGHLIGHTED_LINE_OCCURRENCE_SECONDARY
                 : CODE_STYLES.HIGHLIGHTED_LINE_INFO_SECONDARY;
-            tempHighlightedBinaryTokens[secondaryLine] = color;
+            tempHighlightedBinaryLines[secondaryLine] = color;
 
             if (currentBinary.value === CODE_TYPE.SASS_CODE) {
                 tempHighlightedSourceLines[gpuscoutResult.getSassToSourceLine(currentKernel.value, secondaryLine)[1]] =
@@ -279,6 +280,7 @@ export const useCodeViewerStore = defineStore('codeViewer', () => {
         }
         highlightedSourceLines.value = tempHighlightedSourceLines;
         highlightedBinaryTokens.value = tempHighlightedBinaryTokens;
+        highlightedBinaryLines.value = tempHighlightedBinaryLines;
     }
 
     /**
