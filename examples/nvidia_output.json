@@ -1,0 +1,900 @@
+{
+    "vendor": "nvidia",
+    "analyses": {
+        "datatype_conversion": {
+            "_Z6kernelPiS_S_iii": {
+                "occurrences": []
+            }
+        },
+        "deadlock_detection": {
+            "_Z6kernelPiS_S_iii": {
+                "metrics": {
+                    "deadlock_detect_flag": false
+                }
+            }
+        },
+        "global_atomics": {
+            "_Z6kernelPiS_S_iii": {
+                "occurrences": []
+            }
+        },
+        "register_spilling": {
+            "_Z6kernelPiS_S_iii": {
+                "occurrences": []
+            }
+        },
+        "use_restrict": {
+            "_Z6kernelPiS_S_iii": {
+                "occurrences": []
+            }
+        },
+        "use_shared": {
+            "_Z6kernelPiS_S_iii": {
+                "occurrences": [
+                    {
+                        "computation_instruction_count": 6,
+                        "computation_instruction_pc_offsets": [
+                            "0328",
+                            "0358",
+                            "03b0",
+                            "03c8",
+                            "0608",
+                            "06a8"
+                        ],
+                        "global_load_count": 3,
+                        "global_load_pc_offsets": [
+                            "03d0",
+                            "0830"
+                        ],
+                        "in_for_loop": true,
+                        "line_number": 13,
+                        "pc_offset": "01f8",
+                        "register": "R31",
+                        "severity": "WARNING",
+                        "uses_shared_memory": false
+                    },
+                    {
+                        "computation_instruction_count": 6,
+                        "computation_instruction_pc_offsets": [
+                            "0328",
+                            "04f8",
+                            "0570",
+                            "0730",
+                            "0c98",
+                            "0d10"
+                        ],
+                        "global_load_count": 3,
+                        "global_load_pc_offsets": [
+                            "0350",
+                            "05d8"
+                        ],
+                        "in_for_loop": true,
+                        "line_number": 13,
+                        "pc_offset": "0210",
+                        "register": "R9",
+                        "severity": "WARNING",
+                        "uses_shared_memory": false
+                    },
+                    {
+                        "computation_instruction_count": 10,
+                        "computation_instruction_pc_offsets": [
+                            "03d8",
+                            "04d8",
+                            "06c8",
+                            "06e8",
+                            "06f8",
+                            "08d0",
+                            "0a48",
+                            "0a68",
+                            "0a70",
+                            "0bf8"
+                        ],
+                        "global_load_count": 5,
+                        "global_load_pc_offsets": [
+                            "04e8",
+                            "0798",
+                            "08f0",
+                            "0af8"
+                        ],
+                        "in_for_loop": true,
+                        "line_number": 13,
+                        "pc_offset": "0228",
+                        "register": "R22",
+                        "severity": "WARNING",
+                        "uses_shared_memory": false
+                    },
+                    {
+                        "computation_instruction_count": 7,
+                        "computation_instruction_pc_offsets": [
+                            "03b0",
+                            "0410",
+                            "0528",
+                            "0710",
+                            "08f8",
+                            "0918",
+                            "0bf8"
+                        ],
+                        "global_load_count": 4,
+                        "global_load_pc_offsets": [
+                            "0530",
+                            "07b0",
+                            "0b38"
+                        ],
+                        "in_for_loop": true,
+                        "line_number": 13,
+                        "pc_offset": "0238",
+                        "register": "R23",
+                        "severity": "WARNING",
+                        "uses_shared_memory": false
+                    },
+                    {
+                        "computation_instruction_count": 4,
+                        "computation_instruction_pc_offsets": [
+                            "03f8",
+                            "0608",
+                            "0828",
+                            "08a8"
+                        ],
+                        "global_load_count": 2,
+                        "global_load_pc_offsets": [
+                            "0430"
+                        ],
+                        "in_for_loop": true,
+                        "line_number": 13,
+                        "pc_offset": "0250",
+                        "register": "R29",
+                        "severity": "WARNING",
+                        "uses_shared_memory": false
+                    },
+                    {
+                        "computation_instruction_count": 8,
+                        "computation_instruction_pc_offsets": [
+                            "0370",
+                            "0568",
+                            "0730",
+                            "0970",
+                            "0ba8",
+                            "0bb0",
+                            "0bd0",
+                            "0be8"
+                        ],
+                        "global_load_count": 5,
+                        "global_load_pc_offsets": [
+                            "0388",
+                            "0588",
+                            "07f0",
+                            "0ab0"
+                        ],
+                        "in_for_loop": true,
+                        "line_number": 13,
+                        "pc_offset": "0268",
+                        "register": "R27",
+                        "severity": "WARNING",
+                        "uses_shared_memory": false
+                    },
+                    {
+                        "computation_instruction_count": 5,
+                        "computation_instruction_pc_offsets": [
+                            "0538",
+                            "06e8",
+                            "0710",
+                            "0718",
+                            "0d08"
+                        ],
+                        "global_load_count": 2,
+                        "global_load_pc_offsets": [
+                            "0548"
+                        ],
+                        "in_for_loop": true,
+                        "line_number": 13,
+                        "pc_offset": "0278",
+                        "register": "R8",
+                        "severity": "WARNING",
+                        "uses_shared_memory": false
+                    },
+                    {
+                        "computation_instruction_count": 5,
+                        "computation_instruction_pc_offsets": [
+                            "03f8",
+                            "0608",
+                            "0648",
+                            "0658",
+                            "0970"
+                        ],
+                        "global_load_count": 4,
+                        "global_load_pc_offsets": [
+                            "0448",
+                            "0848",
+                            "0ae8"
+                        ],
+                        "in_for_loop": true,
+                        "line_number": 13,
+                        "pc_offset": "02a8",
+                        "register": "R18",
+                        "severity": "WARNING",
+                        "uses_shared_memory": false
+                    },
+                    {
+                        "computation_instruction_count": 9,
+                        "computation_instruction_pc_offsets": [
+                            "0450",
+                            "0478",
+                            "04b0",
+                            "0bf8",
+                            "0c10",
+                            "0c18",
+                            "0c30",
+                            "0c78",
+                            "0cc8"
+                        ],
+                        "global_load_count": 6,
+                        "global_load_pc_offsets": [
+                            "04b8",
+                            "07c8",
+                            "0948",
+                            "0b10",
+                            "0cf8"
+                        ],
+                        "in_for_loop": true,
+                        "line_number": 13,
+                        "pc_offset": "02d0",
+                        "register": "R5",
+                        "severity": "WARNING",
+                        "uses_shared_memory": false
+                    },
+                    {
+                        "computation_instruction_count": 6,
+                        "computation_instruction_pc_offsets": [
+                            "04f8",
+                            "0510",
+                            "0590",
+                            "0628",
+                            "0858",
+                            "0af0"
+                        ],
+                        "global_load_count": 3,
+                        "global_load_pc_offsets": [
+                            "0630",
+                            "0868"
+                        ],
+                        "in_for_loop": true,
+                        "line_number": 13,
+                        "pc_offset": "02e8",
+                        "register": "R16",
+                        "severity": "WARNING",
+                        "uses_shared_memory": false
+                    },
+                    {
+                        "computation_instruction_count": 6,
+                        "computation_instruction_pc_offsets": [
+                            "04f8",
+                            "08b8",
+                            "0ba8",
+                            "0bb8",
+                            "0d30",
+                            "0d48"
+                        ],
+                        "global_load_count": 3,
+                        "global_load_pc_offsets": [
+                            "0518",
+                            "08c8"
+                        ],
+                        "in_for_loop": true,
+                        "line_number": 13,
+                        "pc_offset": "0368",
+                        "register": "R26",
+                        "severity": "WARNING",
+                        "uses_shared_memory": false
+                    },
+                    {
+                        "computation_instruction_count": 5,
+                        "computation_instruction_pc_offsets": [
+                            "0568",
+                            "05b8",
+                            "0870",
+                            "08d8",
+                            "0b08"
+                        ],
+                        "global_load_count": 3,
+                        "global_load_pc_offsets": [
+                            "05c8",
+                            "0908"
+                        ],
+                        "in_for_loop": true,
+                        "line_number": 13,
+                        "pc_offset": "0398",
+                        "register": "R17",
+                        "severity": "WARNING",
+                        "uses_shared_memory": false
+                    },
+                    {
+                        "computation_instruction_count": 9,
+                        "computation_instruction_pc_offsets": [
+                            "0650",
+                            "06b8",
+                            "06d0",
+                            "07e8",
+                            "0878",
+                            "0a18",
+                            "0a38",
+                            "0a50",
+                            "0b18"
+                        ],
+                        "global_load_count": 2,
+                        "global_load_pc_offsets": [
+                            "0888"
+                        ],
+                        "in_for_loop": true,
+                        "line_number": 13,
+                        "pc_offset": "04a8",
+                        "register": "R20",
+                        "severity": "WARNING",
+                        "uses_shared_memory": false
+                    },
+                    {
+                        "computation_instruction_count": 12,
+                        "computation_instruction_pc_offsets": [
+                            "06e8",
+                            "07f8",
+                            "0890",
+                            "0938",
+                            "0958",
+                            "0970",
+                            "0988",
+                            "0998",
+                            "09b0",
+                            "0a10",
+                            "0a28",
+                            "0b30"
+                        ],
+                        "global_load_count": 1,
+                        "global_load_pc_offsets": [],
+                        "in_for_loop": true,
+                        "line_number": 13,
+                        "pc_offset": "04d0",
+                        "register": "R21",
+                        "severity": "WARNING",
+                        "uses_shared_memory": false
+                    }
+                ]
+            }
+        },
+        "use_texture": {
+            "_Z6kernelPiS_S_iii": {
+                "occurrences": [
+                    {
+                        "line_number": 13,
+                        "pc_offset": "0210",
+                        "read_register": "R14",
+                        "severity": "WARNING",
+                        "spatial_locality": false,
+                        "unroll_pc_offsets": [
+                            "01f8",
+                            "0210"
+                        ],
+                        "written_register": "R9"
+                    }
+                ]
+            }
+        },
+        "vectorization": {
+            "_Z6kernelPiS_S_iii": {
+                "occurrences": [
+                    {
+                        "line_number": 13,
+                        "pc_offset": "01f8",
+                        "register": "R24",
+                        "register_load_type": 0,
+                        "register_pressure_increase": 1,
+                        "severity": "INFO",
+                        "used_register_count": 31
+                    },
+                    {
+                        "adjacent_memory_accesses": 15,
+                        "line_number": 13,
+                        "pc_offset": "0210",
+                        "register": "R14",
+                        "severity": "WARNING",
+                        "unroll_pc_offsets": [
+                            "0210",
+                            "0228",
+                            "0238",
+                            "0250",
+                            "0278",
+                            "02b8",
+                            "0368",
+                            "0398",
+                            "03e8",
+                            "0448",
+                            "04b8",
+                            "04d0",
+                            "0518",
+                            "0530",
+                            "05c8",
+                            "05f0",
+                            "0ab0"
+                        ],
+                        "used_register_count": 24
+                    },
+                    {
+                        "line_number": 13,
+                        "pc_offset": "0268",
+                        "register": "R16",
+                        "register_load_type": 0,
+                        "severity": "INFO"
+                    },
+                    {
+                        "line_number": 13,
+                        "pc_offset": "0290",
+                        "register": "R20",
+                        "register_load_type": 0,
+                        "severity": "INFO"
+                    },
+                    {
+                        "line_number": 13,
+                        "pc_offset": "03d0",
+                        "register": "R22",
+                        "register_load_type": 0,
+                        "severity": "INFO"
+                    },
+                    {
+                        "adjacent_memory_accesses": 10,
+                        "line_number": 13,
+                        "pc_offset": "0548",
+                        "register": "R8",
+                        "severity": "WARNING",
+                        "unroll_pc_offsets": [
+                            "0548",
+                            "07b0",
+                            "07c8",
+                            "07d8",
+                            "07f0",
+                            "0818",
+                            "08c8",
+                            "0908",
+                            "0930",
+                            "0ad0",
+                            "0ae8",
+                            "0af8",
+                            "0b28",
+                            "0ce8"
+                        ]
+                    },
+                    {
+                        "line_number": 13,
+                        "pc_offset": "0630",
+                        "register": "R30",
+                        "register_load_type": 0,
+                        "severity": "INFO"
+                    },
+                    {
+                        "line_number": 13,
+                        "pc_offset": "0830",
+                        "register": "R28",
+                        "register_load_type": 0,
+                        "severity": "INFO"
+                    },
+                    {
+                        "line_number": 13,
+                        "pc_offset": "0cf8",
+                        "register": "R10",
+                        "register_load_type": 0,
+                        "severity": "INFO"
+                    }
+                ],
+                "total": 0
+            }
+        },
+        "warp_divergence": {
+            "_Z6kernelPiS_S_iii": {
+                "occurrences": [
+                    {
+                        "line_number": 12,
+                        "pc_offset": "0788",
+                        "severity": "WARNING",
+                        "target_branch": ".L_x_5",
+                        "target_branch_start_line_number": 13
+                    }
+                ]
+            }
+        }
+    },
+    "binary_files": {
+        "ptx": "\nFatbin elf code:\n================\narch = sm_52\ncode version = [1,7]\nhost = linux\ncompile_size = 64bit\nidentifier = matrix_multiplication_simple.cu \n\nFatbin elf code:\n================\narch = sm_52\ncode version = [1,7]\nhost = linux\ncompile_size = 64bit\nidentifier = matrix_multiplication_simple.cu\n\nFatbin ptx code:\n================\narch = sm_52\ncode version = [8,8]\nhost = linux\ncompile_size = 64bit\ncompressed\nidentifier = matrix_multiplication_simple.cu\nptxasOptions =  --generate-line-info \n\n//\n//\n//\n//\n//\n//\n\n.version 8.8\n.target sm_52\n.address_size 64\n\n//\n\n.visible .entry _Z6kernelPiS_S_iii(\n.param .u64 _Z6kernelPiS_S_iii_param_0,\n.param .u64 _Z6kernelPiS_S_iii_param_1,\n.param .u64 _Z6kernelPiS_S_iii_param_2,\n.param .u32 _Z6kernelPiS_S_iii_param_3,\n.param .u32 _Z6kernelPiS_S_iii_param_4,\n.param .u32 _Z6kernelPiS_S_iii_param_5\n)\n{\n.reg .pred %p<9>;\n.reg .b32 %r<61>;\n.reg .b64 %rd<34>;\n.loc\t1 7 0\n\n\nld.param.u64 %rd18, [_Z6kernelPiS_S_iii_param_0];\nld.param.u64 %rd19, [_Z6kernelPiS_S_iii_param_1];\nld.param.u64 %rd17, [_Z6kernelPiS_S_iii_param_2];\nld.param.u32 %r21, [_Z6kernelPiS_S_iii_param_3];\nld.param.u32 %r19, [_Z6kernelPiS_S_iii_param_4];\nld.param.u32 %r20, [_Z6kernelPiS_S_iii_param_5];\n.loc\t1 8 5\ncvta.to.global.u64 %rd1, %rd19;\ncvta.to.global.u64 %rd2, %rd18;\nmov.u32 %r22, %ntid.y;\nmov.u32 %r23, %ctaid.y;\nmov.u32 %r24, %tid.y;\nmad.lo.s32 %r1, %r23, %r22, %r24;\n.loc\t1 9 5\nmov.u32 %r25, %ntid.x;\nmov.u32 %r26, %ctaid.x;\nmov.u32 %r27, %tid.x;\nmad.lo.s32 %r2, %r26, %r25, %r27;\n.loc\t1 11 5\nsetp.ge.s32 %p1, %r2, %r20;\nsetp.ge.s32 %p2, %r1, %r21;\nor.pred %p3, %p2, %p1;\n@%p3 bra $L__BB0_9;\n\n.loc\t1 12 9\nsetp.lt.s32 %p4, %r19, 1;\nmov.u32 %r60, 0;\n@%p4 bra $L__BB0_8;\n\nadd.s32 %r32, %r19, -1;\nand.b32 %r59, %r19, 3;\nsetp.lt.u32 %p5, %r32, 3;\nmov.u32 %r56, 0;\nmov.u32 %r60, %r56;\n@%p5 bra $L__BB0_5;\n\nsub.s32 %r54, %r19, %r59;\nmul.lo.s32 %r35, %r19, %r1;\nmul.wide.s32 %rd3, %r35, 4;\nmul.wide.s32 %rd20, %r2, 4;\nadd.s64 %rd30, %rd1, %rd20;\nmul.wide.s32 %rd5, %r20, 4;\nmov.u32 %r56, 0;\nmov.u64 %rd31, %rd2;\n\n$L__BB0_4:\n.loc\t1 13 13\nadd.s64 %rd21, %rd31, %rd3;\nld.global.u32 %r36, [%rd30];\nld.global.u32 %r37, [%rd21];\nmad.lo.s32 %r38, %r36, %r37, %r60;\nadd.s64 %rd22, %rd30, %rd5;\nld.global.u32 %r39, [%rd22];\nld.global.u32 %r40, [%rd21+4];\nmad.lo.s32 %r41, %r39, %r40, %r38;\nadd.s64 %rd23, %rd22, %rd5;\nld.global.u32 %r42, [%rd23];\nld.global.u32 %r43, [%rd21+8];\nmad.lo.s32 %r44, %r42, %r43, %r41;\nadd.s64 %rd24, %rd23, %rd5;\nadd.s64 %rd30, %rd24, %rd5;\nld.global.u32 %r45, [%rd24];\nld.global.u32 %r46, [%rd21+12];\nmad.lo.s32 %r60, %r45, %r46, %r44;\n.loc\t1 12 31\nadd.s32 %r56, %r56, 4;\n.loc\t1 12 9\nadd.s64 %rd31, %rd31, 16;\nadd.s32 %r54, %r54, -4;\nsetp.ne.s32 %p6, %r54, 0;\n@%p6 bra $L__BB0_4;\n\n$L__BB0_5:\nsetp.eq.s32 %p7, %r59, 0;\n@%p7 bra $L__BB0_8;\n\nmad.lo.s32 %r47, %r56, %r20, %r2;\nmul.wide.s32 %rd25, %r47, 4;\nadd.s64 %rd33, %rd1, %rd25;\nmul.wide.s32 %rd11, %r20, 4;\nmad.lo.s32 %r48, %r19, %r1, %r56;\nmul.wide.s32 %rd26, %r48, 4;\nadd.s64 %rd32, %rd2, %rd26;\n\n$L__BB0_7:\n.pragma \"nounroll\";\n.loc\t1 13 13\nld.global.u32 %r49, [%rd33];\nld.global.u32 %r50, [%rd32];\nmad.lo.s32 %r60, %r49, %r50, %r60;\n.loc\t1 12 9\nadd.s64 %rd33, %rd33, %rd11;\nadd.s64 %rd32, %rd32, 4;\nadd.s32 %r59, %r59, -1;\nsetp.ne.s32 %p8, %r59, 0;\n@%p8 bra $L__BB0_7;\n\n$L__BB0_8:\n.loc\t1 15 9\nmad.lo.s32 %r51, %r1, %r20, %r2;\n.loc\t1 8 5\ncvta.to.global.u64 %rd27, %rd17;\n.loc\t1 15 9\nmul.wide.s32 %rd28, %r51, 4;\nadd.s64 %rd29, %rd27, %rd28;\nst.global.u32 [%rd29], %r60;\n\n$L__BB0_9:\n.loc\t1 17 1\nret;\n\n}\n\n.file\t1 \"/home/ge64cax2/GPUscout/examples/nvidia/tobias/matrix_multiplication_simple.cu\"\n\n",
+        "sass": "\t.headerflags\t@\"EF_CUDA_TEXMODE_UNIFIED EF_CUDA_64BIT_ADDRESS EF_CUDA_SM52 EF_CUDA_VIRTUAL_SM(EF_CUDA_SM52)\"\n\t.elftype\t@\"ET_EXEC\"\n\n\n//--------------------- .text._Z6kernelPiS_S_iii  --------------------------\n\t.section\t.text._Z6kernelPiS_S_iii,\"ax\",@progbits\n\t.sectioninfo\t@\"SHI_REGISTERS=32\"\n\t.align\t32\n        .global         _Z6kernelPiS_S_iii\n        .type           _Z6kernelPiS_S_iii,@function\n        .size           _Z6kernelPiS_S_iii,(.L_x_8 - _Z6kernelPiS_S_iii)\n        .other          _Z6kernelPiS_S_iii,@\"STO_CUDA_ENTRY STV_DEFAULT\"\n_Z6kernelPiS_S_iii:\n.text._Z6kernelPiS_S_iii:\n\t//## File \"/home/ge64cax2/GPUscout/examples/nvidia/tobias/matrix_multiplication_simple.cu\", line 7\n        /*0008*/                   MOV R1, c[0x0][0x20] ;\n\t//## File \"/home/ge64cax2/GPUscout/examples/nvidia/tobias/matrix_multiplication_simple.cu\", line 9\n        /*0010*/                   S2R R0, SR_CTAID.X ;\n        /*0018*/                   S2R R5, SR_TID.X ;\n\t//## File \"/home/ge64cax2/GPUscout/examples/nvidia/tobias/matrix_multiplication_simple.cu\", line 8\n        /*0028*/                   S2R R2, SR_CTAID.Y ;\n        /*0030*/                   S2R R3, SR_TID.Y ;\n\t//## File \"/home/ge64cax2/GPUscout/examples/nvidia/tobias/matrix_multiplication_simple.cu\", line 9\n        /*0038*/                   XMAD.MRG R6, R0.reuse, c[0x0] [0x8].H1, RZ ;\n        /*0048*/                   XMAD R5, R0, c[0x0] [0x8], R5 ;\n\t//## File \"/home/ge64cax2/GPUscout/examples/nvidia/tobias/matrix_multiplication_simple.cu\", line 8\n        /*0050*/                   XMAD.MRG R4, R2, c[0x0] [0xc].H1, RZ ;\n\t//## File \"/home/ge64cax2/GPUscout/examples/nvidia/tobias/matrix_multiplication_simple.cu\", line 9\n        /*0058*/                   XMAD.PSL.CBCC R0, R0.H1, R6.H1, R5 ;\n\t//## File \"/home/ge64cax2/GPUscout/examples/nvidia/tobias/matrix_multiplication_simple.cu\", line 8\n        /*0068*/                   XMAD R3, R2.reuse, c[0x0] [0xc], R3 ;\n\t//## File \"/home/ge64cax2/GPUscout/examples/nvidia/tobias/matrix_multiplication_simple.cu\", line 11\n        /*0070*/                   ISETP.GE.AND P0, PT, R0, c[0x0][0x160], PT ;\n\t//## File \"/home/ge64cax2/GPUscout/examples/nvidia/tobias/matrix_multiplication_simple.cu\", line 8\n        /*0078*/                   XMAD.PSL.CBCC R2, R2.H1, R4.H1, R3 ;\n        /*0088*/                   ISETP.GE.OR P0, PT, R2, c[0x0][0x158], P0 ;\n        /*0090*/                   NOP ;\n\t//## File \"/home/ge64cax2/GPUscout/examples/nvidia/tobias/matrix_multiplication_simple.cu\", line 11\n        /*0098*/               @P0 EXIT ;\n\t//## File \"/home/ge64cax2/GPUscout/examples/nvidia/tobias/matrix_multiplication_simple.cu\", line 12\n        /*00a8*/                   MOV R4, c[0x0][0x15c] ;\n        /*00b0*/                   MOV R26, RZ ;\n        /*00b8*/                   ISETP.GE.AND P0, PT, R4, 0x1, PT ;\n        /*00c8*/              @!P0 BRA `(.L_x_0) ;\n        /*00d0*/                   IADD32I R3, R4.reuse, -0x1 ;\n        /*00d8*/                   MOV R7, c[0x0][0x160] ;\n        /*00e8*/                   LOP32I.AND R4, R4, 0x3 ;\n        /*00f0*/                   MOV R26, RZ ;\n        /*00f8*/                   ISETP.GE.U32.AND P0, PT, R3, 0x3, PT ;\n        /*0108*/                   MOV R3, RZ ;\n        /*0110*/                   SHL R6, R7.reuse, 0x2 ;\n        /*0118*/         {         SHR R7, R7, 0x1e ;\n        /*0128*/              @!P0 BRA `(.L_x_1)         }\n        /*0130*/                   IADD R19, -R4, c[0x0][0x15c] ;\n        /*0138*/                   XMAD R13, R2.reuse, c[0x0] [0x15c], RZ ;\n        /*0148*/                   XMAD.MRG R3, R2, c[0x0] [0x15c].H1, RZ ;\n        /*0150*/                   SHR R25, R0.reuse, 0x1e ;\n        /*0158*/                   MOV R10, c[0x0][0x140] ;\n        /*0168*/                   ISCADD R24.CC, R0, c[0x0][0x148], 0x2 ;\n        /*0170*/                   MOV R11, c[0x0][0x144] ;\n        /*0178*/                   ISETP.GT.AND P0, PT, R19, RZ, PT ;\n        /*0188*/                   XMAD.PSL.CBCC R13, R2.H1, R3.H1, R13 ;\n        /*0190*/                   MOV R3, RZ ;\n        /*0198*/                   IADD.X R25, R25, c[0x0][0x14c] ;\n        /*01a8*/                   SHL R12, R13, 0x2 ;\n        /*01b0*/         {         SHR R13, R13, 0x1e ;\n        /*01b8*/              @!P0 BRA `(.L_x_2)         }\n        /*01c8*/                   ISETP.GT.AND P1, PT, R19, 0xc, PT ;\n        /*01d0*/         {         PSETP.AND.AND P0, PT, PT, PT, PT ;\n        /*01d8*/              @!P1 BRA `(.L_x_3)         }\n        /*01e8*/                   PSETP.AND.AND P0, PT, !PT, PT, PT ;\n.L_x_4:\n\t//## File \"/home/ge64cax2/GPUscout/examples/nvidia/tobias/matrix_multiplication_simple.cu\", line 13\n        /*01f0*/         {         IADD R14.CC, R10, R12 ;\n        /*01f8*/                   LDG.E R31, [R24]         }\n        /*0208*/                   IADD.X R15, R11, R13 ;\n        /*0210*/                   LDG.E R9, [R14] ;\n        /*0218*/         {         IADD R16.CC, R24, R6.reuse ;\n        /*0228*/                   LDG.E R22, [R14+0x4]         }\n        /*0230*/         {         IADD.X R17, R25, R7.reuse ;\n        /*0238*/                   LDG.E R23, [R14+0x8]         }\n        /*0248*/         {         IADD R20.CC, R16, R6.reuse ;\n        /*0250*/                   LDG.E R29, [R14+0xc]         }\n        /*0258*/         {         IADD.X R21, R17, R7.reuse ;\n        /*0268*/                   LDG.E R27, [R16]         }\n        /*0270*/         {         IADD R24.CC, R20, R6.reuse ;\n        /*0278*/                   LDG.E R8, [R14+0x10]         }\n        /*0288*/         {         IADD.X R25, R21, R7.reuse ;\n        /*0290*/                   LDG.E R28, [R20]         }\n        /*0298*/         {         IADD R16.CC, R24, R6.reuse ;\n        /*02a8*/                   LDG.E R18, [R24]         }\n        /*02b0*/         {         IADD.X R17, R25, R7.reuse ;\n        /*02b8*/                   LDG.E R30, [R14+0x14]         }\n        /*02c8*/         {         IADD R20.CC, R16, R6 ;\n        /*02d0*/                   LDG.E R5, [R16]         }\n        /*02d8*/                   IADD.X R21, R17, R7 ;\n        /*02e8*/                   LDG.E R16, [R20] ;\n        /*02f0*/                   IADD R24.CC, R20, R6.reuse ;\n        /*02f8*/                   IADD.X R25, R21, R7.reuse ;\n        /*0308*/                   IADD R20.CC, R24, R6 ;\n        /*0310*/                   IADD.X R21, R25, R7 ;\n        /*0318*/                   DEPBAR.LE SB5, 0x5 ;\n        /*0328*/                   XMAD R26, R31, R9, R26 ;\n        /*0330*/                   XMAD.MRG R9, R31.reuse, R9.H1, RZ ;\n        /*0338*/                   XMAD.PSL.CBCC R31, R31.H1, R9.H1, R26 ;\n        /*0348*/                   DEPBAR.LE SB5, 0x3 ;\n        /*0350*/                   LDG.E R9, [R24] ;\n        /*0358*/         {         XMAD R17, R27.reuse, R22.reuse, R31 ;\n        /*0368*/                   LDG.E R26, [R14+0x18]         }\n        /*0370*/                   XMAD.MRG R22, R27, R22.H1, RZ ;\n        /*0378*/         {         XMAD.PSL.CBCC R31, R27.H1, R22.H1, R17 ;\n        /*0388*/                   LDG.E R27, [R20]         }\n        /*0390*/         {         IADD R22.CC, R20, R6.reuse ;\n        /*0398*/                   LDG.E R17, [R14+0x1c]         }\n        /*03a8*/                   XMAD.MRG R25, R28.reuse, R23.H1.reuse, RZ ;\n        /*03b0*/                   XMAD R31, R28.reuse, R23, R31 ;\n        /*03b8*/                   IADD.X R23, R21, R7 ;\n        /*03c8*/         {         XMAD.PSL.CBCC R25, R28.H1, R25.H1, R31 ;\n        /*03d0*/                   LDG.E R31, [R22]         }\n        /*03d8*/         {         IADD R24.CC, R22, R6 ;\n        /*03e8*/                   LDG.E R28, [R14+0x20]         }\n        /*03f0*/                   DEPBAR.LE SB5, 0x5 ;\n        /*03f8*/                   XMAD R20, R18, R29, R25 ;\n        /*0408*/                   XMAD.MRG R29, R18.reuse, R29.H1, RZ ;\n        /*0410*/                   IADD.X R25, R23, R7 ;\n        /*0418*/         {         XMAD.PSL.CBCC R20, R18.H1, R29.H1, R20 ;\n        /*0428*/                   DEPBAR.LE SB5, 0x4         }\n        /*0430*/                   LDG.E R29, [R24] ;\n        /*0438*/         {         XMAD R20, R5.reuse, R8.reuse, R20 ;\n        /*0448*/                   LDG.E R18, [R14+0x24]         }\n        /*0450*/                   XMAD.MRG R8, R5, R8.H1, RZ ;\n        /*0458*/                   XMAD.PSL.CBCC R5, R5.H1, R8.H1, R20 ;\n        /*0468*/                   IADD R20.CC, R24, R6 ;\n        /*0470*/                   DEPBAR.LE SB5, 0x4 ;\n        /*0478*/                   XMAD R5, R16.reuse, R30.reuse, R5 ;\n        /*0488*/                   XMAD.MRG R30, R16.reuse, R30.H1, RZ ;\n        /*0490*/                   IADD.X R21, R25, R7.reuse ;\n        /*0498*/         {         IADD R22.CC, R20, R6.reuse ;\n        /*04a8*/                   LDG.E R20, [R20]         }\n        /*04b0*/         {         XMAD.PSL.CBCC R16, R16.H1, R30.H1, R5 ;\n        /*04b8*/                   LDG.E R5, [R14+0x28]         }\n        /*04c8*/         {         IADD.X R23, R21, R7 ;\n        /*04d0*/                   LDG.E R21, [R14+0x30]         }\n        /*04d8*/         {         IADD R8.CC, R22, R6 ;\n        /*04e8*/                   LDG.E R22, [R22]         }\n        /*04f0*/                   DEPBAR.LE SB5, 0x4 ;\n        /*04f8*/                   XMAD R16, R9, R26, R16 ;\n        /*0508*/                   XMAD.MRG R26, R9.reuse, R26.H1, RZ ;\n        /*0510*/         {         XMAD.PSL.CBCC R24, R9.H1, R26.H1, R16 ;\n        /*0518*/                   LDG.E R26, [R14+0x2c]         }\n        /*0528*/         {         IADD.X R9, R23, R7 ;\n        /*0530*/                   LDG.E R23, [R14+0x34]         }\n        /*0538*/         {         IADD R16.CC, R8, R6 ;\n        /*0548*/                   LDG.E R8, [R8]         }\n        /*0550*/                   DEPBAR.LE SB5, 0x5 ;\n        /*0558*/                   XMAD.MRG R25, R27.reuse, R17.H1.reuse, RZ ;\n        /*0568*/                   XMAD R24, R27, R17, R24 ;\n        /*0570*/                   IADD.X R17, R9, R7 ;\n        /*0578*/         {         XMAD.PSL.CBCC R25, R27.H1, R25.H1, R24 ;\n        /*0588*/                   LDG.E R27, [R16]         }\n        /*0590*/                   IADD R24.CC, R16, R6 ;\n        /*0598*/                   DEPBAR.LE SB5, 0x5 ;\n        /*05a8*/                   XMAD R30, R31.reuse, R28.reuse, R25 ;\n        /*05b0*/                   XMAD.MRG R28, R31.reuse, R28.H1, RZ ;\n        /*05b8*/         {         IADD.X R25, R17, R7 ;\n        /*05c8*/                   LDG.E R17, [R14+0x3c]         }\n        /*05d0*/         {         XMAD.PSL.CBCC R31, R31.H1, R28.H1, R30 ;\n        /*05d8*/                   LDG.E R9, [R24]         }\n        /*05e8*/         {         IADD R30.CC, R24, R6 ;\n        /*05f0*/                   LDG.E R28, [R14+0x38]         }\n        /*05f8*/                   DEPBAR.LE SB5, 0x5 ;\n        /*0608*/                   XMAD R16, R29, R18, R31 ;\n        /*0610*/                   XMAD.MRG R18, R29.reuse, R18.H1, RZ ;\n        /*0618*/                   IADD.X R31, R25, R7 ;\n        /*0628*/         {         XMAD.PSL.CBCC R18, R29.H1, R18.H1, R16 ;\n        /*0630*/                   LDG.E R16, [R30]         }\n        /*0638*/                   DEPBAR.LE SB5, 0x5 ;\n        /*0648*/                   XMAD R18, R20.reuse, R5.reuse, R18 ;\n        /*0650*/                   XMAD.MRG R5, R20, R5.H1, RZ ;\n        /*0658*/                   XMAD.PSL.CBCC R20, R20.H1, R5.H1, R18 ;\n\t//## File \"/home/ge64cax2/GPUscout/examples/nvidia/tobias/matrix_multiplication_simple.cu\", line 12\n        /*0668*/                   IADD32I R19, R19, -0x10 ;\n        /*0670*/                   IADD32I R10.CC, R10, 0x40 ;\n        /*0678*/                   ISETP.GT.AND P1, PT, R19, 0xc, PT ;\n        /*0688*/                   IADD.X R11, RZ, R11 ;\n\t//## File \"/home/ge64cax2/GPUscout/examples/nvidia/tobias/matrix_multiplication_simple.cu\", line 13\n        /*0690*/                   IADD R24.CC, R30, R6 ;\n\t//## File \"/home/ge64cax2/GPUscout/examples/nvidia/tobias/matrix_multiplication_simple.cu\", line 12\n        /*0698*/                   IADD32I R3, R3, 0x10 ;\n\t//## File \"/home/ge64cax2/GPUscout/examples/nvidia/tobias/matrix_multiplication_simple.cu\", line 13\n        /*06a8*/                   IADD.X R25, R31, R7 ;\n        /*06b0*/                   DEPBAR.LE SB5, 0x4 ;\n        /*06b8*/                   XMAD R20, R22.reuse, R26.reuse, R20 ;\n        /*06c8*/                   XMAD.MRG R5, R22, R26.H1, RZ ;\n        /*06d0*/         {         XMAD.PSL.CBCC R22, R22.H1, R5.H1, R20 ;\n        /*06d8*/                   DEPBAR.LE SB5, 0x2         }\n        /*06e8*/                   XMAD R22, R8, R21, R22 ;\n        /*06f0*/                   XMAD.MRG R21, R8.reuse, R21.H1, RZ ;\n        /*06f8*/                   XMAD.PSL.CBCC R8, R8.H1, R21.H1, R22 ;\n        /*0708*/                   XMAD.MRG R5, R27.reuse, R23.H1.reuse, RZ ;\n        /*0710*/                   XMAD R8, R27.reuse, R23, R8 ;\n        /*0718*/         {         XMAD.PSL.CBCC R27, R27.H1, R5.H1, R8 ;\n        /*0728*/                   DEPBAR.LE SB5, 0x1         }\n        /*0730*/                   XMAD R14, R9, R28, R27 ;\n        /*0738*/                   XMAD.MRG R28, R9.reuse, R28.H1, RZ ;\n        /*0748*/                   XMAD.PSL.CBCC R14, R9.H1, R28.H1, R14 ;\n        /*0750*/                   XMAD R14, R16.reuse, R17.reuse, R14 ;\n        /*0758*/                   XMAD.MRG R17, R16.reuse, R17.H1, RZ ;\n        /*0768*/         {         XMAD.PSL.CBCC R26, R16.H1, R17.H1, R14 ;\n\t//## File \"/home/ge64cax2/GPUscout/examples/nvidia/tobias/matrix_multiplication_simple.cu\", line 12\n        /*0770*/               @P1 BRA `(.L_x_4)         }\n.L_x_3:\n        /*0778*/                   ISETP.GT.AND P1, PT, R19, 0x4, PT ;\n        /*0788*/              @!P1 BRA `(.L_x_5) ;\n\t//## File \"/home/ge64cax2/GPUscout/examples/nvidia/tobias/matrix_multiplication_simple.cu\", line 13\n        /*0790*/         {         IADD R8.CC, R10, R12 ;\n        /*0798*/                   LDG.E R22, [R24]         }\n        /*07a8*/                   IADD.X R9, R11, R13 ;\n        /*07b0*/                   LDG.E R23, [R8] ;\n        /*07b8*/         {         IADD R20.CC, R24, R6.reuse ;\n        /*07c8*/                   LDG.E R5, [R8+0x4]         }\n        /*07d0*/         {         IADD.X R21, R25, R7.reuse ;\n        /*07d8*/                   LDG.E R14, [R8+0x8]         }\n        /*07e8*/         {         IADD R28.CC, R20, R6.reuse ;\n        /*07f0*/                   LDG.E R27, [R8+0xc]         }\n        /*07f8*/         {         IADD.X R29, R21, R7.reuse ;\n        /*0808*/                   LDG.E R15, [R20]         }\n        /*0810*/         {         IADD R24.CC, R28, R6.reuse ;\n        /*0818*/                   LDG.E R30, [R8+0x10]         }\n        /*0828*/         {         IADD.X R25, R29, R7.reuse ;\n        /*0830*/                   LDG.E R31, [R28]         }\n        /*0838*/         {         IADD R16.CC, R24, R6 ;\n        /*0848*/                   LDG.E R18, [R24]         }\n        /*0850*/                   IADD.X R17, R25, R7 ;\n        /*0858*/         {         IADD R20.CC, R16, R6.reuse ;\n        /*0868*/                   LDG.E R16, [R16]         }\n        /*0870*/                   IADD.X R21, R17, R7.reuse ;\n        /*0878*/         {         IADD R28.CC, R20, R6.reuse ;\n        /*0888*/                   LDG.E R20, [R20]         }\n        /*0890*/                   IADD.X R29, R21, R7.reuse ;\n        /*0898*/                   IADD R24.CC, R28, R6 ;\n        /*08a8*/                   IADD.X R25, R29, R7 ;\n        /*08b0*/                   DEPBAR.LE SB5, 0x4 ;\n        /*08b8*/         {         XMAD R17, R22.reuse, R23.reuse, R26 ;\n        /*08c8*/                   LDG.E R26, [R8+0x14]         }\n        /*08d0*/                   XMAD.MRG R23, R22, R23.H1, RZ ;\n        /*08d8*/         {         XMAD.PSL.CBCC R23, R22.H1, R23.H1, R17 ;\n        /*08e8*/                   DEPBAR.LE SB5, 0x4         }\n        /*08f0*/                   LDG.E R22, [R28] ;\n        /*08f8*/         {         XMAD R23, R15.reuse, R5.reuse, R23 ;\n        /*0908*/                   LDG.E R17, [R8+0x18]         }\n        /*0910*/                   XMAD.MRG R5, R15, R5.H1, RZ ;\n        /*0918*/         {         XMAD.PSL.CBCC R21, R15.H1, R5.H1, R23 ;\n        /*0928*/                   DEPBAR.LE SB5, 0x4         }\n        /*0930*/                   LDG.E R15, [R8+0x1c] ;\n        /*0938*/         {         XMAD R21, R31.reuse, R14.reuse, R21 ;\n        /*0948*/                   LDG.E R5, [R24]         }\n        /*0950*/                   XMAD.MRG R14, R31.reuse, R14.H1, RZ ;\n        /*0958*/         {         XMAD.PSL.CBCC R21, R31.H1, R14.H1, R21 ;\n        /*0968*/                   DEPBAR.LE SB5, 0x4         }\n        /*0970*/                   XMAD R21, R18, R27, R21 ;\n        /*0978*/                   XMAD.MRG R27, R18.reuse, R27.H1, RZ ;\n        /*0988*/         {         XMAD.PSL.CBCC R21, R18.H1, R27.H1, R21 ;\n        /*0990*/                   DEPBAR.LE SB5, 0x3         }\n        /*0998*/                   XMAD R21, R16.reuse, R30.reuse, R21 ;\n        /*09a8*/                   XMAD.MRG R30, R16.reuse, R30.H1, RZ ;\n        /*09b0*/                   XMAD.PSL.CBCC R21, R16.H1, R30.H1, R21 ;\n\t//## File \"/home/ge64cax2/GPUscout/examples/nvidia/tobias/matrix_multiplication_simple.cu\", line 12\n        /*09b8*/                   IADD32I R10.CC, R10, 0x20 ;\n        /*09c8*/                   PSETP.AND.AND P0, PT, !PT, PT, PT ;\n        /*09d0*/                   IADD.X R11, RZ, R11 ;\n\t//## File \"/home/ge64cax2/GPUscout/examples/nvidia/tobias/matrix_multiplication_simple.cu\", line 13\n        /*09d8*/                   IADD R24.CC, R24, R6 ;\n\t//## File \"/home/ge64cax2/GPUscout/examples/nvidia/tobias/matrix_multiplication_simple.cu\", line 12\n        /*09e8*/                   IADD32I R3, R3, 0x8 ;\n        /*09f0*/                   IADD32I R19, R19, -0x8 ;\n\t//## File \"/home/ge64cax2/GPUscout/examples/nvidia/tobias/matrix_multiplication_simple.cu\", line 13\n        /*09f8*/                   IADD.X R25, R25, R7 ;\n        /*0a08*/                   DEPBAR.LE SB5, 0x2 ;\n        /*0a10*/                   XMAD R21, R20.reuse, R26.reuse, R21 ;\n        /*0a18*/                   XMAD.MRG R26, R20, R26.H1, RZ ;\n        /*0a28*/         {         XMAD.PSL.CBCC R20, R20.H1, R26.H1, R21 ;\n        /*0a30*/                   DEPBAR.LE SB5, 0x1         }\n        /*0a38*/                   XMAD R20, R22.reuse, R17.reuse, R20 ;\n        /*0a48*/                   XMAD.MRG R17, R22, R17.H1, RZ ;\n        /*0a50*/                   XMAD.PSL.CBCC R22, R22.H1, R17.H1, R20 ;\n        /*0a58*/                   XMAD.MRG R8, R5.reuse, R15.H1.reuse, RZ ;\n        /*0a68*/                   XMAD R22, R5.reuse, R15, R22 ;\n        /*0a70*/                   XMAD.PSL.CBCC R26, R5.H1, R8.H1, R22 ;\n.L_x_5:\n        /*0a78*/                   ISETP.NE.OR P0, PT, R19, RZ, P0 ;\n\t//## File \"/home/ge64cax2/GPUscout/examples/nvidia/tobias/matrix_multiplication_simple.cu\", line 12\n        /*0a88*/              @!P0 BRA `(.L_x_1) ;\n.L_x_2:\n\t//## File \"/home/ge64cax2/GPUscout/examples/nvidia/tobias/matrix_multiplication_simple.cu\", line 13\n        /*0a90*/                   IADD R8.CC, R10.reuse, R12 ;\n        /*0a98*/                   MOV R14, R24 ;\n        /*0aa8*/                   MOV R15, R25 ;\n        /*0ab0*/                   LDG.E R27, [R14] ;\n        /*0ab8*/                   IADD.X R9, R11, R13 ;\n        /*0ac8*/         {         IADD R16.CC, R24, R6.reuse ;\n        /*0ad0*/                   LDG.E R28, [R8]         }\n        /*0ad8*/         {         IADD.X R17, R25, R7.reuse ;\n        /*0ae8*/                   LDG.E R18, [R8+0x4]         }\n        /*0af0*/         {         IADD R20.CC, R16, R6.reuse ;\n        /*0af8*/                   LDG.E R22, [R8+0x8]         }\n        /*0b08*/         {         IADD.X R21, R17, R7.reuse ;\n        /*0b10*/                   LDG.E R5, [R16]         }\n        /*0b18*/         {         IADD R24.CC, R20, R6 ;\n        /*0b28*/                   LDG.E R15, [R8+0xc]         }\n        /*0b30*/         {         IADD.X R25, R21, R7 ;\n        /*0b38*/                   LDG.E R23, [R20]         }\n\t//## File \"/home/ge64cax2/GPUscout/examples/nvidia/tobias/matrix_multiplication_simple.cu\", line 12\n        /*0b48*/         {         IADD32I R19, R19, -0x4 ;\n\t//## File \"/home/ge64cax2/GPUscout/examples/nvidia/tobias/matrix_multiplication_simple.cu\", line 13\n        /*0b50*/                   LDG.E R14, [R24]         }\n\t//## File \"/home/ge64cax2/GPUscout/examples/nvidia/tobias/matrix_multiplication_simple.cu\", line 12\n        /*0b58*/                   IADD32I R10.CC, R10, 0x10 ;\n        /*0b68*/                   ISETP.NE.AND P0, PT, R19, RZ, PT ;\n        /*0b70*/                   IADD.X R11, RZ, R11 ;\n\t//## File \"/home/ge64cax2/GPUscout/examples/nvidia/tobias/matrix_multiplication_simple.cu\", line 13\n        /*0b78*/                   IADD R24.CC, R24, R6 ;\n\t//## File \"/home/ge64cax2/GPUscout/examples/nvidia/tobias/matrix_multiplication_simple.cu\", line 12\n        /*0b88*/                   IADD32I R3, R3, 0x4 ;\n\t//## File \"/home/ge64cax2/GPUscout/examples/nvidia/tobias/matrix_multiplication_simple.cu\", line 13\n        /*0b90*/                   IADD.X R25, R25, R7 ;\n        /*0b98*/                   DEPBAR.LE SB5, 0x3 ;\n        /*0ba8*/                   XMAD R26, R27, R28, R26 ;\n        /*0bb0*/                   XMAD.MRG R28, R27, R28.H1, RZ ;\n        /*0bb8*/         {         XMAD.PSL.CBCC R27, R27.H1, R28.H1, R26 ;\n        /*0bc8*/                   DEPBAR.LE SB5, 0x2         }\n        /*0bd0*/                   XMAD R27, R5.reuse, R18.reuse, R27 ;\n        /*0bd8*/                   XMAD.MRG R18, R5.reuse, R18.H1, RZ ;\n        /*0be8*/         {         XMAD.PSL.CBCC R5, R5.H1, R18.H1, R27 ;\n        /*0bf0*/                   DEPBAR.LE SB5, 0x1         }\n        /*0bf8*/                   XMAD R5, R23, R22, R5 ;\n        /*0c08*/                   XMAD.MRG R22, R23.reuse, R22.H1, RZ ;\n        /*0c10*/                   XMAD.PSL.CBCC R5, R23.H1, R22.H1, R5 ;\n        /*0c18*/                   XMAD R5, R14.reuse, R15.reuse, R5 ;\n        /*0c28*/                   XMAD.MRG R15, R14.reuse, R15.H1, RZ ;\n        /*0c30*/         {         XMAD.PSL.CBCC R26, R14.H1, R15.H1, R5 ;\n\t//## File \"/home/ge64cax2/GPUscout/examples/nvidia/tobias/matrix_multiplication_simple.cu\", line 12\n        /*0c38*/               @P0 BRA `(.L_x_2)         }\n.L_x_1:\n        /*0c48*/                   ISETP.NE.AND P0, PT, R4, RZ, PT ;\n        /*0c50*/              @!P0 BRA `(.L_x_0) ;\n        /*0c58*/                   XMAD R5, R3.reuse, c[0x0] [0x160], R0 ;\n        /*0c68*/                   XMAD.MRG R8, R3.reuse, c[0x0] [0x160].H1, RZ ;\n        /*0c70*/                   XMAD R9, R2.reuse, c[0x0] [0x15c], R3 ;\n        /*0c78*/                   XMAD.PSL.CBCC R3, R3.H1, R8.H1, R5 ;\n        /*0c88*/                   XMAD.MRG R8, R2, c[0x0] [0x15c].H1, RZ ;\n        /*0c90*/                   SHR R10, R3, 0x1e ;\n        /*0c98*/                   XMAD.PSL.CBCC R5, R2.H1, R8.H1, R9 ;\n        /*0ca8*/                   ISCADD R8.CC, R3, c[0x0][0x148], 0x2 ;\n        /*0cb0*/                   SHR R11, R5.reuse, 0x1e ;\n        /*0cb8*/                   IADD.X R9, R10, c[0x0][0x14c] ;\n        /*0cc8*/                   ISCADD R10.CC, R5, c[0x0][0x140], 0x2 ;\n        /*0cd0*/                   IADD.X R11, R11, c[0x0][0x144] ;\n.L_x_6:\n        /*0cd8*/         {         IADD32I R4, R4, -0x1 ;\n\t//## File \"/home/ge64cax2/GPUscout/examples/nvidia/tobias/matrix_multiplication_simple.cu\", line 13\n        /*0ce8*/                   LDG.E R3, [R8]         }\n\t//## File \"/home/ge64cax2/GPUscout/examples/nvidia/tobias/matrix_multiplication_simple.cu\", line 12\n        /*0cf0*/         {         ISETP.NE.AND P0, PT, R4, RZ, PT ;\n\t//## File \"/home/ge64cax2/GPUscout/examples/nvidia/tobias/matrix_multiplication_simple.cu\", line 13\n        /*0cf8*/                   LDG.E R5, [R10]         }\n\t//## File \"/home/ge64cax2/GPUscout/examples/nvidia/tobias/matrix_multiplication_simple.cu\", line 12\n        /*0d08*/                   IADD R8.CC, R8, R6 ;\n        /*0d10*/                   IADD.X R9, R9, R7 ;\n        /*0d18*/                   IADD32I R10.CC, R10, 0x4 ;\n        /*0d28*/                   IADD.X R11, RZ, R11 ;\n\t//## File \"/home/ge64cax2/GPUscout/examples/nvidia/tobias/matrix_multiplication_simple.cu\", line 13\n        /*0d30*/                   XMAD R26, R3.reuse, R5.reuse, R26 ;\n        /*0d38*/                   XMAD.MRG R5, R3.reuse, R5.H1, RZ ;\n        /*0d48*/         {         XMAD.PSL.CBCC R26, R3.H1, R5.H1, R26 ;\n\t//## File \"/home/ge64cax2/GPUscout/examples/nvidia/tobias/matrix_multiplication_simple.cu\", line 12\n        /*0d50*/               @P0 BRA `(.L_x_6)         }\n.L_x_0:\n\t//## File \"/home/ge64cax2/GPUscout/examples/nvidia/tobias/matrix_multiplication_simple.cu\", line 15\n        /*0d58*/                   XMAD R0, R2.reuse, c[0x0] [0x160], R0 ;\n        /*0d68*/                   XMAD.MRG R3, R2.reuse, c[0x0] [0x160].H1, RZ ;\n        /*0d70*/                   XMAD.PSL.CBCC R2, R2.H1, R3.H1, R0 ;\n        /*0d78*/                   SHR R0, R2.reuse, 0x1e ;\n        /*0d88*/                   ISCADD R4.CC, R2, c[0x0][0x150], 0x2 ;\n        /*0d90*/                   IADD.X R5, R0, c[0x0][0x154] ;\n        /*0d98*/                   STG.E [R4], R26 ;\n\t//## File \"/home/ge64cax2/GPUscout/examples/nvidia/tobias/matrix_multiplication_simple.cu\", line 17\n        /*0da8*/                   EXIT ;\n.L_x_7:\n        /*0db0*/                   BRA `(.L_x_7) ;\n        /*0db8*/                   NOP;\n.L_x_8:\n",
+        "sass_registers": "\t.headerflags\t@\"EF_CUDA_TEXMODE_UNIFIED EF_CUDA_64BIT_ADDRESS EF_CUDA_SM52 EF_CUDA_VIRTUAL_SM(EF_CUDA_SM52)\"\n\t.elftype\t@\"ET_EXEC\"\n\n\n//--------------------- .text._Z6kernelPiS_S_iii  --------------------------\n\t.section\t.text._Z6kernelPiS_S_iii,\"ax\",@progbits\n\t.sectioninfo\t@\"SHI_REGISTERS=32\"\n\t.align\t32\n                                                                                       // +-------+--------+\n                                                                                       // | GPR   | PRED   |\n                                                                                       // |   #   |   #    |\n                                                                                       // +-------+--------+\n        .global         _Z6kernelPiS_S_iii                                             // |       |        |\n        .type           _Z6kernelPiS_S_iii,@function                                   // |       |        |\n        .size           _Z6kernelPiS_S_iii,(.L_x_8 - _Z6kernelPiS_S_iii)               // |       |        |\n        .other          _Z6kernelPiS_S_iii,@\"STO_CUDA_ENTRY STV_DEFAULT\"               // |       |        |\n_Z6kernelPiS_S_iii:                                                                    // |       |        |\n.text._Z6kernelPiS_S_iii:                                                              // |       |        |\n        /*0008*/                   MOV R1, c[0x0][0x20] ;                              // |   1   |        |\n        /*0010*/                   S2R R0, SR_CTAID.X ;                                // |   2   |        |\n        /*0018*/                   S2R R5, SR_TID.X ;                                  // |   3   |        |\n        /*0028*/                   S2R R2, SR_CTAID.Y ;                                // |   4   |        |\n        /*0030*/                   S2R R3, SR_TID.Y ;                                  // |   5   |        |\n        /*0038*/                   XMAD.MRG R6, R0.reuse, c[0x0] [0x8].H1, RZ ;        // |   6   |        |\n        /*0048*/                   XMAD R5, R0, c[0x0] [0x8], R5 ;                     // |   6   |        |\n        /*0050*/                   XMAD.MRG R4, R2, c[0x0] [0xc].H1, RZ ;              // |   7   |        |\n        /*0058*/                   XMAD.PSL.CBCC R0, R0.H1, R6.H1, R5 ;                // |   7   |        |\n        /*0068*/                   XMAD R3, R2.reuse, c[0x0] [0xc], R3 ;               // |   5   |        |\n        /*0070*/                   ISETP.GE.AND P0, PT, R0, c[0x0][0x160], PT ;        // |   5   |   1    |\n        /*0078*/                   XMAD.PSL.CBCC R2, R2.H1, R4.H1, R3 ;                // |   5   |   1    |\n        /*0088*/                   ISETP.GE.OR P0, PT, R2, c[0x0][0x158], P0 ;         // |   3   |   1    |\n        /*0090*/                   NOP ;                                               // |   3   |   1    |\n        /*0098*/               @P0 EXIT ;                                              // |   3   |   1    |\n        /*00a8*/                   MOV R4, c[0x0][0x15c] ;                             // |   4   |        |\n        /*00b0*/                   MOV R26, RZ ;                                       // |   5   |        |\n        /*00b8*/                   ISETP.GE.AND P0, PT, R4, 0x1, PT ;                  // |   5   |   1    |\n        /*00c8*/              @!P0 BRA `(.L_x_0) ;                                     // |   5   |   1    |\n        /*00d0*/                   IADD32I R3, R4.reuse, -0x1 ;                        // |   5   |        |\n        /*00d8*/                   MOV R7, c[0x0][0x160] ;                             // |   6   |        |\n        /*00e8*/                   LOP32I.AND R4, R4, 0x3 ;                            // |   6   |        |\n        /*00f0*/                   MOV R26, RZ ;                                       // |   7   |        |\n        /*00f8*/                   ISETP.GE.U32.AND P0, PT, R3, 0x3, PT ;              // |   7   |   1    |\n        /*0108*/                   MOV R3, RZ ;                                        // |   7   |   1    |\n        /*0110*/                   SHL R6, R7.reuse, 0x2 ;                             // |   8   |   1    |\n        /*0118*/         {         SHR R7, R7, 0x1e ;                                  // |   8   |   1    |\n        /*0128*/              @!P0 BRA `(.L_x_1)         }                             // |   8   |   1    |\n        /*0130*/                   IADD R19, -R4, c[0x0][0x15c] ;                      // |   8   |        |\n        /*0138*/                   XMAD R13, R2.reuse, c[0x0] [0x15c], RZ ;            // |   9   |        |\n        /*0148*/                   XMAD.MRG R3, R2, c[0x0] [0x15c].H1, RZ ;            // |  10   |        |\n        /*0150*/                   SHR R25, R0.reuse, 0x1e ;                           // |  11   |        |\n        /*0158*/                   MOV R10, c[0x0][0x140] ;                            // |  12   |        |\n        /*0168*/                   ISCADD R24.CC, R0, c[0x0][0x148], 0x2 ;             // |  13   |        |\n        /*0170*/                   MOV R11, c[0x0][0x144] ;                            // |  14   |        |\n        /*0178*/                   ISETP.GT.AND P0, PT, R19, RZ, PT ;                  // |  14   |   1    |\n        /*0188*/                   XMAD.PSL.CBCC R13, R2.H1, R3.H1, R13 ;              // |  14   |   1    |\n        /*0190*/                   MOV R3, RZ ;                                        // |  14   |   1    |\n        /*0198*/                   IADD.X R25, R25, c[0x0][0x14c] ;                    // |  14   |   1    |\n        /*01a8*/                   SHL R12, R13, 0x2 ;                                 // |  15   |   1    |\n        /*01b0*/         {         SHR R13, R13, 0x1e ;                                // |  15   |   1    |\n        /*01b8*/              @!P0 BRA `(.L_x_2)         }                             // |  15   |   1    |\n        /*01c8*/                   ISETP.GT.AND P1, PT, R19, 0xc, PT ;                 // |  15   |   1    |\n        /*01d0*/         {         PSETP.AND.AND P0, PT, PT, PT, PT ;                  // |  15   |   2    |\n        /*01d8*/              @!P1 BRA `(.L_x_3)         }                             // |  15   |   2    |\n        /*01e8*/                   PSETP.AND.AND P0, PT, !PT, PT, PT ;                 // |  15   |   1    |\n.L_x_4:                                                                                // |  17   |   1    |\n        /*01f0*/         {         IADD R14.CC, R10, R12 ;                             // |  17   |   1    |\n        /*01f8*/                   LDG.E R31, [R24]         }                          // |  17   |   1    |\n        /*0208*/                   IADD.X R15, R11, R13 ;                              // |  18   |   1    |\n        /*0210*/                   LDG.E R9, [R14] ;                                   // |  19   |   1    |\n        /*0218*/         {         IADD R16.CC, R24, R6.reuse ;                        // |  21   |   1    |\n        /*0228*/                   LDG.E R22, [R14+0x4]         }                      // |  21   |   1    |\n        /*0230*/         {         IADD.X R17, R25, R7.reuse ;                         // |  22   |   1    |\n        /*0238*/                   LDG.E R23, [R14+0x8]         }                      // |  22   |   1    |\n        /*0248*/         {         IADD R20.CC, R16, R6.reuse ;                        // |  23   |   1    |\n        /*0250*/                   LDG.E R29, [R14+0xc]         }                      // |  23   |   1    |\n        /*0258*/         {         IADD.X R21, R17, R7.reuse ;                         // |  25   |   1    |\n        /*0268*/                   LDG.E R27, [R16]         }                          // |  25   |   1    |\n        /*0270*/         {         IADD R24.CC, R20, R6.reuse ;                        // |  25   |   1    |\n        /*0278*/                   LDG.E R8, [R14+0x10]         }                      // |  25   |   1    |\n        /*0288*/         {         IADD.X R25, R21, R7.reuse ;                         // |  27   |   1    |\n        /*0290*/                   LDG.E R28, [R20]         }                          // |  27   |   1    |\n        /*0298*/         {         IADD R16.CC, R24, R6.reuse ;                        // |  27   |   1    |\n        /*02a8*/                   LDG.E R18, [R24]         }                          // |  27   |   1    |\n        /*02b0*/         {         IADD.X R17, R25, R7.reuse ;                         // |  28   |   1    |\n        /*02b8*/                   LDG.E R30, [R14+0x14]         }                     // |  28   |   1    |\n        /*02c8*/         {         IADD R20.CC, R16, R6 ;                              // |  29   |   1    |\n        /*02d0*/                   LDG.E R5, [R16]         }                           // |  29   |   1    |\n        /*02d8*/                   IADD.X R21, R17, R7 ;                               // |  29   |   1    |\n        /*02e8*/                   LDG.E R16, [R20] ;                                  // |  29   |   1    |\n        /*02f0*/                   IADD R24.CC, R20, R6.reuse ;                        // |  30   |   1    |\n        /*02f8*/                   IADD.X R25, R21, R7.reuse ;                         // |  30   |   1    |\n        /*0308*/                   IADD R20.CC, R24, R6 ;                              // |  30   |   1    |\n        /*0310*/                   IADD.X R21, R25, R7 ;                               // |  31   |   1    |\n        /*0318*/                   DEPBAR.LE SB5, 0x5 ;                                // |  31   |   1    |\n        /*0328*/                   XMAD R26, R31, R9, R26 ;                            // |  31   |   1    |\n        /*0330*/                   XMAD.MRG R9, R31.reuse, R9.H1, RZ ;                 // |  31   |   1    |\n        /*0338*/                   XMAD.PSL.CBCC R31, R31.H1, R9.H1, R26 ;             // |  31   |   1    |\n        /*0348*/                   DEPBAR.LE SB5, 0x3 ;                                // |  29   |   1    |\n        /*0350*/                   LDG.E R9, [R24] ;                                   // |  30   |   1    |\n        /*0358*/         {         XMAD R17, R27.reuse, R22.reuse, R31 ;               // |  30   |   1    |\n        /*0368*/                   LDG.E R26, [R14+0x18]         }                     // |  30   |   1    |\n        /*0370*/                   XMAD.MRG R22, R27, R22.H1, RZ ;                     // |  29   |   1    |\n        /*0378*/         {         XMAD.PSL.CBCC R31, R27.H1, R22.H1, R17 ;            // |  30   |   1    |\n        /*0388*/                   LDG.E R27, [R20]         }                          // |  30   |   1    |\n        /*0390*/         {         IADD R22.CC, R20, R6.reuse ;                        // |  30   |   1    |\n        /*0398*/                   LDG.E R17, [R14+0x1c]         }                     // |  30   |   1    |\n        /*03a8*/                   XMAD.MRG R25, R28.reuse, R23.H1.reuse, RZ ;         // |  30   |   1    |\n        /*03b0*/                   XMAD R31, R28.reuse, R23, R31 ;                     // |  30   |   1    |\n        /*03b8*/                   IADD.X R23, R21, R7 ;                               // |  30   |   1    |\n        /*03c8*/         {         XMAD.PSL.CBCC R25, R28.H1, R25.H1, R31 ;            // |  29   |   1    |\n        /*03d0*/                   LDG.E R31, [R22]         }                          // |  29   |   1    |\n        /*03d8*/         {         IADD R24.CC, R22, R6 ;                              // |  30   |   1    |\n        /*03e8*/                   LDG.E R28, [R14+0x20]         }                     // |  30   |   1    |\n        /*03f0*/                   DEPBAR.LE SB5, 0x5 ;                                // |  29   |   1    |\n        /*03f8*/                   XMAD R20, R18, R29, R25 ;                           // |  30   |   1    |\n        /*0408*/                   XMAD.MRG R29, R18.reuse, R29.H1, RZ ;               // |  29   |   1    |\n        /*0410*/                   IADD.X R25, R23, R7 ;                               // |  30   |   1    |\n        /*0418*/         {         XMAD.PSL.CBCC R20, R18.H1, R29.H1, R20 ;            // |  29   |   1    |\n        /*0428*/                   DEPBAR.LE SB5, 0x4         }                        // |  29   |   1    |\n        /*0430*/                   LDG.E R29, [R24] ;                                  // |  28   |   1    |\n        /*0438*/         {         XMAD R20, R5.reuse, R8.reuse, R20 ;                 // |  29   |   1    |\n        /*0448*/                   LDG.E R18, [R14+0x24]         }                     // |  29   |   1    |\n        /*0450*/                   XMAD.MRG R8, R5, R8.H1, RZ ;                        // |  29   |   1    |\n        /*0458*/                   XMAD.PSL.CBCC R5, R5.H1, R8.H1, R20 ;               // |  29   |   1    |\n        /*0468*/                   IADD R20.CC, R24, R6 ;                              // |  28   |   1    |\n        /*0470*/                   DEPBAR.LE SB5, 0x4 ;                                // |  27   |   1    |\n        /*0478*/                   XMAD R5, R16.reuse, R30.reuse, R5 ;                 // |  27   |   1    |\n        /*0488*/                   XMAD.MRG R30, R16.reuse, R30.H1, RZ ;               // |  27   |   1    |\n        /*0490*/                   IADD.X R21, R25, R7.reuse ;                         // |  28   |   1    |\n        /*0498*/         {         IADD R22.CC, R20, R6.reuse ;                        // |  28   |   1    |\n        /*04a8*/                   LDG.E R20, [R20]         }                          // |  28   |   1    |\n        /*04b0*/         {         XMAD.PSL.CBCC R16, R16.H1, R30.H1, R5 ;             // |  28   |   1    |\n        /*04b8*/                   LDG.E R5, [R14+0x28]         }                      // |  28   |   1    |\n        /*04c8*/         {         IADD.X R23, R21, R7 ;                               // |  28   |   1    |\n        /*04d0*/                   LDG.E R21, [R14+0x30]         }                     // |  28   |   1    |\n        /*04d8*/         {         IADD R8.CC, R22, R6 ;                               // |  29   |   1    |\n        /*04e8*/                   LDG.E R22, [R22]         }                          // |  29   |   1    |\n        /*04f0*/                   DEPBAR.LE SB5, 0x4 ;                                // |  29   |   1    |\n        /*04f8*/                   XMAD R16, R9, R26, R16 ;                            // |  29   |   1    |\n        /*0508*/                   XMAD.MRG R26, R9.reuse, R26.H1, RZ ;                // |  29   |   1    |\n        /*0510*/         {         XMAD.PSL.CBCC R24, R9.H1, R26.H1, R16 ;             // |  30   |   1    |\n        /*0518*/                   LDG.E R26, [R14+0x2c]         }                     // |  30   |   1    |\n        /*0528*/         {         IADD.X R9, R23, R7 ;                                // |  29   |   1    |\n        /*0530*/                   LDG.E R23, [R14+0x34]         }                     // |  29   |   1    |\n        /*0538*/         {         IADD R16.CC, R8, R6 ;                               // |  30   |   1    |\n        /*0548*/                   LDG.E R8, [R8]         }                            // |  30   |   1    |\n        /*0550*/                   DEPBAR.LE SB5, 0x5 ;                                // |  30   |   1    |\n        /*0558*/                   XMAD.MRG R25, R27.reuse, R17.H1.reuse, RZ ;         // |  31   |   1    |\n        /*0568*/                   XMAD R24, R27, R17, R24 ;                           // |  31   |   1    |\n        /*0570*/                   IADD.X R17, R9, R7 ;                                // |  31   |   1    |\n        /*0578*/         {         XMAD.PSL.CBCC R25, R27.H1, R25.H1, R24 ;            // |  30   |   1    |\n        /*0588*/                   LDG.E R27, [R16]         }                          // |  30   |   1    |\n        /*0590*/                   IADD R24.CC, R16, R6 ;                              // |  30   |   1    |\n        /*0598*/                   DEPBAR.LE SB5, 0x5 ;                                // |  29   |   1    |\n        /*05a8*/                   XMAD R30, R31.reuse, R28.reuse, R25 ;               // |  30   |   1    |\n        /*05b0*/                   XMAD.MRG R28, R31.reuse, R28.H1, RZ ;               // |  29   |   1    |\n        /*05b8*/         {         IADD.X R25, R17, R7 ;                               // |  30   |   1    |\n        /*05c8*/                   LDG.E R17, [R14+0x3c]         }                     // |  30   |   1    |\n        /*05d0*/         {         XMAD.PSL.CBCC R31, R31.H1, R28.H1, R30 ;            // |  31   |   1    |\n        /*05d8*/                   LDG.E R9, [R24]         }                           // |  31   |   1    |\n        /*05e8*/         {         IADD R30.CC, R24, R6 ;                              // |  31   |   1    |\n        /*05f0*/                   LDG.E R28, [R14+0x38]         }                     // |  31   |   1    |\n        /*05f8*/                   DEPBAR.LE SB5, 0x5 ;                                // |  28   |   1    |\n        /*0608*/                   XMAD R16, R29, R18, R31 ;                           // |  29   |   1    |\n        /*0610*/                   XMAD.MRG R18, R29.reuse, R18.H1, RZ ;               // |  28   |   1    |\n        /*0618*/                   IADD.X R31, R25, R7 ;                               // |  29   |   1    |\n        /*0628*/         {         XMAD.PSL.CBCC R18, R29.H1, R18.H1, R16 ;            // |  28   |   1    |\n        /*0630*/                   LDG.E R16, [R30]         }                          // |  28   |   1    |\n        /*0638*/                   DEPBAR.LE SB5, 0x5 ;                                // |  27   |   1    |\n        /*0648*/                   XMAD R18, R20.reuse, R5.reuse, R18 ;                // |  27   |   1    |\n        /*0650*/                   XMAD.MRG R5, R20, R5.H1, RZ ;                       // |  27   |   1    |\n        /*0658*/                   XMAD.PSL.CBCC R20, R20.H1, R5.H1, R18 ;             // |  27   |   1    |\n        /*0668*/                   IADD32I R19, R19, -0x10 ;                           // |  25   |   1    |\n        /*0670*/                   IADD32I R10.CC, R10, 0x40 ;                         // |  25   |   1    |\n        /*0678*/                   ISETP.GT.AND P1, PT, R19, 0xc, PT ;                 // |  25   |   2    |\n        /*0688*/                   IADD.X R11, RZ, R11 ;                               // |  25   |   2    |\n        /*0690*/                   IADD R24.CC, R30, R6 ;                              // |  26   |   2    |\n        /*0698*/                   IADD32I R3, R3, 0x10 ;                              // |  25   |   2    |\n        /*06a8*/                   IADD.X R25, R31, R7 ;                               // |  26   |   2    |\n        /*06b0*/                   DEPBAR.LE SB5, 0x4 ;                                // |  25   |   2    |\n        /*06b8*/                   XMAD R20, R22.reuse, R26.reuse, R20 ;               // |  25   |   2    |\n        /*06c8*/                   XMAD.MRG R5, R22, R26.H1, RZ ;                      // |  26   |   2    |\n        /*06d0*/         {         XMAD.PSL.CBCC R22, R22.H1, R5.H1, R20 ;             // |  25   |   2    |\n        /*06d8*/                   DEPBAR.LE SB5, 0x2         }                        // |  25   |   2    |\n        /*06e8*/                   XMAD R22, R8, R21, R22 ;                            // |  23   |   2    |\n        /*06f0*/                   XMAD.MRG R21, R8.reuse, R21.H1, RZ ;                // |  23   |   2    |\n        /*06f8*/                   XMAD.PSL.CBCC R8, R8.H1, R21.H1, R22 ;              // |  23   |   2    |\n        /*0708*/                   XMAD.MRG R5, R27.reuse, R23.H1.reuse, RZ ;          // |  22   |   2    |\n        /*0710*/                   XMAD R8, R27.reuse, R23, R8 ;                       // |  22   |   2    |\n        /*0718*/         {         XMAD.PSL.CBCC R27, R27.H1, R5.H1, R8 ;              // |  21   |   2    |\n        /*0728*/                   DEPBAR.LE SB5, 0x1         }                        // |  21   |   2    |\n        /*0730*/                   XMAD R14, R9, R28, R27 ;                            // |  20   |   2    |\n        /*0738*/                   XMAD.MRG R28, R9.reuse, R28.H1, RZ ;                // |  19   |   2    |\n        /*0748*/                   XMAD.PSL.CBCC R14, R9.H1, R28.H1, R14 ;             // |  19   |   2    |\n        /*0750*/                   XMAD R14, R16.reuse, R17.reuse, R14 ;               // |  17   |   2    |\n        /*0758*/                   XMAD.MRG R17, R16.reuse, R17.H1, RZ ;               // |  17   |   2    |\n        /*0768*/         {         XMAD.PSL.CBCC R26, R16.H1, R17.H1, R14 ;            // |  18   |   2    |\n        /*0770*/               @P1 BRA `(.L_x_4)         }                             // |  18   |   2    |\n.L_x_3:                                                                                // |  15   |   2    |\n        /*0778*/                   ISETP.GT.AND P1, PT, R19, 0x4, PT ;                 // |  15   |   2    |\n        /*0788*/              @!P1 BRA `(.L_x_5) ;                                     // |  15   |   2    |\n        /*0790*/         {         IADD R8.CC, R10, R12 ;                              // |  17   |        |\n        /*0798*/                   LDG.E R22, [R24]         }                          // |  17   |        |\n        /*07a8*/                   IADD.X R9, R11, R13 ;                               // |  18   |        |\n        /*07b0*/                   LDG.E R23, [R8] ;                                   // |  19   |        |\n        /*07b8*/         {         IADD R20.CC, R24, R6.reuse ;                        // |  21   |        |\n        /*07c8*/                   LDG.E R5, [R8+0x4]         }                        // |  21   |        |\n        /*07d0*/         {         IADD.X R21, R25, R7.reuse ;                         // |  22   |        |\n        /*07d8*/                   LDG.E R14, [R8+0x8]         }                       // |  22   |        |\n        /*07e8*/         {         IADD R28.CC, R20, R6.reuse ;                        // |  23   |        |\n        /*07f0*/                   LDG.E R27, [R8+0xc]         }                       // |  23   |        |\n        /*07f8*/         {         IADD.X R29, R21, R7.reuse ;                         // |  25   |        |\n        /*0808*/                   LDG.E R15, [R20]         }                          // |  25   |        |\n        /*0810*/         {         IADD R24.CC, R28, R6.reuse ;                        // |  25   |        |\n        /*0818*/                   LDG.E R30, [R8+0x10]         }                      // |  25   |        |\n        /*0828*/         {         IADD.X R25, R29, R7.reuse ;                         // |  27   |        |\n        /*0830*/                   LDG.E R31, [R28]         }                          // |  27   |        |\n        /*0838*/         {         IADD R16.CC, R24, R6 ;                              // |  27   |        |\n        /*0848*/                   LDG.E R18, [R24]         }                          // |  27   |        |\n        /*0850*/                   IADD.X R17, R25, R7 ;                               // |  27   |        |\n        /*0858*/         {         IADD R20.CC, R16, R6.reuse ;                        // |  27   |        |\n        /*0868*/                   LDG.E R16, [R16]         }                          // |  27   |        |\n        /*0870*/                   IADD.X R21, R17, R7.reuse ;                         // |  28   |        |\n        /*0878*/         {         IADD R28.CC, R20, R6.reuse ;                        // |  28   |        |\n        /*0888*/                   LDG.E R20, [R20]         }                          // |  28   |        |\n        /*0890*/                   IADD.X R29, R21, R7.reuse ;                         // |  29   |        |\n        /*0898*/                   IADD R24.CC, R28, R6 ;                              // |  29   |        |\n        /*08a8*/                   IADD.X R25, R29, R7 ;                               // |  30   |        |\n        /*08b0*/                   DEPBAR.LE SB5, 0x4 ;                                // |  30   |        |\n        /*08b8*/         {         XMAD R17, R22.reuse, R23.reuse, R26 ;               // |  31   |        |\n        /*08c8*/                   LDG.E R26, [R8+0x14]         }                      // |  31   |        |\n        /*08d0*/                   XMAD.MRG R23, R22, R23.H1, RZ ;                     // |  31   |        |\n        /*08d8*/         {         XMAD.PSL.CBCC R23, R22.H1, R23.H1, R17 ;            // |  31   |        |\n        /*08e8*/                   DEPBAR.LE SB5, 0x4         }                        // |  31   |        |\n        /*08f0*/                   LDG.E R22, [R28] ;                                  // |  30   |        |\n        /*08f8*/         {         XMAD R23, R15.reuse, R5.reuse, R23 ;                // |  29   |        |\n        /*0908*/                   LDG.E R17, [R8+0x18]         }                      // |  29   |        |\n        /*0910*/                   XMAD.MRG R5, R15, R5.H1, RZ ;                       // |  29   |        |\n        /*0918*/         {         XMAD.PSL.CBCC R21, R15.H1, R5.H1, R23 ;             // |  30   |        |\n        /*0928*/                   DEPBAR.LE SB5, 0x4         }                        // |  30   |        |\n        /*0930*/                   LDG.E R15, [R8+0x1c] ;                              // |  28   |        |\n        /*0938*/         {         XMAD R21, R31.reuse, R14.reuse, R21 ;               // |  27   |        |\n        /*0948*/                   LDG.E R5, [R24]         }                           // |  27   |        |\n        /*0950*/                   XMAD.MRG R14, R31.reuse, R14.H1, RZ ;               // |  27   |        |\n        /*0958*/         {         XMAD.PSL.CBCC R21, R31.H1, R14.H1, R21 ;            // |  27   |        |\n        /*0968*/                   DEPBAR.LE SB5, 0x4         }                        // |  27   |        |\n        /*0970*/                   XMAD R21, R18, R27, R21 ;                           // |  25   |        |\n        /*0978*/                   XMAD.MRG R27, R18.reuse, R27.H1, RZ ;               // |  25   |        |\n        /*0988*/         {         XMAD.PSL.CBCC R21, R18.H1, R27.H1, R21 ;            // |  25   |        |\n        /*0990*/                   DEPBAR.LE SB5, 0x3         }                        // |  25   |        |\n        /*0998*/                   XMAD R21, R16.reuse, R30.reuse, R21 ;               // |  23   |        |\n        /*09a8*/                   XMAD.MRG R30, R16.reuse, R30.H1, RZ ;               // |  23   |        |\n        /*09b0*/                   XMAD.PSL.CBCC R21, R16.H1, R30.H1, R21 ;            // |  23   |        |\n        /*09b8*/                   IADD32I R10.CC, R10, 0x20 ;                         // |  21   |        |\n        /*09c8*/                   PSETP.AND.AND P0, PT, !PT, PT, PT ;                 // |  21   |   1    |\n        /*09d0*/                   IADD.X R11, RZ, R11 ;                               // |  21   |   1    |\n        /*09d8*/                   IADD R24.CC, R24, R6 ;                              // |  21   |   1    |\n        /*09e8*/                   IADD32I R3, R3, 0x8 ;                               // |  21   |   1    |\n        /*09f0*/                   IADD32I R19, R19, -0x8 ;                            // |  21   |   1    |\n        /*09f8*/                   IADD.X R25, R25, R7 ;                               // |  21   |   1    |\n        /*0a08*/                   DEPBAR.LE SB5, 0x2 ;                                // |  21   |   1    |\n        /*0a10*/                   XMAD R21, R20.reuse, R26.reuse, R21 ;               // |  21   |   1    |\n        /*0a18*/                   XMAD.MRG R26, R20, R26.H1, RZ ;                     // |  21   |   1    |\n        /*0a28*/         {         XMAD.PSL.CBCC R20, R20.H1, R26.H1, R21 ;            // |  21   |   1    |\n        /*0a30*/                   DEPBAR.LE SB5, 0x1         }                        // |  21   |   1    |\n        /*0a38*/                   XMAD R20, R22.reuse, R17.reuse, R20 ;               // |  19   |   1    |\n        /*0a48*/                   XMAD.MRG R17, R22, R17.H1, RZ ;                     // |  19   |   1    |\n        /*0a50*/                   XMAD.PSL.CBCC R22, R22.H1, R17.H1, R20 ;            // |  19   |   1    |\n        /*0a58*/                   XMAD.MRG R8, R5.reuse, R15.H1.reuse, RZ ;           // |  18   |   1    |\n        /*0a68*/                   XMAD R22, R5.reuse, R15, R22 ;                      // |  18   |   1    |\n        /*0a70*/                   XMAD.PSL.CBCC R26, R5.H1, R8.H1, R22 ;              // |  18   |   1    |\n.L_x_5:                                                                                // |  15   |   1    |\n        /*0a78*/                   ISETP.NE.OR P0, PT, R19, RZ, P0 ;                   // |  15   |   1    |\n        /*0a88*/              @!P0 BRA `(.L_x_1) ;                                     // |  15   |   1    |\n.L_x_2:                                                                                // |  16   |        |\n        /*0a90*/                   IADD R8.CC, R10.reuse, R12 ;                        // |  16   |        |\n        /*0a98*/                   MOV R14, R24 ;                                      // |  17   |        |\n        /*0aa8*/                   MOV R15, R25 ;                                      // |  18   |        |\n        /*0ab0*/                   LDG.E R27, [R14] ;                                  // |  19   |        |\n        /*0ab8*/                   IADD.X R9, R11, R13 ;                               // |  18   |        |\n        /*0ac8*/         {         IADD R16.CC, R24, R6.reuse ;                        // |  20   |        |\n        /*0ad0*/                   LDG.E R28, [R8]         }                           // |  20   |        |\n        /*0ad8*/         {         IADD.X R17, R25, R7.reuse ;                         // |  21   |        |\n        /*0ae8*/                   LDG.E R18, [R8+0x4]         }                       // |  21   |        |\n        /*0af0*/         {         IADD R20.CC, R16, R6.reuse ;                        // |  22   |        |\n        /*0af8*/                   LDG.E R22, [R8+0x8]         }                       // |  22   |        |\n        /*0b08*/         {         IADD.X R21, R17, R7.reuse ;                         // |  24   |        |\n        /*0b10*/                   LDG.E R5, [R16]         }                           // |  24   |        |\n        /*0b18*/         {         IADD R24.CC, R20, R6 ;                              // |  24   |        |\n        /*0b28*/                   LDG.E R15, [R8+0xc]         }                       // |  24   |        |\n        /*0b30*/         {         IADD.X R25, R21, R7 ;                               // |  24   |        |\n        /*0b38*/                   LDG.E R23, [R20]         }                          // |  24   |        |\n        /*0b48*/         {         IADD32I R19, R19, -0x4 ;                            // |  23   |        |\n        /*0b50*/                   LDG.E R14, [R24]         }                          // |  23   |        |\n        /*0b58*/                   IADD32I R10.CC, R10, 0x10 ;                         // |  23   |        |\n        /*0b68*/                   ISETP.NE.AND P0, PT, R19, RZ, PT ;                  // |  23   |   1    |\n        /*0b70*/                   IADD.X R11, RZ, R11 ;                               // |  23   |   1    |\n        /*0b78*/                   IADD R24.CC, R24, R6 ;                              // |  23   |   1    |\n        /*0b88*/                   IADD32I R3, R3, 0x4 ;                               // |  23   |   1    |\n        /*0b90*/                   IADD.X R25, R25, R7 ;                               // |  23   |   1    |\n        /*0b98*/                   DEPBAR.LE SB5, 0x3 ;                                // |  23   |   1    |\n        /*0ba8*/                   XMAD R26, R27, R28, R26 ;                           // |  23   |   1    |\n        /*0bb0*/                   XMAD.MRG R28, R27, R28.H1, RZ ;                     // |  23   |   1    |\n        /*0bb8*/         {         XMAD.PSL.CBCC R27, R27.H1, R28.H1, R26 ;            // |  23   |   1    |\n        /*0bc8*/                   DEPBAR.LE SB5, 0x2         }                        // |  23   |   1    |\n        /*0bd0*/                   XMAD R27, R5.reuse, R18.reuse, R27 ;                // |  21   |   1    |\n        /*0bd8*/                   XMAD.MRG R18, R5.reuse, R18.H1, RZ ;                // |  21   |   1    |\n        /*0be8*/         {         XMAD.PSL.CBCC R5, R5.H1, R18.H1, R27 ;              // |  21   |   1    |\n        /*0bf0*/                   DEPBAR.LE SB5, 0x1         }                        // |  21   |   1    |\n        /*0bf8*/                   XMAD R5, R23, R22, R5 ;                             // |  19   |   1    |\n        /*0c08*/                   XMAD.MRG R22, R23.reuse, R22.H1, RZ ;               // |  19   |   1    |\n        /*0c10*/                   XMAD.PSL.CBCC R5, R23.H1, R22.H1, R5 ;              // |  19   |   1    |\n        /*0c18*/                   XMAD R5, R14.reuse, R15.reuse, R5 ;                 // |  17   |   1    |\n        /*0c28*/                   XMAD.MRG R15, R14.reuse, R15.H1, RZ ;               // |  17   |   1    |\n        /*0c30*/         {         XMAD.PSL.CBCC R26, R14.H1, R15.H1, R5 ;             // |  18   |   1    |\n        /*0c38*/               @P0 BRA `(.L_x_2)         }                             // |  18   |   1    |\n.L_x_1:                                                                                // |   8   |   1    |\n        /*0c48*/                   ISETP.NE.AND P0, PT, R4, RZ, PT ;                   // |   8   |   1    |\n        /*0c50*/              @!P0 BRA `(.L_x_0) ;                                     // |   8   |   1    |\n        /*0c58*/                   XMAD R5, R3.reuse, c[0x0] [0x160], R0 ;             // |   9   |        |\n        /*0c68*/                   XMAD.MRG R8, R3.reuse, c[0x0] [0x160].H1, RZ ;      // |  10   |        |\n        /*0c70*/                   XMAD R9, R2.reuse, c[0x0] [0x15c], R3 ;             // |  11   |        |\n        /*0c78*/                   XMAD.PSL.CBCC R3, R3.H1, R8.H1, R5 ;                // |  11   |        |\n        /*0c88*/                   XMAD.MRG R8, R2, c[0x0] [0x15c].H1, RZ ;            // |  10   |        |\n        /*0c90*/                   SHR R10, R3, 0x1e ;                                 // |  11   |        |\n        /*0c98*/                   XMAD.PSL.CBCC R5, R2.H1, R8.H1, R9 ;                // |  12   |        |\n        /*0ca8*/                   ISCADD R8.CC, R3, c[0x0][0x148], 0x2 ;              // |  11   |        |\n        /*0cb0*/                   SHR R11, R5.reuse, 0x1e ;                           // |  11   |        |\n        /*0cb8*/                   IADD.X R9, R10, c[0x0][0x14c] ;                     // |  12   |        |\n        /*0cc8*/                   ISCADD R10.CC, R5, c[0x0][0x140], 0x2 ;             // |  12   |        |\n        /*0cd0*/                   IADD.X R11, R11, c[0x0][0x144] ;                    // |  11   |        |\n.L_x_6:                                                                                // |  12   |        |\n        /*0cd8*/         {         IADD32I R4, R4, -0x1 ;                              // |  12   |        |\n        /*0ce8*/                   LDG.E R3, [R8]         }                            // |  12   |        |\n        /*0cf0*/         {         ISETP.NE.AND P0, PT, R4, RZ, PT ;                   // |  13   |   1    |\n        /*0cf8*/                   LDG.E R5, [R10]         }                           // |  13   |   1    |\n        /*0d08*/                   IADD R8.CC, R8, R6 ;                                // |  13   |   1    |\n        /*0d10*/                   IADD.X R9, R9, R7 ;                                 // |  13   |   1    |\n        /*0d18*/                   IADD32I R10.CC, R10, 0x4 ;                          // |  13   |   1    |\n        /*0d28*/                   IADD.X R11, RZ, R11 ;                               // |  13   |   1    |\n        /*0d30*/                   XMAD R26, R3.reuse, R5.reuse, R26 ;                 // |  13   |   1    |\n        /*0d38*/                   XMAD.MRG R5, R3.reuse, R5.H1, RZ ;                  // |  13   |   1    |\n        /*0d48*/         {         XMAD.PSL.CBCC R26, R3.H1, R5.H1, R26 ;              // |  13   |   1    |\n        /*0d50*/               @P0 BRA `(.L_x_6)         }                             // |  13   |   1    |\n.L_x_0:                                                                                // |   4   |        |\n        /*0d58*/                   XMAD R0, R2.reuse, c[0x0] [0x160], R0 ;             // |   4   |        |\n        /*0d68*/                   XMAD.MRG R3, R2.reuse, c[0x0] [0x160].H1, RZ ;      // |   5   |        |\n        /*0d70*/                   XMAD.PSL.CBCC R2, R2.H1, R3.H1, R0 ;                // |   5   |        |\n        /*0d78*/                   SHR R0, R2.reuse, 0x1e ;                            // |   4   |        |\n        /*0d88*/                   ISCADD R4.CC, R2, c[0x0][0x150], 0x2 ;              // |   5   |        |\n        /*0d90*/                   IADD.X R5, R0, c[0x0][0x154] ;                      // |   5   |        |\n        /*0d98*/                   STG.E [R4], R26 ;                                   // |   4   |        |\n        /*0da8*/                   EXIT ;                                              // |   1   |        |\n.L_x_7:                                                                                // +.......+........+\n        /*0db0*/                   BRA `(.L_x_7) ;                                     // |   1   |        |\n.L_x_8:                                                                                // +-------+--------+\n\n                                                                                       // Legend:\n                                                                                       //     ^       : Register assignment\n                                                                                       //     v       : Register usage\n                                                                                       //     x       : Register usage and reassignment\n                                                                                       //     :       : Register in use\n                                                                                       //     <space> : Register not in use\n                                                                                       //     #       : Number of occupied registers\n\n"
+    },
+    "kernels": {
+        "_Z6kernelPiS_S_iii": "kernel(int *, int *, int *, int, int, int)"
+    },
+    "metrics": {
+        "_Z6kernelPiS_S_iii": {
+            "general": {
+                "l2_cache_hit_perc": 1.390666890419373e-309,
+                "l2_queries": 5.562667561678996e-309,
+                "loads_l2_cache_hit_perc": 1.390666890419215e-309,
+                "loads_l2_to_dram_bytes": 5.934075077430727e-308,
+                "stores_l2_cache_hit_perc": 1.39066689042036e-309,
+                "stores_l2_to_dram_bytes": 7.417176414857187e-308,
+                "total_instructions": 1.39066689042143e-309
+            },
+            "global": {
+                "atomic_l1_cache_hit_perc": 2.31786461328072e-309,
+                "atomic_to_l1_bytes": 8.900268098689176e-308,
+                "atomics_l1_to_l2_bytes": 8.900268098689176e-308,
+                "atomics_l2_cache_hit_perc": 2.31786461349872e-309,
+                "atomics_l2_to_dram_bytes": 8.900268098689176e-308,
+                "bytes_per_instruction": 42.67071516768807,
+                "instructions": 1e-323,
+                "loads_instructions": 1e-323,
+                "loads_l1_cache_hit_perc": 1.39066689041961e-309,
+                "loads_l1_to_l2_bytes": 2.9670327119175583e-308,
+                "loads_to_l1_bytes": 2.9670327119175583e-308,
+                "stores_instructions": 0.0,
+                "stores_l1_cache_hit_perc": 1.39066689042036e-309,
+                "stores_l1_to_l2_bytes": 2.9670423655131684e-308,
+                "stores_to_l1_bytes": 2.9670423655131684e-308
+            },
+            "local": {
+                "instructions": -8.110352280060313e-171,
+                "l2_queries_perc": 64.0000000001528,
+                "loads_instructions": 1e-323,
+                "loads_l1_cache_hit_perc": 1.39066689041969e-309,
+                "loads_l1_to_l2_bytes": 2.9670423655131684e-308,
+                "loads_to_l1_bytes": 2.9670423655131684e-308,
+                "stores_instructions": -8.110352280060313e-171,
+                "stores_l1_cache_hit_perc": 9.27197722651923e-310,
+                "stores_l1_to_l2_bytes": 4.4501340493440187e-308,
+                "stores_to_l1_bytes": 4.4501340493440187e-308
+            },
+            "misc": {
+                "sm__warps_active": 9.27200739233853e-310,
+                "smsp__warp_issue_stalled_barrier_per_warp_active": 9.2720073923891e-310,
+                "smsp__warp_issue_stalled_imc_miss_per_warp_active": 9.272007392118e-310,
+                "smsp__warp_issue_stalled_lg_throttle_per_warp_active": 1.39066689041822e-309,
+                "smsp__warp_issue_stalled_long_scoreboard_per_warp_active": 1e-323,
+                "smsp__warp_issue_stalled_membar_per_warp_active": 9.27200739222944e-310,
+                "smsp__warp_issue_stalled_mio_throttle_per_warp_active": 9.27200739222954e-310,
+                "smsp__warp_issue_stalled_short_scoreboard_per_warp_active": 1.39066689041803e-309,
+                "smsp__warp_issue_stalled_tex_throttle_per_warp_active": 1.39066689042641e-309,
+                "smsp__warp_issue_stalled_wait_per_warp_active": 9.2719772268469e-310,
+                "smsp__warps_active": 9.27200739236857e-310
+            },
+            "shared": {
+                "instructions": 2.317864612561717e-309,
+                "ldgsts_instructions": 9.27197722311096e-310,
+                "loads_bank_conflict": 0.0,
+                "loads_efficiency_perc": 1e-323,
+                "loads_instructions": 9.2719772214274e-310,
+                "stores_instructions": 1.39066689041898e-309
+            },
+            "texture": {
+                "instructions": 9.2720073921181e-310,
+                "loads_l1_cache_hit_perc": 1.39066689041985e-309,
+                "loads_l1_to_l2_bytes": 1.39066689042036e-309,
+                "loads_l2_to_dram_bytes": 1.39066689042036e-309,
+                "loads_to_l1_bytes": 1.39066689042036e-309
+            }
+        }
+    },
+    "source_files": {
+        "/home/ge64cax2/GPUscout/examples/nvidia/tobias/matrix_multiplication_simple.cu": "#include <cstdlib>\n#include <stdio.h>\n#include <cuda_runtime.h>\n#include <iostream>\n#include <vector>\n\n__global__ void kernel(int *a, int* b, int* c, int m, int n, int k) {\n    int row = blockIdx.y * blockDim.y + threadIdx.y; \n    int col = blockIdx.x * blockDim.x + threadIdx.x; \n    int sum = 0; \n    if( col < k && row < m) {  \n        for(int i = 0; i < n; i++) { \n            sum += a[row * n + i] * b[i * k + col]; \n        } \n        c[row * k + col] = sum; \n    }  \n}\n\nint main(int argc, char **argv) {\n    uint SIZE = 32;\n\n    int *A, *B, *C;\n    int *dA, *dB, *dC;\n\n    A = (int *) malloc(sizeof(int) * SIZE * SIZE);\n    B = (int *) malloc(sizeof(int) * SIZE * SIZE);\n    C = (int *) malloc(sizeof(int) * SIZE * SIZE);\n\n    cudaMalloc((void **) &dA, sizeof(int) * SIZE * SIZE);\n    cudaMalloc((void **) &dB, sizeof(int) * SIZE * SIZE);\n    cudaMalloc((void **) &dC, sizeof(int) * SIZE * SIZE);\n\n    for (int i = 0; i < SIZE * SIZE; i++) {\n        A[i] = 1.0f;\n        B[i] = 2.0f;\n        C[i] = 0.0f;\n    }\n\n    cudaMemcpy(dA, A, sizeof(int) * SIZE * SIZE, cudaMemcpyHostToDevice);\n    cudaMemcpy(dB, B, sizeof(int) * SIZE * SIZE, cudaMemcpyHostToDevice);\n    cudaMemcpy(dC, C, sizeof(int) * SIZE * SIZE, cudaMemcpyHostToDevice);\n\n    dim3 gridDim(1, 1, 1);\n    dim3 blockDim(32, 32, 1);\n\n    kernel<<<gridDim, blockDim>>>(dA, dB, dC, SIZE, SIZE, SIZE);\n\n    cudaMemcpy(C, dC, sizeof(int) * SIZE * SIZE, cudaMemcpyDeviceToHost);\n\n    free(A);\n    free(B);\n    free(C);\n    cudaFree(dA);\n    cudaFree(dB);\n    cudaFree(dC);\n\n    return 0;\n}\n"
+    },
+    "stalls": {
+        "": [],
+        "_Z6kernelPiS_S_iii": [
+            {
+                "line_number": 9,
+                "pc_offset": "10",
+                "stalls": [
+                    [
+                        "smsp__pcsamp_warps_issue_stalled_mio_throttle",
+                        2
+                    ],
+                    [
+                        "smsp__pcsamp_warps_issue_stalled_mio_throttle_not_issued",
+                        2
+                    ]
+                ]
+            },
+            {
+                "line_number": 8,
+                "pc_offset": "90",
+                "stalls": [
+                    [
+                        "smsp__pcsamp_warps_issue_stalled_not_selected",
+                        1
+                    ],
+                    [
+                        "smsp__pcsamp_warps_issue_stalled_short_scoreboard",
+                        6
+                    ],
+                    [
+                        "smsp__pcsamp_warps_issue_stalled_short_scoreboard_not_issued",
+                        6
+                    ]
+                ]
+            },
+            {
+                "line_number": 12,
+                "pc_offset": "110",
+                "stalls": [
+                    [
+                        "smsp__pcsamp_warps_issue_stalled_selected",
+                        1
+                    ]
+                ]
+            },
+            {
+                "line_number": 12,
+                "pc_offset": "170",
+                "stalls": [
+                    [
+                        "smsp__pcsamp_warps_issue_stalled_not_selected",
+                        2
+                    ]
+                ]
+            },
+            {
+                "line_number": 13,
+                "pc_offset": "1f0",
+                "stalls": [
+                    [
+                        "smsp__pcsamp_warps_issue_stalled_short_scoreboard",
+                        1
+                    ]
+                ]
+            },
+            {
+                "line_number": 13,
+                "pc_offset": "250",
+                "stalls": [
+                    [
+                        "smsp__pcsamp_warps_issue_stalled_wait",
+                        2
+                    ]
+                ]
+            },
+            {
+                "line_number": 13,
+                "pc_offset": "2b0",
+                "stalls": [
+                    [
+                        "smsp__pcsamp_warps_issue_stalled_dispatch_stall",
+                        1
+                    ],
+                    [
+                        "smsp__pcsamp_warps_issue_stalled_not_selected",
+                        1
+                    ],
+                    [
+                        "smsp__pcsamp_warps_issue_stalled_wait",
+                        1
+                    ]
+                ]
+            },
+            {
+                "line_number": 13,
+                "pc_offset": "350",
+                "stalls": [
+                    [
+                        "smsp__pcsamp_warps_issue_stalled_dispatch_stall",
+                        1
+                    ],
+                    [
+                        "smsp__pcsamp_warps_issue_stalled_dispatch_stall_not_issued",
+                        1
+                    ],
+                    [
+                        "smsp__pcsamp_warps_issue_stalled_not_selected",
+                        1
+                    ]
+                ]
+            },
+            {
+                "line_number": 13,
+                "pc_offset": "390",
+                "stalls": [
+                    [
+                        "smsp__pcsamp_warps_issue_stalled_wait",
+                        2
+                    ],
+                    [
+                        "smsp__pcsamp_warps_issue_stalled_wait_not_issued",
+                        2
+                    ]
+                ]
+            },
+            {
+                "line_number": 13,
+                "pc_offset": "3b0",
+                "stalls": [
+                    [
+                        "smsp__pcsamp_warps_issue_stalled_long_scoreboard",
+                        15
+                    ],
+                    [
+                        "smsp__pcsamp_warps_issue_stalled_long_scoreboard_not_issued",
+                        8
+                    ]
+                ]
+            },
+            {
+                "line_number": 13,
+                "pc_offset": "430",
+                "stalls": [
+                    [
+                        "smsp__pcsamp_warps_issue_stalled_long_scoreboard",
+                        5
+                    ],
+                    [
+                        "smsp__pcsamp_warps_issue_stalled_long_scoreboard_not_issued",
+                        1
+                    ]
+                ]
+            },
+            {
+                "line_number": 13,
+                "pc_offset": "490",
+                "stalls": [
+                    [
+                        "smsp__pcsamp_warps_issue_stalled_wait",
+                        1
+                    ]
+                ]
+            },
+            {
+                "line_number": 13,
+                "pc_offset": "530",
+                "stalls": [
+                    [
+                        "smsp__pcsamp_warps_issue_stalled_long_scoreboard",
+                        2
+                    ],
+                    [
+                        "smsp__pcsamp_warps_issue_stalled_long_scoreboard_not_issued",
+                        2
+                    ]
+                ]
+            },
+            {
+                "line_number": 13,
+                "pc_offset": "550",
+                "stalls": [
+                    [
+                        "smsp__pcsamp_warps_issue_stalled_lg_throttle",
+                        1
+                    ]
+                ]
+            },
+            {
+                "line_number": 13,
+                "pc_offset": "590",
+                "stalls": [
+                    [
+                        "smsp__pcsamp_warps_issue_stalled_lg_throttle",
+                        1
+                    ]
+                ]
+            },
+            {
+                "line_number": 13,
+                "pc_offset": "5b0",
+                "stalls": [
+                    [
+                        "smsp__pcsamp_warps_issue_stalled_lg_throttle",
+                        1
+                    ],
+                    [
+                        "smsp__pcsamp_warps_issue_stalled_lg_throttle_not_issued",
+                        1
+                    ]
+                ]
+            },
+            {
+                "line_number": 13,
+                "pc_offset": "5d0",
+                "stalls": [
+                    [
+                        "smsp__pcsamp_warps_issue_stalled_lg_throttle",
+                        1
+                    ],
+                    [
+                        "smsp__pcsamp_warps_issue_stalled_lg_throttle_not_issued",
+                        1
+                    ],
+                    [
+                        "smsp__pcsamp_warps_issue_stalled_selected",
+                        1
+                    ],
+                    [
+                        "smsp__pcsamp_warps_issue_stalled_wait",
+                        1
+                    ],
+                    [
+                        "smsp__pcsamp_warps_issue_stalled_wait_not_issued",
+                        1
+                    ]
+                ]
+            },
+            {
+                "line_number": 13,
+                "pc_offset": "5f0",
+                "stalls": [
+                    [
+                        "smsp__pcsamp_warps_issue_stalled_long_scoreboard",
+                        1
+                    ]
+                ]
+            },
+            {
+                "line_number": 13,
+                "pc_offset": "650",
+                "stalls": [
+                    [
+                        "smsp__pcsamp_warps_issue_stalled_selected",
+                        1
+                    ]
+                ]
+            },
+            {
+                "line_number": 13,
+                "pc_offset": "690",
+                "stalls": [
+                    [
+                        "smsp__pcsamp_warps_issue_stalled_not_selected",
+                        1
+                    ]
+                ]
+            },
+            {
+                "line_number": 13,
+                "pc_offset": "6b0",
+                "stalls": [
+                    [
+                        "smsp__pcsamp_warps_issue_stalled_selected",
+                        1
+                    ]
+                ]
+            },
+            {
+                "line_number": 13,
+                "pc_offset": "990",
+                "stalls": [
+                    [
+                        "smsp__pcsamp_warps_issue_stalled_wait",
+                        1
+                    ]
+                ]
+            },
+            {
+                "line_number": 12,
+                "pc_offset": "c90",
+                "stalls": [
+                    [
+                        "smsp__pcsamp_warps_issue_stalled_wait",
+                        1
+                    ],
+                    [
+                        "smsp__pcsamp_warps_issue_stalled_wait_not_issued",
+                        1
+                    ]
+                ]
+            },
+            {
+                "line_number": 12,
+                "pc_offset": "cb0",
+                "stalls": [
+                    [
+                        "smsp__pcsamp_warps_issue_stalled_drain",
+                        2
+                    ],
+                    [
+                        "smsp__pcsamp_warps_issue_stalled_drain_not_issued",
+                        2
+                    ]
+                ]
+            }
+        ]
+    }
+}

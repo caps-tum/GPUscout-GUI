@@ -21,6 +21,7 @@ Author: Tobias Stuckenberger
 import { METRICS } from '../../../../../config/metrics';
 import { GPUscoutResult } from '../../../utils/GPUscoutResult';
 import ButtonMetricList from '../../ui/buttons/ButtonMetricList.vue';
+import { useDataStore } from '../../../stores/DataStore';
 
 defineProps({
     kernel: String,
@@ -28,8 +29,10 @@ defineProps({
     comparisonResult: GPUscoutResult
 });
 
+const vendor = useDataStore().getGPUscoutResult().getVendor();
+
 const metrics = [
-    METRICS.stalls_total.name,
+    METRICS.stalls_total.name[vendor],
     METRICS.stalls_short_scoreboard_perc.name,
     METRICS.stalls_long_scoreboard_perc.name,
     METRICS.stalls_imc_miss_perc.name,

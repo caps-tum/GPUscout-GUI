@@ -48,6 +48,10 @@ export const useDataStore = defineStore('data', () => {
     const getCurrentAnalysis = computed(() => currentAnalysis.value);
     const getCurrentOccurrences = computed(() => currentOccurrences.value);
 
+    /** Returns the current vendor
+     * @returns {String} */
+    const getVendorDS = () => gpuscoutResult.getVendor();
+
     /**
      * Initialize the store with the data from GPUscout
      * @param {String} resultData The data of the "result.json" file
@@ -168,6 +172,7 @@ export const useDataStore = defineStore('data', () => {
         setCurrentAnalysis,
         getCurrentAnalysis,
         getCurrentKernel,
+        getVendorDS,
         getGPUscoutResult,
         getCurrentOccurrences,
         getAnalyses,

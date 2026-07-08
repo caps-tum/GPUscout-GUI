@@ -33,7 +33,10 @@ import { HELP_TEXTS } from './help_texts';
  */
 export const METRICS = {
     stalls_total: {
-        name: 'misc/smsp__warps_active',
+        name: {
+            nvidia: 'misc/smsp__warps_active',
+            amd: 'misc/ID_7_2_4' // TODO Example: Replace with actual
+        },
         display_name: 'Stalls',
         hint: 'Total number of stalls recorded',
         format_function: formatNumber,
@@ -485,5 +488,13 @@ export const METRICS = {
         hint: 'Perccentage of instructions issued due to LMEM',
         format_function: formatInstructionsPerc,
         lower_better: true
-    }
+    },
+    amd_branch: {
+        name: '10.1.6',
+        display_name: 'Overall Instruction Mix - Branch',
+        hint: 'Percentage of queries issued due to LMEM',
+        format_function: formatInstructionsPerc,
+        lower_better: true
+    },
+    // TODO ...
 };

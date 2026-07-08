@@ -52,7 +52,10 @@ export const TEXT = {
     },
     code_view: {
         title: 'Code Comparison',
-        hint: 'Compare the source code with intermediary PTX or SASS representations.',
+        hint: {
+            nvidia: 'Compare the source code with intermediary PTX or SASS representations.',
+            amd: 'Compare the source code with the assembly representation.'
+        },
         toggle: {
             old: 'Original kernel',
             new: 'Current kernel'
@@ -181,7 +184,7 @@ Lines highlighted in blue correspond to general information, while lines marked 
             top_section: {
                 shared_usage: {
                     title: 'Current usage of shared memory',
-                    hint: 'A summary of the current usage of shared memory. Escpecially bank conflicts should be resolved before continuing'
+                    hint: 'A summary of the current usage of shared memory. Especially bank conflicts should be resolved before continuing'
                 }
             }
         }

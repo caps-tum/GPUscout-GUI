@@ -6,7 +6,7 @@ Author: Tobias Stuckenberger
 <template>
     <div class="relative flex h-full w-full flex-col bg-secondary/50">
         <p v-if="codeType === CODE_TYPE.SOURCE_CODE">Source Code</p>
-        <p v-else-if="codeType === CODE_TYPE.SASS_CODE">SASS Code</p>
+        <p v-else-if="codeType === CODE_TYPE.SASS_CODE"> {{intermediate_name}} </p>
         <p v-if="codeType === CODE_TYPE.PTX_CODE">PTX Code</p>
         <div
             v-if="codeType === CODE_TYPE.SASS_CODE && displayLiveRegisters"
@@ -74,6 +74,9 @@ import { useDataStore } from '../../stores/DataStore';
 import ButtonHelp from '../ui/buttons/ButtonHelp.vue';
 import CodeLine from './parts/CodeLine.vue';
 import { computed, ref, watch } from 'vue';
+
+const vendor = useDataStore().getGPUscoutResult().getVendor();
+const intermediate_name = (vendor === "nvidia") ? "SASS Code" : "Assembly Code";
 
 const props = defineProps({
     codeType: Number,

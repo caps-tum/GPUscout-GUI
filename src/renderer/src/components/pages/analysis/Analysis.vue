@@ -45,7 +45,7 @@ Author: Tobias Stuckenberger
                     <p class="text-text">{{ TEXT.code_view.toggle.new }}</p>
                 </div>
             </div>
-            <p class="!-mb-1 !-mt-1 text-sm text-text/50">{{ TEXT.code_view.hint }}</p>
+            <p class="!-mb-1 !-mt-1 text-sm text-text/50">{{ TEXT.code_view.hint[vendor] }}</p>
         </div>
         <div class="grid flex-grow grid-cols-[75%_24.5%] grid-rows-1 gap-2 overflow-x-hidden">
             <CodeViewer />
@@ -93,6 +93,7 @@ const dataStore = useDataStore();
 const contextStore = useContextStore();
 const codeViewerStore = useCodeViewerStore();
 
+const vendor = computed(() => dataStore.getGPUscoutResult().getVendor());
 const currentKernel = computed(() => dataStore.getCurrentKernel);
 const currentAnalysis = computed(() => dataStore.getCurrentAnalysis);
 const selectedLine = computed(() => codeViewerStore.getSelectedLine);

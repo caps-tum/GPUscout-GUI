@@ -6,6 +6,7 @@
 import { ANALYSIS } from '../../../config/analyses';
 import { CODE_TYPE } from '../stores/CodeViewerStore';
 import { Analysis } from './Analysis';
+import { regexAssemblyInstruction, regexBrcLbl, regexKrnName, regexLoc } from './assemblyRegexes';
 
 /**
  * Defines the internal representation of a GPUscout result file
@@ -19,6 +20,11 @@ export class GPUscoutResult {
     constructor(resultData, topologyData) {
         const resultJSON = JSON.parse(resultData);
 
+        /**
+         * GPU vendor type for which the GPUscout result was generated
+         * @type {String}
+         */
+        this._vendor = resultJSON.vendor;
         /**
          * An object containing all analyses by kernel and analysis name
          * @type {Object.<String, Object.<String, Analysis>>}
@@ -46,74 +52,102 @@ export class GPUscoutResult {
          */
         this._topology = {};
 
-        /**
-         * All SASS code lines
-         * @type {Object.<String, Array.<{address: String, tokens: String[]}>>} */
-        this._sassCodeLines = {};
-        /**
-         * The mapping of SASS to source code lines
-         * @type {Object.<String, Object.<String, Object[]>>}
-         */
-        this._sassToSourceLines = {};
+        if (this._vendor === "nvidia") {
+            /**
+             * All SASS code lines
+             * @type {Object.<String, Array.<{address: String, tokens: String[]}>>} */
+            this._sassCodeLines = {};
+            /**
+             * The mapping of SASS to source code lines
+             * @type {Object.<String, Object.<String, Object[]>>}
+             */
+            this._sassToSourceLines = {};
 
-        /**
-         *>>} All PTX code lines
-         * @type {Object.<String, Array.<{address: Number, tokens: String[]}>>}
-         */
-        this._ptxCodeLines = {};
-        /**
-         * The mapping of PTX to source code lines
-         * @type {Object.<String, Object.<String, Object[]>>}
-         */
-        this._ptxToSourceLines = {};
+            /**
+             *>>} All PTX code lines
+             * @type {Object.<String, Array.<{address: Number, tokens: String[]}>>}
+             */
+            this._ptxCodeLines = {};
+            /**
+             * The mapping of PTX to source code lines
+             * @type {Object.<String, Object.<String, Object[]>>}
+             */
+            this._ptxToSourceLines = {};
+
+            /**
+             * The mapping of source to SASS code lines
+             * @type {Object.<String, Object.<String, String[]>>}
+             */
+            this._sourceToSassLines = {};
+            /**
+             * The mapping of source to PTX code lines
+             * @type {Object.<String, Object.<String, Number[]>>}
+             */
+            this._sourceToPtxLines = {};
+        }
+        else if (this._vendor === "amd") {
+            /**
+             * All assembly code lines
+             * @type {Object.<String, Array.<{address: String, tokens: String[]}>>} */
+            this._assemblyCodeLines = {};
+
+            /**
+             * The mapping of assembly to source code lines
+             * @type {Object.<String, Object.<String, Object[]>>}
+             */
+            this._assemblyToSourceLines = {};
+
+            /**
+             * The mapping of source to assembly code lines
+             * @type {Object.<String, Object.<String, Number[]>>}
+             */
+            this._sourceToAssemblyLines = {};
+        }
 
         /**
          * All source code lines
          * @type {Object.<String, Object[]>}
          */
         this._sourceCodeLines = {};
-        /**
-         * The mapping of source to SASS code lines
-         * @type {Object.<String, Object.<String, String[]>>}
-         */
-        this._sourceToSassLines = {};
-        /**
-         * The mapping of source to PTX code lines
-         * @type {Object.<String, Object.<String, Number[]>>}
-         */
-        this._sourceToPtxLines = {};
 
         this._mainSourceFileName = {};
         this._sourceFileNames = {};
 
-        // Add not issued stalls to issued stalls (I know this looks horrible)
-        for (const kernel of Object.keys(resultJSON.kernels)) {
-            for (let i = 0; i < resultJSON.stalls[kernel].length - 1; i++) {
-                if (resultJSON.stalls[kernel][i]['pc_offset'] === resultJSON.stalls[kernel][i + 1]['pc_offset']) {
-                    resultJSON.stalls[kernel].splice(i, 1);
-                    i--;
+        if (this._vendor === "nvidia") {
+            // Add not issued stalls to issued stalls (I know this looks horrible)
+            for (const kernel of Object.keys(resultJSON.kernels)) {
+                for (let i = 0; i < resultJSON.stalls[kernel].length - 1; i++) {
+                    if (resultJSON.stalls[kernel][i]['pc_offset'] === resultJSON.stalls[kernel][i + 1]['pc_offset']) {
+                        resultJSON.stalls[kernel].splice(i, 1);
+                        i--;
+                    }
+                }
+            }
+            // Remove invalid entries and add duplicate keys + not_issued to their normal counterpart
+            for (const kernel of Object.keys(resultJSON.kernels)) {
+                for (let i = 0; i < resultJSON.stalls[kernel].length; i++) {
+                    for (const key of [
+                        ...new Set(resultJSON.stalls[kernel][i].stalls.map((s) => s[0].replace('_not_issued', '')))
+                    ]) {
+                        const sum = resultJSON.stalls[kernel][i].stalls
+                            .filter((s) => s[0].startsWith(key))
+                            .map((s) => s[1])
+                            .reduce((a, b) => a + b, 0);
+                        resultJSON.stalls[kernel][i].stalls = resultJSON.stalls[kernel][i].stalls.filter(
+                            (s) => !s[0].startsWith(key)
+                        );
+                        resultJSON.stalls[kernel][i].stalls.push([key, sum]);
+                    }
                 }
             }
         }
-        // Remove invalid entries and add duplicate keys + not_issued to their normal counterpart
-        for (const kernel of Object.keys(resultJSON.kernels)) {
-            for (let i = 0; i < resultJSON.stalls[kernel].length; i++) {
-                for (const key of [
-                    ...new Set(resultJSON.stalls[kernel][i].stalls.map((s) => s[0].replace('_not_issued', '')))
-                ]) {
-                    const sum = resultJSON.stalls[kernel][i].stalls
-                        .filter((s) => s[0].startsWith(key))
-                        .map((s) => s[1])
-                        .reduce((a, b) => a + b, 0);
-                    resultJSON.stalls[kernel][i].stalls = resultJSON.stalls[kernel][i].stalls.filter(
-                        (s) => !s[0].startsWith(key)
-                    );
-                    resultJSON.stalls[kernel][i].stalls.push([key, sum]);
-                }
-            }
+        else if (this._vendor === "amd") {
+            // TODO PC Sampling
         }
 
-        // Remove parameters from kernels where possible
+
+
+        // Remove parameters from kernels where possible - respects function overloading
         for (const kernel of Object.keys(resultJSON.kernels)) {
             const name = resultJSON.kernels[kernel].substring(0, resultJSON.kernels[kernel].indexOf('('));
             if (Object.values(resultJSON.kernels).filter((k) => k.startsWith(name + '(')).length === 1) {
@@ -127,22 +161,35 @@ export class GPUscoutResult {
             sourceFileContents[filePath] = content.split('\n');
         }
 
-        this._parseSassCode(
-            resultJSON.binary_files.sass,
-            resultJSON.binary_files.sass_registers,
-            resultJSON.stalls,
-            resultJSON.kernels
-        );
 
-        this._parsePtxCode(resultJSON.binary_files.ptx, resultJSON.kernels);
+        if (this._vendor === "nvidia") {
+            this._parseSassCode(
+                resultJSON.binary_files.sass,
+                resultJSON.binary_files.sass_registers,
+                resultJSON.stalls,
+                resultJSON.kernels
+            );
 
-        // Not all kernels have ptx code available, we still need the keys in the objects
-        for (const k of this._kernels) {
-            if (!this._ptxCodeLines[k]) this._ptxCodeLines[k] = [];
-            if (!this._ptxToSourceLines[k]) this._ptxToSourceLines[k] = [];
+            this._parsePtxCode(resultJSON.binary_files.ptx, resultJSON.kernels);
+
+            // Not all kernels have ptx code available, we still need the keys in the objects
+            for (const k of this._kernels) {
+                if (!this._ptxCodeLines[k]) this._ptxCodeLines[k] = [];
+                if (!this._ptxToSourceLines[k]) this._ptxToSourceLines[k] = [];
+            }
+
+            this._aggregateKernelSourceCode(sourceFileContents, resultJSON.stalls, resultJSON.kernels);
         }
+        else if (this._vendor === "amd") {
+            this._parseAssemblyCode(
+                resultJSON.binary_files.assembly,
+                resultJSON.register_pressure,
+                resultJSON.stalls,
+                resultJSON.kernels
+            );
 
-        this._aggregateKernelSourceCode(sourceFileContents, resultJSON.stalls, resultJSON.kernels);
+            this._aggregateKernelSourceCodeAMD(sourceFileContents, resultJSON.stalls, resultJSON.kernels);
+        }
 
         if (!resultJSON.metrics) {
             // Prevent crash on no metrics
@@ -165,8 +212,24 @@ export class GPUscoutResult {
 
             // Iterate over all kernels
             for (let [kernel, analysisData] of Object.entries(resultJSON.analyses[analysisDefinition.name])) {
-                // Use demangled kernel name
                 kernel = resultJSON['kernels'][kernel];
+
+                let binaryMapping
+                let binaryLines
+                if (this._vendor === 'nvidia') {
+                    binaryMapping = ANALYSIS[analysisName]['use_sass'] ? this._sassToSourceLines[kernel] : this._ptxToSourceLines[kernel];
+                    binaryLines = ANALYSIS[analysisName]['use_sass'] ? this._sassCodeLines[kernel] : this._ptxCodeLines[kernel];
+                }
+                else if (this._vendor === 'amd') {
+                    binaryMapping = this._assemblyToSourceLines[kernel];
+                    binaryLines = this._assemblyCodeLines[kernel];
+
+                    // Workaround to not adapt all source files to sass/ptx or assembly
+                    // Assembly and SASS should be equivalent now
+                    this._sassCodeLines = this._assemblyCodeLines;
+                    this._sassToSourceLines = this._assemblyToSourceLines;
+                    this._sourceToSassLines = this._sourceToAssemblyLines;
+                }
 
                 // Create analysis
                 this._analyses[analysisName][kernel] = new Analysis(
@@ -175,8 +238,8 @@ export class GPUscoutResult {
                     this._topology,
                     kernel,
                     analysisDefinition.occurrence_constructor,
-                    ANALYSIS[analysisName]['use_sass'] ? this._sassToSourceLines[kernel] : this._ptxToSourceLines[kernel],
-                    ANALYSIS[analysisName]['use_sass'] ? this._sassCodeLines[kernel] : this._ptxCodeLines[kernel]
+                    binaryMapping,
+                    binaryLines
                 );
             }
         }
@@ -305,6 +368,13 @@ export class GPUscoutResult {
     }
 
     /**
+     * @returns {String} The name of the vendor
+     */
+    getVendor() {
+        return this._vendor;
+    }
+
+    /**
      * @returns {String[]} The names of all kernels without metrics
      */
     getKernelsWithoutMetrics() {
@@ -347,6 +417,14 @@ export class GPUscoutResult {
 
     /**
      * @param {String} kernel The name of the kernel
+     * @returns {Array.<{address: String, tokens: String[]}>} All assembly lines of this kernel
+     */
+    getAssemblyCodeLines(kernel) {
+        return this._assemblyCodeLines[kernel];
+    }
+
+    /**
+     * @param {String} kernel The name of the kernel
      * @returns {Array.<{address: Number, tokens: String[]}>} All source lines of this kernel
      */
     getSourceCodeLines(kernel) {
@@ -369,6 +447,15 @@ export class GPUscoutResult {
      */
     getSourceToPtxLines(kernel, line, file) {
         return this._sourceToPtxLines[kernel][file][line] || [];
+    }
+
+    /**
+     * @param {String} kernel The name of the kernel
+     * @param {String} line The source line to get assembly lines for
+     * @returns {String[]} All assembly lines corresponding to this source line
+     */
+    getSourceToAssemblyLines(kernel, line, file) {
+        return this._sourceToAssemblyLines[kernel][file][line] || [];
     }
 
     /**
@@ -634,6 +721,160 @@ export class GPUscoutResult {
     }
 
     /**
+     * Parse the assembly code and extract the mapping to the source code
+     * @param {String} assemblyCode The generated assembly source code
+     * @param {String} assemblyRegisters The assembly code with register information
+     * @param {Object.<String, Array<{line_number: Number, pc_offset: String, stalls: Array.<Array.<Number, String>>}>>} stalls An object containing all recorded pc sampling stalls
+     * @param {Object.<String, String>} kernels The mapping of kernel names to their demangled names
+     */
+    _parseAssemblyCode(assemblyCode, assemblyRegisters, stalls, kernels) {
+        let currentSourceLine = -1;
+        let currentKernel = '';
+        let mangledKernel = '';
+        let currentSourceFile = '';
+        let currentSassLine = '';
+        let currentAssemblyLine = '';
+        let relevantStalls = [];
+        let totalStalls = 0;
+
+
+        // load the register pressure information
+        let amdRegisterMap = {};
+        for (const [kernelID, entries] of Object.entries(assemblyRegisters || {})) {
+            currentKernel = kernels[kernelID];
+            amdRegisterMap[currentKernel] = {};
+
+            let regObj = {}; // stores object for the current kernel
+            // Iterate through the entries
+            for (const entry of entries) {
+                const address = String(entry.pcOffset);
+                const vgp = Number(entry.vgp_reg ?? 0);
+                const sgp = Number(entry.sgp_reg ?? 0);
+                regObj[address] = [vgp, sgp];
+            }
+            amdRegisterMap[currentKernel] = regObj;
+            regObj = {};
+        }
+
+        currentKernel = '';
+
+        // Iterate through every line of the assembly code object file
+        for (let line of assemblyCode.split('\n')) {
+            const kernelStart = line.match(regexKrnName);
+            if (currentSourceLine === -1 && !kernelStart) {
+                // Skip to the first text section
+                continue;
+            }
+
+            const labelReg = line.match(regexBrcLbl);
+            const instReg = line.match(regexAssemblyInstruction);
+            let address = '';
+            let liveRegisters = [];
+
+            if (kernelStart) {
+                // ; _Z14spillingKernelPfS_():
+                // We are at the beginning of a new kernel -> Set of relevant maps and change currentKernel and code lines
+                currentSourceLine = 0;
+                currentAssemblyLine = '';
+                mangledKernel = line.replace('; ', '').replace(':', '').replace('()', '');
+                currentKernel = kernels[mangledKernel]; // demangled kernel
+                // Not all kernels are analyzed by GPUscout, so not every kernel is known
+                if (currentKernel !== mangledKernel) this._kernels.push(currentKernel);
+
+                relevantStalls = stalls[mangledKernel] || [];
+                totalStalls = relevantStalls.flatMap((s) => s['stalls'].map((st) => st[1])).reduce((a, b) => a + b, 0);
+
+                this._assemblyToSourceLines[currentKernel] = {};
+                this._assemblyCodeLines[currentKernel] = [
+                    {
+                        address: '0000',
+                        tokens: line
+                            .trim()
+                            .split(/([+-,.:[\]() ])/)
+                            .filter((token) => token.length > 0), // TODO Fix regex pattern
+                        liveRegisters: [0, 0],
+                        stalls: {}
+                    }
+                ];
+            }
+            else if (line.startsWith('; /')) {
+                // ; /opt/rocm-6.3.4/lib/llvm/bin/../../../include/hip/amd_detail/amd_hip_runtime.h:275
+                // This line maps the following assembly lines to a certain source file and line number -> save both
+                const filePath = line.match(regexLoc);
+
+                const sourceLine = filePath[2];
+                const file = filePath[1];
+
+                currentSourceLine = sourceLine;
+                currentSourceFile = file;
+            }
+            else if (labelReg || instReg) {
+                if (labelReg) {
+                    // 0000000000001e80 <L0>:
+                    // This line is a label
+                    address = labelReg[1];
+                }
+
+                if (instReg) {
+                    // 	s_add_i32 s10, s9, 1                                       // 000000001E80: 810A8109
+                    // This line is a regular assembly line (instruction) -> Save all relevant information
+                    address = instReg[3];
+                    currentAssemblyLine = address;
+
+                    this._assemblyToSourceLines[currentKernel][currentAssemblyLine] = {
+                        line: currentSourceLine,
+                        file: currentSourceFile
+                    };
+
+                    // Save live register info
+                    if (amdRegisterMap[currentKernel] && amdRegisterMap[currentKernel][address]) {
+                        liveRegisters = amdRegisterMap[currentKernel][address];
+                    }
+                }
+
+                // Get stalls for this line
+                /* TODO */
+                const lineStalls = Object.fromEntries(
+                    relevantStalls
+                        .filter((s) => s['pc_offset'].padStart(4, '0') === address)
+                        .flatMap((s) => s['stalls'])
+                        .map((stall) => [stall[0].replace('_not_issued', ''), stall[1]])
+                );
+                if (Object.keys(lineStalls).length > 0) {
+                    lineStalls['totalLine'] = Object.values(lineStalls).reduce((a, b) => a + b, 0);
+                    lineStalls['total'] = totalStalls;
+                }
+
+                // Cut leading 0 for more readable format
+                /*
+                if (address.length > 4) {
+                    address = address.replace(/^0+/, '');  // Remove leading zeros, e.g., "0000043432"
+                }
+                */
+
+
+                this._assemblyCodeLines[currentKernel].push({
+                    address:  address,//.substring(address.length - 5),// TODO make pc section a dynamic width and use regular address without substring,
+                    tokens: labelReg ? [labelReg[2]] : [instReg[1]].concat(instReg[2].trim().split(/([+-,.:[\]() ])/)), // TODO split regex
+                    liveRegisters: liveRegisters,
+                    stalls: lineStalls
+                });
+            }
+            else if (line.length === 0) {
+                // empty line (possible in the amd assembly file
+                continue;
+            } else if (line.startsWith('; ')) {
+                // Source file code line
+                continue;
+            }
+            else {
+                // We are at the end of a kernel
+                currentSourceLine = -1;
+            }
+        }
+    }
+
+    /**
      * Uses the SASS and PTX line mappings to extract the source code per kernel
      * @param {{String, String}} sourceFileContents The contents of the cuda source files
      * @param {Object.<String, Array.<{line_number: Number, pc_offset: String, stalls: Array.<Array.<Number, String>>}>>} stalls An object containing all recorded pc sampling stalls
@@ -746,6 +987,101 @@ export class GPUscoutResult {
             }
         }
     }
+
+    /**
+     * Uses the assembly line mappings to extract the source code per kernel
+     * @param {{String, String}} sourceFileContents The contents of the source files
+     * @param {Object.<String, Array.<{line_number: Number, pc_offset: String, stalls: Array.<Array.<Number, String>>}>>} stalls An object containing all recorded pc sampling stalls
+     * @param {Object.<String, String>} kernelMapping A map mapping mangled to demangled kernel names
+     */
+    _aggregateKernelSourceCodeAMD(sourceFileContents, stalls, kernelMapping) {
+        for (const kernel of this._kernels) {
+            // Get relevant lines for this kernel by source files
+            let relevantLines = Object.groupBy(
+                Object.values(this._assemblyToSourceLines[kernel]),
+                ({ file }) => file
+            );
+            let relevantStalls = stalls[Object.entries(kernelMapping).find(([, v]) => v === kernel)[0]] || [];
+            let totalStalls = relevantStalls.flatMap((s) => s['stalls'].map((st) => st[1])).reduce((a, b) => a + b, 0);
+
+            const oldToNewLineNumbers = {};
+
+            this._sourceCodeLines[kernel] = [];
+            this._sourceFileNames[kernel] = [];
+
+            for (let [sourceFile, lineNumbers] of Object.entries(relevantLines)) {
+                let isMainSourceFile = false;
+                if (!this._mainSourceFileName[kernel]) {
+                    this._mainSourceFileName[kernel] = sourceFile;
+                    isMainSourceFile = true;
+                }
+                if (!this._sourceFileNames[kernel].includes(sourceFile)) {
+                    this._sourceFileNames[kernel].push(sourceFile);
+                }
+
+                // Get relevant line section in source file
+                lineNumbers = lineNumbers.map((ln) => ln['line']);
+                let fileLineNumber = 1;
+
+
+                let fileIsRelevantForAssembly =
+                    Object.values(this._assemblyToSourceLines[kernel]).filter((l) => l.file === sourceFile).length > 0;
+
+                // The new line numbers dont match the old ones, save the mapping
+                oldToNewLineNumbers[sourceFile] = {};
+
+                // Add lines
+                for (let i = 1; i <= sourceFileContents[sourceFile].length; i++) {
+                    oldToNewLineNumbers[sourceFile][i] = fileLineNumber;
+                    // Aggregate the stalls for this line
+                    const lineStalls = Object.fromEntries(
+                        relevantStalls
+                            .filter((s) => s['line_number'] === fileLineNumber)
+                            .flatMap((s) => s['stalls'])
+                            .reduce((a, b) => {
+                                a.find((x) => x[0] === b[0]) ? (a.find((x) => x[0] === b[0])[1] += b[1]) : a.push(b);
+                                return a;
+                            }, [])
+                    );
+                    if (Object.keys(lineStalls).length > 0) {
+                        // Save the total stalls in a separate key for convenience
+                        lineStalls['totalLine'] = Object.values(lineStalls).reduce((a, b) => a + b, 0);
+                        lineStalls['total'] = totalStalls;
+                    }
+
+                    this._sourceCodeLines[kernel].push({
+                        address: fileLineNumber++,
+                        tokens: [sourceFileContents[sourceFile][i - 1]], // The tokens of this line
+                        stalls: isMainSourceFile ? lineStalls : [],
+                        hasSassMapping: false, //TODO hasAssemblyMapping - not needed though because same as sass version -> just handle it the same
+                        hasSassRelevance: fileIsRelevantForAssembly, //TODO hasAssemblyRelevance -> same as before
+                        fileName: sourceFile
+                    });
+                }
+            }
+
+            // Apply the new line number mapping to all the objects
+
+            for (const key of Object.keys(this._assemblyToSourceLines[kernel])) {
+                this._assemblyToSourceLines[kernel][key] = [
+                    this._assemblyToSourceLines[kernel][key]['file'],
+                    oldToNewLineNumbers[this._assemblyToSourceLines[kernel][key]['file']][
+                        this._assemblyToSourceLines[kernel][key]['line']
+                        ]
+                ];
+            }
+            this._sourceToAssemblyLines[kernel] = {};
+            for (const [assemblyLine, key] of Object.entries(this._assemblyToSourceLines[kernel])) {
+                if (!this._sourceToAssemblyLines[kernel][key[0]]) this._sourceToAssemblyLines[kernel][key[0]] = {};
+                if (!this._sourceToAssemblyLines[kernel][key[0]][key[1]]) this._sourceToAssemblyLines[kernel][key[0]][key[1]] = [];
+
+                this._sourceToAssemblyLines[kernel][key[0]][key[1]].push(assemblyLine);
+                this._sourceCodeLines[kernel].find((l) => l.fileName === key[0] && l.address === key[1]).hasAssemblyMapping =
+                    true;
+            }
+        }
+    }
+
 
     /**
      * Parse metrics and optionally the topology csv data
